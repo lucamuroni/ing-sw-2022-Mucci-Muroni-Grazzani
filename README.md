@@ -14,7 +14,8 @@ I metodi implementati devono essere solo quelli che voi chiamate dal codice che 
 Più la classe è realitica meglio è 
 -> i metodi di student sono molto facili da creare quindi se li implementiamo per davvero anche meglio
 -> metodi più complessi basta una print
-###Debug
+### Debug
+
 Scelta lasciata a voi se implementare delle print (consiglio di farlo) però si a dei commenti su cosa 
 fanno le funzioni da voi create a meno di nomi esplicativi (tipo set e get)
 
