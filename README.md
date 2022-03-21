@@ -27,5 +27,12 @@ fanno le funzioni da voi create a meno di nomi esplicativi (tipo set e get)
 |26/04|Documentazione Protocollo|
 |03/05|Peer review protocollo|
 
+## Disponibilità di gruppo
+
+- lunedì 13-14
+- martedì 11-13
+- mercoledi 15-xx online
+- venerdì 16/16.30-xx online
+
 # Chagelog
 --
