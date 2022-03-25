@@ -4,15 +4,16 @@ import it.polimi.ingsw.model.PawnColor;
 
 /**
  * @author Sara Mucci
+ * @author Davide Grazzani
  * Class that implements a pawn (student-professor).
  */
 
-public class Pawn {
-    private PawnColor color;
+public abstract class Pawn {
+    private final PawnColor color;
 
     /**
      * Class constructor.
-     * @param color -> pawn color.
+     * @param color represent the pawn color.
      */
     private Pawn(PawnColor color) {
         this.color = color;
