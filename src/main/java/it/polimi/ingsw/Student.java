@@ -5,15 +5,15 @@ package it.polimi.ingsw.model;
  * Class that implements a student.
  */
 
-public class Student {
+public class Student extends Pawn{
     private PawnColor color;
 
     /**
      * Class constructor.
-     * @param color -> student color.
+     * @param color represents student color.
      */
     public Student(PawnColor color) {
-        this.color = color;
+        super(color);
     }
 
     /**
