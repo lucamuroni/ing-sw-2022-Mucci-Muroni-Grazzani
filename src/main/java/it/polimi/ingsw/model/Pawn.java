@@ -15,7 +15,7 @@ public abstract class Pawn {
      * Class constructor.
      * @param color represent the pawn color.
      */
-    private Pawn(PawnColor color) {
+    public Pawn(PawnColor color) {
         this.color = color;
     }
 
