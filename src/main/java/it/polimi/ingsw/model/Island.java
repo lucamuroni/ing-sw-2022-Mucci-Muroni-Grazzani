@@ -26,7 +26,7 @@ public class Island{
         this.students.addAll(island.getStudents());
     }
 
-    private int getNumTowers(){
+    public int getNumTowers(){
         return this.numTowers;
     }
 
@@ -38,5 +38,13 @@ public class Island{
         this.owner = Optional.of(gamer);
     }
 
+    public int getInfluenceByColor(ArrayList<PawnColor> colors){
+        int result = 0;
+        result = 
+        return result;
+    }
 
+    public Optional<Gamer> getOwner(){
+        return this.owner;
+    }
 }
