@@ -38,5 +38,5 @@ public class Island{
         this.owner = Optional.of(gamer);
     }
 
-    
+
 }
