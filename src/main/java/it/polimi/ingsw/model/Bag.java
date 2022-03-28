@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.debug.Student;
+
 
 import java.util.ArrayList;
 import java.util.Random;
