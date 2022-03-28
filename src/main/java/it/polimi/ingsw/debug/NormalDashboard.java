@@ -11,4 +11,8 @@ public class NormalDashboard {
         this.waitingRoom = students;
         this.towers = towers;
     }
+
+    public void addStudentsWaitingRoom(ArrayList<Student> students){
+        waitingRoom.addAll(students);
+    }
 }

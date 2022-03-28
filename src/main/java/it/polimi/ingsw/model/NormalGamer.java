@@ -23,7 +23,7 @@ public class NormalGamer {
     }
 
     public void selectCloud(Cloud cloud){
-        
+        dashboard.addStudentsWaitingRoom(cloud.pullStudents());
     }
 
     public void initGamer(ArrayList<Student> students, int towers){
