@@ -8,7 +8,7 @@ import it.polimi.ingsw.debug.Student;
 import java.util.ArrayList;
 
 /**
- * @author luca
+ * @author Luca Muroni
  * Class that represents a player in the expert's game version
  */
 public class ExpertGamer extends NormalGamer{

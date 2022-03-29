@@ -2,15 +2,18 @@ package it.polimi.ingsw.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class NormalGamerTest {
 
     @Test
-    void selectCloud() {
+    public void selectCloud() {
     }
 
     @Test
-    void initGamer() {
+    void initGamer(ArrayList<Student> students, int towers) {
+
     }
 }
