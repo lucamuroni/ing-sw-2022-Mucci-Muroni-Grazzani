@@ -22,7 +22,7 @@ public class Island{
     public Island(){
         this.numTowers = 0;
         this.students = new ArrayList<Student>();
-        this.owner.isEmpty();
+        this.owner = Optional.empty();
     }
 
     /**
