@@ -41,8 +41,4 @@ public class ExpertGamer extends NormalGamer{
     public void selectCloud(Cloud cloud) {
         super.selectCloud(cloud);
     }
-
-    public void selectCharacterCard(CharacterCard card){
-
-    }
 }
