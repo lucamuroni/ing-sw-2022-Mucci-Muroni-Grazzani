@@ -1,11 +1,13 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.debug.Gamer;
-import it.polimi.ingsw.debug.Student;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
+/**
+ * @author Davide Grazzani
+ */
 public class Island{
     private int numTowers;
     private ArrayList<Student> students;
@@ -40,7 +42,7 @@ public class Island{
 
     public int getInfluenceByColor(ArrayList<PawnColor> colors){
         int result = 0;
-        result = 
+        result = Math.toIntExact(this.students.stream().filter(x -> colors.contains(x.getColor())).count());
         return result;
     }
 

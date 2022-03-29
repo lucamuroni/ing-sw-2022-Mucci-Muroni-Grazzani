@@ -1,9 +1,6 @@
 package it.polimi.ingsw.debug;
 
-import it.polimi.ingsw.model.Bag;
-import it.polimi.ingsw.model.MotherNature;
-import it.polimi.ingsw.model.PawnColor;
-import it.polimi.ingsw.model.Student;
+import it.polimi.ingsw.model.*;
 
 import java.util.ArrayList;
 import java.util.Random;

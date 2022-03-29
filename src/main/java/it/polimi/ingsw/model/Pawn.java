@@ -20,6 +20,7 @@ public abstract class Pawn {
     }
 
     /**
+     *
      * @return pawn color
      */
     public PawnColor getColor() {
