@@ -9,7 +9,7 @@ import it.polimi.ingsw.model.PawnColor;
  */
 
 public abstract class Pawn {
-    final PawnColor color;
+    private final PawnColor color;
 
     /**
      * Class constructor.
