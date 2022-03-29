@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.debug.CharacterCard;
-import it.polimi.ingsw.debug.Cloud;
-import it.polimi.ingsw.debug.ExpertDashboard;
+import it.polimi.ingsw.debug.*;
 import it.polimi.ingsw.debug.Student;
 
 import java.util.ArrayList;
@@ -30,15 +28,9 @@ public class ExpertGamer extends NormalGamer{
      */
     @Override
     public void initGamer(ArrayList<Student> students, int towers) {
+        AssistantCardDeck d;
         dashboard = new ExpertDashboard(students, towers);
-    }
-
-    /**
-     * This method calls the upper class method without modifying it
-     * @param cloud is the cloud choose by the player
-     */
-    @Override
-    public void selectCloud(Cloud cloud) {
-        super.selectCloud(cloud);
+        d = getDeck();
+        d = new AssistantCardDeck();
     }
 }

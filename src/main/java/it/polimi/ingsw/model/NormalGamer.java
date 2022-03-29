@@ -16,7 +16,7 @@ public class NormalGamer {
     //private Stream input;
     private boolean activity;
     private AssistantCardDeck deck;
-    private TowerColor playerColor;
+    //private TowerColor playerColor;
     private NormalDashboard dashboard;
 
     /**
@@ -29,7 +29,6 @@ public class NormalGamer {
         this.username = username;
         //this.input = input;
         activity = true;
-        deck = new AssistantCardDeck();
     }
 
     /**
@@ -50,5 +49,10 @@ public class NormalGamer {
      */
     public void initGamer(ArrayList<Student> students, int towers){
         dashboard = new NormalDashboard(students, towers);
+        deck = new AssistantCardDeck();
+    }
+
+    public AssistantCardDeck getDeck(){
+        return this.deck;
     }
 }
