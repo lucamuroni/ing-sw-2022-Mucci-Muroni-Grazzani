@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.debug.*;
-import it.polimi.ingsw.debug.Student;
 
 import java.util.ArrayList;
 
@@ -54,5 +53,25 @@ public class NormalGamer {
 
     public AssistantCardDeck getDeck(){
         return this.deck;
+    }
+
+    public int getToken() {
+        return token;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public NormalDashboard getDashboard() {
+        return dashboard;
+    }
+
+    public boolean isActivity() {
+        return activity;
+    }
+
+    public void setActivity(boolean activity) {
+        this.activity = activity;
     }
 }
