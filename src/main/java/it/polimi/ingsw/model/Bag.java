@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.debug.Student;
+
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -13,7 +13,7 @@ public class Bag {
     private ArrayList<Student> students;
 
     public Bag(){
-        int numStudentsPerColor = 24;
+        int numStudentsPerColor = 26;
         for(PawnColor color : PawnColor.values()){
             for(int i=0; i<numStudentsPerColor; i++){
                 Student student = new Student(color);
