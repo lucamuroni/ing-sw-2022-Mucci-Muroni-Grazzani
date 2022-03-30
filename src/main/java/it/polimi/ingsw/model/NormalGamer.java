@@ -51,26 +51,50 @@ public class NormalGamer {
         deck = new AssistantCardDeck();
     }
 
+    /**
+     * Getter method
+     * @return deck of the player
+     */
     public AssistantCardDeck getDeck(){
         return this.deck;
     }
 
+    /**
+     * Getter method
+     * @return token associated with the player
+     */
     public int getToken() {
         return token;
     }
 
+    /**
+     * Getter method
+     * @return username of the player
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Getter method
+     * @return dashboard of the player
+     */
     public NormalDashboard getDashboard() {
         return dashboard;
     }
 
-    public boolean isActivity() {
+    /**
+     * Method that is called to verify if the player is still connected
+     * @return a boolean: true if player is still connected
+     */
+    public boolean isActiv() {
         return activity;
     }
 
+    /**
+     * Setter method
+     * @param activity represents the status of the player: if he is connected it is true
+     */
     public void setActivity(boolean activity) {
         this.activity = activity;
     }
