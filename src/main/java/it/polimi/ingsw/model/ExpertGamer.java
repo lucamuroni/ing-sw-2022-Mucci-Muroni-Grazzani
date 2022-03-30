@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.debug.*;
-import it.polimi.ingsw.debug.Student;
+import it.polimi.ingsw.model.Student;
 
 import java.util.ArrayList;
 
