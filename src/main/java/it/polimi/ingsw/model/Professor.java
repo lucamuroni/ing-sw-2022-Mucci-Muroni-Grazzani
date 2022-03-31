@@ -10,7 +10,6 @@ import java.util.Optional;
 
 public class Professor extends Pawn{
     private Optional<Gamer> owner;
-    private PawnColor color;
 
     /**
      * Class constructor.
@@ -25,7 +24,7 @@ public class Professor extends Pawn{
      * @return the professor color.
      */
     public PawnColor getColor() {
-        return this.color;
+        return this.getColor();
     }
 
     /**
