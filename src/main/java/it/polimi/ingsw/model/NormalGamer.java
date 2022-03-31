@@ -87,7 +87,7 @@ public class NormalGamer {
      * Method that is called to verify if the player is still connected
      * @return a boolean: true if player is still connected
      */
-    public boolean isActiv() {
+    public boolean isActive() {
         return activity;
     }
 
