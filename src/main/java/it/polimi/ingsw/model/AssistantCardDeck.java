@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * @author Luca Muroni
@@ -60,7 +61,7 @@ public class AssistantCardDeck {
     public void setCurrentSelection(AssistantCard currentSelection) {
         setPastSelection(this.currentSelection);
         this.currentSelection = currentSelection;
-        cardList.remove(currentSelection);
+        cardList.removeIf( card -> card.getTurnValue()==currentSelection.getTurnValue());
     }
 
     /**

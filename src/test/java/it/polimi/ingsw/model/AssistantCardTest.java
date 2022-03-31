@@ -6,9 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AssistantCardTest {
 
+    AssistantCardDeck deck = new AssistantCardDeck();
+
     @Test
     void getMovement() {
-        AssistantCardDeck deck = new AssistantCardDeck();
         assertEquals(1, deck.getCardList().get(0).getMovement());
         assertEquals(1, deck.getCardList().get(1).getMovement());
         assertEquals(2, deck.getCardList().get(2).getMovement());
@@ -23,7 +24,6 @@ class AssistantCardTest {
 
     @Test
     void getTurnValue() {
-        AssistantCardDeck deck = new AssistantCardDeck();
         assertEquals(1, deck.getCardList().get(0).getTurnValue());
         assertEquals(2, deck.getCardList().get(1).getTurnValue());
         assertEquals(3, deck.getCardList().get(2).getTurnValue());
