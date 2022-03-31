@@ -1,4 +1,6 @@
-package it.polimi.ingsw.debug;
+package it.polimi.ingsw.model;
+
+import it.polimi.ingsw.model.AssistantCard;
 
 import java.util.ArrayList;
 
