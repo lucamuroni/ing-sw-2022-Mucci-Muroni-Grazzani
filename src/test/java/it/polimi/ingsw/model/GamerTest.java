@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class NormalGamerTest {
+class GamerTest {
 
     @Test
     public void selectCloud() {
@@ -14,7 +14,7 @@ class NormalGamerTest {
 
     @Test
     void initGamer() {
-        NormalGamer normalGamer = new NormalGamer(123, "Luca");
+        Gamer gamer = new Gamer(123, "Luca");
         ArrayList<Student> students = new ArrayList<Student>();
         Student s0 = new Student(PawnColor.PINK);
         Student s1 = new Student(PawnColor.BLUE);
@@ -24,11 +24,11 @@ class NormalGamerTest {
         students.add(s2);
         students.add(s3);
         int towers = 6;
-        normalGamer.initGamer(students, towers);
-        assertEquals(3, normalGamer.getDashboard().getWaitingRoom().size());
-        assertEquals(6, normalGamer.getDashboard().getTowers());
-        assertEquals(false, normalGamer.getDashboard().getWaitingRoom().contains(s0));
-        assertEquals(true,normalGamer.getDashboard().getWaitingRoom().containsAll(students));
-        assertEquals(students,normalGamer.getDashboard().getWaitingRoom());
+        gamer.initGamer(students, towers);
+        assertEquals(3, gamer.getDashboard().getWaitingRoom().size());
+        assertEquals(6, gamer.getDashboard().getTowers());
+        assertEquals(false, gamer.getDashboard().getWaitingRoom().contains(s0));
+        assertEquals(true, gamer.getDashboard().getWaitingRoom().containsAll(students));
+        assertEquals(students, gamer.getDashboard().getWaitingRoom());
     }
 }

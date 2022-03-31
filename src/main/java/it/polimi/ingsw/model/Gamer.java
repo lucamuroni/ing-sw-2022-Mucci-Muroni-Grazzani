@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Class that represent a gamer in a non-expert game
  */
 
-public class NormalGamer {
+public class Gamer {
     private final int token;
     private String username;
     //private Stream input;
@@ -23,7 +23,7 @@ public class NormalGamer {
      * @param token represent the unique number associate with a player
      * @param username represent the name choose by the player that will be displayed
      */
-    public NormalGamer(int token, String username/*, Stream input*/) {
+    public Gamer(int token, String username/*, Stream input*/) {
         this.token = token;
         this.username = username;
         //this.input = input;

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.debug.Gamer;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -55,7 +54,7 @@ class IslandTest {
     @Test
     void setOwner() {
         Island isola = new Island();
-        Gamer giocatore = new Gamer();
+        Gamer giocatore = new Gamer(123,"luca");
         Optional<Gamer> gamer = Optional.of(giocatore);
         Optional<Gamer> gamerEmpty = Optional.empty();
         assertEquals(gamerEmpty,isola.getOwner());

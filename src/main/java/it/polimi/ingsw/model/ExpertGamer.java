@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.debug.*;
-import it.polimi.ingsw.model.Student;
 
 import java.util.ArrayList;
 
@@ -9,7 +8,7 @@ import java.util.ArrayList;
  * @author Luca Muroni
  * Class that represents a player in the expert's game version
  */
-public class ExpertGamer extends NormalGamer{
+public class ExpertGamer extends Gamer {
     private ExpertDashboard dashboard;
 
     /**

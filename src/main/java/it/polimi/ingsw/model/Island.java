@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.debug.Gamer;
-
 import java.util.ArrayList;
 import java.util.Optional;
 
