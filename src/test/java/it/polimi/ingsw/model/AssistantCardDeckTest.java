@@ -20,14 +20,17 @@ class AssistantCardDeckTest {
 
     @Test
     void getCurrentSelection() {
-        AssistantCard card = deck.getCurrentSelection();
-        assertEquals(card, deck.getCurrentSelection());
+        deck.setCurrentSelection(deck.getCardList().get(1));
+        assertEquals(2, deck.getCurrentSelection().getTurnValue());
+        assertEquals(1, deck.getCurrentSelection().getMovement());
     }
 
     @Test
     void getPastSelection() {
-        AssistantCard card = deck.getPastSelection();
-        assertEquals(card, deck.getPastSelection());
+        deck.setCurrentSelection(deck.getCardList().get(0));
+        deck.setCurrentSelection(deck.getCardList().get(1));
+        assertEquals(1, deck.getPastSelection().getTurnValue());
+        assertEquals(1, deck.getPastSelection().getMovement());
     }
 
     @Test
@@ -37,5 +40,6 @@ class AssistantCardDeckTest {
         assertEquals(2, deck.getCurrentSelection().getTurnValue());
         assertEquals(1, deck.getCurrentSelection().getMovement());
         assertNotEquals(cards.get(1), deck.getCardList().get(1));
+        assertFalse(deck.getCardList().containsAll(cards));
     }
 }
