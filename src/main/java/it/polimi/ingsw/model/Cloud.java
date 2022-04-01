@@ -22,7 +22,7 @@ public class Cloud {
      * method that returns the students on the cloud and empties the cloud.
      * @return students present on the cloud.
      */
-    public ArrayList<Student> popStudent() {
+    public ArrayList<Student> pullStudent() {
         ArrayList<Student> cloudStudent;
         cloudStudent = new ArrayList<Student>(students.size());
         for (Student student: students) {
@@ -35,7 +35,7 @@ public class Cloud {
     /**
      * @param studentsToAdd represents students that have to be added at the cloud.
      */
-    public void pullStudents(ArrayList<Student> studentsToAdd) {
+    public void pushStudents(ArrayList<Student> studentsToAdd) {
         for (Student student: studentsToAdd) {
             students.add(student);
         }
