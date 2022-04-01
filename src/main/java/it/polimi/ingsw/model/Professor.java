@@ -17,7 +17,7 @@ public class Professor extends Pawn{
      */
     public Professor (PawnColor color) {
         super(color);
-        owner.empty();
+        this.owner = Optional.empty();
     }
 
     /**
@@ -30,8 +30,8 @@ public class Professor extends Pawn{
     /**
      * @param owner represents the professor's new owner.
      */
-    public void setOwner(Optional<Gamer> owner) {
-        this.owner = owner;
+    public void setOwner(Gamer owner) {
+        this.owner = Optional.of(owner);
     }
 
     /**
