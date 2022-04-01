@@ -32,13 +32,10 @@ class AssistantCardDeckTest {
 
     @Test
     void setCurrentSelection() {
-        ArrayList<AssistantCard> cards = deck.getCardList();
+        ArrayList<AssistantCard> cards = new ArrayList<AssistantCard>(deck.getCardList());
         deck.setCurrentSelection(cards.get(1));
         assertEquals(2, deck.getCurrentSelection().getTurnValue());
         assertEquals(1, deck.getCurrentSelection().getMovement());
-
-        // Problema: non funziona l'eliminazione della carta dalla lista del deck
-        //
-        // assertEquals(cards.get(1), deck.getCardList().get(1));
+        assertNotEquals(cards.get(1), deck.getCardList().get(1));
     }
 }
