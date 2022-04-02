@@ -1,0 +1,34 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Peer Review 1:UML}
+\author{Sara Mucci, Luca Muroni, Davide Grazzani Gruppo 46}
+\date{March 2022}
+
+\begin{document}
+
+\maketitle
+Valutazione del diagramma UML delle classi del gruppo 45
+
+\section{Lati Positivi}
+\begin{itemize}
+  \item Il salvataggio del currentPlayer e della lista dei Player è un'ottima cosa in quanto è conveniente avere tale operazione nel Model 
+  \item La size di una Cloud è sicuramente una scelta ottima per poter continuare a riempire le nuvole con la giusta dimensione
+ \end{itemize}
+\section{Lati Negativi}
+
+\begin{itemize}
+  \item Necessario rivedere la suddivisione delle classi tra partite normali e partite per esperti
+  \item Sarebbe consigliato rimuovere gli attributi boolean riguardanti il flusso di controllo
+  \item Non riusciamo a capire se le cardinalità siano quelle messe tra parentesi negli attributi di tipo array (sarebbe meglio metterle nelle frecce)
+  \item C'è una forte ridondanza di metodi e attributi per la gestione della classe Wizard. Inoltre non capiamo come si gestisce il cambiamento del proprietario di Wizard
+  \item Ci sembra una scelta infelice quella di mettere il metodo mergeIsland come private all'interno di Board (manca il metodo per reperire le isole), quando forse sarebbe stato più comodo fare come nel nostro caso, ossia mettere il metodo mergeIsland direttamente nella classe Island (per loro la classe Arcipelago)
+  \item Alcuni int della classe Board sono facilmente ricavabili attraverso metodi size
+\end{itemize}
+
+\section{Confronto fra le architetture}
+\begin{itemize}
+  \item Il nostro metodo mergeIsland si trova nella classe Island ed è public, mentre il loro si trova nella classe Board ed è private 
+  \item Alcune classi abbiano tutti i metodi get e set, altre abbiano solo get o solo set, altre ancora non ne hanno proprio. Il nostro UML invece non presenta metodi get o set in quanto non li abbiamo modificati
+\end{itemize}
+\end{document}
