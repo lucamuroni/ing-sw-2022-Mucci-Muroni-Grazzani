@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.debug.Student;
+
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -13,7 +13,8 @@ public class Bag {
     private ArrayList<Student> students;
 
     public Bag(){
-        int numStudentsPerColor = 24;
+        int numStudentsPerColor = 26;
+        this.students = new ArrayList<Student>();
         for(PawnColor color : PawnColor.values()){
             for(int i=0; i<numStudentsPerColor; i++){
                 Student student = new Student(color);
@@ -27,9 +28,11 @@ public class Bag {
         Random randomIndexGen = new Random();
         int selectedIndex;
         for(int i = 0; i<number;i++){
-            selectedIndex = randomIndexGen.nextInt(students.size());
-            results.add(this.students.get(selectedIndex));
-            students.remove(selectedIndex);
+            try{
+                selectedIndex = randomIndexGen.nextInt(students.size());
+                results.add(this.students.get(selectedIndex));
+                students.remove(selectedIndex);
+            }catch (java.lang.IllegalArgumentException e){}
         }
         return results;
     }
