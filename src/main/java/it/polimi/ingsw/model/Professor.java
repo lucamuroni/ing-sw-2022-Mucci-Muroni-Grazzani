@@ -21,13 +21,6 @@ public class Professor extends Pawn{
     }
 
     /**
-     * @return the professor color.
-     */
-    public PawnColor getColor() {
-        return this.getColor();
-    }
-
-    /**
      * @param owner represents the professor's new owner.
      */
     public void setOwner(Gamer owner) {
