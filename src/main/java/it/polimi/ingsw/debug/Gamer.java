@@ -1,4 +1,4 @@
 package it.polimi.ingsw.debug;
 
-public class Island {
+public class Gamer {
 }
