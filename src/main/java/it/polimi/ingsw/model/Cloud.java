@@ -24,7 +24,7 @@ public class Cloud {
      */
     public ArrayList<Student> pullStudent() {
         ArrayList<Student> cloudStudent;
-        cloudStudent = new ArrayList<Student>(students.size());
+        cloudStudent = new ArrayList<Student>(students);
         for (Student student: students) {
             cloudStudent.add(student);
         }
