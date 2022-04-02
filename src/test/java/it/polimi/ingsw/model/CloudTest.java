@@ -1,10 +1,7 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.debug.Student;
-import it.polimi.ingsw.model.Bag;
-import it.polimi.ingsw.model.Cloud;
+
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 
