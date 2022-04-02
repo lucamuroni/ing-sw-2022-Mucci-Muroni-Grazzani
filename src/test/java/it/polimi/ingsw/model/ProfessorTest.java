@@ -8,13 +8,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ProfessorTest {
-
-    @Test
-    void getColor() {
-        Professor professor = new Professor(PawnColor.PINK);
-        assertEquals(PawnColor.PINK, professor.getColor());
-    }
-
     @Test
     void setOwner() {
         Professor professor = new Professor(PawnColor.PINK);
