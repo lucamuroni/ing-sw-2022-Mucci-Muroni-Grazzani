@@ -5,8 +5,8 @@ package it.polimi.ingsw.model;
  * Class that represents the cards that every player must play during the first part of the round
  */
 public class AssistantCard {
-    private int turnValue;
-    private int movement;
+    private final int turnValue;
+    private final int movement;
 
     /**
      * Class constructor
