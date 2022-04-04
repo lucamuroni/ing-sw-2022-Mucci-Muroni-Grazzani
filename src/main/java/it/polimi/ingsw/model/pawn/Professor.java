@@ -3,12 +3,13 @@
  * class that represents a professor.
  */
 
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.pawn;
 
 import it.polimi.ingsw.debug.Gamer;
+
 import java.util.Optional;
 
-public class Professor extends Pawn{
+public class Professor extends Pawn {
     private Optional<Gamer> owner;
 
     /**
