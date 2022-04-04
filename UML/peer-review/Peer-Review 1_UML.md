@@ -44,8 +44,12 @@ Se un metodo/attributo di una classe non viene citato né positvamente né negat
 - **Arcipelago**
 	- Viene utilizzata in una maniera molto complicata, difficile stabilire solo da UML il corretto funzionamento (non entriamo nel dettaglio proprio per tale motivo)
 ## Confronto tra le architetture
-
+### Punti di forza
 - Conferma di un'idea pregressa di mettere il colore delle torri come attributo della classe Player
 - Spostata la gestione del currentPlayer e dell'array di tutti i giocatori nella classe Game come attributo quindi del package Model
 - Aggiunta di int per indicare la dimensione delle nuvole che va mantenuta costante a runtime
 - Punto di forza è la classe arcipelago, piace molto l'idea di avere una classe unica che gestisce più isole.
+### Consigli implementativi
+- Dividere le classi della modalità esperto da quelle della modalità normale (tecnicamente valutiamo positivamente la vostra scelta implementativa, però la consideriamo meno efficiente)
+- Consigliata una revisione implementativa della classe Arcipelago; affidare a quest'ultima la completa gestione delle isole
+- Consigliata la rimozione di tutti quei metodi boolean che vanno a 'gestire' il flusso di gioco (eg: attributo canChoseAssistant)
