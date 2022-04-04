@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.pawn;
 
 /**
  * @author Sara Mucci
@@ -6,7 +6,7 @@ package it.polimi.ingsw.model;
  * Class that implements a student.
  */
 
-public class Student extends Pawn{
+public class Student extends Pawn {
 
     /**
      * Class constructor.
