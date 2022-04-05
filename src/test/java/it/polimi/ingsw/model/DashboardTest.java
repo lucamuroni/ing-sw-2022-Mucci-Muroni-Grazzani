@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.dashboard.Dashboard;
+import it.polimi.ingsw.model.pawn.Student;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ class DashboardTest {
         ArrayList<Student> students = new ArrayList<Student>();
         Dashboard dashboard = new Dashboard(students, 5);
         ArrayList<Student> studentsToAdd = new ArrayList<Student>();
-        Cloud cloud = new Cloud();
+
         studentsToAdd.addAll();
     }
 
