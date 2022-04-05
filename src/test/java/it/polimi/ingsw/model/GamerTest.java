@@ -58,11 +58,12 @@ class GamerTest {
 
     @Test
     void isActive() {
-
+        Gamer gamer = new Gamer(1, "nome");
+        assertEquals(true, gamer.isActive());
     }
 
     @Test
     void setActivity() {
-
+        boolean activity = true;
     }
 }
