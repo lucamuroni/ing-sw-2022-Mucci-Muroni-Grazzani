@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.pawn.Student;
+
 import java.util.ArrayList;
 
 /**
@@ -24,15 +26,13 @@ public class Cloud {
     public ArrayList<Student> pullStudent() {
         ArrayList<Student> cloudStudent;
         cloudStudent = new ArrayList<Student>(students);
-        for (Student student: students) {
-            cloudStudent.add(student);
-        }
         students.clear();
         return cloudStudent;
     }
 
     /**
-     * @param studentsToAdd represents students that have to be added at the cloud.
+     * Method that adds students to the cloud.
+     * @param studentsToAdd represents students that have to be added to the cloud.
      */
     public void pushStudents(ArrayList<Student> studentsToAdd) {
         for (Student student: studentsToAdd) {
