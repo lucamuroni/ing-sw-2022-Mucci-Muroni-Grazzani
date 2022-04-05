@@ -48,9 +48,9 @@ public class Dashboard {
     }
 
     /**
-     * Method used for calculate the influence of a Gamer on a Professor given it's color
-     * @param color is the color of a Professor you want to check
-     * @return an int which rapresent the number of Student present in the hall of that professor
+     * Method used to calculate the influence of a Gamer on a Professor, given it's color
+     * @param color is the color of the Professor you want to check
+     * @return an int which represents the number of Students present in the hall of that professor
      */
     public int checkInfluence(PawnColor color){
         int result = Math.toIntExact(this.hall.stream().filter(x -> x.getColor().equals(color)).count());
@@ -90,5 +90,10 @@ public class Dashboard {
      */
     public int getNumTowers() {
         return this.towers;
+    }
+
+    //metodo da eliminare una volta terminato il test.
+    public ArrayList<Student> getWaitingRoom () {
+        return this.waitingRoom;
     }
 }
