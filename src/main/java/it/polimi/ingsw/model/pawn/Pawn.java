@@ -1,6 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.pawn;
 
-import it.polimi.ingsw.model.PawnColor;
+import it.polimi.ingsw.model.pawn.PawnColor;
 
 /**
  * @author Sara Mucci
@@ -8,7 +8,7 @@ import it.polimi.ingsw.model.PawnColor;
  * Class that implements a pawn (student-professor).
  */
 
-public abstract class Pawn {
+abstract class Pawn {
     private final PawnColor color;
 
     /**

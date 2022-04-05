@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.debug.Gamer;
+import it.polimi.ingsw.model.pawn.PawnColor;
+import it.polimi.ingsw.model.pawn.Professor;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
