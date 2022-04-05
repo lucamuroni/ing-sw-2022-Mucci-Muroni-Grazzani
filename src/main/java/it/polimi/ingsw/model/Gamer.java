@@ -21,8 +21,8 @@ public class Gamer {
 
     /**
      * Class constructor
-     * @param token represent the unique number associate with a player
-     * @param username represent the name choose by the player that will be displayed
+     * @param token represent the unique number associated with a player
+     * @param username represent the name choosen by the player that will be displayed
      */
     public Gamer(int token, String username/*, Stream input*/) {
         this.token = token;
@@ -33,8 +33,8 @@ public class Gamer {
 
     /**
      * This method is called by the controller when the player has to choose
-     * a cloud and has to take its students and put them in his waiting room in the dashboard
-     * @param cloud is the cloud choose by the player
+     * a cloud, take its students and put them in his waiting room in the dashboard
+     * @param cloud is the cloud choosen by the player
      */
     public void selectCloud(Cloud cloud){
         dashboard.addStudentsWaitingRoom(cloud.pullStudent());
@@ -62,7 +62,7 @@ public class Gamer {
 
     /**
      * Getter method
-     * @return token associated with the player
+     * @return token associated to the player
      */
     public int getToken() {
         return token;

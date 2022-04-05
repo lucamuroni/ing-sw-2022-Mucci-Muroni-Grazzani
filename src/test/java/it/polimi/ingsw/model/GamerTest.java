@@ -13,6 +13,7 @@ class GamerTest {
     @Test
     public void selectCloud() {
         Cloud cloud = new Cloud();
+        Gamer gamer = new Gamer(1, "nome");
 
     }
 
@@ -38,21 +39,26 @@ class GamerTest {
 
     @Test
     void getDeck() {
-
+        Gamer gamer = new Gamer(1, "nome");
+        AssistantCardDeck deck = new AssistantCardDeck();
+        assertEquals(deck, gamer.getDeck());
     }
 
     @Test
     void getToken() {
-
+        Gamer gamer = new Gamer(1, "nome");
+        assertEquals(1, gamer.getToken());
     }
 
     @Test
     void getUsername() {
-
+        Gamer gamer = new Gamer(1, "nome");
+        assertEquals("nome", gamer.getUsername());
     }
 
     @Test
     void getDashboard() {
+        Gamer gamer = new Gamer(1, "nome");
 
     }
 
@@ -64,6 +70,8 @@ class GamerTest {
 
     @Test
     void setActivity() {
-        boolean activity = true;
+        Gamer gamer = new Gamer(1, "nome");
+        gamer.setActivity(true);
+        assertEquals(true, gamer.isActive());
     }
 }
