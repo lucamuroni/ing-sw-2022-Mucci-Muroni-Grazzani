@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.debug.Cloud;
 import it.polimi.ingsw.debug.Gamer;
+import it.polimi.ingsw.model.pawn.*;
 
 import java.util.ArrayList;
 import java.util.Optional;
