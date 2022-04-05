@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.debug.*;
+import it.polimi.ingsw.model.pawn.Student;
 
 import java.util.ArrayList;
 
@@ -31,17 +32,17 @@ public class Gamer {
     }
 
     /**
-     * This method is called by the controller when the player he has to choose
-     * a cloud and he has to take its students and put them in his waiting room in the dashboard
+     * This method is called by the controller when the player has to choose
+     * a cloud and has to take its students and put them in his waiting room in the dashboard
      * @param cloud is the cloud choose by the player
      */
     public void selectCloud(Cloud cloud){
-        dashboard.addStudentsWaitingRoom(cloud.pullStudents());
+        dashboard.addStudentsWaitingRoom(cloud.pullStudent());
     }
 
     /**
-     * This method is called by the controller when all players connect to the game and the game's objects
-     * can be inizialized
+     * This method is called by the controller when all players are connected to the game and the game's objects
+     * can be initialized
      * @param students represents the students taken by the player from the bag at the start of the game
      * @param towers represents the towers that every player must have (the number of towers depends on how
      * many players are playing)

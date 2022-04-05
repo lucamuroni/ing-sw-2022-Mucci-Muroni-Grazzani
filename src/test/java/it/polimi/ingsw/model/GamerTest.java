@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.pawn.PawnColor;
+import it.polimi.ingsw.model.pawn.Student;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -10,6 +12,8 @@ class GamerTest {
 
     @Test
     public void selectCloud() {
+        Cloud cloud = new Cloud();
+
     }
 
     @Test
@@ -30,5 +34,35 @@ class GamerTest {
         assertEquals(false, gamer.getDashboard().getWaitingRoom().contains(s0));
         assertEquals(true, gamer.getDashboard().getWaitingRoom().containsAll(students));
         assertEquals(students, gamer.getDashboard().getWaitingRoom());
+    }
+
+    @Test
+    void getDeck() {
+
+    }
+
+    @Test
+    void getToken() {
+
+    }
+
+    @Test
+    void getUsername() {
+
+    }
+
+    @Test
+    void getDashboard() {
+
+    }
+
+    @Test
+    void isActive() {
+
+    }
+
+    @Test
+    void setActivity() {
+
     }
 }
