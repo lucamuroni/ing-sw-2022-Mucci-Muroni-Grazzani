@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.pawn.*;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * This class is used to manage most of the game's mechanics
@@ -47,6 +48,9 @@ public class Game {
         this.turnNumber = 0;
     }
 
+    /**
+     * Method used to initiate the order of players
+     */
     private void initiatePlayersOrder(){
         ArrayList<Gamer> players = new ArrayList<>(this.gamers);
         this.gamers.clear();
@@ -54,9 +58,15 @@ public class Game {
         currentPlayer = players.get(rand.nextInt(players.size()));
         this.gamers.add(currentPlayer);
         players.remove(currentPlayer);
+        int size = players.size();
+        for (int i =0;i<size;i++){
+            Gamer player = players.get(rand.nextInt(players.size()));
+            this.gamers.add(player);
+            players.remove(player);
+        }
     }
     /**
-     * This function is used to fill the clouds choose by the gamers at the end of the round
+     * This function is used to fill a cloud choosen by a gamer at the end of the round
      * @param students is the ArrayList of students drawn by the controller from bag
      * @param cloud represent the cloud filled
      */
@@ -70,14 +80,12 @@ public class Game {
      * @param students is the ArrayList of students, drawn from bag, that will be used to fill the islands
      */
     public void initIsland (ArrayList<Student> students){
-        int motherNatureIsland = islands.indexOf(getMotherNature().getPlace());
+        int motherNatureIsland = this.islands.indexOf(this.motherNature.getPlace());
         int oppositeIsland = (motherNatureIsland+6)%12;
-        int cont = 0;
         for (Island island : this.islands){
             if(!island.equals(motherNatureIsland) && !island.equals(oppositeIsland)){
-                island.addStudents(students.get(cont));
-                students.remove(cont);
-                cont++;
+                island.addStudents(students.get(0));
+                students.remove(0);
             }
         }
     }
@@ -96,21 +104,30 @@ public class Game {
      * @return an ArrayList of the only possible islands that the player can choose
      */
     public ArrayList<Island> getMotherNatureDestination (){
-        //TODO: necessario prima portare AssistantCard e Gamer
-        return null;
+        ArrayList<Island> result = new ArrayList<Island>();
+        int motherNatureIndex = this.islands.indexOf(this.motherNature.getPlace());
+        int maxIndexMove = currentPlayer.getAssistantCardDeck().getCurrentSelection().getMovement();
+        for(int i=0;i<maxIndexMove;i++){
+            int index = motherNatureIndex+i;
+            if(index>= this.islands.size()){
+                index = index % islands.size();
+            }
+            result.add(this.islands.get(index));
+        }
+        return result;
     }
 
     /**
      * This method is called every time the currentPlayer moves a student from his WaitingRoom to one of the tables of his Hall
-     * @param owner is the new owner of the professor (e.g. the currentPlayer)
      * @param color is the color of the Professor that will be changed his owner
      */
-    public void changeProfessorOwner (Gamer owner, PawnColor color){
-        for (Professor prof : this.professors){
-            if(prof.getColor().equals(color)){
-                prof.setOwner(owner);
-            }
+    public Gamer changeProfessorOwner (PawnColor color) throws Exception {
+        Optional<Gamer> oldOwner= this.professors.stream().filter(x->x.getColor().equals(color)).map(x->x.getOwner()).findFirst().orElse(null);
+        if(oldOwner == null){
+            throw new Exception();
         }
+        int max = 0;
+        if()
     }
 
     /**
