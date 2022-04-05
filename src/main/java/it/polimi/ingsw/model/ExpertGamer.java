@@ -20,13 +20,17 @@ public class ExpertGamer extends Gamer {
         super(token, username);
     }
 
+    /**
+     * This override uses an ExpertDashboard instead of a Dashboard
+     * @param cloud is the cloud choose by the player
+     */
     @Override
     public void selectCloud(Cloud cloud) {
         dashboard.addStudentsWaitingRoom(cloud.pullStudent());
     }
 
     /**
-     * This override use an expert dashboard instead of a normal one
+     * This override uses an ExpertDashboard instead of a Dashboard
      * @param students represents the students taken by the player from the bag at the start of the game
      * @param towers represents the towers that every player must have (the number of towers depends on how
      */
