@@ -5,15 +5,17 @@ import it.polimi.ingsw.model.pawn.*;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Random;
 
 /**
  * This class is used to manage most of the game's mechanics
  * @author Luca Muroni
+ * @author Davide Grazzani
  */
 public class Game {
     private MotherNature motherNature;
     private ArrayList<Cloud> clouds;
-    private ArrayList<Professor> profs;
+    private ArrayList<Professor> professors;
     private ArrayList<Island> islands;
     private Bag bag;
     private ArrayList<Gamer> gamers;
@@ -26,35 +28,33 @@ public class Game {
      */
     public Game (ArrayList<Gamer> gamers){
         this.gamers = new ArrayList<>(gamers);
-
-        //this.motherNature = new MotherNature(//TODO: manca come scegliere la prima isola casuale);
-
         this.clouds = new ArrayList<Cloud>();
-        int numClouds = 0;
-        while (numClouds<gamers.size()){
-            clouds.add(new Cloud());
-            numClouds++;
+        for(Gamer gamer : this.gamers){
+            this.clouds.add(new Cloud());
         }
-
-        this.profs = new ArrayList<Professor>();
+        this.professors = new ArrayList<Professor>();
         for (PawnColor color : PawnColor.values()){
-            profs.add(new Professor(color));
+            professors.add(new Professor(color));
         }
-
         this.islands = new ArrayList<Island>();
-        int numIslands = 0;
-        while(numIslands < 12){
-            islands.add(new Island());
-            numIslands++;
+        for(int numIslands=0; numIslands<12;numIslands++){
+            this.islands.add(new Island());
         }
-
+        Random random = new Random();
+        this.motherNature = new MotherNature(this.islands.get(random.nextInt(this.islands.size())));
         this.bag = new Bag();
-
-        //this. currentPlayer = //TODO: manca un metodo con cui scegliere casualmente il primo giocatore all'inizio della partita
-
-        this.turnNumber = 1;
+        initiatePlayersOrder();
+        this.turnNumber = 0;
     }
 
+    private void initiatePlayersOrder(){
+        ArrayList<Gamer> players = new ArrayList<>(this.gamers);
+        this.gamers.clear();
+        Random rand = new Random();
+        currentPlayer = players.get(rand.nextInt(players.size()));
+        this.gamers.add(currentPlayer);
+        players.remove(currentPlayer);
+    }
     /**
      * This function is used to fill the clouds choose by the gamers at the end of the round
      * @param students is the ArrayList of students drawn by the controller from bag
@@ -106,7 +106,7 @@ public class Game {
      * @param color is the color of the Professor that will be changed his owner
      */
     public void changeProfessorOwner (Gamer owner, PawnColor color){
-        for (Professor prof : this.profs){
+        for (Professor prof : this.professors){
             if(prof.getColor().equals(color)){
                 prof.setOwner(owner);
             }
@@ -123,7 +123,7 @@ public class Game {
         //creo un ArrayList con i colori dei prof posseduti dal currentPlayer
         ArrayList<PawnColor> colors = new ArrayList<PawnColor>();
         //cerco i profs posseduti dal currentPlayer
-        for (Professor professor : this.profs){
+        for (Professor professor : this.professors){
             if (professor.getOwner().equals(currentPlayer)){ //TODO: Metodo da modificare: l'equals dovrebbe controllare il token
                 colors.add(professor.getColor());
             }
@@ -136,7 +136,7 @@ public class Game {
         //come in currentPlayer
         ArrayList<PawnColor> colorsOwner = new ArrayList<PawnColor>();
         //come in currentPlayer
-        for (Professor professor : this.profs){
+        for (Professor professor : this.professors){
             if (professor.getOwner().equals(ownerIsland)){ //TODO: Metodo da modificare: l'equals dovrebbe controllare il token
                 colorsOwner.add(professor.getColor());
             }
@@ -183,8 +183,8 @@ public class Game {
      * Getter method
      * @return all the profs
      */
-    public ArrayList<Professor> getProfs() {
-        return profs;
+    public ArrayList<Professor> getProfessors() {
+        return professors;
     }
 
     /**
