@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 /**
  * @author Davide Grazzani
+ * @author Sara Mucci
  * Class that represent a gamer dashboard, which include the gamer's towers, the students present at the entrace and
  * the professor's table
  */
@@ -79,5 +80,13 @@ public class Dashboard {
         }
         island.addStudents(student);
         this.waitingRoom.remove(student);
+    }
+
+    /**
+     * method use to return the number of towers on the dashboard
+     * @return towers represents the number of towers
+     */
+    public int getNumTowers() {
+        return this.towers;
     }
 }

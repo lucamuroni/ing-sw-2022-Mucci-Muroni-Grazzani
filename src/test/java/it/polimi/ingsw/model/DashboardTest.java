@@ -12,12 +12,20 @@ class DashboardTest {
     @Test
     void moveTower() {
         ArrayList<Student> students = new ArrayList<Student>();
-        students.addAll()
-        Dashboard dashboard = new Dashboard();
+        int torri = 5;
+        assertEquals(true, students.isEmpty());
+        Dashboard dashboard = new Dashboard(students, torri);
+        dashboard.moveTower(1);
+        assertEquals(6, dashboard.getNumTowers());
     }
 
     @Test
     void addStudentsWaitingRoom() {
+        ArrayList<Student> students = new ArrayList<Student>();
+        Dashboard dashboard = new Dashboard(students, 5);
+        ArrayList<Student> studentsToAdd = new ArrayList<Student>();
+        Cloud cloud = new Cloud();
+        studentsToAdd.addAll();
     }
 
     @Test
