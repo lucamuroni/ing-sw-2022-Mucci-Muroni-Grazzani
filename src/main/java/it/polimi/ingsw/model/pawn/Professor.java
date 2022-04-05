@@ -5,7 +5,7 @@
 
 package it.polimi.ingsw.model.pawn;
 
-import it.polimi.ingsw.debug.Gamer;
+import it.polimi.ingsw.model.Gamer;
 
 import java.util.Optional;
 
