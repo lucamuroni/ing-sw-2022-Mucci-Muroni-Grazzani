@@ -20,6 +20,11 @@ public class ExpertGamer extends Gamer {
         super(token, username);
     }
 
+    @Override
+    public void selectCloud(Cloud cloud) {
+        dashboard.addStudentsWaitingRoom(cloud.pullStudent());
+    }
+
     /**
      * This override use an expert dashboard instead of a normal one
      * @param students represents the students taken by the player from the bag at the start of the game
@@ -27,9 +32,19 @@ public class ExpertGamer extends Gamer {
      */
     @Override
     public void initGamer(ArrayList<Student> students, int towers) {
-        AssistantCardDeck d;
+        AssistantCardDeck deck;
         dashboard = new ExpertDashboard(students, towers);
-        d = getDeck();
-        d = new AssistantCardDeck();
+        deck = getDeck();
+        deck = new AssistantCardDeck();
     }
+
+    /**
+     * Getter method
+     * @return the dashboard
+     */
+    public ExpertDashboard getExpertDashboard() {
+        return dashboard;
+    }
+
+
 }

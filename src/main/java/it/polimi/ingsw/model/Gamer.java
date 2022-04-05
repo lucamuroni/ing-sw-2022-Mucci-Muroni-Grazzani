@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.debug.*;
 import it.polimi.ingsw.model.pawn.Student;
 
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ public class Gamer {
     private boolean activity;
     private AssistantCardDeck deck;
     //private TowerColor playerColor;
-    private NormalDashboard dashboard;
+    private Dashboard dashboard;
 
     /**
      * Class constructor
@@ -48,7 +47,7 @@ public class Gamer {
      * many players are playing)
      */
     public void initGamer(ArrayList<Student> students, int towers){
-        dashboard = new NormalDashboard(students, towers);
+        dashboard = new Dashboard(students, towers);
         deck = new AssistantCardDeck();
     }
 
@@ -80,7 +79,7 @@ public class Gamer {
      * Getter method
      * @return dashboard of the player
      */
-    public NormalDashboard getDashboard() {
+    public Dashboard getDashboard() {
         return dashboard;
     }
 
