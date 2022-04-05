@@ -1,11 +1,25 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.debug.Cloud;
+import it.polimi.ingsw.debug.Gamer;
+import it.polimi.ingsw.model.pawn.Student;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class GameTest {
+class GameTest{
+    ArrayList<Gamer> gamers = new ArrayList<Gamer>();
+    Game game = new Game(gamers);
 
+    @Test
+    void fillCloud(){
+        Bag bag = new Bag();
+        ArrayList<Student> students = new ArrayList<Student>(bag.pullStudents(4));
+        Cloud cloud = new Cloud();
+        game.fillCloud(students, cloud);
+    }
     @Test
     void initIsland() {
     }

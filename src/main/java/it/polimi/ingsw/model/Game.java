@@ -59,7 +59,7 @@ public class Game {
      * @param students is the ArrayList of students drawn by the controller from bag
      * @param cloud represent the cloud filled
      */
-    private void fillClouds (ArrayList<Student> students, Cloud cloud){
+    public void fillCloud(ArrayList<Student> students, Cloud cloud){
         cloud.pushStudents(students);
     }
 
