@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.debug.Cloud;
 import it.polimi.ingsw.debug.Gamer;
 import it.polimi.ingsw.model.pawn.*;
 
@@ -49,6 +48,8 @@ public class Game {
             numIslands++;
         }
 
+        this.bag = new Bag();
+
         //this. currentPlayer = //TODO: manca un metodo con cui scegliere casualmente il primo giocatore all'inizio della partita
 
         this.turnNumber = 1;
@@ -75,7 +76,8 @@ public class Game {
         for (Island island : this.islands){
             if(!island.equals(motherNatureIsland) && !island.equals(oppositeIsland)){
                 island.addStudents(students.get(cont));
-                cont ++;
+                students.remove(cont);
+                cont++;
             }
         }
     }
