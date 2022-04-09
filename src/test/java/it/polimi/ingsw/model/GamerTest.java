@@ -10,17 +10,23 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GamerTest {
+    Gamer gamer = new Gamer(1, "luca");
 
     @Test
     public void selectCloud() {
+        Bag bag = new Bag();
+        ArrayList<Student> students = new ArrayList<Student>(bag.pullStudents(1));
+        gamer.initGamer(students, 6);
         Cloud cloud = new Cloud();
-        Gamer gamer = new Gamer(1, "nome");
+        ArrayList<Student> students1 = new ArrayList<Student>(bag.pullStudents(3));
+        cloud.pushStudents(students1);
+        gamer.selectCloud(cloud);
+        assertTrue(gamer.getDashboard().getWaitingRoom().containsAll(students1));
 
     }
 
     @Test
     void initGamer() {
-        Gamer gamer = new Gamer(123, "Luca");
         ArrayList<Student> students = new ArrayList<Student>();
         Student s0 = new Student(PawnColor.PINK);
         Student s1 = new Student(PawnColor.BLUE);
@@ -40,39 +46,43 @@ class GamerTest {
 
     @Test
     void getDeck() {
-        Gamer gamer = new Gamer(1, "nome");
-        AssistantCardDeck deck = new AssistantCardDeck();
+        ArrayList<Student> students = new ArrayList<Student>();
+        students.add(new Student(PawnColor.BLUE));
+        gamer.initGamer(students, 3);
+        AssistantCardDeck deck = gamer.getDeck();
         assertEquals(deck, gamer.getDeck());
     }
 
     @Test
     void getToken() {
-        Gamer gamer = new Gamer(1, "nome");
-        assertEquals(1, gamer.getToken());
+        int token = gamer.getToken();
+        assertEquals(token, gamer.getToken());
     }
 
     @Test
     void getUsername() {
-        Gamer gamer = new Gamer(1, "nome");
-        assertEquals("nome", gamer.getUsername());
+        String name = gamer.getUsername();
+        assertEquals(name, gamer.getUsername());
     }
 
     @Test
     void getDashboard() {
-        Gamer gamer = new Gamer(1, "nome");
-
+        ArrayList<Student> students = new ArrayList<Student>();
+        students.add(new Student(PawnColor.BLUE));
+        gamer.initGamer(students, 3);
+        Dashboard dashboard = gamer.getDashboard();
+        assertEquals(dashboard.getTowers(), gamer.getDashboard().getTowers());
+        assertEquals(dashboard.getWaitingRoom(), gamer.getDashboard().getWaitingRoom());
     }
 
     @Test
     void isActive() {
-        Gamer gamer = new Gamer(1, "nome");
         assertEquals(true, gamer.isActive());
     }
 
     @Test
     void setActivity() {
-        Gamer gamer = new Gamer(1, "nome");
-        gamer.setActivity(true);
-        assertEquals(true, gamer.isActive());
+        gamer.setActivity(false);
+        assertEquals(false, gamer.isActive());
     }
 }
