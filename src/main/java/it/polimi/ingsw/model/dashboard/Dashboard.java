@@ -85,7 +85,7 @@ public class Dashboard {
     }
 
     /**
-     * method use to return the number of towers on the dashboard
+     * method used to return the number of towers on the dashboard
      * @return towers represents the number of towers
      */
     public int getNumTowers() {
