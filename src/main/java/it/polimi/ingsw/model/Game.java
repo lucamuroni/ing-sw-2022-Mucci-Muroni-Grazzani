@@ -59,14 +59,14 @@ public class Game {
         this.gamers.add(currentPlayer);
         players.remove(currentPlayer);
         int size = players.size();
-        for (int i =0;i<size;i++){
+        for (int i = 0;i<size;i++){
             Gamer player = players.get(rand.nextInt(players.size()));
             this.gamers.add(player);
             players.remove(player);
         }
     }
     /**
-     * This function is used to fill a cloud choosen by a gamer at the end of the round
+     * This function is used to fill a cloud chosen by a gamer at the end of the round
      * @param students is the ArrayList of students drawn by the controller from bag
      * @param cloud represent the cloud filled
      */
@@ -75,7 +75,7 @@ public class Game {
     }
 
     /**
-     * This method is called at the start of the game when all the islands, except for the MotherNature's one end its opposite,
+     * This method is called at the start of the game when all the islands, except for the MotherNature's one and its opposite,
      * need a student
      * @param students is the ArrayList of students, drawn from bag, that will be used to fill the islands
      */
@@ -91,7 +91,7 @@ public class Game {
     }
 
     /**
-     * This method is called by the controller when the currentlayer moves MotherNature
+     * This method is called by the controller when the currentPlayer moves MotherNature
      * @param island is the new Island where MotherNature will be moved on
      */
     public void moveMotherNature (Island island){
@@ -100,7 +100,7 @@ public class Game {
 
     /**
      * This method is called by the controller to show all the islands where the student can move MotherNature (it depends on the
-     * AssistantCard choose by him)
+     * AssistantCard chosen by him)
      * @return an ArrayList of the only possible islands that the player can choose
      */
     public ArrayList<Island> getMotherNatureDestination (){
@@ -109,7 +109,7 @@ public class Game {
         int maxIndexMove = currentPlayer.getAssistantCardDeck().getCurrentSelection().getMovement();
         for(int i=0;i<maxIndexMove;i++){
             int index = motherNatureIndex+i;
-            if(index>= this.islands.size()){
+            if(index >= this.islands.size()){
                 index = index % islands.size();
             }
             result.add(this.islands.get(index));
@@ -119,7 +119,7 @@ public class Game {
 
     /**
      * This method is called every time the currentPlayer moves a student from his WaitingRoom to one of the tables of his Hall
-     * @param color is the color of the Professor that will be changed his owner
+     * @param color is the color of the Professor, the owner of which will be changed
      */
     public Gamer changeProfessorOwner (PawnColor color) throws Exception {
         Optional<Gamer> oldOwner= this.professors.stream().filter(x->x.getColor().equals(color)).map(x->x.getOwner()).findFirst().orElse(null);
@@ -139,7 +139,7 @@ public class Game {
         Island islandToCheck = this.motherNature.getPlace();
         //creo un ArrayList con i colori dei prof posseduti dal currentPlayer
         ArrayList<PawnColor> colors = new ArrayList<PawnColor>();
-        //cerco i profs posseduti dal currentPlayer
+        //cerco i prof posseduti dal currentPlayer
         for (Professor professor : this.professors){
             if (professor.getOwner().equals(currentPlayer)){ //TODO: Metodo da modificare: l'equals dovrebbe controllare il token
                 colors.add(professor.getColor());
@@ -147,7 +147,6 @@ public class Game {
         }
         //calcolo l'influenza del currentPlayer sull'isola
         int influence = islandToCheck.getInfluenceByColor(colors); //influenza del giocatore corrente
-
         //prendo l'owner corrente dell'isola
         Optional<Gamer> ownerIsland = islandToCheck.getOwner();
         //come in currentPlayer
@@ -160,7 +159,6 @@ public class Game {
         }
         //calcolo influenza del giocatore possessore dell'isola
         int influenceOwner = islandToCheck.getInfluenceByColor(colorsOwner) + islandToCheck.getNumTowers();
-
         if(influenceOwner<influence){
             //return currentPlayer;
             //TODO: Problema: conflitto con l'uso di Optional<Gamer> anziché Gamer
@@ -198,7 +196,7 @@ public class Game {
 
     /**
      * Getter method
-     * @return all the profs
+     * @return all the professors
      */
     public ArrayList<Professor> getProfessors() {
         return professors;
@@ -238,7 +236,7 @@ public class Game {
 
     /**
      * Setter method
-     * @param currentPlayer is the new curretn player
+     * @param currentPlayer is the new current player
      */
     public void setCurrentPlayer(Gamer currentPlayer) {
         this.currentPlayer = currentPlayer;
