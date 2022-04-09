@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.gamer.ExpertGamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ class ExpertGamerTest {
         students.add(new Student(PawnColor.BLUE));
         int towers = 6;
         expertGamer.initGamer(students, towers);
-        assertTrue(expertGamer.getExpertDashboard().getStudents().containsAll(students));
+        assertTrue(expertGamer.getExpertDashboard().getWaitingRoom().containsAll(students));
         assertEquals(towers, expertGamer.getExpertDashboard().getTowers());
     }
 
@@ -33,6 +34,6 @@ class ExpertGamerTest {
         ArrayList<Student> students1 = new ArrayList<Student>(bag.pullStudents(3));
         cloud.pushStudents(students1);
         expertGamer.selectCloud(cloud);
-        assertTrue(expertGamer.getExpertDashboard().getStudents().containsAll(students1));
+        assertTrue(expertGamer.getExpertDashboard().getWaitingRoom().containsAll(students1));
     }
 }
