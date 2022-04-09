@@ -21,17 +21,22 @@ class DashboardTest {
         Dashboard dashboard = new Dashboard(students, torri);
         dashboard.moveTower(1);
         assertEquals(6, dashboard.getNumTowers());
+        dashboard.moveTower(-2);
+        assertEquals(4, dashboard.getNumTowers());
     }
 
     @Test
     void addStudentsWaitingRoom() {
         Bag borsa = new Bag();
         Cloud cloud = new Cloud();
-        ArrayList<Student> s = new ArrayList<Student>();
+        ArrayList<Student> s = new ArrayList<Student>();    //arraylist generico di studenti.
+        assertEquals(true, s.isEmpty());
         ArrayList<Student> studentsToAddCloud = new ArrayList<Student>();
+        assertEquals(true, studentsToAddCloud.isEmpty());
         ArrayList<Student> studentsToAddWaitingRoom = new ArrayList<Student>();
         assertEquals(true, studentsToAddWaitingRoom.isEmpty());
-        ArrayList<Student> students = new ArrayList<Student>();
+        ArrayList<Student> students = new ArrayList<Student>(); //studenti presenti sulla dashboard.
+        assertEquals(true, students.isEmpty());
         students.addAll(borsa.pullStudents(4));
         assertEquals(false, students.isEmpty());
         Dashboard dashboard = new Dashboard(students, 5);
@@ -65,22 +70,22 @@ class DashboardTest {
         try {
             dashboard.moveStudent(student1);
         } catch (StudentNotFoundException e) {
-            System.out.println("Eccezione lanciata.");
+            System.out.println("Eccezione 1 lanciata.");
         }
         try {
             dashboard.moveStudent(student2);
         } catch (StudentNotFoundException e) {
-            System.out.println("Eccezione lanciata.");
+            System.out.println("Eccezione 2 lanciata.");
         }
         try {
             dashboard.moveStudent(student3);
         } catch (StudentNotFoundException e) {
-            System.out.println("Eccezione lanciata.");
+            System.out.println("Eccezione 3 lanciata.");
         }
         try {
             dashboard.moveStudent(student4);
         } catch (StudentNotFoundException e) {
-            System.out.println("Eccezione lanciata.");
+            System.out.println("Eccezione 4 lanciata.");
         }
         PawnColor color = PawnColor.BLUE;
         assertEquals(2, dashboard.checkInfluence(color));
@@ -98,12 +103,12 @@ class DashboardTest {
         try {
             dashboard.moveStudent(student1);
         } catch (StudentNotFoundException e) {
-            System.out.println("Eccezione lanciata.");
+            System.out.println("Eccezione 1 lanciata.");
         }
         try {
             dashboard.moveStudent(student2);
         } catch (StudentNotFoundException e) {
-            System.out.println("Eccezione lanciata.");
+            System.out.println("Eccezione 2 lanciata.");
         }
     }
 
@@ -119,12 +124,12 @@ class DashboardTest {
         try {
             dashboard.moveStudent(student1, island);
         } catch (StudentNotFoundException e) {
-            System.out.println("Eccezione lanciata.");
+            System.out.println("Eccezione 1 lanciata.");
         }
         try {
             dashboard.moveStudent(student2, island);
         } catch (StudentNotFoundException e) {
-            System.out.println("Eccezione lanciata.");
+            System.out.println("Eccezione 2 lanciata.");
         }
     }
 
