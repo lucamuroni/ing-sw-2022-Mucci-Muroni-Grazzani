@@ -16,9 +16,9 @@ import java.util.ArrayList;
  */
 
 public class Dashboard {
-    private ArrayList<Student> waitingRoom;
-    private int towers;
-    private ArrayList<Student> hall;
+    protected ArrayList<Student> waitingRoom;
+    protected int towers;
+    protected ArrayList<Student> hall;
 
     /**
      * Class builder
