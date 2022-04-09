@@ -1,5 +1,8 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.gamer;
 
+import it.polimi.ingsw.model.AssistantCardDeck;
+import it.polimi.ingsw.model.Cloud;
+import it.polimi.ingsw.model.Dashboard;
 import it.polimi.ingsw.model.pawn.Student;
 
 import java.util.ArrayList;
@@ -10,11 +13,11 @@ import java.util.ArrayList;
  */
 
 public class Gamer {
-    private final int token;
-    private String username;
+    protected final int token;
+    protected final String username;
     //private Stream input;
-    private boolean activity;
-    private AssistantCardDeck deck;
+    protected boolean activity;
+    protected AssistantCardDeck deck;
     //private TowerColor playerColor;
     private Dashboard dashboard;
 

@@ -1,5 +1,8 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.gamer;
 
+import it.polimi.ingsw.model.AssistantCardDeck;
+import it.polimi.ingsw.model.Cloud;
+import it.polimi.ingsw.model.ExpertDashboard;
 import it.polimi.ingsw.model.pawn.Student;
 
 import java.util.ArrayList;
@@ -36,10 +39,9 @@ public class ExpertGamer extends Gamer {
      */
     @Override
     public void initGamer(ArrayList<Student> students, int towers) {
-        AssistantCardDeck deck;
-        dashboard = new ExpertDashboard(students, towers);
-        deck = getDeck();
+        //AssistantCardDeck deck = getDeck();
         deck = new AssistantCardDeck();
+        dashboard = new ExpertDashboard(students, towers);
     }
 
     /**
