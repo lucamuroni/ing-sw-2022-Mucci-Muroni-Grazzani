@@ -10,10 +10,12 @@ public class Dashboard {
     private int towers;
 
     public Dashboard(ArrayList<Student> students, int towers) {
-        
+        waitingRoom = new ArrayList<Student>(students);
+        this.towers = towers;
     }
 
-    public void addStudentsWaitingRoom(ArrayList<Student> pullStudent) {
+    public void addStudentsWaitingRoom(ArrayList<Student> students) {
+        waitingRoom.addAll(students);
     }
 
     public ArrayList<Student> getWaitingRoom() {
