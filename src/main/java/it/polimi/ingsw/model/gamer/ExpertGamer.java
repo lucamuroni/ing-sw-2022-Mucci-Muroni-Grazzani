@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Class that represents a player in the expert's game version
  */
 public class ExpertGamer extends Gamer {
-    private ExpertDashboard dashboard;
+    private ExpertDashboard expertDashboard;
 
     /**
      * Class constructor that calls the upper class constructor
@@ -29,7 +29,7 @@ public class ExpertGamer extends Gamer {
      */
     @Override
     public void selectCloud(Cloud cloud) {
-        dashboard.addStudentsWaitingRoom(cloud.pullStudent());
+        expertDashboard.addStudentsWaitingRoom(cloud.pullStudent());
     }
 
     /**
@@ -41,7 +41,7 @@ public class ExpertGamer extends Gamer {
     public void initGamer(ArrayList<Student> students, int towers) {
         //AssistantCardDeck deck = getDeck();
         deck = new AssistantCardDeck();
-        dashboard = new ExpertDashboard(students, towers);
+        expertDashboard = new ExpertDashboard(students, towers);
     }
 
     /**
@@ -49,7 +49,7 @@ public class ExpertGamer extends Gamer {
      * @return the dashboard
      */
     public ExpertDashboard getExpertDashboard() {
-        return dashboard;
+        return expertDashboard;
     }
 
 
