@@ -4,11 +4,21 @@ import it.polimi.ingsw.model.pawn.Student;
 
 import java.util.ArrayList;
 
+/**
+ * @author Luca Muroni
+ * Class that represents the dashboard of the player when he plays the expert version of the game.
+ * It differs from his father class only for the presence of the coins.
+ */
 public class ExpertDashboard extends Dashboard{
     private int coins;
 
-    public ExpertDashboard(ArrayList<Student> students, int towers){
-        super(students, towers);
+    /**
+     * Class constructor
+     * @param students represent the initial students that are present at the start of the game in the waiting room of a Gamer
+     * @param numTowers represent the initial number of towers that are present at the start of the game in the waiting room of a Gamer
+     */
+    public ExpertDashboard(ArrayList<Student> students, int numTowers){
+        super(students, numTowers);
         this.coins = 0;
     }
 
@@ -28,13 +38,13 @@ public class ExpertDashboard extends Dashboard{
     public void setCoins(int numCoins) throws CoinsException {
         if(this.coins + numCoins<0)
             throw new CoinsException("Coins aren't enough to play this card");
-        this.coins = this.coins + numCoins;
+        this.coins += numCoins;
     }
 
     /**
      * Method used to move a Student from the staging area to a Professor table
      * @param student represent a Student in the staging area (waitingRoom) which must be moved
-     * @throws StudentNotFoundException
+     * @throws StudentNotFoundException if the Student is not present in the staging area
      */
     @Override
     public void moveStudent(Student student) throws StudentNotFoundException {
