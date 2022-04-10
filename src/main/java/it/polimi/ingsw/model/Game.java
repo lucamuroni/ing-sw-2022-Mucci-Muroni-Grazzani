@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.pawn.*;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 /**
  * This class is used to manage most of the game's mechanics
@@ -14,12 +13,12 @@ import java.util.stream.Collectors;
  * @author Davide Grazzani
  */
 public class Game {
-    private MotherNature motherNature;
-    private ArrayList<Cloud> clouds;
-    private ArrayList<Professor> professors;
-    private ArrayList<Island> islands;
-    private Bag bag;
-    private ArrayList<Gamer> gamers;
+    private final MotherNature motherNature;
+    private final ArrayList<Cloud> clouds;
+    private final ArrayList<Professor> professors;
+    private final ArrayList<Island> islands;
+    private final Bag bag;
+    private final ArrayList<Gamer> gamers;
     private Gamer currentPlayer;
     private int turnNumber;
 
@@ -123,11 +122,22 @@ public class Game {
      */
     public Gamer changeProfessorOwner (PawnColor color) throws Exception {
         Optional<Gamer> oldOwner= this.professors.stream().filter(x->x.getColor().equals(color)).map(x->x.getOwner()).findFirst().orElse(null);
-        if(oldOwner == null){
-            throw new Exception();
+        Gamer newOwner = new Gamer();
+        if(oldOwner == null){       //DUBBIO: nel caso sia null e venga lanciata l'eccezione, poi cosa succede? Cioè, in qualche modo lo si deve dire se l'owner cambia o meno. Lo gestisce l'eccezione?
+            throw new Exception();  //Se al posto dell'eccezione mettessimo newOwner = currentPlayer avrebbe senso?
         }
-        int max = 0;
-        if()
+        else if(oldOwner.equals(currentPlayer)) {
+            return currentPlayer;
+        }
+        else {
+            int oldInfluence = oldOwner.getDashboard().checkInfluence(color);   //oldInfluence represents the influence of the old owner
+            int currentInfluence = currentPlayer.getDashboard().checkInfluence(color);  //currentInfluence represents the influence of the current player
+            if (currentInfluence > oldInfluence) {
+                newOwner = currentPlayer;
+            }
+            //else newOwner = oldOwner;
+        }
+        return newOwner;
     }
 
     /**
@@ -136,7 +146,7 @@ public class Game {
      */
     public Optional<Gamer> checkIslandOwner (){
         //prendo l'isola da controllare
-        Island islandToCheck = this.motherNature.getPlace();
+        Island islandToCheck = this.motherNature.getPlace();    //DUBBIO: Perchè deve prendere l'isola di madre natura? MN la sposto dopo che finisco di spostare gli studenti
         //creo un ArrayList con i colori dei prof posseduti dal currentPlayer
         ArrayList<PawnColor> colors = new ArrayList<PawnColor>();
         //cerco i prof posseduti dal currentPlayer
@@ -159,20 +169,18 @@ public class Game {
         }
         //calcolo influenza del giocatore possessore dell'isola
         int influenceOwner = islandToCheck.getInfluenceByColor(colorsOwner) + islandToCheck.getNumTowers();
-        if(influenceOwner<influence){
+        if(influenceOwner < influence){
             //return currentPlayer;
             //TODO: Problema: conflitto con l'uso di Optional<Gamer> anziché Gamer
-            return ownerIsland;
+            ownerIsland = Optional.ofNullable(currentPlayer);   //Da controllare perchè non ne sono sicura.
         }
-        else{
-            return ownerIsland;
-        }
+        return ownerIsland;
     }
 
     /**
      * This method updates the players' order
      */
-    public void updatePlayersOrder (){
+    public void updatePlayersOrder (){      //DUBBIO: non dovrebbe basarsi sul numero della carta assistente?
         Gamer pastFirstPlayer = gamers.get(0);
         gamers.removeIf(gamer -> gamer.getToken()==pastFirstPlayer.getToken());
         gamers.add(pastFirstPlayer);
