@@ -51,7 +51,12 @@ class GameTest{
 
     @Test
     void getMotherNatureDestination() {
-
+        Gamer gamer = new Gamer(123, "nome");
+        ArrayList<Student> students = new ArrayList<Student>();
+        assertTrue(students.isEmpty());
+        int towers = 7;
+        gamer.initGamer(students, towers);
+        //Da completare quando la classe Gamer sarà finita.
     }
 
     @Test

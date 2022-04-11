@@ -11,6 +11,7 @@ import java.util.Random;
  * This class is used to manage most of the game's mechanics
  * @author Luca Muroni
  * @author Davide Grazzani
+ * @author Sara Mucci
  */
 public class Game {
     private final MotherNature motherNature;
@@ -130,8 +131,8 @@ public class Game {
             return currentPlayer;
         }
         else {
-            int oldInfluence = oldOwner.getDashboard().checkInfluence(color);   //oldInfluence represents the influence of the old owner
-            int currentInfluence = currentPlayer.getDashboard().checkInfluence(color);  //currentInfluence represents the influence of the current player
+            int oldInfluence = oldOwner.getDashboard().checkInfluence(color);
+            int currentInfluence = currentPlayer.getDashboard().checkInfluence(color);
             if (currentInfluence > oldInfluence) {
                 newOwner = currentPlayer;
             }
