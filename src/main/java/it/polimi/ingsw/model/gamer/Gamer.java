@@ -15,7 +15,6 @@ import java.util.ArrayList;
 public class Gamer {
     protected final int token;
     protected final String username;
-    //private Stream input;
     protected boolean activity;
     protected AssistantCardDeck deck;
     //private TowerColor playerColor;
@@ -29,7 +28,6 @@ public class Gamer {
     public Gamer(int token, String username/*, Stream input*/) {
         this.token = token;
         this.username = username;
-        //this.input = input;
         activity = true;
     }
 
