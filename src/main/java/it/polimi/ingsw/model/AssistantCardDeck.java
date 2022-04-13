@@ -60,16 +60,14 @@ public class AssistantCardDeck {
      * @param currentSelection is the card selected by the player, from his cardList, to play this round
      */
     public void setCurrentSelection(AssistantCard currentSelection) {
-        setPastSelection(this.currentSelection);
         this.currentSelection = currentSelection;
         cardList.removeIf( card -> card.getTurnValue()==currentSelection.getTurnValue());
     }
 
     /**
-     * Setter method
-     * @param pastSelection is the card selected by the player the last round (previously it was the currentSelection)
+     * Setter method used for setting the past selection right before starting a new round
      */
-    private void setPastSelection(AssistantCard pastSelection) {
-        this.pastSelection = pastSelection;
+    public void setPastSelection() {
+        this.pastSelection = this.currentSelection;
     }
 }

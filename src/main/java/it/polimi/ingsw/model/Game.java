@@ -4,8 +4,10 @@ import it.polimi.ingsw.debug.Gamer;
 import it.polimi.ingsw.model.pawn.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * This class is used to manage most of the game's mechanics
@@ -123,68 +125,61 @@ public class Game {
      */
     public Gamer changeProfessorOwner (PawnColor color) throws Exception {
         Optional<Gamer> oldOwner= this.professors.stream().filter(x->x.getColor().equals(color)).map(x->x.getOwner()).findFirst().orElse(null);
-        Gamer newOwner = new Gamer();
-        if(oldOwner == null){       //DUBBIO: nel caso sia null e venga lanciata l'eccezione, poi cosa succede? Cioè, in qualche modo lo si deve dire se l'owner cambia o meno. Lo gestisce l'eccezione?
-            throw new Exception();  //Se al posto dell'eccezione mettessimo newOwner = currentPlayer avrebbe senso?
+        if(oldOwner==null){
+            throw new Exception();
         }
-        else if(oldOwner.equals(currentPlayer)) {
+        else if(oldOwner.isEmpty() || oldOwner.equals(currentPlayer)) {
+            this.professors.stream().filter(x->x.getColor().equals(color)).findFirst().orElse(null).setOwner(currentPlayer);
             return currentPlayer;
         }
         else {
             int oldInfluence = oldOwner.getDashboard().checkInfluence(color);
             int currentInfluence = currentPlayer.getDashboard().checkInfluence(color);
             if (currentInfluence > oldInfluence) {
-                newOwner = currentPlayer;
+                this.professors.stream().filter(x->x.getColor().equals(color)).findFirst().orElse(null).setOwner(currentPlayer);
+                return currentPlayer;
+            }else{
+                return oldOwner.get();
             }
             //else newOwner = oldOwner;
         }
-        return newOwner;
     }
 
     /**
-     * This method is called when the currentPlayer move a student from his WaitingRoom to an Island
+     * This method is called when the currentPlayer move MotherNature
      * @return the owner of the Island
      */
     public Optional<Gamer> checkIslandOwner (){
-        //prendo l'isola da controllare
-        Island islandToCheck = this.motherNature.getPlace();    //DUBBIO: Perchè deve prendere l'isola di madre natura? MN la sposto dopo che finisco di spostare gli studenti
-        //creo un ArrayList con i colori dei prof posseduti dal currentPlayer
-        ArrayList<PawnColor> colors = new ArrayList<PawnColor>();
-        //cerco i prof posseduti dal currentPlayer
-        for (Professor professor : this.professors){
-            if (professor.getOwner().equals(currentPlayer)){ //TODO: Metodo da modificare: l'equals dovrebbe controllare il token
-                colors.add(professor.getColor());
+        Island islandToCheck = this.motherNature.getPlace();
+        Gamer newOwner;
+        int maxInfluence;
+        if(islandToCheck.getOwner().isPresent()){
+           newOwner = islandToCheck.getOwner().get();
+           maxInfluence = islandToCheck.getInfluenceByColor(this.professors.stream().filter(x -> x.getOwner().equals(islandToCheck.getOwner())).map(x -> x.getColor()).collect(Collectors.toCollection(ArrayList::new))) + islandToCheck.getNumTowers();
+        }else{
+           newOwner = null;
+           maxInfluence = 0;
+        }
+        for(Gamer gamer : this.gamers){
+            ArrayList<PawnColor> colors = this.professors.stream().filter(x -> x.getOwner().equals(gamer)).map(x -> x.getColor()).collect(Collectors.toCollection(ArrayList::new));
+            int gamerInfluence = islandToCheck.getInfluenceByColor(colors);
+            if(islandToCheck.getOwner().equals(gamer)){
+                gamerInfluence += islandToCheck.getNumTowers();
+            }
+            if(gamerInfluence > maxInfluence){
+                newOwner = gamer;
+                maxInfluence = gamerInfluence;
             }
         }
-        //calcolo l'influenza del currentPlayer sull'isola
-        int influence = islandToCheck.getInfluenceByColor(colors); //influenza del giocatore corrente
-        //prendo l'owner corrente dell'isola
-        Optional<Gamer> ownerIsland = islandToCheck.getOwner();
-        //come in currentPlayer
-        ArrayList<PawnColor> colorsOwner = new ArrayList<PawnColor>();
-        //come in currentPlayer
-        for (Professor professor : this.professors){
-            if (professor.getOwner().equals(ownerIsland)){ //TODO: Metodo da modificare: l'equals dovrebbe controllare il token
-                colorsOwner.add(professor.getColor());
-            }
-        }
-        //calcolo influenza del giocatore possessore dell'isola
-        int influenceOwner = islandToCheck.getInfluenceByColor(colorsOwner) + islandToCheck.getNumTowers();
-        if(influenceOwner < influence){
-            //return currentPlayer;
-            //TODO: Problema: conflitto con l'uso di Optional<Gamer> anziché Gamer
-            ownerIsland = Optional.ofNullable(currentPlayer);   //Da controllare perchè non ne sono sicura.
-        }
-        return ownerIsland;
+        islandToCheck.setOwner(newOwner);
+        return Optional.of(newOwner);
     }
 
     /**
      * This method updates the players' order
      */
-    public void updatePlayersOrder (){      //DUBBIO: non dovrebbe basarsi sul numero della carta assistente?
-        Gamer pastFirstPlayer = gamers.get(0);
-        gamers.removeIf(gamer -> gamer.getToken()==pastFirstPlayer.getToken());
-        gamers.add(pastFirstPlayer);
+    public void updatePlayersOrder (){
+        //TODO : utilizzare getDeck().getPastSelection()
     }
 
     /**
