@@ -35,32 +35,26 @@ public class ExpertDashboard extends Dashboard{
      * when he uses them to play a CharacterCard
      * @param numCoins is the number of coins that the player receives/uses (this int can be either positive or negative)
      */
-    public void setCoins(int numCoins) throws CoinsException {
-        if(this.coins + numCoins<0)
-            throw new CoinsException("Coins aren't enough to play this card");
+    public void setCoins(int numCoins){
         this.coins += numCoins;
     }
 
     /**
      * Method used to move a Student from the staging area to a Professor table
      * @param student represent a Student in the staging area (waitingRoom) which must be moved
-     * @throws StudentNotFoundException if the Student is not present in the staging area
      */
     @Override
-    public void moveStudent(Student student) throws StudentNotFoundException {
-        if(!this.waitingRoom.contains(student)){
-            throw new StudentNotFoundException("Student not founded in the waiting room");
-        }
+    public void moveStudent(Student student){
         this.hall.add(student);
         this.waitingRoom.remove(student);
-        try{
-            checkCoins(student);
-        }catch (CoinsException e){
-            e.printStackTrace();
-        }
+        checkCoins(student);
     }
 
-    private void checkCoins(Student student) throws CoinsException {
+    /**
+     * Method used to check if the insertion generates a new coin
+     * @param student is the student that has been added
+     */
+    private void checkCoins(Student student){
         int number = Math.toIntExact(hall.stream().filter(stud -> stud.getColor().equals(student.getColor())).count());
         if(number%3==0)
             setCoins(1);

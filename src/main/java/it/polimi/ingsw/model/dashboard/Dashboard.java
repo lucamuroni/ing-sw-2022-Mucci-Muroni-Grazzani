@@ -58,12 +58,8 @@ public class Dashboard {
     /**
      * Method used to move a Student from the staging area to a Professor table
      * @param student represent a Student in the staging area (waitingRoom) which must be moved
-     * @throws StudentNotFoundException if the Student is not present in the staging area
      */
-    public void moveStudent(Student student) throws StudentNotFoundException{
-        if(!this.waitingRoom.contains(student)){
-            throw new StudentNotFoundException("Student not founded in the waiting room");
-        }
+    public void moveStudent(Student student){
         this.hall.add(student);
         this.waitingRoom.remove(student);
     }
@@ -72,12 +68,8 @@ public class Dashboard {
      * Method used to move a Student from the staging area to an island
      * @param student represent a Student in the staging area (waitingRoom) which must be moved
      * @param island is the island target
-     * @throws StudentNotFoundException  if the Student is not present in the staging area
      */
-    public void moveStudent(Student student, Island island) throws StudentNotFoundException{
-        if(!this.waitingRoom.contains(student)){
-            throw new StudentNotFoundException("Student not founded in the waiting room");
-        }
+    public void moveStudent(Student student, Island island){
         island.addStudents(student);
         this.waitingRoom.remove(student);
     }
