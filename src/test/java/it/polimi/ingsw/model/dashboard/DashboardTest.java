@@ -1,15 +1,17 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.dashboard;
 
 import it.polimi.ingsw.debug.Gamer;
-import it.polimi.ingsw.model.dashboard.Dashboard;
-import it.polimi.ingsw.model.dashboard.StudentNotFoundException;
+import it.polimi.ingsw.model.Bag;
+import it.polimi.ingsw.model.Cloud;
+import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class DashboardTest {
 
