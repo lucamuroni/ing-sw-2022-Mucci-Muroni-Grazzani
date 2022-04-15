@@ -1,12 +1,9 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.debug.Gamer;
+import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -68,7 +65,7 @@ public class Game {
         }
     }
     /**
-     * This function is used to fill a cloud chosen by a gamer at the end of the round
+     * This function is used to fill a cloud chosen by a Gamer at the end of the round
      * @param students is the ArrayList of students drawn by the controller from bag
      * @param cloud represent the cloud filled
      */
@@ -108,7 +105,7 @@ public class Game {
     public ArrayList<Island> getMotherNatureDestination (){
         ArrayList<Island> result = new ArrayList<Island>();
         int motherNatureIndex = this.islands.indexOf(this.motherNature.getPlace());
-        int maxIndexMove = currentPlayer.getAssistantCardDeck().getCurrentSelection().getMovement();
+        int maxIndexMove = currentPlayer.getDeck().getCurrentSelection().getMovement();
         for(int i=0;i<maxIndexMove;i++){
             int index = motherNatureIndex+i;
             if(index >= this.islands.size()){
@@ -179,7 +176,18 @@ public class Game {
      * This method updates the players' order
      */
     public void updatePlayersOrder (){
-        //TODO : utilizzare getDeck().getPastSelection()
+
+        //Dubbio: è qui che si chiama setPastSelection per tutti i giocatori oppure lo si fa fare dal controller?
+
+        Collections.sort(gamers, new Comparator<Gamer>() {
+            @Override
+            public int compare(Gamer g1, Gamer g2) {
+                if(g1.getDeck().getPastSelection().getTurnValue() > g2.getDeck().getPastSelection().getTurnValue())
+                    return 1;
+                else
+                    return -1;
+            }
+        });
     }
 
     /**

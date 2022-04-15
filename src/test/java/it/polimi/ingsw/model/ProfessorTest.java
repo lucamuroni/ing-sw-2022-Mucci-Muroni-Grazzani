@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.debug.Gamer;
+import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Professor;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ public class ProfessorTest {
     @Test
     void setOwner() {
         Professor professor = new Professor(PawnColor.PINK);
-        Gamer gamer = new Gamer();
+        Gamer gamer = new Gamer(123, "luca");
         Optional<Gamer> gamer1 = Optional.of(gamer);
         Optional<Gamer> gamerEmpty = Optional.empty();
         assertEquals(gamerEmpty, professor.getOwner());

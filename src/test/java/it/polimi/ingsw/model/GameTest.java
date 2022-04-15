@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.Cloud;
-import it.polimi.ingsw.debug.Gamer;
+import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
 import org.junit.jupiter.api.Test;
@@ -55,8 +55,8 @@ class GameTest{
         ArrayList<Student> students = new ArrayList<Student>();
         assertTrue(students.isEmpty());
         int towers = 7;
-        gamer.initGamer(students, towers);
-        //Da completare quando la classe Gamer sarà finita.
+        //gamer.initGamer(students, towers);
+        //TODO: Da completare quando la classe gamer sarà finita.
     }
 
     @Test
@@ -126,16 +126,15 @@ class GameTest{
 
     @Test
     void getCurrentPlayer() {
-        Gamer gamer = new Gamer();
+        Gamer gamer = new Gamer(123, "luca");
         game.setCurrentPlayer(gamer);
-        Gamer currentPlayer = new Gamer();
-        currentPlayer = game.getCurrentPlayer();
+        Gamer currentPlayer = game.getCurrentPlayer();
         assertEquals(gamer, currentPlayer);
     }
 
     @Test
     void setCurrentPlayer() {
-        Gamer gamer = new Gamer();
+        Gamer gamer = new Gamer(123, "luca");
         game.setCurrentPlayer(gamer);
         assertEquals(gamer, game.getCurrentPlayer());
     }

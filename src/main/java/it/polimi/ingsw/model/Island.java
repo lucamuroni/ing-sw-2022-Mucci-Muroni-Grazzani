@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.debug.Gamer;
+import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
 
@@ -70,7 +70,7 @@ public class Island{
     }
 
     /**
-     * Method for calculate the influence of a Gamer given the ArrayList of colors
+     * Method for calculate the influence of a player given the ArrayList of colors
      * taken from the list of professors that the gamer itself owns.
      * This method would not calculate additional influence points given from the presence
      * of towers
