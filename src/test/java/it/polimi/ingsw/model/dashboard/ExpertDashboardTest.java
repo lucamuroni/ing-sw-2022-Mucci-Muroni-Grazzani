@@ -13,7 +13,7 @@ class ExpertDashboardTest {
     int towers = 4;
 
     @Test
-    void getCoins() throws CoinsException {
+    void getCoins() {
         students.add(new Student(PawnColor.BLUE));
         students.add(new Student(PawnColor.GREEN));
         students.add(new Student(PawnColor.PINK));
@@ -25,7 +25,7 @@ class ExpertDashboardTest {
     }
 
     @Test
-    void setCoins() throws CoinsException {
+    void setCoins(){
         students.add(new Student(PawnColor.BLUE));
         students.add(new Student(PawnColor.GREEN));
         students.add(new Student(PawnColor.PINK));
@@ -35,11 +35,8 @@ class ExpertDashboardTest {
         assertEquals(2, expertDashboard.getCoins());
         expertDashboard.setCoins(-2);
         assertEquals(0, expertDashboard.getCoins());
-        try {
-            expertDashboard.setCoins(-2);
-        }catch (CoinsException e){
-            System.out.println("Coins <0");
-        }
+        expertDashboard.setCoins(-2);
+        assertEquals(-2, expertDashboard.getCoins());
     }
 
     @Test
@@ -49,21 +46,11 @@ class ExpertDashboardTest {
         students.add(new Student(PawnColor.RED));
         students.add(new Student(PawnColor.BLUE));
         ExpertDashboard expertDashboard = new ExpertDashboard(students, towers);
-        try {
-            expertDashboard.moveStudent(students.get(0));
-            expertDashboard.moveStudent(students.get(1));
-            expertDashboard.moveStudent(students.get(2));
-            //expertDashboard.moveStudent(students.get(3));
-        }catch (StudentNotFoundException e){
-            System.out.println("Eccezione 1 lanciata");
-        }
+        expertDashboard.moveStudent(students.get(0));
+        expertDashboard.moveStudent(students.get(1));
+        expertDashboard.moveStudent(students.get(2));
         assertEquals(0, expertDashboard.getCoins());
-
-        try {
-            expertDashboard.moveStudent(students.get(3));
-        }catch (StudentNotFoundException e){
-            System.out.println("Eccezione 2 lanciata.");
-        }
+        expertDashboard.moveStudent(students.get(3));
         assertEquals(1, expertDashboard.getCoins());
 
     }

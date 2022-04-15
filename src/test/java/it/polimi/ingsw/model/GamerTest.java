@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.dashboard.Dashboard;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
@@ -38,7 +39,7 @@ class GamerTest {
         int towers = 6;
         gamer.initGamer(students, towers);
         assertEquals(3, gamer.getDashboard().getWaitingRoom().size());
-        assertEquals(6, gamer.getDashboard().getTowers());
+        assertEquals(6, gamer.getDashboard().getNumTowers());
         assertEquals(false, gamer.getDashboard().getWaitingRoom().contains(s0));
         assertEquals(true, gamer.getDashboard().getWaitingRoom().containsAll(students));
         assertEquals(students, gamer.getDashboard().getWaitingRoom());
@@ -71,7 +72,7 @@ class GamerTest {
         students.add(new Student(PawnColor.BLUE));
         gamer.initGamer(students, 3);
         Dashboard dashboard = gamer.getDashboard();
-        assertEquals(dashboard.getTowers(), gamer.getDashboard().getTowers());
+        assertEquals(dashboard.getNumTowers(), gamer.getDashboard().getNumTowers());
         assertEquals(dashboard.getWaitingRoom(), gamer.getDashboard().getWaitingRoom());
     }
 
