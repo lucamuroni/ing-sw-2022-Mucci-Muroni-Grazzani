@@ -167,7 +167,7 @@ public class Game {
     }
 
     /**
-     * This method is called when the currentPlayer move MotherNature
+     * This method is called when the currentPlayer moves MotherNature
      * @return the owner of the Island
      */
     public Optional<Gamer> checkIslandOwner (){

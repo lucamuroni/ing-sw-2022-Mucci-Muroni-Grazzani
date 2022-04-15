@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
+import it.polimi.ingsw.model.pawn.Professor;
 import it.polimi.ingsw.model.pawn.Student;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
@@ -53,19 +54,67 @@ class GameTest{
         Gamer gamer = new Gamer(123, "nome");
         ArrayList<Student> students = new ArrayList<Student>();
         assertTrue(students.isEmpty());
-        int towers = 7;
-        //gamer.initGamer(students, towers);
+        AssistantCard assistantCard = new AssistantCard(1, 3);
+        gamer.getDeck().setCurrentSelection(assistantCard);
+        int n = gamer.getDeck().getCurrentSelection().getMovement();
+        Island island = new Island();
+        Island island1 = new Island();
+        Island island2 = new Island();
+        ArrayList<Island> islands = new ArrayList<Island>();
+        assertTrue(islands.isEmpty());
+        islands.add(island);
+        islands.add(island1);
+        islands.add(island2);
+        assertEquals(islands, game.getMotherNatureDestination());
         //TODO: Da completare quando la classe gamer sarà finita.
     }
 
     @Test
-    void changeProfessorOwner() {
-        
+    void changeProfessorOwner() throws Exception {
+        Student student = new Student(PawnColor.BLUE);
+        Student student1 = new Student(PawnColor.BLUE);
+        Gamer gamer = new Gamer(123, "nome");
+        Gamer gamer2 = new Gamer(456, "nome2");
+        gamer.getDashboard().hall.add(student);
+        ArrayList<Gamer> gamers = new ArrayList<Gamer>();
+        assertTrue(gamers.isEmpty());
+        gamers.add(gamer);
+        gamers.add(gamer2);
+        assertFalse(gamers.isEmpty());
+        assertEquals(2, gamers.size());
+        Game game = new Game(gamers);
+        Professor professor = new Professor(PawnColor.BLUE);
+        professor.setOwner(gamer);
+        Student studentToAdd = new Student(PawnColor.BLUE);
+        gamer2.getDashboard().addStudentsWaitingRoom(studentToAdd);
+        gamer2.getDashboard().hall.add(student1);
+        gamer2.getDashboard().moveStudent(studentToAdd);
+        assertEquals(gamer2, game.changeProfessorOwner(PawnColor.BLUE));
     }
 
     @Test
     void checkIslandOwner() {
-
+        ArrayList<Gamer> gamers = new ArrayList<Gamer>();
+        assertTrue(gamers.isEmpty());
+        Gamer gamer = new Gamer(123, "nome");
+        Gamer gamer1 = new Gamer(456, "nome2");
+        gamers.add(gamer);
+        gamers.add(gamer1);
+        Student student = new Student(PawnColor.BLUE);
+        Student student1 = new Student(PawnColor.BLUE);
+        Student student2 = new Student(PawnColor.BLUE);
+        gamer.getDashboard().hall.add(student);
+        gamer.getDashboard().hall.add(student1);
+        gamer1.getDashboard().hall.add(student2);
+        Game game = new Game(gamers);
+        Island island = new Island();
+        MotherNature mn = new MotherNature(island);
+        mn.getPlace().setOwner(gamer1);
+        assertEquals(gamer, game.checkIslandOwner());
+        Island island1 = new Island();
+        MotherNature mn2 = new MotherNature(island1);
+        mn2.getPlace().setOwner(gamer);
+        assertEquals(gamer, game.checkIslandOwner());
     }
 
     @Test
