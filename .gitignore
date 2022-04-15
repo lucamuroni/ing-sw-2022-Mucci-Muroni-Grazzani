@@ -1,4 +1,5 @@
 **/.DS_Store
+**/*.lock
 UML/UML_1.0.asta.lock
 # imported gitignore from webeep
 # TEMPLATE GITIGNORE
