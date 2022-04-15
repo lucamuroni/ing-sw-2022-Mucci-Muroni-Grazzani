@@ -43,7 +43,6 @@ class GameTest{
 
     @Test
     void moveMotherNature() {
-        Island island = new Island();
         MotherNature motherNature = new MotherNature(game.getIslands().get(0));
         game.moveMotherNature(game.getIslands().get(1));
         assertEquals(game.getIslands().get(1), motherNature.getPlace());
