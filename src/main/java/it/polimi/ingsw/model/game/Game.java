@@ -1,5 +1,9 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.game;
 
+import it.polimi.ingsw.model.Bag;
+import it.polimi.ingsw.model.Cloud;
+import it.polimi.ingsw.model.Island;
+import it.polimi.ingsw.model.MotherNature;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.*;
 
@@ -13,7 +17,7 @@ import java.util.stream.Collectors;
  * @author Sara Mucci
  */
 public class Game {
-    private final MotherNature motherNature;
+    final MotherNature motherNature;
     private final ArrayList<Cloud> clouds;
     private final ArrayList<Professor> professors;
     private final ArrayList<Island> islands;
@@ -44,6 +48,26 @@ public class Game {
         this.motherNature = new MotherNature(this.islands.get(random.nextInt(this.islands.size())));
         this.bag = new Bag();
         initiatePlayersOrder();
+        this.turnNumber = 0;
+    }
+
+    protected Game(int playersNumber) {
+        this.gamers = null;
+        this.clouds = new ArrayList<Cloud>();
+        for(int i=0; i<playersNumber; i++){
+            this.clouds.add(new Cloud());
+        }
+        this.professors = new ArrayList<Professor>();
+        for (PawnColor color : PawnColor.values()){
+            professors.add(new Professor(color));
+        }
+        this.islands = new ArrayList<Island>();
+        for(int numIslands=0; numIslands<12;numIslands++){
+            this.islands.add(new Island());
+        }
+        Random random = new Random();
+        this.motherNature = new MotherNature(this.islands.get(random.nextInt(this.islands.size())));
+        this.bag = new Bag();
         this.turnNumber = 0;
     }
 
