@@ -10,6 +10,5 @@ class ExpertGameTest {
     @Test
     void playCard() {
         CharacterCard card = new CharacterCard();
-
     }
 }
