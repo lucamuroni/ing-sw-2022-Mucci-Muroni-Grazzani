@@ -66,7 +66,6 @@ class GameTest{
         islands.add(island1);
         islands.add(island2);
         assertEquals(islands, game.getMotherNatureDestination());
-        //TODO: Da completare quando la classe gamer sarà finita.
     }
 
     @Test
@@ -76,6 +75,7 @@ class GameTest{
         Gamer gamer = new Gamer(123, "nome");
         Gamer gamer2 = new Gamer(456, "nome2");
         gamer.getDashboard().hall.add(student);
+        gamer2.getDashboard().hall.add(student1);
         ArrayList<Gamer> gamers = new ArrayList<Gamer>();
         assertTrue(gamers.isEmpty());
         gamers.add(gamer);
@@ -87,7 +87,6 @@ class GameTest{
         professor.setOwner(gamer);
         Student studentToAdd = new Student(PawnColor.BLUE);
         gamer2.getDashboard().addStudentsWaitingRoom(studentToAdd);
-        gamer2.getDashboard().hall.add(student1);
         gamer2.getDashboard().moveStudent(studentToAdd);
         assertEquals(gamer2, game.changeProfessorOwner(PawnColor.BLUE));
     }
