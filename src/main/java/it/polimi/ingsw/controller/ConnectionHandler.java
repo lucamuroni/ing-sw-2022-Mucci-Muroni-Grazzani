@@ -31,6 +31,7 @@ public class ConnectionHandler extends Thread{
             e.printStackTrace();
         }
         while(this.isON){
+            // TODO : verifica che la funzione posso funzionare così com'è e non  con 2 thred per gestire input e output separato
             try {
                 readInputMessage();
             } catch (IOException e) {
