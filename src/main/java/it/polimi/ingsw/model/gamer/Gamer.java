@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.gamer;
 import it.polimi.ingsw.model.AssistantCardDeck;
 import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.pawn.Student;
-
+import it.polimi.ingsw.model.dashboard.Dashboard;
 import java.util.ArrayList;
 
 /**
