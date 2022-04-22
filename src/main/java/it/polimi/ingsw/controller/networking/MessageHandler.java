@@ -1,9 +1,10 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.controller.networking;
 
 
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -14,11 +15,14 @@ import java.util.Set;
 public class MessageHandler {
     private JSONObject encoder;
     private final static String topKeyWord = "topicUniqueID";
+    private final ConnectionHandler connectionHandler;
 
     /**
      * Class Builder
      */
-    public MessageHandler(){}
+    public MessageHandler(Socket socket){
+        connectionHandler = new ConnectionHandler(socket);
+    }
 
     /**
      * Method used for writing the message that will be sent through sockets.
@@ -36,23 +40,21 @@ public class MessageHandler {
 
     /**
      * Method used to flush a message (created with write method) through the sockets.
-     * @param connection is the connection established previously with the gamer
      */
-    public void writeOut(ConnectionHandler connection){
-        connection.setOutputMessage(this.encoder.toJSONString());
+    public void writeOut(){
+        this.connectionHandler.setOutputMessage(this.encoder.toJSONString());
         this.encoder = null;
     }
 
     /**
      * Method used for reading an incoming message from client/server
-     * @param connection represent the connection which you want to get the message from
      * @return an ArrayList of Messages
      */
-    public ArrayList<Message> read(ConnectionHandler connection){
+    public ArrayList<Message> read(){
         ArrayList<Message> result = new ArrayList<Message>();
         int i = 0,uniqueID = 0;
         JSONObject decoder = new JSONObject();
-        String messages = connection.getInputMessage();
+        String messages = this.connectionHandler.getInputMessage();
         // Object messagesParsed = JSONValue.parse(messages);
         // this.decoder = (JSONObject) messagesParsed;
         decoder = (JSONObject) JSONValue.parse(messages);
@@ -63,5 +65,13 @@ public class MessageHandler {
             result.add(m);
         }
         return result;
+    }
+
+    public void startConnection(){
+        this.connectionHandler.start();
+    }
+
+    public void shutDown(){
+        this.connectionHandler.shutDown();
     }
 }

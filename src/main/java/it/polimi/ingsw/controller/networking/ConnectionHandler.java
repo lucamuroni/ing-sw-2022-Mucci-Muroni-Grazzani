@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.controller.networking;
 
 import it.polimi.ingsw.controller.server.ClientConnectionAccepter;
 
@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class ConnectionHandler extends Thread{
+class ConnectionHandler extends Thread{
     private final Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
@@ -31,7 +31,7 @@ public class ConnectionHandler extends Thread{
             e.printStackTrace();
         }
         while(this.isON){
-            // TODO : verifica che la funzione posso funzionare così com'è e non  con 2 thred per gestire input e output separato
+            // TODO : verifica che la funzione posso funzionare così com'è e non  con 2 thread per gestire input e output separato
             try {
                 readInputMessage();
             } catch (IOException e) {
@@ -55,7 +55,7 @@ public class ConnectionHandler extends Thread{
 
     private void writeOutputMessage(){
         synchronized (this.outputMessage){
-            if(this.outputMessage != ""){
+            if(this.outputMessage.equals("")){
                 this.out.println(this.outputMessage);
                 this.outputMessage = "";
             }

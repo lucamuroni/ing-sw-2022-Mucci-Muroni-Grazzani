@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller.server;
 
-import it.polimi.ingsw.controller.Player;
+import it.polimi.ingsw.controller.networking.Player;
 
 import java.util.ArrayList;
 
