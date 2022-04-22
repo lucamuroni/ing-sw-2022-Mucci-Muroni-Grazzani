@@ -22,7 +22,7 @@ class ExpertGamerTest {
         int towers = 6;
         expertGamer.initGamer(students, towers);
         assertTrue(expertGamer.getExpertDashboard().getWaitingRoom().containsAll(students));
-        assertEquals(towers, expertGamer.getExpertDashboard().getTowers());
+        assertEquals(towers, expertGamer.getExpertDashboard().getNumTowers());
     }
 
     @Test
