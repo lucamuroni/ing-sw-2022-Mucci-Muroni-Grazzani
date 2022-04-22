@@ -25,17 +25,25 @@ public class Message {
     }
 
     /**
-     *
-     * @return
+     * Getter method
+     * @return the header of the message
      */
     public String getHeader(){
         return this.header;
     }
 
+    /**
+     * Getter method
+     * @return the payload of a message
+     */
     public String getPayload(){
         return this.payload;
     }
 
+    /**
+     * Getter method
+     * @return the unique identifier number of a topic
+     */
     public int getUniqueTopicID(){
         return this.uniqueTopicID;
     }
