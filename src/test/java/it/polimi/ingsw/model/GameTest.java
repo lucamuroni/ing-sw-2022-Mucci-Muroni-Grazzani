@@ -85,9 +85,11 @@ class GameTest{
         Game game = new Game(gamers);
         Professor professor = new Professor(PawnColor.BLUE);
         professor.setOwner(gamer);
-        Student studentToAdd = new Student(PawnColor.BLUE);
+        Student s =new Student(PawnColor.BLUE);
+        ArrayList<Student> studentToAdd = new ArrayList<Student>();
+        studentToAdd.add(s);
         gamer2.getDashboard().addStudentsWaitingRoom(studentToAdd);
-        gamer2.getDashboard().moveStudent(studentToAdd);
+        gamer2.getDashboard().moveStudent(s);
         assertEquals(gamer2, game.changeProfessorOwner(PawnColor.BLUE));
     }
 
@@ -118,7 +120,7 @@ class GameTest{
 
     @Test
     void updatePlayersOrder() {
-
+        //Devono ancora essere fatte delle modifiche in Game
     }
 
     @Test
