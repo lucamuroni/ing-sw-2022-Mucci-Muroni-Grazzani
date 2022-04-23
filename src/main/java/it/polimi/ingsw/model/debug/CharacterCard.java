@@ -8,4 +8,7 @@ public class CharacterCard {
     public CharacterCard(){
 
     }
+
+    public void activate() {
+    }
 }

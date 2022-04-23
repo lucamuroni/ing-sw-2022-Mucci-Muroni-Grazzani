@@ -1,12 +1,9 @@
 package it.polimi.ingsw.model.game;
 
-import it.polimi.ingsw.model.MotherNature;
 import it.polimi.ingsw.model.debug.CharacterCard;
 import it.polimi.ingsw.model.debug.CharacterCardDeck;
 import it.polimi.ingsw.model.gamer.ExpertGamer;
-import it.polimi.ingsw.model.gamer.Gamer;
 
-import java.nio.file.attribute.UserDefinedFileAttributeView;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -34,7 +31,7 @@ public class ExpertGame extends Game {
         ArrayList<ExpertGamer> players = new ArrayList<>(this.expertGamers);
         this.expertGamers.clear();
         Random rand = new Random();
-        currentPlayer = players.get(rand.nextInt(players.size()));
+        this.currentPlayer = players.get(rand.nextInt(players.size()));
         this.expertGamers.add(currentPlayer);
         players.remove(currentPlayer);
         int size = players.size();
@@ -47,6 +44,23 @@ public class ExpertGame extends Game {
 
     public void playCard(int coins, CharacterCard card){
         this.currentPlayer.getExpertDashboard().setCoins(-coins);
-        //card.effect();
+        card.activate();
+    }
+
+    public int getCoinBank() {
+        return this.coinBank;
+    }
+
+    public ArrayList<ExpertGamer> getExpertGamers() {
+        return this.expertGamers;
+    }
+
+    @Override
+    public ExpertGamer getCurrentPlayer() {
+        return this.currentPlayer;
+    }
+
+    public ArrayList<CharacterCard> getGameCards() {
+        return gameCards;
     }
 }
