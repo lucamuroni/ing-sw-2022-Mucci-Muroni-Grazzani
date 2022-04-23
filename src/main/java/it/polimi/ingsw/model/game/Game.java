@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.MotherNature;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.*;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -154,7 +153,7 @@ public class Game {
             return currentPlayer;
         }
         else {
-            int oldInfluence = oldOwner.getDashboard().checkInfluence(color);
+            int oldInfluence = oldOwner.get().getDashboard().checkInfluence(color);
             int currentInfluence = currentPlayer.getDashboard().checkInfluence(color);
             if (currentInfluence > oldInfluence) {
                 this.professors.stream().filter(x->x.getColor().equals(color)).findFirst().orElse(null).setOwner(currentPlayer);
