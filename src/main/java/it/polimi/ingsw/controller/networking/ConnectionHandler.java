@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-
+// TODO : modificare la classe con la rimozione dell'estensione a thread . Rifactorare tutte le funzioni di conseguenza per aggiungere il timeout sulle disconnessioni
 class ConnectionHandler extends Thread{
     private final Socket clientSocket;
     private PrintWriter out;
