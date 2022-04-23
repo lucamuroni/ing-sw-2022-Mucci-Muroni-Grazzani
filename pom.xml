@@ -29,6 +29,12 @@
             <version>1.1.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1.1</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -40,9 +46,9 @@
                 <version>3.10.1</version>
                 <configuration>
                     <!-- Version of the Java language to use -->
-                    <source>11</source>
+                    <source>17</source>
                     <!-- Minimum JRE version the JAR will be compatible with -->
-                    <target>11</target>
+                    <target>17</target>
                 </configuration>
             </plugin>
             <!-- Surefire plugin, responsible for running tests -->

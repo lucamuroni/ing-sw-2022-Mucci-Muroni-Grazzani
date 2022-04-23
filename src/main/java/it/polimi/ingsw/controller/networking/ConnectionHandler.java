@@ -15,10 +15,12 @@ class ConnectionHandler extends Thread{
     private String inputMessage;
     private String outputMessage;
     private boolean isON;
+    private final Object newMessageAller;
 
     public ConnectionHandler(Socket socket){
         this.clientSocket = socket;
         this.isON = true;
+        this.newMessageAller = new Object();
     }
 
     @Override
@@ -49,7 +51,7 @@ class ConnectionHandler extends Thread{
     private void readInputMessage() throws IOException{
         synchronized (this.inputMessage){
             this.inputMessage =  this.in.readLine();
-            this.inputMessage.notifyAll();
+            this.newMessageAller.notifyAll();
         }
     }
 
@@ -74,5 +76,9 @@ class ConnectionHandler extends Thread{
         synchronized (this.outputMessage){
             this.outputMessage = string;
         }
+    }
+
+    public Object getNewMessageAller(){
+        return this.newMessageAller;
     }
 }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.controller.server;
 
+import it.polimi.ingsw.controller.networking.MalformedMessageException;
+import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.Player;
 
@@ -38,6 +40,21 @@ public class ClientConnectionAccepter extends Thread{
     }
 
     private void playerHandShake(Player player){
-
+        int uniqueMsgID = player.getMessageHandler().getNewUniqueTopicID();
+        Message m0 = new Message("auth","",uniqueMsgID);
+        try {
+            player.getMessageHandler().write(m0);
+        } catch (MalformedMessageException e) {
+            System.out.println("Some strange behavior detected : while initializing some messages where already present");
+            player.getMessageHandler().writeOut();
+        } finally {
+            try {
+                player.getMessageHandler().write(m0);
+            } catch (MalformedMessageException e) {
+                System.out.println("Broken MessageHandler revealed");
+                e.printStackTrace();
+            }
+        }
+        player.getMessageHandler().writeOut();
     }
 }
