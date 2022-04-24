@@ -10,13 +10,17 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest{
-    ArrayList<Gamer> gamers = new ArrayList<Gamer>();
-    Game game = new Game(gamers);
-
     @Test
     void fillCloud(){
+        ArrayList<Gamer> gamers = new ArrayList<Gamer>();
+        Gamer gamer1 = new Gamer(123, "nome1");
+        Gamer gamer2 = new Gamer(456, "nome2");
+        gamers.add(gamer1);
+        gamers.add(gamer2);
+        Game game = new Game(gamers);
         ArrayList<Student> students = new ArrayList<Student>(game.getBag().pullStudents(4));
         assertFalse(students.isEmpty());
+        assertEquals(4, students.size());
         Cloud cloud = new Cloud();
         game.fillCloud(students, cloud);
         assertFalse(cloud.isEmpty());
@@ -25,10 +29,17 @@ class GameTest{
     }
     @Test
     void initIsland() {
+        ArrayList<Gamer> gamers = new ArrayList<Gamer>();
+        Gamer gamer1 = new Gamer(123, "nome1");
+        Gamer gamer2 = new Gamer(456, "nome2");
+        gamers.add(gamer1);
+        gamers.add(gamer2);
+        Game game = new Game(gamers);
+        assertEquals(12, game.getIslands().size());
         ArrayList<Student> students = new ArrayList<Student>(game.getBag().pullStudents(10));
         assertFalse(students.isEmpty());
+        assertEquals(10, students.size());
         game.initIsland(students);
-        MotherNature motherNature = new MotherNature(game.getIslands().get(0));
         ArrayList<PawnColor> colors = new ArrayList<PawnColor>();
         colors.add(PawnColor.BLUE);
         colors.add(PawnColor.GREEN);
@@ -44,6 +55,13 @@ class GameTest{
 
     @Test
     void moveMotherNature() {
+        ArrayList<Gamer> gamers = new ArrayList<Gamer>();
+        Gamer gamer1 = new Gamer(123, "nome1");
+        Gamer gamer2 = new Gamer(456, "nome2");
+        gamers.add(gamer1);
+        gamers.add(gamer2);
+        Game game = new Game(gamers);
+        assertEquals(12, game.getIslands().size());
         MotherNature motherNature = new MotherNature(game.getIslands().get(0));
         game.moveMotherNature(game.getIslands().get(1));
         assertEquals(game.getIslands().get(1), motherNature.getPlace());
@@ -51,20 +69,19 @@ class GameTest{
 
     @Test
     void getMotherNatureDestination() {
-        Gamer gamer = new Gamer(123, "nome");
+        ArrayList<Gamer> gamers = new ArrayList<Gamer>();
+        Gamer gamer1 = new Gamer(123, "nome1");
         ArrayList<Student> students = new ArrayList<Student>();
         assertTrue(students.isEmpty());
-        AssistantCard assistantCard = new AssistantCard(1, 3);
-        gamer.getDeck().setCurrentSelection(assistantCard);
-        int n = gamer.getDeck().getCurrentSelection().getMovement();
-        Island island = new Island();
-        Island island1 = new Island();
-        Island island2 = new Island();
+        gamer1.initGamer(students, 7);
+        gamers.add(gamer1);
+        Game game = new Game(gamers);
+        game.setCurrentPlayer(gamer1);
+        gamer1.getDeck().setCurrentSelection(gamer1.getDeck().getCardList().get(0));
         ArrayList<Island> islands = new ArrayList<Island>();
         assertTrue(islands.isEmpty());
-        islands.add(island);
-        islands.add(island1);
-        islands.add(island2);
+        game.getMotherNature().setPlace(game.getIslands().get(1));
+        islands.add(game.getIslands().get(1));  //TODO: Prende dall'isola in cui si trova MN e non dalla successiva.
         assertEquals(islands, game.getMotherNatureDestination());
     }
 
@@ -72,20 +89,24 @@ class GameTest{
     void changeProfessorOwner() throws Exception {
         Student student = new Student(PawnColor.BLUE);
         Student student1 = new Student(PawnColor.BLUE);
-        Gamer gamer = new Gamer(123, "nome");
+        Gamer gamer1 = new Gamer(123, "nome1");
+        ArrayList<Student> students = new ArrayList<Student>();
+        assertTrue(students.isEmpty());
+        gamer1.initGamer(students, 7);
         Gamer gamer2 = new Gamer(456, "nome2");
-        gamer.getDashboard().hall.add(student);
+        gamer2.initGamer(students, 7);
+        gamer1.getDashboard().hall.add(student);
         gamer2.getDashboard().hall.add(student1);
         ArrayList<Gamer> gamers = new ArrayList<Gamer>();
         assertTrue(gamers.isEmpty());
-        gamers.add(gamer);
+        gamers.add(gamer1);
         gamers.add(gamer2);
         assertFalse(gamers.isEmpty());
         assertEquals(2, gamers.size());
         Game game = new Game(gamers);
-        Professor professor = new Professor(PawnColor.BLUE);
-        professor.setOwner(gamer);
-        Student s =new Student(PawnColor.BLUE);
+        game.setCurrentPlayer(gamer2);
+        game.getProfessors().get(0).setOwner(gamer1);
+        Student s = new Student(PawnColor.BLUE);
         ArrayList<Student> studentToAdd = new ArrayList<Student>();
         studentToAdd.add(s);
         gamer2.getDashboard().addStudentsWaitingRoom(studentToAdd);
@@ -98,7 +119,11 @@ class GameTest{
         ArrayList<Gamer> gamers = new ArrayList<Gamer>();
         assertTrue(gamers.isEmpty());
         Gamer gamer = new Gamer(123, "nome");
+        ArrayList<Student> students = new ArrayList<Student>();
+        assertTrue(students.isEmpty());
+        gamer.initGamer(students, 7);
         Gamer gamer1 = new Gamer(456, "nome2");
+        gamer1.initGamer(students, 7);
         gamers.add(gamer);
         gamers.add(gamer1);
         Student student = new Student(PawnColor.BLUE);
@@ -107,15 +132,19 @@ class GameTest{
         gamer.getDashboard().hall.add(student);
         gamer.getDashboard().hall.add(student1);
         gamer1.getDashboard().hall.add(student2);
+        assertEquals(2, gamer.getDashboard().checkInfluence(PawnColor.BLUE));
+        assertEquals(1, gamer1.getDashboard().checkInfluence(PawnColor.BLUE));
         Game game = new Game(gamers);
-        Island island = new Island();
-        MotherNature mn = new MotherNature(island);
-        mn.getPlace().setOwner(gamer1);
-        assertEquals(gamer, game.checkIslandOwner());
-        Island island1 = new Island();
-        MotherNature mn2 = new MotherNature(island1);
-        mn2.getPlace().setOwner(gamer);
-        assertEquals(gamer, game.checkIslandOwner());
+        game.getMotherNature().getPlace().setOwner(gamer);
+        assertEquals(0, game.getMotherNature().getPlace().getNumTowers());
+        assertEquals(gamer, game.checkIslandOwner().get());
+        Student student3 = new Student(PawnColor.BLUE);
+        Student student4 = new Student(PawnColor.BLUE);
+        gamer1.getDashboard().hall.add(student3);
+        gamer1.getDashboard().hall.add(student4);
+        assertEquals(2, gamer.getDashboard().checkInfluence(PawnColor.BLUE));
+        assertEquals(3, gamer1.getDashboard().checkInfluence(PawnColor.BLUE));
+        assertEquals(gamer1, game.checkIslandOwner().get());
     }
 
     @Test
@@ -125,7 +154,13 @@ class GameTest{
 
     @Test
     void getMotherNature() {
-        MotherNature motherNature = new MotherNature(new Island());
+        ArrayList<Gamer> gamers = new ArrayList<Gamer>();
+        Gamer gamer1 = new Gamer(123, "nome1");
+        Gamer gamer2 = new Gamer(456, "nome2");
+        gamers.add(gamer1);
+        gamers.add(gamer2);
+        Game game = new Game(gamers);
+        MotherNature motherNature = game.getMotherNature();
         assertEquals(motherNature, game.getMotherNature());
     }
 
@@ -144,18 +179,36 @@ class GameTest{
 
     @Test
     void getProfs() {
+        ArrayList<Gamer> gamers = new ArrayList<Gamer>();
+        Gamer gamer1 = new Gamer(123, "nome1");
+        Gamer gamer2 = new Gamer(456, "nome2");
+        gamers.add(gamer1);
+        gamers.add(gamer2);
+        Game game = new Game(gamers);
         assertEquals(5, game.getProfessors().size());
         //DUBBIO: Controllare i colori?
     }
 
     @Test
     void getIslands() {
+        ArrayList<Gamer> gamers = new ArrayList<Gamer>();
+        Gamer gamer1 = new Gamer(123, "nome1");
+        Gamer gamer2 = new Gamer(456, "nome2");
+        gamers.add(gamer1);
+        gamers.add(gamer2);
+        Game game = new Game(gamers);
         assertEquals(12, game.getIslands().size());
     }
 
     @Test
     void getBag() {
-        Bag bag = new Bag();
+        ArrayList<Gamer> gamers = new ArrayList<Gamer>();
+        Gamer gamer1 = new Gamer(123, "nome1");
+        Gamer gamer2 = new Gamer(456, "nome2");
+        gamers.add(gamer1);
+        gamers.add(gamer2);
+        Game game = new Game(gamers);
+        Bag bag = game.getBag();
         assertEquals(bag, game.getBag());
     }
 
@@ -168,37 +221,65 @@ class GameTest{
         Gamer gamer3 = new Gamer(789, "nome3");
         gamers.add(gamer1);
         gamers.add(gamer2);
+        assertEquals(2, gamers.size());
         Game game = new Game(gamers);
-        assertEquals(gamers, game.getGamers());
+        assertEquals(2, game.getGamers().size());
+        assertTrue(game.getGamers().contains(gamers));
         assertFalse(game.getGamers().contains(gamer3));
     }
 
     @Test
     void getCurrentPlayer() {
+        ArrayList<Gamer> gamers = new ArrayList<Gamer>();
+        Gamer gamer1 = new Gamer(123, "nome1");
+        Gamer gamer2 = new Gamer(456, "nome2");
         Gamer gamer = new Gamer(123, "luca");
+        gamers.add(gamer1);
+        gamers.add(gamer2);
+        gamers.add(gamer);
+        Game game = new Game(gamers);
         game.setCurrentPlayer(gamer);
         Gamer currentPlayer = game.getCurrentPlayer();
+        assertEquals("luca", game.getCurrentPlayer().getUsername());
         assertEquals(gamer, currentPlayer);
     }
 
     @Test
     void setCurrentPlayer() {
+        ArrayList<Gamer> gamers = new ArrayList<Gamer>();
+        Gamer gamer1 = new Gamer(123, "nome1");
+        Gamer gamer2 = new Gamer(456, "nome2");
         Gamer gamer = new Gamer(123, "luca");
+        gamers.add(gamer1);
+        gamers.add(gamer2);
+        gamers.add(gamer);
+        Game game = new Game(gamers);
         game.setCurrentPlayer(gamer);
+        assertEquals("luca", game.getCurrentPlayer().getUsername());
         assertEquals(gamer, game.getCurrentPlayer());
     }
 
     @Test
     void getTurnNumber() {
-        int turnNumber = 1;
-        game.getTurnNumber();
-        assertEquals(1, turnNumber);
+        ArrayList<Gamer> gamers = new ArrayList<Gamer>();
+        Gamer gamer1 = new Gamer(123, "nome1");
+        Gamer gamer2 = new Gamer(456, "nome2");
+        gamers.add(gamer1);
+        gamers.add(gamer2);
+        Game game = new Game(gamers);
+        game.setTurnNumber();
+        assertEquals(1, game.getTurnNumber());
     }
 
     @Test
     void setTurnNumber() {
-        int turnNumber = 0;
+        ArrayList<Gamer> gamers = new ArrayList<Gamer>();
+        Gamer gamer1 = new Gamer(123, "nome1");
+        Gamer gamer2 = new Gamer(456, "nome2");
+        gamers.add(gamer1);
+        gamers.add(gamer2);
+        Game game = new Game(gamers);
         game.setTurnNumber();
-        assertEquals(1, turnNumber);
+        assertEquals(1, game.getTurnNumber());
     }
 }
