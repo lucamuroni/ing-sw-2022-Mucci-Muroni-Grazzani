@@ -70,11 +70,11 @@ public class Island{
     }
 
     /**
-     * Method for calculate the influence of a player given the ArrayList of colors
+     * Method for calculating the influence of a player given the ArrayList of colors
      * taken from the list of professors that the gamer itself owns.
      * This method would not calculate additional influence points given from the presence
      * of towers
-     * @param colors represents the colors on witch you want to calculate the influence
+     * @param colors represents the colors on which you want to calculate the influence
      * @return an int that represent the influence of the gamer but without considering towers additional influence points
      */
     public int getInfluenceByColor(ArrayList<PawnColor> colors){
