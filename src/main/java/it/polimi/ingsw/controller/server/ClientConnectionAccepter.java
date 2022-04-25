@@ -38,6 +38,6 @@ public class ClientConnectionAccepter extends Thread{
     }
 
     private void playerHandShake(Player player){
-
+        Thread t = new Thread(() ->{});
     }
 }
