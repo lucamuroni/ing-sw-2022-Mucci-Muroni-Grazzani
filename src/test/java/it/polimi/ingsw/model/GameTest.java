@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
-import it.polimi.ingsw.model.pawn.Professor;
 import it.polimi.ingsw.model.pawn.Student;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
