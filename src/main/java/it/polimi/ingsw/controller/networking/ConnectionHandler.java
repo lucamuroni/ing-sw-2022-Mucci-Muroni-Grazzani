@@ -1,28 +1,33 @@
 package it.polimi.ingsw.controller.networking;
 
-import it.polimi.ingsw.controller.server.ClientConnectionAccepter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
+import java.util.ArrayList;
 
-class ConnectionHandler extends Thread{
+class ConnectionHandler {
     private final Socket clientSocket;
+    private final static int timeToRespond = 120; //time in seconds
     private PrintWriter out;
     private BufferedReader in;
-    private String inputMessage;
-    private String outputMessage;
+    private ArrayList<String> inputMessages;
+    private ArrayList<String> outputMessages;
     private boolean isON;
+    private boolean isSocketTimeOutOccurred;
 
     public ConnectionHandler(Socket socket){
         this.clientSocket = socket;
         this.isON = true;
+        this.inputMessages = new ArrayList<String>();
+        this.outputMessages = new ArrayList<String>();
+        this.isSocketTimeOutOccurred = false;
     }
 
-    @Override
-    public void run() {
+    public void start() {
         try{
             this.out = new PrintWriter(this.clientSocket.getOutputStream(),true);
             this.in = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
@@ -30,49 +35,88 @@ class ConnectionHandler extends Thread{
             System.out.println("Error while opening connection between server and client");
             e.printStackTrace();
         }
-        while(this.isON){
-            // TODO : verifica che la funzione posso funzionare così com'è e non  con 2 thread per gestire input e output separato
-            try {
-                readInputMessage();
-            } catch (IOException e) {
-                System.out.println("Cannot get message from client");
-                e.printStackTrace();
-            }
-            writeOutputMessage();
-        }
+        this.readInputMessage();
+        this.writeOutputMessages();
     }
 
     public void shutDown(){
         this.isON = false;
     }
 
-    private void readInputMessage() throws IOException{
-        synchronized (this.inputMessage){
-            this.inputMessage =  this.in.readLine();
-            this.inputMessage.notifyAll();
-        }
+    private void readInputMessage(){
+        Thread t = new Thread(()->{
+            String s;
+            while(isON){
+                try {
+                    this.clientSocket.setSoTimeout(1500);
+                    s = this.in.readLine();
+                    if(s.equals("ping-ok")){
+                        this.ping();
+                    }else{
+                        this.inputMessages.add(s);
+                    }
+                } catch (SocketException e) {
+                    isSocketTimeOutOccurred = true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
-    private void writeOutputMessage(){
-        synchronized (this.outputMessage){
-            if(this.outputMessage.equals("")){
-                this.out.println(this.outputMessage);
-                this.outputMessage = "";
+
+    public String getInputMessage(int actionTimeOut) throws TimeHasEndedException, ClientDisconnectedException{
+        MessageTimer msgTimer = new MessageTimer(actionTimeOut);
+        msgTimer.start();
+        while(this.inputMessages.isEmpty()){
+            if(isSocketTimeOutOccurred){
+                throw new ClientDisconnectedException("Found disconnection");
+            }
+            if(msgTimer.isTimeEnded()){
+                throw new TimeHasEndedException("Time to respond ended");
             }
         }
-    }
-
-    public String getInputMessage(){
-        String cp;
-        synchronized (this.inputMessage){
-            cp = new String(this.inputMessage);
-        }
-        return cp;
+        msgTimer.kill();
+        String s = this.inputMessages.get(0);
+        this.inputMessages.remove(0);
+        return s;
     }
 
     public void setOutputMessage(String string){
-        synchronized (this.outputMessage){
-            this.outputMessage = string;
+        synchronized (this.outputMessages){
+            this.outputMessages.add(string);
+            this.outputMessages.notifyAll();
         }
     }
+
+
+    private void writeOutputMessages(){
+        Thread t = new Thread(()->{
+            while (this.isON){
+                while(this.outputMessages.isEmpty()) {
+                    try {
+                        this.outputMessages.wait();
+                    } catch (InterruptedException e) {
+                        System.out.println("Could not wait for new output message");
+                        e.printStackTrace();
+                    }
+                }
+                synchronized (this.outputMessages){
+                    while(!this.outputMessages.isEmpty()){
+                        synchronized (this.out){
+                            this.out.println(this.outputMessages.get(0));
+                            this.outputMessages.remove(0);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    private void ping(){
+        synchronized (this.out){
+            this.out.println("ping");
+        }
+    }
+
 }

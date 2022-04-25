@@ -50,11 +50,11 @@ public class MessageHandler {
      * Method used for reading an incoming message from client/server
      * @return an ArrayList of Messages
      */
-    public ArrayList<Message> read(){
+    public ArrayList<Message> read(int maxActionTimeOut) throws TimeHasEndedException, ClientDisconnectedException {
         ArrayList<Message> result = new ArrayList<Message>();
         int i = 0,uniqueID = 0;
         JSONObject decoder = new JSONObject();
-        String messages = this.connectionHandler.getInputMessage();
+        String messages = this.connectionHandler.getInputMessage(maxActionTimeOut);
         // Object messagesParsed = JSONValue.parse(messages);
         // this.decoder = (JSONObject) messagesParsed;
         decoder = (JSONObject) JSONValue.parse(messages);
