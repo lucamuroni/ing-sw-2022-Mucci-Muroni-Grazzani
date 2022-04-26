@@ -102,8 +102,9 @@ public class Game {
      * @param students is the ArrayList of students, drawn from bag, that will be used to fill the islands
      */
     public void initIsland (ArrayList<Student> students){
-        int motherNatureIsland = this.islands.indexOf(this.motherNature.getPlace());
-        int oppositeIsland = (motherNatureIsland+6)%12;
+        Island motherNatureIsland = this.motherNature.getPlace();
+        int motherNatureIndex = this.islands.indexOf(this.motherNature.getPlace());
+        Island oppositeIsland = this.islands.get((motherNatureIndex+6)%12);
         for (Island island : this.islands){
             if(!island.equals(motherNatureIsland) && !island.equals(oppositeIsland)){
                 island.addStudents(students.get(0));
