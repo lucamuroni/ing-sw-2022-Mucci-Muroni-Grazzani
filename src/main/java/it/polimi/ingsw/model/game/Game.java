@@ -124,13 +124,13 @@ public class Game {
     /**
      * This method is called by the controller to show all the islands where the student can move MotherNature (it depends on the
      * AssistantCard chosen by him)
-     * @return an ArrayList of the only possible islands that the player can choose
+     * @return an ArrayList of the only possible islands that the player can choose ordered from the closest to the farthest
      */
-    public ArrayList<Island> getMotherNatureDestination (){ //TODO: modificare per fare in modo che restituisca a partire dall'isola successiva a MN
+    public ArrayList<Island> getMotherNatureDestination (){
         ArrayList<Island> result = new ArrayList<Island>();
         int motherNatureIndex = this.islands.indexOf(this.motherNature.getPlace());
         int maxIndexMove = currentPlayer.getDeck().getCurrentSelection().getMovement();
-        for(int i=0;i<maxIndexMove;i++){
+        for(int i=1;i<=maxIndexMove;i++){
             int index = motherNatureIndex+i;
             if(index >= this.islands.size()){
                 index = index % islands.size();
@@ -197,21 +197,13 @@ public class Game {
     }
 
     /**
-     * This method updates the players' order
+     * This method updates the players' order for the next turn
      */
     public void updatePlayersOrder (){
-
-        //TODO: rifare
-
-        Collections.sort(gamers, new Comparator<Gamer>() {
-            @Override
-            public int compare(Gamer g1, Gamer g2) {
-                if(g1.getDeck().getPastSelection().getTurnValue() > g2.getDeck().getPastSelection().getTurnValue())
-                    return 1;
-                else
-                    return -1;
-            }
-        });
+        ArrayList<Gamer> gamers;
+        gamers = this.gamers.stream().sorted(Comparator.comparingInt(x-> x.getDeck().getPastSelection().getTurnValue())).collect(Collectors.toCollection(ArrayList::new));
+        this.gamers.clear();
+        this.gamers.addAll(gamers);
     }
 
     /**
