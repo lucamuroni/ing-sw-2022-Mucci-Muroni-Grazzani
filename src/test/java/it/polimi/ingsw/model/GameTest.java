@@ -39,17 +39,13 @@ class GameTest{
         Game game = new Game(gamers);
         assertEquals(12, game.getIslands().size());
         ArrayList<Student> students = new ArrayList<Student>(game.getBag().pullStudents(10));
-        assertFalse(students.isEmpty());
-        assertEquals(10, students.size());
+        ArrayList<Student> s = new ArrayList<Student>(students);
         game.initIsland(students);
-        ArrayList<Student> s = new ArrayList<Student>();
-        ArrayList<PawnColor> colors = new ArrayList<PawnColor>();
-        colors.add(PawnColor.BLUE);
-        colors.add(PawnColor.GREEN);
-        colors.add(PawnColor.YELLOW);
-        colors.add(PawnColor.RED);
-        colors.add(PawnColor.PINK);
         assertEquals(0, students.size());
+        for (Island island: game.getIslands()) {
+            assertTrue();
+        }
+        assertEquals(s.get(0), game.getIslands().get(0));
     }
 
     @Test
@@ -62,6 +58,7 @@ class GameTest{
         Game game = new Game(gamers);
         assertEquals(12, game.getIslands().size());
         MotherNature motherNature = new MotherNature(game.getIslands().get(0));
+        assertEquals(motherNature.getPlace(), game.getIslands().get(0));
         game.moveMotherNature(game.getIslands().get(1));
         assertEquals(game.getIslands().get(1), motherNature.getPlace());
     }
@@ -82,6 +79,7 @@ class GameTest{
         game.getMotherNature().setPlace(game.getIslands().get(1));
         islands.add(game.getIslands().get(1));  //TODO: Prende dall'isola in cui si trova MN e non dalla successiva.
         assertEquals(islands, game.getMotherNatureDestination());
+        //TODO: Test con più isole
     }
 
     @Test
