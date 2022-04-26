@@ -43,9 +43,8 @@ class GameTest{
         game.initIsland(students);
         assertEquals(0, students.size());
         for (Island island: game.getIslands()) {
-            assertTrue();
+            if (island.equals(game.getMotherNature().getPlace()) || island.equals(game.getIslands().get(game.getIslands().get(game.getIslands().indexOf(game.getMotherNature().getPlace()) + 6))));
         }
-        assertEquals(s.get(0), game.getIslands().get(0));
     }
 
     @Test
