@@ -201,7 +201,7 @@ public class Game {
      */
     public void updatePlayersOrder (){
 
-        //TODO: controllare se è qui che si chiama setPastSelection per tutti i giocatori oppure lo si fa fare dal controller
+        //TODO: rifare
 
         Collections.sort(gamers, new Comparator<Gamer>() {
             @Override
