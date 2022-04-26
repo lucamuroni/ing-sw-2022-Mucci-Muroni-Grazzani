@@ -6,7 +6,7 @@ class MessageTimer extends Thread{
     private boolean killed;
 
     public MessageTimer(int timeToWait){
-        this.timeToWait = timeToWait*1000;
+        this.timeToWait = timeToWait;
         this.timeEnded = false;
         this.killed = false;
     }

@@ -49,21 +49,30 @@ public class MessageHandler {
      * Method used to flush a message (created with write method) through the sockets.
      */
     public void writeOut(){
-        this.writeOut(false);
-    }
-
-    public void writeOut(boolean waitForResponse) {
         this.connectionHandler.setOutputMessage(this.encoder.toJSONString());
         this.encoder = null;
-        if(waitForResponse){
-            try {
-                this.connectionHandler.getNewMessageAller().wait();
-            } catch (InterruptedException e) {
-                System.out.println("Could not wait for response by client");
-                e.printStackTrace();
-            }
-        }
     }
+
+    /**
+     * Method used to flush a message to a socket and await for the response. This method automatically topic-secure message throwing an error
+     * in case a client responded wrongly to a request
+     * @param milliSeconds
+     * @return
+     * @throws TimeHasEndedException
+     * @throws ClientDisconnectedException
+     */
+    public ArrayList<Message> writeOutAndWait(int milliSeconds) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+        int topicID = (int)this.encoder.get(this.topKeyWord);
+        writeOut();
+        ArrayList<Message> messages = new ArrayList<Message>();
+        messages = this.read(milliSeconds);
+        if(messages.get(0).getUniqueTopicID()!=topicID){
+            throw new MalformedMessageException();
+        }
+        return messages;
+    }
+
+
 
     /**
      * Method used for reading an incoming message from client/server
