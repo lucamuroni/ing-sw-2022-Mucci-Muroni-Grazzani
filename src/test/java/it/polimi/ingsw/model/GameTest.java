@@ -42,8 +42,18 @@ class GameTest{
         ArrayList<Student> s = new ArrayList<Student>(students);
         game.initIsland(students);
         assertEquals(0, students.size());
+        Island motherNatureIsland = game.getMotherNature().getPlace();
+        int motherNatureIndex = game.getIslands().indexOf(game.getMotherNature().getPlace());
+        Island oppositeIsland = game.getIslands().get((motherNatureIndex + 6) % 12);
         for (Island island: game.getIslands()) {
-            if (island.equals(game.getMotherNature().getPlace()) || island.equals(game.getIslands().get(game.getIslands().get(game.getIslands().indexOf(game.getMotherNature().getPlace()) + 6))));
+            if (island.equals(motherNatureIsland) || island.equals(oppositeIsland)) {
+                continue;
+            }
+            else {
+                for (int i = 0; i < 12; i++) {
+                    assertEquals(s.get(i), island.getStudents().get(0));
+                }
+            }
         }
     }
 

@@ -57,7 +57,7 @@ public class Island{
      * Method used to get the Students on the island
      * @return the ArrayList of Students on the island
      */
-    private ArrayList<Student> getStudents(){
+    public ArrayList<Student> getStudents(){
         return this.students;
     }
 

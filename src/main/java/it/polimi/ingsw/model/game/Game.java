@@ -126,7 +126,7 @@ public class Game {
      * AssistantCard chosen by him)
      * @return an ArrayList of the only possible islands that the player can choose
      */
-    public ArrayList<Island> getMotherNatureDestination (){
+    public ArrayList<Island> getMotherNatureDestination (){ //TODO: modificare per fare in modo che restituisca a partire dall'isola successiva a MN
         ArrayList<Island> result = new ArrayList<Island>();
         int motherNatureIndex = this.islands.indexOf(this.motherNature.getPlace());
         int maxIndexMove = currentPlayer.getDeck().getCurrentSelection().getMovement();
