@@ -15,3 +15,6 @@
 TODO
 - Controllare metodi carte personaggio
 - Completare metodi virtual view
+- Togliere classe bagExpert e modificare la classe bag di conseguenza
+- Controllare metodo getDashboard di ExpertDashboard -> se funziona rinominare tutto
+-
