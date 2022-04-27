@@ -167,11 +167,10 @@ public class Game {
     }
 
     /**
-     * This method is called when the currentPlayer moves MotherNature
+     * This method is called whenever is needed to calculate the influence on a particular island
      * @return the owner of the Island
      */
-    public Optional<Gamer> checkIslandOwner (){
-        Island islandToCheck = this.motherNature.getPlace();
+    public Optional<Gamer> checkIslandOwner (Island islandToCheck){
         Gamer newOwner;
         int maxInfluence;
         if(islandToCheck.getOwner().isPresent()){
@@ -194,6 +193,13 @@ public class Game {
         }
         islandToCheck.setOwner(newOwner);
         return Optional.of(newOwner);
+    }
+    /**
+     * This method is called when the currentPlayer moves MotherNature
+     * @return the owner of the Island
+     */
+    public Optional<Gamer> checkIslandOwner (){
+        return checkIslandOwner(this.motherNature.getPlace());
     }
 
     /**
