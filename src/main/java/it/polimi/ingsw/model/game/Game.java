@@ -19,7 +19,7 @@ public class Game {
     final MotherNature motherNature;
     private final ArrayList<Cloud> clouds;
     private final ArrayList<Professor> professors;
-    private final ArrayList<Island> islands;
+    final ArrayList<Island> islands;
     private final Bag bag;
     private final ArrayList<Gamer> gamers;
     private Gamer currentPlayer;

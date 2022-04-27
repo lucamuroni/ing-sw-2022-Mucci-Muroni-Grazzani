@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.game;
 
+import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.debug.CharacterCard;
 import it.polimi.ingsw.model.debug.CharacterCardDeck;
 import it.polimi.ingsw.model.gamer.ExpertGamer;
@@ -17,6 +18,7 @@ public class ExpertGame extends Game {
     private ExpertGamer currentPlayer;
     private CharacterCardDeck deck;
     private ArrayList<CharacterCard> gameCards;
+    private boolean moreSteps;
 
     /**
      * Class constructor
@@ -27,6 +29,7 @@ public class ExpertGame extends Game {
         this.coinBank = 20;
         this.expertGamers = new ArrayList<ExpertGamer>(expertGamers);
         this.deck = new CharacterCardDeck();
+        this.moreSteps = false;
         initiateGamersOrder();
         initDeck();
     }
@@ -99,5 +102,27 @@ public class ExpertGame extends Game {
      */
     public ArrayList<CharacterCard> getGameCards() {
         return gameCards;
+    }
+
+    public void setMoreSteps() {
+        this.moreSteps = true;
+    }
+
+    @Override
+    public ArrayList<Island> getMotherNatureDestination() {
+        ArrayList<Island> result = new ArrayList<Island>(super.getMotherNatureDestination());
+        int islandIndex = this.islands.indexOf(result.get(result.size()-1));
+        int index;
+        if(this.moreSteps){
+            this.moreSteps = false;
+            for(int i=1;i<=2;i++){
+                index = islandIndex+i;
+                if(index>=this.islands.size()){
+                    index = index % islands.size();
+                }
+                result.add(this.islands.get(index));
+            }
+        }
+        return result;
     }
 }
