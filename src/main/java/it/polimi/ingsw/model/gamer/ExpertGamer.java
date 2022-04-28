@@ -44,16 +44,6 @@ public class ExpertGamer extends Gamer {
         expertDashboard = new ExpertDashboard(students, towers);
     }
 
-    /*
-    /**
-     * Getter method
-     * @return the dashboard
-
-    public ExpertDashboard getExpertDashboard() {
-        return expertDashboard;
-    }
-    */
-
     /**
      * Getter method
      * @return the dashboard of the gamer
