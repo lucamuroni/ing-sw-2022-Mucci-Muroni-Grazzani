@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller.networking;
 
 class MessageTimer extends Thread{
     private final int timeToWait;
+    private final static int minimumSleepTime = 500;
     private boolean timeEnded;
     private boolean killed;
 
@@ -13,11 +14,22 @@ class MessageTimer extends Thread{
 
     @Override
     public void run() {
-        try {
-            sleep(this.timeToWait);
-        } catch (InterruptedException e) {
-            System.out.println("Could not set up timer");
-            e.printStackTrace();
+        int cycles;
+        int fails = 0;
+        cycles = this.timeToWait/this.minimumSleepTime;
+        for(int i = 0; i < cycles ; i++ ){
+            try {
+                sleep(this.minimumSleepTime);
+            } catch (InterruptedException e) {
+                fails++;
+                if(fails>=3){
+                    System.out.println("Could not set up timer");
+                    e.printStackTrace();
+                }
+            }
+            if(killed){
+                i = cycles;
+            }
         }
         if(!killed){
             this.timerIsEnded();

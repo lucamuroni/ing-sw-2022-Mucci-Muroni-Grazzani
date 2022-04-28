@@ -8,11 +8,11 @@ import it.polimi.ingsw.controller.networking.Player;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-public class ClientConnectionAccepter extends Thread{
+public class ClientReception extends Thread{
     private final ServerSocket serverSocket;
     private boolean isON;
 
-    public ClientConnectionAccepter(ServerSocket socket){
+    public ClientReception(ServerSocket socket){
         this.serverSocket = socket;
         this.isON = true;
     }
