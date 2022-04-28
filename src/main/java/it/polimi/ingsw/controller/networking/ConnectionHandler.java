@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
-
+// TODO: add synchronized method to access inputMessages and outputMessages
 class ConnectionHandler {
     private final Socket clientSocket;
     private PrintWriter out;
@@ -35,7 +35,7 @@ class ConnectionHandler {
             e.printStackTrace();
         }
         this.readInputMessage();
-        this.writeOutputMessages();
+        this.writeOutputMessage();
     }
 
     public void shutDown(){
@@ -91,7 +91,7 @@ class ConnectionHandler {
     }
 
 
-    private void writeOutputMessages(){
+    private void writeOutputMessage(){
         Thread t = new Thread(()->{
             while (this.isON){
                 while(this.outputMessages.isEmpty()) {
@@ -133,4 +133,7 @@ class ConnectionHandler {
         this.ping(0);
     }
 
+    public void restLines(){
+
+    }
 }

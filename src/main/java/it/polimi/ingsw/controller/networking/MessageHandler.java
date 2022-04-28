@@ -17,6 +17,7 @@ public class MessageHandler {
     private JSONObject encoder;
     private final static String topKeyWord = "topicUniqueID";
     private final ConnectionHandler connectionHandler;
+    private int lineErrors = 0;
 
     /**
      * Class Builder
@@ -65,8 +66,17 @@ public class MessageHandler {
         int topicID = (int)this.encoder.get(this.topKeyWord);
         writeOut();
         ArrayList<Message> messages = new ArrayList<Message>();
-        messages = this.read(milliSeconds);
+        try{
+            messages = this.read(milliSeconds);
+        }catch (TimeHasEndedException e){
+            lineErrors++;
+            throw new TimeHasEndedException();
+        }catch (ClientDisconnectedException e){
+            lineErrors++;
+            throw new ClientDisconnectedException();
+        }
         if(messages.get(0).getUniqueTopicID()!=topicID){
+            lineErrors++;
             throw new MalformedMessageException();
         }
         return messages;
@@ -107,5 +117,14 @@ public class MessageHandler {
         Random random = new Random();
         int number = random.nextInt((int) Math.pow(2,30),(int) Math.pow(2,31));
         return number;
+    }
+
+    public int getLineErrors(){
+        return this.lineErrors;
+    }
+
+    public void resetLine(){
+        this.lineErrors = 0;
+
     }
 }
