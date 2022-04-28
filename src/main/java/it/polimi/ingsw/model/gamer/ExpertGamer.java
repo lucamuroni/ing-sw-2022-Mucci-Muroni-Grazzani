@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.gamer;
 
 import it.polimi.ingsw.model.AssistantCardDeck;
 import it.polimi.ingsw.model.Cloud;
-import it.polimi.ingsw.model.dashboard.Dashboard;
 import it.polimi.ingsw.model.dashboard.ExpertDashboard;
 import it.polimi.ingsw.model.pawn.Student;
 
@@ -45,17 +44,22 @@ public class ExpertGamer extends Gamer {
         expertDashboard = new ExpertDashboard(students, towers);
     }
 
+    /*
     /**
      * Getter method
      * @return the dashboard
-     */
+
     public ExpertDashboard getExpertDashboard() {
         return expertDashboard;
     }
+    */
 
+    /**
+     * Getter method
+     * @return the dashboard of the gamer
+     */
     @Override
     public ExpertDashboard getDashboard() {
-        ArrayList<Student> ar = new ArrayList<>();
-        return new ExpertDashboard(ar,12);
+        return this.expertDashboard;
     }
 }
