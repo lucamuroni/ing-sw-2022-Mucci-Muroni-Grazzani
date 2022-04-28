@@ -66,7 +66,7 @@ public class ExpertGame extends Game {
      */
     public void playCard(int coins, CharacterCard card){
         //TODO: metodo da rivedere per quanto riguarda l'attivazione dell'effetto della carta (mancano i parametri)
-        this.currentPlayer.getExpertDashboard().setCoins(-coins);
+        this.currentPlayer.getDashboard().setCoins(-coins);
         //DUBBIO: non si dovrebbe anche aggiornare la coinBank con i coin pagati dal giocatore?
         card.activate();
     }
