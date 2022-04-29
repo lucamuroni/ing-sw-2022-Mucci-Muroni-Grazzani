@@ -16,7 +16,11 @@ class MessageTimer extends Thread{
     public void run() {
         int cycles;
         int fails = 0;
-        cycles = this.timeToWait/this.minimumSleepTime;
+        if(this.timeToWait==0){
+            cycles = 0;
+        }else{
+            cycles = this.timeToWait/this.minimumSleepTime;
+        }
         for(int i = 0; i < cycles ; i++ ){
             try {
                 sleep(this.minimumSleepTime);
