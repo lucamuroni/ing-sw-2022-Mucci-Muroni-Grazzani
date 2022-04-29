@@ -15,9 +15,9 @@ import java.util.Set;
  */
 public class MessageHandler {
     private JSONObject encoder;
+    private JSONObject encoderCopy;
     private final static String topKeyWord = "topicUniqueID";
     private final ConnectionHandler connectionHandler;
-    private int lineErrors = 0;
 
     /**
      * Class Builder
@@ -37,13 +37,16 @@ public class MessageHandler {
     public void write(Message msg) throws MalformedMessageException{
         if(this.encoder.equals(null)){
             this.encoder = new JSONObject();
+            this.encoderCopy = new JSONObject();
             this.encoder.put(this.topKeyWord,msg.getUniqueTopicID());
+            this.encoderCopy.put(this.topKeyWord,msg.getUniqueTopicID());
         }else{
             if(msg.getUniqueTopicID() != (int)this.encoder.get(this.topKeyWord)){
                 throw new MalformedMessageException("Message already present, please writeOut() it before writing a new one");
             }
         }
         this.encoder.put(msg.getHeader(),msg.getPayload());
+        this.encoderCopy.put(msg.getHeader(),msg.getPayload());
     }
 
     /**
@@ -66,18 +69,10 @@ public class MessageHandler {
         int topicID = (int)this.encoder.get(this.topKeyWord);
         writeOut();
         ArrayList<Message> messages = new ArrayList<Message>();
-        try{
-            messages = this.read(milliSeconds);
-        }catch (TimeHasEndedException e){
-            lineErrors++;
-            throw new TimeHasEndedException();
-        }catch (ClientDisconnectedException e){
-            lineErrors++;
-            throw new ClientDisconnectedException();
-        }
+        messages = this.read(milliSeconds);
         if(messages.get(0).getUniqueTopicID()!=topicID){
-            lineErrors++;
-            throw new MalformedMessageException();
+            clearIncomingMessages();
+            throw new MalformedMessageException(true);
         }
         return messages;
     }
@@ -93,8 +88,8 @@ public class MessageHandler {
         int i = 0,uniqueID = 0;
         JSONObject decoder = new JSONObject();
         String messages = this.connectionHandler.getInputMessage(maxActionTimeOut);
-        // Object messagesParsed = JSONValue.parse(messages);
-        // this.decoder = (JSONObject) messagesParsed;
+        /* Object messagesParsed = JSONValue.parse(messages);
+        this.decoder = (JSONObject) messagesParsed; */
         decoder = (JSONObject) JSONValue.parse(messages);
         uniqueID = (int)decoder.get(this.topKeyWord);
         Set<String> keySet = decoder.keySet();
@@ -119,12 +114,7 @@ public class MessageHandler {
         return number;
     }
 
-    public int getLineErrors(){
-        return this.lineErrors;
-    }
-
-    public void resetLine(){
-        this.lineErrors = 0;
-
+    private void clearIncomingMessages(){
+        this.connectionHandler.restLines();
     }
 }

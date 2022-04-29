@@ -131,6 +131,7 @@ class ConnectionHandler {
         t.start();
     }
 
+
     private void ping(int milliSeconds){
         Thread t = new Thread(()->{
             synchronized (this.out){
@@ -147,11 +148,18 @@ class ConnectionHandler {
         t.start();
     }
 
-    private void ping(){
-        this.ping(0);
-    }
-
+    
     public void restLines(){
-
+        synchronized (this.outputMessages){
+            this.outputMessages.clear();
+        }
+        synchronized (this.inputMessages){
+            try {
+                this.inputMessages.wait(1000);
+            } catch (InterruptedException e) {}
+            finally {
+                this.inputMessages.clear();
+            }
+        }
     }
 }
