@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
-// TODO: add synchronized method to access inputMessages and outputMessages
+// TODO: check synchronized method to access inputMessages and outputMessages
 class ConnectionHandler {
     private final Socket clientSocket;
     private PrintWriter out;
@@ -36,6 +36,7 @@ class ConnectionHandler {
         }
         this.readInputMessage();
         this.writeOutputMessage();
+        this.ping(3000);
     }
 
     public void shutDown(){
@@ -52,8 +53,9 @@ class ConnectionHandler {
                     if(s.equals("ping-ok")){
                         this.ping(8000);
                     }else{
-                        this.inputMessages.add(s);
-                        //notifyall
+                        synchronized (this.inputMessages){
+                            this.inputMessages.add(s);
+                        }
                     }
                 } catch (SocketException e) {
                     isSocketTimeOutOccurred = true;
@@ -67,9 +69,15 @@ class ConnectionHandler {
 
 
     public String getInputMessage(int actionTimeOutMs) throws TimeHasEndedException, ClientDisconnectedException{
+        boolean isInputEmpty = true;
         MessageTimer msgTimer = new MessageTimer(actionTimeOutMs);
         msgTimer.start();
-        while(this.inputMessages.isEmpty()){
+        while(isInputEmpty){
+            synchronized (this.inputMessages){
+                if(!this.inputMessages.isEmpty()){
+                    isInputEmpty = false;
+                }
+            }
             if(isSocketTimeOutOccurred){
                 throw new ClientDisconnectedException("Found disconnection");
             }
@@ -77,9 +85,12 @@ class ConnectionHandler {
                 throw new TimeHasEndedException("Time to respond ended");
             }
         }
-        msgTimer.kill();//metodo per killare il thread
-        String s = this.inputMessages.get(0);
-        this.inputMessages.remove(0);
+        msgTimer.kill();
+        String s;
+        synchronized (this.inputMessages){
+            s = this.inputMessages.get(0);
+            this.inputMessages.remove(0);
+        }
         return s;
     }
 
@@ -93,8 +104,14 @@ class ConnectionHandler {
 
     private void writeOutputMessage(){
         Thread t = new Thread(()->{
+            boolean empty = true;
             while (this.isON){
-                while(this.outputMessages.isEmpty()) {
+                while(empty) {
+                    synchronized (this.outputMessages){
+                        if(!this.outputMessages.isEmpty()){
+                            empty = false;
+                        }
+                    }
                     try {
                         this.outputMessages.wait(10000);
                     } catch (InterruptedException e) {
@@ -111,6 +128,7 @@ class ConnectionHandler {
                 }
             }
         });
+        t.start();
     }
 
     private void ping(int milliSeconds){
