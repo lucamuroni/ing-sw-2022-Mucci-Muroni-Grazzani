@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller.networking;
 
-class TimeHasEndedException extends Exception{
+public class TimeHasEndedException extends Exception{
     public TimeHasEndedException(){
         super();
     }

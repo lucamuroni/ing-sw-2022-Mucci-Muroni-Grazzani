@@ -1,19 +1,20 @@
 package it.polimi.ingsw.controller.server;
 
-import it.polimi.ingsw.controller.networking.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.Message;
-import it.polimi.ingsw.controller.networking.MessageHandler;
-import it.polimi.ingsw.controller.networking.Player;
+import it.polimi.ingsw.controller.networking.*;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class ClientReception extends Thread{
     private final ServerSocket serverSocket;
+    private ArrayList<Lobby> lobbies;
     private boolean isON;
 
     public ClientReception(ServerSocket socket){
         this.serverSocket = socket;
+        this.lobbies = new ArrayList<Lobby>();
         this.isON = true;
     }
 
@@ -40,21 +41,51 @@ public class ClientReception extends Thread{
     }
 
     private void playerHandShake(Player player){
-        int uniqueMsgID = player.getMessageHandler().getNewUniqueTopicID();
-        Message m0 = new Message("auth","",uniqueMsgID);
-        try {
-            player.getMessageHandler().write(m0);
-        } catch (MalformedMessageException e) {
-            System.out.println("Some strange behavior detected : while initializing some messages where already present");
-            player.getMessageHandler().writeOut();
-        } finally {
+        Thread t = new Thread(() -> {
+            int uniqueMsgID = player.getMessageHandler().getNewUniqueTopicID();
+            ArrayList<Message> msgs = new ArrayList<Message>();
+
+            Message m0 = new Message(StdMsgFrag.GREETINGS.getHeader(), "",uniqueMsgID);
             try {
                 player.getMessageHandler().write(m0);
+            } catch (MalformedMessageException e1) {
+                System.out.println("Strange behavior detected : while initializing some messages where already present");
+                player.getMessageHandler().writeOut();
+                try{
+                    player.getMessageHandler().write(m0);
+                }catch( MalformedMessageException e2){
+                    System.out.println("Broken MessageHandler revealed");
+                    e2.printStackTrace();
+                }
+            }
+            try {
+                msgs.addAll(player.getMessageHandler().writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming()));
+                player.getMessageHandler().assertOnEquals(StdMsgFrag.OK.getHeader(), StdMsgFrag.GREETINGS.getHeader(), msgs);
+                msgs.clear();
+                Integer uniquePlayerID = this.generateUniquePlayerID();
+                msgs.add(new Message(StdMsgFrag.AUTH_ID.getHeader(), uniquePlayerID.toString(),uniqueMsgID));
+                player.getMessageHandler().write(msgs);
+                msgs.clear();
+                msgs.addAll(player.getMessageHandler().writeOutAndWait(ConnectionTimings.INFINTE.getTiming()));
+                player.getMessageHandler().assertOnEquals(uniquePlayerID.toString(), StdMsgFrag.AUTH_ID.getHeader(), msgs);
+                String name = player.getMessageHandler().getMessagePayloadFromStream(StdMsgFrag.PLAYER_NAME.getHeader(),msgs);
+                String gameType = player.getMessageHandler().getMessagePayloadFromStream(StdMsgFrag.GAME_TYPE.getHeader(),msgs);
+
+            } catch (TimeHasEndedException e) {
+                e.printStackTrace();
+            } catch (ClientDisconnectedException e) {
+                e.printStackTrace();
             } catch (MalformedMessageException e) {
-                System.out.println("Broken MessageHandler revealed");
                 e.printStackTrace();
             }
-        }
-        player.getMessageHandler().writeOut();
+
+        });
+        t.start();
+    }
+
+    private Integer generateUniquePlayerID(){
+        Random random = new Random();
+        int number = random.nextInt((int) Math.pow(2,29),(int) Math.pow(2,30));
+        return number;
     }
 }

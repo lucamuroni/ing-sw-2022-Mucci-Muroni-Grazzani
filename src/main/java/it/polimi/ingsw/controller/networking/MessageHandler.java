@@ -49,6 +49,12 @@ public class MessageHandler {
         this.encoderCopy.put(msg.getHeader(),msg.getPayload());
     }
 
+    public void write(ArrayList<Message> msgs) throws MalformedMessageException {
+        for(Message msg: msgs){
+            this.write(msg);
+        }
+    }
+
     /**
      * Method used to flush a message (created with write method) through the sockets.
      */
@@ -116,5 +122,18 @@ public class MessageHandler {
 
     private void clearIncomingMessages(){
         this.connectionHandler.restLines();
+    }
+
+    public String getMessagePayloadFromStream(String key,ArrayList<Message> messages) throws MalformedMessageException {
+        for(Message msg : messages){
+            if(msg.getHeader().equals(key)){
+                return msg.getPayload();
+            }
+        }
+        throw new MalformedMessageException();
+    }
+
+    public void assertOnEquals(String payload,String key,ArrayList<Message> messages) throws MalformedMessageException {
+        if(payload.equals(this.getMessagePayloadFromStream(key,messages)));
     }
 }

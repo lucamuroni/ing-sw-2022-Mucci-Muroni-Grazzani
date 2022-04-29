@@ -1,10 +1,13 @@
 package it.polimi.ingsw.controller.networking;
 
+import it.polimi.ingsw.controller.server.GameType;
 import it.polimi.ingsw.model.gamer.Gamer;
 
 public class Player {
     private final MessageHandler messageHandler;
-    private Gamer gamer;
+    private String username;
+    private int token;
+
 
     public Player(MessageHandler messageHandler){
         this.messageHandler = messageHandler;
