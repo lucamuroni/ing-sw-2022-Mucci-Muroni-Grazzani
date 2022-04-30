@@ -66,7 +66,8 @@ class GameTest{
         gamers.add(gamer2);
         Game game = new Game(gamers);
         assertEquals(12, game.getIslands().size());
-        MotherNature motherNature = new MotherNature(game.getIslands().get(0));
+        MotherNature motherNature = game.getMotherNature();
+        motherNature.setPlace(game.getIslands().get(0));
         assertEquals(motherNature.getPlace(), game.getIslands().get(0));
         game.moveMotherNature(game.getIslands().get(1));
         assertEquals(game.getIslands().get(1), motherNature.getPlace());
