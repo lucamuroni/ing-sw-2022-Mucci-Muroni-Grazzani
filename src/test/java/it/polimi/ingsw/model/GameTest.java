@@ -43,16 +43,16 @@ class GameTest{
         game.initIsland(students);
         assertEquals(0, students.size());
         Island motherNatureIsland = game.getMotherNature().getPlace();
-        int motherNatureIndex = game.getIslands().indexOf(game.getMotherNature().getPlace());
+        int motherNatureIndex = game.getIslands().indexOf(motherNatureIsland);
         Island oppositeIsland = game.getIslands().get((motherNatureIndex + 6) % 12);
+        int i = 0;
         for (Island island: game.getIslands()) {
             if (island.equals(motherNatureIsland) || island.equals(oppositeIsland)) {
                 continue;
             }
             else {
-                for (int i = 0; i < 12; i++) {
-                    assertEquals(s.get(i), island.getStudents().get(0));
-                }
+                assertEquals(s.get(i), island.getStudents().get(0));
+                i++;
             }
         }
     }
@@ -86,9 +86,16 @@ class GameTest{
         ArrayList<Island> islands = new ArrayList<Island>();
         assertTrue(islands.isEmpty());
         game.getMotherNature().setPlace(game.getIslands().get(1));
-        islands.add(game.getIslands().get(1));  //TODO: Prende dall'isola in cui si trova MN e non dalla successiva.
+        islands.add(game.getIslands().get(2));
         assertEquals(islands, game.getMotherNatureDestination());
-        //TODO: Test con più isole
+        islands.clear();
+        game.getMotherNature().setPlace(game.getIslands().get(4));
+        islands.add(game.getIslands().get(5));
+        assertEquals(islands, game.getMotherNatureDestination());
+        islands.clear();
+        game.getMotherNature().setPlace(game.getIslands().get(11));
+        islands.add(game.getIslands().get(0));
+        assertEquals(islands, game.getMotherNatureDestination());
     }
 
     @Test
