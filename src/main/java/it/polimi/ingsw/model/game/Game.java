@@ -176,19 +176,15 @@ public class Game {
         if(islandToCheck.getOwner().isPresent()){
            newOwner = islandToCheck.getOwner().get();
            maxInfluence = islandToCheck.getInfluenceByColor(this.professors.stream().filter(x -> x.getOwner().equals(islandToCheck.getOwner())).map(x -> x.getColor()).collect(Collectors.toCollection(ArrayList::new))) + islandToCheck.getNumTowers();
-        }else{
-           newOwner = null;
-           maxInfluence = 0;
+        }else {
+            newOwner = null;
+            maxInfluence = 0;
         }
         for(Gamer gamer : this.gamers){
-            ArrayList<PawnColor> colors = this.professors.stream().filter(x -> x.getOwner().equals(gamer)).map(x -> x.getColor()).collect(Collectors.toCollection(ArrayList::new));
+            //ArrayList<PawnColor> colors = this.professors.stream().filter(x -> x.getOwner().get().equals(gamer)).map(x -> x.getColor()).collect(Collectors.toCollection(ArrayList::new));
             int gamerInfluence = 0;
-            if(!colors.isEmpty()) {
-                gamerInfluence = islandToCheck.getInfluenceByColor(colors);
-            }
-            if(islandToCheck.getOwner().isPresent()){
-                if (islandToCheck.getOwner().equals(Optional.of(gamer)))
-                {
+            gamerInfluence += islandToCheck.getInfluenceByColor(this.professors.stream().filter(x -> x.getOwner().get().equals(gamer)).map(x -> x.getColor()).collect(Collectors.toCollection(ArrayList::new)));
+            if(islandToCheck.getOwner().isPresent() && islandToCheck.getOwner().get().equals(gamer)){
                 gamerInfluence += islandToCheck.getNumTowers();
             }
             if(gamerInfluence > maxInfluence){

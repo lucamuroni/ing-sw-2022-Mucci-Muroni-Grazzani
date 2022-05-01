@@ -170,18 +170,18 @@ class GameTest{
         Island islandToCheck = game.getMotherNature().getPlace();
         islandToCheck.addStudents(new Student(PawnColor.BLUE));
         islandToCheck.addStudents(new Student(PawnColor.RED));
+        assertEquals(1, gamer1.getDashboard().checkInfluence(PawnColor.BLUE));
+        assertEquals(2, gamer2.getDashboard().checkInfluence(PawnColor.BLUE));
+        ArrayList<PawnColor> colors = new ArrayList<PawnColor>();
+        colors.add(PawnColor.BLUE);
+        assertEquals(1, islandToCheck.getInfluenceByColor(colors));
         //TODO: aggiustare metodo
-        game.checkIslandOwner();
-        assertEquals(islandToCheck.getOwner(), Optional.of(game.getCurrentPlayer()));
+        assertEquals(game.checkIslandOwner(), Optional.of(game.getCurrentPlayer()));
+
         /*
-        assertEquals(2, gamer1.getDashboard().checkInfluence(PawnColor.BLUE));
-        assertEquals(1, gamer2.getDashboard().checkInfluence(PawnColor.BLUE));
         game.getMotherNature().getPlace().setOwner(gamer2);
         game.getMotherNature().getPlace().addStudents(new Student(PawnColor.BLUE));
-
         assertEquals(gamer2, game.getMotherNature().getPlace().getOwner().get());
-
-        //TODO: finire di aggiustare test
         //game.getMotherNature().getPlace().setOwner(game.getCurrentPlayer());
         game.getIslands().get(game.getIslands().indexOf(game.getMotherNature().getPlace())).addTower();
         assertEquals(1, game.getMotherNature().getPlace().getNumTowers());
