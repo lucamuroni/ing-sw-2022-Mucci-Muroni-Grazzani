@@ -182,8 +182,13 @@ public class Game {
         }
         for(Gamer gamer : this.gamers){
             ArrayList<PawnColor> colors = this.professors.stream().filter(x -> x.getOwner().equals(gamer)).map(x -> x.getColor()).collect(Collectors.toCollection(ArrayList::new));
-            int gamerInfluence = islandToCheck.getInfluenceByColor(colors);
-            if(islandToCheck.getOwner().equals(gamer)){
+            int gamerInfluence = 0;
+            if(!colors.isEmpty()) {
+                gamerInfluence = islandToCheck.getInfluenceByColor(colors);
+            }
+            if(islandToCheck.getOwner().isPresent()){
+                if (islandToCheck.getOwner().equals(Optional.of(gamer)))
+                {
                 gamerInfluence += islandToCheck.getNumTowers();
             }
             if(gamerInfluence > maxInfluence){

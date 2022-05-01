@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest{
@@ -131,32 +133,52 @@ class GameTest{
     @Test
     void checkIslandOwner() {
         ArrayList<Gamer> gamers = new ArrayList<Gamer>();
-        assertTrue(gamers.isEmpty());
-        Gamer gamer1 = new Gamer(123, "nome");
         ArrayList<Student> students = new ArrayList<Student>();
-        assertTrue(students.isEmpty());
-        gamer1.initGamer(students, 7);
+        Gamer gamer1 = new Gamer(123, "nome");
         Gamer gamer2 = new Gamer(456, "nome2");
+
+        gamer1.initGamer(students, 7);
         gamer2.initGamer(students, 7);
+        gamers.add(gamer1);
         gamers.add(gamer2);
-        gamers.add(gamer2);
+
+        Game game = new Game(gamers);
+
         Student student = new Student(PawnColor.BLUE);
         Student student1 = new Student(PawnColor.BLUE);
         Student student2 = new Student(PawnColor.BLUE);
-        gamer2.getDashboard().moveStudent(student);
-        gamer2.getDashboard().moveStudent(student1);
-        gamer2.getDashboard().moveStudent(student2);
-        assertEquals(2, gamer2.getDashboard().checkInfluence(PawnColor.BLUE));
-        assertEquals(1, gamer2.getDashboard().checkInfluence(PawnColor.BLUE));
-        Game game = new Game(gamers);
+
+        game.setCurrentPlayer(gamer1);
+        gamer1.getDashboard().moveStudent(student2);
         try{
             game.changeProfessorOwner(PawnColor.BLUE);
         } catch (Exception e){
             e.printStackTrace();
         }
+        assertEquals(Optional.of(game.getCurrentPlayer()), game.getProfessors().stream().filter(x->x.getColor().equals(PawnColor.BLUE)).findFirst().get().getOwner());
+
+        game.setCurrentPlayer(gamer2);
+        gamer2.getDashboard().moveStudent(student);
+        gamer2.getDashboard().moveStudent(student1);
+        try{
+            game.changeProfessorOwner(PawnColor.BLUE);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        assertEquals(Optional.of(game.getCurrentPlayer()), game.getProfessors().stream().filter(x->x.getColor().equals(PawnColor.BLUE)).findFirst().get().getOwner());
+
+        Island islandToCheck = game.getMotherNature().getPlace();
+        islandToCheck.addStudents(new Student(PawnColor.BLUE));
+        islandToCheck.addStudents(new Student(PawnColor.RED));
+        //TODO: aggiustare metodo
+        game.checkIslandOwner();
+        assertEquals(islandToCheck.getOwner(), Optional.of(game.getCurrentPlayer()));
+        /*
+        assertEquals(2, gamer1.getDashboard().checkInfluence(PawnColor.BLUE));
+        assertEquals(1, gamer2.getDashboard().checkInfluence(PawnColor.BLUE));
         game.getMotherNature().getPlace().setOwner(gamer2);
         game.getMotherNature().getPlace().addStudents(new Student(PawnColor.BLUE));
-        game.checkIslandOwner(game.getMotherNature().getPlace());
+
         assertEquals(gamer2, game.getMotherNature().getPlace().getOwner().get());
 
         //TODO: finire di aggiustare test
@@ -168,9 +190,10 @@ class GameTest{
         Student student4 = new Student(PawnColor.BLUE);
         gamer2.getDashboard().hall.add(student3);
         gamer2.getDashboard().hall.add(student4);
-        assertEquals(2, gamer2.getDashboard().checkInfluence(PawnColor.BLUE));
+        //assertEquals(2, gamer2.getDashboard().checkInfluence(PawnColor.BLUE));
         assertEquals(3, gamer2.getDashboard().checkInfluence(PawnColor.BLUE));
         assertEquals(gamer2, game.checkIslandOwner().get());
+        */
     }
 
     @Test
@@ -241,7 +264,7 @@ class GameTest{
     @Test
     void getGamers() {
         ArrayList<Gamer> gamers = new ArrayList<Gamer>();
-        assertTrue(gamers.isEmpty());
+        //assertTrue(gamers.isEmpty());
         Gamer gamer1 = new Gamer(123, "nome");
         Gamer gamer2 = new Gamer(456, "nome2");
         Gamer gamer3 = new Gamer(789, "nome3");
@@ -250,7 +273,7 @@ class GameTest{
         assertEquals(2, gamers.size());
         Game game = new Game(gamers);
         assertEquals(2, game.getGamers().size());
-        assertTrue(game.getGamers().contains(gamers));
+        assertTrue(game.getGamers().containsAll(gamers));
         assertFalse(game.getGamers().contains(gamer3));
     }
 
