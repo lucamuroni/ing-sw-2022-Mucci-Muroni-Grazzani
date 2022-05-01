@@ -112,7 +112,20 @@ public class ClientReception extends Thread{
                 lobbies.add(lobby);
             }else{
                 boolean lobbyAlreadyChosen = false;
-                for()
+                for(Lobby lobby : this.lobbies){
+                    if(lobby.getType().equals(type) && !lobby.isLobbyReady() && !lobbyAlreadyChosen){
+                        lobbyAlreadyChosen = true;
+                        lobby.addPlayer(player);
+                        if(lobby.isLobbyReady()){
+                            lobby.startGame();
+                            this.lobbies.remove(lobby);
+                        }
+                    }
+                }
+                if(!lobbyAlreadyChosen){
+                    Lobby lobby = new Lobby(type,numOfPlayers,player);
+                    this.lobbies.add(lobby);
+                }
             }
         }
     }

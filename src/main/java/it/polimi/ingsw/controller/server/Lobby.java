@@ -16,14 +16,11 @@ public class Lobby {
         this.players.add(gamer);
     }
 
-    public synchronized void addPlayer(Player gamer) throws LobbyException {
-        if(isLobbyReady()){
-            throw new LobbyException("Lobby is already full");
-        }
+    public void addPlayer(Player gamer){
         this.players.add(gamer);
     }
 
-    private GameType getType(){
+    public GameType getType(){
         return this.type;
     }
 
@@ -31,20 +28,18 @@ public class Lobby {
         return this.players.size();
     }
 
-    private boolean isLobbyReady(){
-        if(getLobbySize()==this.numPlayers){
+    public boolean isLobbyReady(){
+        if(this.getLobbySize()==this.numPlayers){
             return true;
         }else{
             return false;
         }
     }
-
-    public synchronized void startGame() throws LobbyException {
-        if(!isLobbyReady()){
-            throw new LobbyException("Lobby is not ready");
-        }else{
+    // TODO : fare metodo startGame come Thread
+    public synchronized void startGame(){
+        Thread t = new Thread(()->{
             //creazione gamecontroller e di conseguenza partita
-        }
+        });
     }
 
 }
