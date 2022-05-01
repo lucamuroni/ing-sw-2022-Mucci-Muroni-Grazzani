@@ -69,8 +69,10 @@ public class ClientReception extends Thread{
                 msgs.addAll(player.getMessageHandler().writeOutAndWait(ConnectionTimings.INFINTE.getTiming()));
                 player.getMessageHandler().assertOnEquals(uniquePlayerID.toString(), StdMsgFrag.AUTH_ID.getHeader(), msgs);
                 String name = player.getMessageHandler().getMessagePayloadFromStream(StdMsgFrag.PLAYER_NAME.getHeader(),msgs);
+                player.createGamer(name,uniquePlayerID);
                 String gameType = player.getMessageHandler().getMessagePayloadFromStream(StdMsgFrag.GAME_TYPE.getHeader(),msgs);
-
+                String lobbySize = player.getMessageHandler().getMessagePayloadFromStream(StdMsgFrag.LOBBY_SIZE.getHeader(),msgs);
+                insertPlayerIntoLobby(gameType,lobbySize,player);
             } catch (TimeHasEndedException e) {
                 e.printStackTrace();
             } catch (ClientDisconnectedException e) {
@@ -87,5 +89,31 @@ public class ClientReception extends Thread{
         Random random = new Random();
         int number = random.nextInt((int) Math.pow(2,29),(int) Math.pow(2,30));
         return number;
+    }
+
+    private void insertPlayerIntoLobby(String gameType,String lobbySize, Player player) throws MalformedMessageException {
+        GameType type;
+        Integer numOfPlayers;
+        try{
+            numOfPlayers = Integer.valueOf(lobbySize);
+        }catch (NumberFormatException e){
+            throw new MalformedMessageException("payload lobbySize not an integer");
+        }
+        if(gameType.equals(GameType.NORMAL.getName())){
+            type = GameType.NORMAL;
+        }else if(gameType.equals(GameType.EXPERT.getName())){
+            type = GameType.EXPERT;
+        }else{
+            throw new MalformedMessageException("payload GameType not in a valid format");
+        }
+        synchronized (this.lobbies){
+            if(this.lobbies.isEmpty()){
+                Lobby lobby = new Lobby(type,numOfPlayers,player);
+                lobbies.add(lobby);
+            }else{
+                boolean lobbyAlreadyChosen = false;
+                for()
+            }
+        }
     }
 }

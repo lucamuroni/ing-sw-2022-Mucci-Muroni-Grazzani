@@ -14,11 +14,12 @@ public class Player {
     }
 
     public void createGamer(String username,int token) {
-        this.gamer = new Gamer(token, username);
+        this.username = username;
+        this.token = token;
     }
 
-    public Gamer getGamer() {
-        return this.gamer;
+    public int getGamer() {
+        return this.token;
     }
 
     public MessageHandler getMessageHandler() {
