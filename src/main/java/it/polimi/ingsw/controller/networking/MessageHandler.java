@@ -32,7 +32,7 @@ public class MessageHandler {
      * If a message encoder is not present this method creates it and self-initialize with correct TopicID, otherwise it will append the message-fragment to create
      * the real message that will be sent
      * @param msg represent a fragment of a socket-Message
-     * @throws MalformedMessageException if a message has a different topicID
+     * @throws MalformedMessageException if another message is present and differs by TopicID
      */
     public void write(Message msg) throws MalformedMessageException{
         if(this.encoder.equals(null)){
@@ -49,8 +49,13 @@ public class MessageHandler {
         this.encoderCopy.put(msg.getHeader(),msg.getPayload());
     }
 
-    public void write(ArrayList<Message> msgs) throws MalformedMessageException {
-        for(Message msg: msgs){
+    /**
+     * Method used to write an arraylist of Messages. This method relay on write method upper described
+     * @param messages is the array of fragments of a socket-Message
+     * @throws MalformedMessageException if another message is present and differs by TopicID
+     */
+    public void write(ArrayList<Message> messages) throws MalformedMessageException {
+        for(Message msg: messages){
             this.write(msg);
         }
     }
@@ -66,10 +71,10 @@ public class MessageHandler {
     /**
      * Method used to flush a message to a socket and await for the response. This method automatically topic-secure message throwing an error
      * in case a client responded wrongly to a request
-     * @param milliSeconds
-     * @return
-     * @throws TimeHasEndedException
-     * @throws ClientDisconnectedException
+     * @param milliSeconds are the milli-senconds given to a Client to perform a certain action
+     * @return an arraylist of messages from the socket
+     * @throws TimeHasEndedException if the client does not respond in time
+     * @throws ClientDisconnectedException if the client disconnects
      */
     public ArrayList<Message> writeOutAndWait(int milliSeconds) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
         int topicID = (int)this.encoder.get(this.topKeyWord);
@@ -83,11 +88,12 @@ public class MessageHandler {
         return messages;
     }
 
-
-
     /**
      * Method used for reading an incoming message from client/server
+     * @param maxActionTimeOut are the milli-senconds given to a Client to perform a certain action
      * @return an ArrayList of Messages
+     * @throws TimeHasEndedException if the client does not respond in time
+     * @throws ClientDisconnectedException if the client disconnects
      */
     public ArrayList<Message> read(int maxActionTimeOut) throws TimeHasEndedException, ClientDisconnectedException {
         ArrayList<Message> result = new ArrayList<Message>();
@@ -106,24 +112,44 @@ public class MessageHandler {
         return result;
     }
 
+    /**
+     * Method used for creating a stable connection between client and server
+     */
     public void startConnection(){
         this.connectionHandler.start();
     }
 
+    /**
+     * Method used for shutting down the connection between client and server
+     */
     public void shutDown(){
         this.connectionHandler.shutDown();
     }
 
+    /**
+     * Method used for generating an unique topic identifier used for making sure request and response are synchronized
+     * @return an integer between 2^30 and 2^31 representing a topic id
+     */
     public int getNewUniqueTopicID(){
         Random random = new Random();
         int number = random.nextInt((int) Math.pow(2,30),(int) Math.pow(2,31));
         return number;
     }
 
+    /**
+     * Method used for cleaning and the cached messages already received from client
+     */
     private void clearIncomingMessages(){
         this.connectionHandler.restLines();
     }
 
+    /**
+     * Method used for getting a payload of a messages given the arraylist of messages and the associated key
+     * @param key is the key associated with the searched payload
+     * @param messages is the arraylist of messages where the message is stored
+     * @return a string representing the payload
+     * @throws MalformedMessageException if the arraylist of messages does not contain the key you searched for
+     */
     public String getMessagePayloadFromStream(String key,ArrayList<Message> messages) throws MalformedMessageException {
         for(Message msg : messages){
             if(msg.getHeader().equals(key)){
@@ -133,6 +159,13 @@ public class MessageHandler {
         throw new MalformedMessageException();
     }
 
+    /**
+     * Method based on function getMessagePayloadFromStream which ensures that a message contains a certain payload
+     * @param payload is the expected payload
+     * @param key
+     * @param messages
+     * @throws MalformedMessageException
+     */
     public void assertOnEquals(String payload,String key,ArrayList<Message> messages) throws MalformedMessageException {
         if(payload.equals(this.getMessagePayloadFromStream(key,messages)));
     }
