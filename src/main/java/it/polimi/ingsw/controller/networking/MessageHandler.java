@@ -86,7 +86,7 @@ public class MessageHandler {
         messages = this.read(milliSeconds);
         if(messages.get(0).getUniqueTopicID()!=topicID){
             clearIncomingMessages();
-            throw new MalformedMessageException(true);
+            throw new MalformedMessageException();
         }
         return messages;
     }
