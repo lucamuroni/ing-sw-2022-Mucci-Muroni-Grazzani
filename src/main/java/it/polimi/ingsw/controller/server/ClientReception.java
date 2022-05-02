@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller.server;
 
 import it.polimi.ingsw.controller.networking.*;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
+import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 
@@ -76,14 +77,9 @@ public class ClientReception extends Thread{
                 String gameType = player.getMessageHandler().getMessagePayloadFromStream(StdMsgFrag.GAME_TYPE.getHeader(),msgs);
                 String lobbySize = player.getMessageHandler().getMessagePayloadFromStream(StdMsgFrag.LOBBY_SIZE.getHeader(),msgs);
                 insertPlayerIntoLobby(gameType,lobbySize,player);
-            } catch (TimeHasEndedException e) {
-                e.printStackTrace();
-            } catch (ClientDisconnectedException e) {
-                e.printStackTrace();
-            } catch (MalformedMessageException e) {
+            } catch (TimeHasEndedException | ClientDisconnectedException | MalformedMessageException | FlowErrorException e) {
                 e.printStackTrace();
             }
-
         });
         t.start();
     }
@@ -130,6 +126,17 @@ public class ClientReception extends Thread{
                     this.lobbies.add(lobby);
                 }
             }
+        }
+        ArrayList<Message> messages = new ArrayList<Message>();
+        int uniqueMsgID = player.getMessageHandler().getNewUniqueTopicID();
+        messages.add(new Message(StdMsgFrag.GREETINGS.getHeader(),StdMsgFrag.GREETINGS_STATUS_SUCCESFULL.getHeader(),uniqueMsgID));
+        try{
+            player.getMessageHandler().write(messages);
+            messages.clear();
+            messages.addAll(player.getMessageHandler().writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming()));
+            player.getMessageHandler().assertOnEquals(StdMsgFrag.OK.getHeader(), StdMsgFrag.GREETINGS.getHeader(), messages);
+        }catch (TimeHasEndedException | ClientDisconnectedException | MalformedMessageException | FlowErrorException e){
+            throw new MalformedMessageException();
         }
     }
 }

@@ -9,6 +9,7 @@ public enum StdMsgFrag {
     AUTH_ID("auth_id"),
     GAME_TYPE("GameType"),
     GREETINGS("greetings"),
+    GREETINGS_STATUS_SUCCESFULL("successful"),
     LOBBY_TYPE("LobbyType"),
     LOBBY_SIZE("LobbySize"),
     OK("ok"),

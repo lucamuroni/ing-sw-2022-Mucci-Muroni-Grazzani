@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller.networking;
 
 
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
+import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import org.json.simple.JSONObject;
@@ -169,9 +170,9 @@ public class MessageHandler {
      * @param messages is the arraylist of messages where the message is stored
      * @throws MalformedMessageException if the arraylist of messages does not contain the key you searched for or the Message Has not the expected Payload
      */
-    public void assertOnEquals(String payload,String key,ArrayList<Message> messages) throws MalformedMessageException {
+    public void assertOnEquals(String payload,String key,ArrayList<Message> messages) throws MalformedMessageException, FlowErrorException {
         if(!payload.equals(this.getMessagePayloadFromStream(key,messages))){
-            throw new MalformedMessageException();
+            throw new FlowErrorException();
         }
     }
 }
