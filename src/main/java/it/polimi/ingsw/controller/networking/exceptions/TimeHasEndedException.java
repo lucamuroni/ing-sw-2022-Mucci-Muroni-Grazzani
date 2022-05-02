@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.networking;
+package it.polimi.ingsw.controller.networking.exceptions;
 
 public class TimeHasEndedException extends Exception{
     public TimeHasEndedException(){

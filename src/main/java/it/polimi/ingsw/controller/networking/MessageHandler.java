@@ -1,6 +1,9 @@
 package it.polimi.ingsw.controller.networking;
 
 
+import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
+import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
+import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
@@ -162,11 +165,13 @@ public class MessageHandler {
     /**
      * Method based on function getMessagePayloadFromStream which ensures that a message contains a certain payload
      * @param payload is the expected payload
-     * @param key
-     * @param messages
-     * @throws MalformedMessageException
+     * @param key is the key associated with the payload you want to check
+     * @param messages is the arraylist of messages where the message is stored
+     * @throws MalformedMessageException if the arraylist of messages does not contain the key you searched for or the Message Has not the expected Payload
      */
     public void assertOnEquals(String payload,String key,ArrayList<Message> messages) throws MalformedMessageException {
-        if(payload.equals(this.getMessagePayloadFromStream(key,messages)));
+        if(!payload.equals(this.getMessagePayloadFromStream(key,messages))){
+            throw new MalformedMessageException();
+        }
     }
 }

@@ -1,6 +1,9 @@
 package it.polimi.ingsw.controller.networking;
 
 
+import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
+import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -68,7 +71,7 @@ class ConnectionHandler {
     }
 
 
-    public String getInputMessage(int actionTimeOutMs) throws TimeHasEndedException, ClientDisconnectedException{
+    public String getInputMessage(int actionTimeOutMs) throws TimeHasEndedException, ClientDisconnectedException {
         boolean isInputEmpty = true;
         MessageTimer msgTimer = new MessageTimer(actionTimeOutMs);
         msgTimer.start();

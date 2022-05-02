@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.networking;
+package it.polimi.ingsw.controller.networking.exceptions;
 
 public class MalformedMessageException extends Exception{
     private final boolean areConnectionLinesBeenReset;
