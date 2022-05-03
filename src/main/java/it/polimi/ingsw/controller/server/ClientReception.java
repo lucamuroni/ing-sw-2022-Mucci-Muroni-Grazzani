@@ -49,7 +49,7 @@ public class ClientReception extends Thread{
             int uniqueMsgID = player.getMessageHandler().getNewUniqueTopicID();
             ArrayList<Message> msgs = new ArrayList<Message>();
 
-            Message m0 = new Message(StdMsgFrag.GREETINGS.getHeader(), "",uniqueMsgID);
+            Message m0 = new Message(MessageFragment.GREETINGS.getFragment(), "",uniqueMsgID);
             try {
                 player.getMessageHandler().write(m0);
             } catch (MalformedMessageException e1) {
@@ -64,18 +64,18 @@ public class ClientReception extends Thread{
             }
             try {
                 msgs.addAll(player.getMessageHandler().writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming()));
-                player.getMessageHandler().assertOnEquals(StdMsgFrag.OK.getHeader(), StdMsgFrag.GREETINGS.getHeader(), msgs);
+                player.getMessageHandler().assertOnEquals(MessageFragment.OK.getFragment(), MessageFragment.GREETINGS.getFragment(), msgs);
                 msgs.clear();
                 Integer uniquePlayerID = this.generateUniquePlayerID();
-                msgs.add(new Message(StdMsgFrag.AUTH_ID.getHeader(), uniquePlayerID.toString(),uniqueMsgID));
+                msgs.add(new Message(MessageFragment.AUTH_ID.getFragment(), uniquePlayerID.toString(),uniqueMsgID));
                 player.getMessageHandler().write(msgs);
                 msgs.clear();
-                msgs.addAll(player.getMessageHandler().writeOutAndWait(ConnectionTimings.INFINTE.getTiming()));
-                player.getMessageHandler().assertOnEquals(uniquePlayerID.toString(), StdMsgFrag.AUTH_ID.getHeader(), msgs);
-                String name = player.getMessageHandler().getMessagePayloadFromStream(StdMsgFrag.PLAYER_NAME.getHeader(),msgs);
+                msgs.addAll(player.getMessageHandler().writeOutAndWait(ConnectionTimings.INFINITE.getTiming()));
+                player.getMessageHandler().assertOnEquals(uniquePlayerID.toString(), MessageFragment.AUTH_ID.getFragment(), msgs);
+                String name = player.getMessageHandler().getMessagePayloadFromStream(MessageFragment.PLAYER_NAME.getFragment(),msgs);
                 player.createGamer(name,uniquePlayerID);
-                String gameType = player.getMessageHandler().getMessagePayloadFromStream(StdMsgFrag.GAME_TYPE.getHeader(),msgs);
-                String lobbySize = player.getMessageHandler().getMessagePayloadFromStream(StdMsgFrag.LOBBY_SIZE.getHeader(),msgs);
+                String gameType = player.getMessageHandler().getMessagePayloadFromStream(MessageFragment.GAME_TYPE.getFragment(),msgs);
+                String lobbySize = player.getMessageHandler().getMessagePayloadFromStream(MessageFragment.LOBBY_SIZE.getFragment(),msgs);
                 insertPlayerIntoLobby(gameType,lobbySize,player);
             } catch (TimeHasEndedException | ClientDisconnectedException | MalformedMessageException | FlowErrorException e) {
                 e.printStackTrace();
@@ -129,12 +129,12 @@ public class ClientReception extends Thread{
         }
         ArrayList<Message> messages = new ArrayList<Message>();
         int uniqueMsgID = player.getMessageHandler().getNewUniqueTopicID();
-        messages.add(new Message(StdMsgFrag.GREETINGS.getHeader(),StdMsgFrag.GREETINGS_STATUS_SUCCESFULL.getHeader(),uniqueMsgID));
+        messages.add(new Message(MessageFragment.GREETINGS.getFragment(), MessageFragment.GREETINGS_STATUS_SUCCESFULL.getFragment(),uniqueMsgID));
         try{
             player.getMessageHandler().write(messages);
             messages.clear();
             messages.addAll(player.getMessageHandler().writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming()));
-            player.getMessageHandler().assertOnEquals(StdMsgFrag.OK.getHeader(), StdMsgFrag.GREETINGS.getHeader(), messages);
+            player.getMessageHandler().assertOnEquals(MessageFragment.OK.getFragment(), MessageFragment.GREETINGS.getFragment(), messages);
         }catch (TimeHasEndedException | ClientDisconnectedException | MalformedMessageException | FlowErrorException e){
             throw new MalformedMessageException();
         }
