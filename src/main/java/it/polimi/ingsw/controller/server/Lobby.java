@@ -36,10 +36,18 @@ public class Lobby {
         }
     }
     // TODO : fare metodo startGame come Thread
-    public synchronized void startGame(){
+    public void startGame(){
         Thread t = new Thread(()->{
             //creazione gamecontroller e di conseguenza partita
         });
+    }
+
+    public void removePlayer(Player player){
+        this.players.remove(player);
+    }
+
+    public boolean contains(Player player){
+        return this.players.contains(player);
     }
 
 }
