@@ -13,6 +13,5 @@
 
 
 TODO
-
-
--
+- metodo per ritornare chi ha vinto
+- rifare metodo checkIslandOwner
