@@ -21,12 +21,8 @@ public class AssistantCardDeck {
      */
     public AssistantCardDeck(){
         cardList = new ArrayList<AssistantCard>();
-        int move=1;
-        for(int turn=1; turn<=10; turn++){
-            cardList.add(new AssistantCard(turn,move));
-            if(turn%2==0){
-                move++;
-            }
+        for( AssistantCard assistantCard : AssistantCard.values()){
+            cardList.add(assistantCard);
         }
     }
 
