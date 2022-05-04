@@ -11,10 +11,11 @@ import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ClientReception extends Thread{
+class ClientReception extends Thread{
     private final ServerSocket serverSocket;
     private ArrayList<Lobby> lobbies;
     private boolean isON;
+    final Object lobbiesLock = new Object();
 
     public ClientReception(ServerSocket socket){
         this.serverSocket = socket;
@@ -105,7 +106,7 @@ public class ClientReception extends Thread{
         }else{
             throw new MalformedMessageException("payload GameType not in a valid format");
         }
-        synchronized (this.lobbies){
+        synchronized (this.lobbiesLock){
             if(this.lobbies.isEmpty()){
                 Lobby lobby = new Lobby(type,numOfPlayers,player);
                 lobbies.add(lobby);
@@ -115,10 +116,6 @@ public class ClientReception extends Thread{
                     if(lobby.getType().equals(type) && !lobby.isLobbyReady() && !lobbyAlreadyChosen){
                         lobbyAlreadyChosen = true;
                         lobby.addPlayer(player);
-                        if(lobby.isLobbyReady()){
-                            lobby.startGame();
-                            this.lobbies.remove(lobby);
-                        }
                     }
                 }
                 if(!lobbyAlreadyChosen){
@@ -135,8 +132,26 @@ public class ClientReception extends Thread{
             messages.clear();
             messages.addAll(player.getMessageHandler().writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming()));
             player.getMessageHandler().assertOnEquals(MessageFragment.OK.getFragment(), MessageFragment.GREETINGS.getFragment(), messages);
+            this.lobbiesLock.notifyAll();
         }catch (TimeHasEndedException | ClientDisconnectedException | MalformedMessageException | FlowErrorException e){
+            synchronized (this.lobbiesLock){
+                for(Lobby lobby : this.lobbies){
+                    if(lobby.contains(player)){
+                        lobby.removePlayer(player);
+                    }
+                }
+            }
             throw new MalformedMessageException();
         }
+    }
+
+    public ArrayList<Lobby> getLobbies(){
+        synchronized (this.lobbiesLock){
+            return this.lobbies;
+        }
+    }
+
+    public void shutdown(){
+        this.isON = false;
     }
 }

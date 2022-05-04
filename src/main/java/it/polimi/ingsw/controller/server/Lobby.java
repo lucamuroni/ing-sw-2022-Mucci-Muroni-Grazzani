@@ -35,8 +35,8 @@ public class Lobby {
             return false;
         }
     }
-    // TODO : fare metodo startGame come Thread
-    public void startGame(){
+    // TODO
+    public void startGame(Server server){
         Thread t = new Thread(()->{
             //creazione gamecontroller e di conseguenza partita
         });
