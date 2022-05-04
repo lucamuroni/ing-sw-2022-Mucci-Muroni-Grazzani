@@ -89,7 +89,7 @@ public class ClientReception extends Thread{
         int number = random.nextInt((int) Math.pow(2,29),(int) Math.pow(2,30));
         return number;
     }
-
+    //TODO: se il giocatore non risponde bene al messaggio eliminarlo dalla partita e successivamente far partire la partita se è tutto ok
     private void insertPlayerIntoLobby(String gameType,String lobbySize, Player player) throws MalformedMessageException {
         GameType type;
         Integer numOfPlayers;
