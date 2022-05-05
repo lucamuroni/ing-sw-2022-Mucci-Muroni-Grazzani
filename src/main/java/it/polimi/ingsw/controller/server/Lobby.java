@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.server;
 
 import it.polimi.ingsw.controller.networking.Player;
+import it.polimi.ingsw.controller.server.game.GameController;
 
 import java.util.ArrayList;
 
@@ -38,7 +39,7 @@ public class Lobby {
     // TODO
     public void startGame(Server server){
         Thread t = new Thread(()->{
-            //creazione gamecontroller e di conseguenza partita
+            GameController gameController = new GameController(server,this.type,this.players);
         });
     }
 

@@ -45,4 +45,12 @@ public class Player {
     public MessageHandler getMessageHandler() {
         return this.messageHandler;
     }
+
+    /**
+     * Getter method
+     * @return the username of a player
+     */
+    public String getUsername(){
+        return this.username;
+    }
 }
