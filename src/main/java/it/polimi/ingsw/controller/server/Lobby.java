@@ -36,7 +36,7 @@ public class Lobby {
             return false;
         }
     }
-    // TODO
+    // TODO : fare un if per la creazione di un gamecontroller oppure di un expertgamecontreoller
     public void startGame(Server server){
         Thread t = new Thread(()->{
             GameController gameController = new GameController(server,this.type,this.players);
