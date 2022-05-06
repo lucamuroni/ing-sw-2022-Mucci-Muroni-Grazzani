@@ -1,32 +1,25 @@
-package it.polimi.ingsw.controller.server.game;
+package it.polimi.ingsw.controller.server.game.gameController;
 
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.server.GameType;
 import it.polimi.ingsw.controller.server.Server;
+import it.polimi.ingsw.controller.server.game.GamePhase;
 import it.polimi.ingsw.model.gamer.Gamer;
 
 import java.util.ArrayList;
 
 // TODO : gameController estende thread
-//TODO :trovare via alternativa per la classe game
-public class GameController {
+//TODO :creare classe ExpertGameController
+public class GameController extends Thread{
     private final Server server;
     private ArrayList<Gamer> gamers;
-    private final GameType type;
     private final Game game;
-    private final ExpertGame expertGame;
+    private GamePhase gamePhase;
 
-    public GameController(Server server, GameType type, ArrayList<Player> players){
+    public GameController(Server server, ArrayList<Player> players){
         this.server = server;
-        this.type = type;
-        if(this.type==GameType.NORMAL){
-            this.expertGame = null;
-            this.game = new Game();
-        }else{
-            this.game = null;
-            this.expertGame = new ExpertGame();
-        }
         createGamers(players);
+        this.game = new Game(this.gamers);
     }
 
     private void createGamers(ArrayList<Player> players){
@@ -35,5 +28,10 @@ public class GameController {
             Gamer gamer = new Gamer(player.getGamer(), player.getUsername());
             this.gamers.add(gamer);
         }
+    }
+
+    @Override
+    public void run() {
+
     }
 }
