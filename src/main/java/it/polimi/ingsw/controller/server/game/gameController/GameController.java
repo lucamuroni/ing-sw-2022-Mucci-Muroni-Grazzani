@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.server.GameType;
 import it.polimi.ingsw.controller.server.Server;
 import it.polimi.ingsw.controller.server.game.GamePhase;
+import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 
 import java.util.ArrayList;
