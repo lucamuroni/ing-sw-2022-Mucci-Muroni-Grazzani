@@ -2,9 +2,9 @@ package it.polimi.ingsw.model.gamer;
 
 import it.polimi.ingsw.model.AssistantCardDeck;
 import it.polimi.ingsw.model.Cloud;
+
 import it.polimi.ingsw.model.dashboard.Dashboard;
 import it.polimi.ingsw.model.pawn.Student;
-
 import java.util.ArrayList;
 
 /**
@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Class that represent a gamer in a non-expert game
  */
 
-public class Gamer {
+public class Gamer{
     protected final int token;
     protected final String username;
     protected boolean activity;
@@ -99,4 +99,5 @@ public class Gamer {
     public void setActivity(boolean activity) {
         this.activity = activity;
     }
+
 }

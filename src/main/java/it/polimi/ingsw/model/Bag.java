@@ -39,4 +39,8 @@ public class Bag {
         }
         return results;
     }
+
+    public void pushStudent(Student student){
+        this.students.add(student);
+    }
 }

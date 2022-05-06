@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.server;
 
 import it.polimi.ingsw.controller.networking.Player;
+import it.polimi.ingsw.controller.server.game.gameController.GameController;
 
 import java.util.ArrayList;
 
@@ -35,11 +36,19 @@ public class Lobby {
             return false;
         }
     }
-    // TODO : fare metodo startGame come Thread
-    public synchronized void startGame(){
+    // TODO : fare un if per la creazione di un gamecontroller oppure di un expertgamecontreoller
+    public void startGame(Server server){
         Thread t = new Thread(()->{
-            //creazione gamecontroller e di conseguenza partita
+            GameController gameController = new GameController(server,this.type,this.players);
         });
+    }
+
+    public void removePlayer(Player player){
+        this.players.remove(player);
+    }
+
+    public boolean contains(Player player){
+        return this.players.contains(player);
     }
 
 }

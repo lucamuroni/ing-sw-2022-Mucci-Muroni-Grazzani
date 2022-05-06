@@ -46,11 +46,10 @@ public class ExpertGamer extends Gamer {
 
     /**
      * Getter method
-     * @return the dashboard
+     * @return the dashboard of the gamer
      */
-    public ExpertDashboard getExpertDashboard() {
-        return expertDashboard;
+    @Override
+    public ExpertDashboard getDashboard() {
+        return this.expertDashboard;
     }
-
-
 }

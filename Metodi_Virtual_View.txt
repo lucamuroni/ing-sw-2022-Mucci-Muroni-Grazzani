@@ -1,0 +1,17 @@
+### Metodi Virtual View
+## Movimenti base
+- getMovedStudent() : riceve messaggio di spostamento e ritorna al controller uno studente con colore.
+- getChosenAssistantCard()
+- getChosenCloud()
+- getChosenIsland() : per lo spostamento di madre natura.
+
+## Movimenti di funzionamento
+- updateAssistant()
+- updateStudentPlace() : lo si chiama ogni volta che uno studente viene mosso. Gestisce anche il controllo dei professori.
+- updateMotherNaturePlace()
+- updateClouds()
+
+
+TODO
+- metodo per ritornare chi ha vinto
+- rifare metodo checkIslandOwner

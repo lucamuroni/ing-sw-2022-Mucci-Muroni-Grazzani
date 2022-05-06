@@ -165,6 +165,7 @@ public class MessageHandler {
      * @param key is the key associated with the payload you want to check
      * @param messages is the arraylist of messages where the message is stored
      * @throws MalformedMessageException if the arraylist of messages does not contain the key you searched for or the Message Has not the expected Payload
+     * @throws FlowErrorException if the payload of the message does not contain the expected value
      */
     public void assertOnEquals(String payload,String key,ArrayList<Message> messages) throws MalformedMessageException, FlowErrorException {
         if(!payload.equals(this.getMessagePayloadFromStream(key,messages))){
