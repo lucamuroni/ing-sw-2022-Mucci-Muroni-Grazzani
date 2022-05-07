@@ -1,7 +1,12 @@
 package it.polimi.ingsw.controller.networking;
 
+import it.polimi.ingsw.controller.networking.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.GameType;
+import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * @author Davide Grazzani
@@ -52,5 +57,20 @@ public class Player {
      */
     public String getUsername(){
         return this.username;
+    }
+
+    /**
+     * Getter method that return the corrispettive Gamer found in the Model package
+     * @param gamers is the arrayList of gamers that can be found in the model
+     * @return the gamer that is the corrispettive of this player
+     * @throws ModelErrorException if the model has no such gamer that is equals to this player
+     */
+    public Gamer getGamer(ArrayList<Gamer> gamers) throws ModelErrorException {
+        for(Gamer gamer : gamers){
+            if(gamer.getUsername().equals(this.username) && this.token==gamer.getToken()){
+                return gamer;
+            }
+        }
+        throw new ModelErrorException("No such player found in model");
     }
 }

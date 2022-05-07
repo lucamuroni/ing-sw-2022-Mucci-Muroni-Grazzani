@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.server.game;
 
 import it.polimi.ingsw.controller.networking.Player;
+import it.polimi.ingsw.controller.networking.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.pawn.PawnColor;
@@ -10,15 +11,47 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class GameSetup implements GamePhase{
-    // 10 = numero di studenti da dare alle isole
-    public void handle(Game game, GameController controller){
-        controller.getGamers().clear();
-        controller.getGamers().addAll(game.getGamers());
-        for(Player player : controller.getPlayers()){
-            controller.getView().setCurrentPlayer(player);
-            controller.getView().updateMotherNaturePlace(game.getMotherNature().getPlace());
+    private final int numTowers;
+    private final int numStudents;
+    private final Game game;
+    private final GameController controller;
+
+    public GameSetup(GameController controller, Game game){
+        this.game = game;
+        this.controller = controller;
+        if(game.getGamers().size() == 2){
+            this.numStudents = 7;
+            this.numTowers = 8;
+        }else{
+            this.numTowers = 6;
+            this.numStudents = 9;
         }
-        // piazzare 10 studenti(coppie din colori) sulle isole
+    }
+
+
+    public void handle(){
+        this.controller.getGamers().clear();
+        this.controller.getGamers().addAll(this.game.getGamers());
+        for(Player player : this.controller.getPlayers()){
+            this.controller.getView().setCurrentPlayer(player);
+            this.controller.getView().updateMotherNaturePlace(this.game.getMotherNature().getPlace());
+        }
+        this.initIslands(this.game);
+        for(Player player : this.controller.getPlayers()){
+            this.controller.getView().setCurrentPlayer(player);
+            this.controller.getView().updateIslandStatus(this.game.getIslands());
+            ArrayList<Student> students = new ArrayList<>();
+            students.addAll(this.game.getBag().pullStudents(this.numStudents));
+            try {
+                player.getGamer(this.game.getGamers()).initGamer(students,this.numTowers);
+            } catch (ModelErrorException e) {
+                System.out.println("Error founded in model : shutting down this game");
+                this.controller.shutdown();
+                e.printStackTrace();
+                return;
+            }
+            this.controller.getView().updateDashboards(this.game.getGamers());
+        }
         // 8 (2) e 6 (3) torri per giocatore
         // scegliere carte mago assitente
         // studenti dal sacco 7 (2) oppure 9 (3)

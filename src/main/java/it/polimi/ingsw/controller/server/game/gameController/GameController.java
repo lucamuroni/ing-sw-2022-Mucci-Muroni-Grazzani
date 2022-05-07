@@ -19,6 +19,7 @@ public class GameController extends Thread{
     private final Game game;
     private GamePhase gamePhase;
     private View view;
+    private boolean isOK;
 
     public GameController(Server server, ArrayList<Player> players){
         this.server = server;
@@ -26,6 +27,7 @@ public class GameController extends Thread{
         createGamers(players);
         this.game = new Game(this.gamers);
         this.view = new VirtualViewHandler();
+        this.isOK = true;
     }
 
     private void createGamers(ArrayList<Player> players){
@@ -51,5 +53,13 @@ public class GameController extends Thread{
 
     public ArrayList<Player> getPlayers(){
         return this.players;
+    }
+
+    public void shutdown(){
+        for(Player player : this.players){
+            this.view.setCurrentPlayer(player);
+            this.view.haltOnError();
+        }
+        this.isOK = false;
     }
 }
