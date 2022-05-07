@@ -8,6 +8,7 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Island;
+import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 import org.hamcrest.core.Is;
 
@@ -17,10 +18,12 @@ public class VirtualViewHandler implements View {
 
     private MessageHandler messageHandler;
 
+    @Override
     public void setCurrentPlayer(Player player) {
         this.messageHandler = player.getMessageHandler();
     }
 
+    @Override
     public void updateMotherNaturePlace(Island island) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         UpdateMotherNaturePlace func = new UpdateMotherNaturePlace(island, messageHandler);
         func.handle();
@@ -34,6 +37,11 @@ public class VirtualViewHandler implements View {
     }
 
     @Override
+    public void updateIslandStatus(Island island) {
+
+    }
+
+    @Override
     public void haltOnError() {
 
     }
@@ -43,16 +51,11 @@ public class VirtualViewHandler implements View {
 
     }
 
-    @Override
-    public void updateIslandStatus(Island island) {
-
-    }
-
     //TODO : invece che ritornare una Stringa ritornare direttamente una carta assistente
-    public String getChosenAssistantCard(ArrayList<AssistantCard> cardsList) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+    public AssistantCard getChosenAssistantCard(ArrayList<AssistantCard> cardsList) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetChosenAssistantCard func = new GetChosenAssistantCard(cardsList, messageHandler);
-        String cardName = func.handle();
-        return cardName;
+        AssistantCard result = func.handle();
+        return result;
     }
 }
 

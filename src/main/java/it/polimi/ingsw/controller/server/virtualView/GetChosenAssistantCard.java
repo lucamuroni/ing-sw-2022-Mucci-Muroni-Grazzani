@@ -21,7 +21,7 @@ class GetChosenAssistantCard {
         this.messageHandler = messageHandler;
     }
 
-    public String handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+    public AssistantCard handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
         for (AssistantCard card : this.cards){
@@ -29,11 +29,14 @@ class GetChosenAssistantCard {
         }
         this.messageHandler.write(messages);
         messages.clear();
-        //TODO : definire un nuovo tipo in connection timings -> la scelta delle carte non è automatica da parte del client quindi non si una CONNECTION_STARTUP
-        messages.addAll(this.messageHandler.writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming()));
-        //TODO : modificare qui per ricevere una carta vera e propria non una stringa
+        messages.addAll(this.messageHandler.writeOutAndWait(ConnectionTimings.CHOOSE_CARD.getTiming()));
         String cardName;
+        AssistantCard result = null;
         cardName = this.messageHandler.getMessagePayloadFromStream(ASSISTANT_CARD.getFragment(), messages);
-        return cardName;
+        for (AssistantCard card : this.cards) {
+            if (card.getName().equals(cardName))
+                result = card;
+        }
+        return result;
     }
 }
