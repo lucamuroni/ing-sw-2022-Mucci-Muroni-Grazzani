@@ -3,9 +3,11 @@ package it.polimi.ingsw.controller.server.game;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameSetup implements GamePhase{
     // 10 = numero di studenti da dare alle isole
@@ -27,6 +29,21 @@ public class GameSetup implements GamePhase{
     }
 
     private void initIslands(Game game){
-
+        ArrayList<Student> students = new ArrayList<Student>();
+        for(PawnColor color : PawnColor.values()){
+            for(int i = 0 ;i<2;i++){
+                students.add(new Student(color));
+            }
+        }
+        Random random = new Random();
+        ArrayList<Student> copy = new ArrayList<Student>(students);
+        students.clear();
+        while (copy.size()>1){
+            int i = random.nextInt(copy.size());
+            students.add(copy.get(i));
+            copy.remove(copy.get(i));
+        }
+        students.add(copy.get(0));
+        game.initIsland(students);
     }
 }
