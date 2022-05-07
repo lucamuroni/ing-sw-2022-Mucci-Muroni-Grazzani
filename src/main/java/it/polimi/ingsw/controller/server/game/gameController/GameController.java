@@ -11,7 +11,6 @@ import it.polimi.ingsw.model.gamer.Gamer;
 
 import java.util.ArrayList;
 
-// TODO : gameController estende thread
 //TODO :creare classe ExpertGameController
 public class GameController extends Thread{
     private final Server server;

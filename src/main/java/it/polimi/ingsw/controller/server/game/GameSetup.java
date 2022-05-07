@@ -16,7 +16,6 @@ public class GameSetup implements GamePhase{
             controller.getView().setCurrentPlayer(player);
             controller.getView().updateMotherNaturePlace(game.getMotherNature().getPlace());
         }
-        // piazzare pedina madrenatura su una isola
         // piazzare 10 studenti(coppie din colori) sulle isole
         // 8 (2) e 6 (3) torri per giocatore
         // scegliere carte mago assitente
@@ -25,5 +24,9 @@ public class GameSetup implements GamePhase{
 
     public GamePhase next(){
         return new PlanningPhase();
+    }
+
+    private void initIslands(Game game){
+
     }
 }

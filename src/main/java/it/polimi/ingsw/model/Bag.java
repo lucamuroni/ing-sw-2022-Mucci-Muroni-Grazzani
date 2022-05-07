@@ -12,6 +12,7 @@ import java.util.Random;
  * @author Davide Grazzani
  * Class that represent the game bag as a pool of students
  */
+//TODO : rimuovere 2 studenti per colore
 public class Bag {
     private ArrayList<Student> students;
 
