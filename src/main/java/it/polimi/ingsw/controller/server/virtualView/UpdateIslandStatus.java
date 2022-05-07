@@ -33,6 +33,7 @@ public class UpdateIslandStatus {
             token = valueOf(this.island.getOwner().get().getToken());
         }
         else {
+            //TODO: Controllare con Grazza: se non esiste l'owner dell'isola, allora si invia come token di default "0"
             token = valueOf(0);
         }
         messages.add(new Message(OWNER.getFragment(), token.toString(), topicId));

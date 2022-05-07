@@ -11,6 +11,7 @@ public enum MessageFragment {
     GAME_TYPE("GameType"),
     GREETINGS("greetings"),
     GREETINGS_STATUS_SUCCESFULL("successful"),
+    HALL_STUDENT("hallStudent"),
     LOBBY_TYPE("LobbyType"),
     LOBBY_SIZE("LobbySize"),
     MN_LOCATION("MNLocation"),
@@ -18,7 +19,8 @@ public enum MessageFragment {
     OK("ok"),
     OWNER("Owner"),
     PLAYER_NAME("PlayerName"),
-    STUDENT_COLOR("studentColor");
+    STUDENT_COLOR("studentColor"),
+    WAITING_STUDENT("waitingStudent");
 
     private String fragment;
 

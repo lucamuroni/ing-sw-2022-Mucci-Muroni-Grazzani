@@ -48,11 +48,11 @@ public class VirtualViewHandler implements View {
     }
 
     @Override
-    public void updateDashboards(ArrayList<Gamer> gamers) {
-
+    public void updateDashboards(ArrayList<Gamer> gamers) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
+        UpdateDashboards func = new UpdateDashboards(gamers, messageHandler);
+        func.handle();
     }
 
-    //TODO : invece che ritornare una Stringa ritornare direttamente una carta assistente
     public AssistantCard getChosenAssistantCard(ArrayList<AssistantCard> cardsList) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetChosenAssistantCard func = new GetChosenAssistantCard(cardsList, messageHandler);
         AssistantCard result = func.handle();

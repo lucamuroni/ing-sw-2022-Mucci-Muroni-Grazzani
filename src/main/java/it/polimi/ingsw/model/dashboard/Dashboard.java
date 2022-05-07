@@ -86,4 +86,8 @@ public class Dashboard {
     public ArrayList<Student> getWaitingRoom () {
         return this.waitingRoom;
     }
+
+    public ArrayList<Student> getHall(){
+        return  this.hall;
+    }
 }

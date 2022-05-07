@@ -33,6 +33,7 @@ class UpdateMotherNaturePlace {
         Integer id = valueOf(island.getId());
         messages.add(new Message(MN_LOCATION.getFragment(),id.toString(), this.messageHandler.getNewUniqueTopicID()))
         this.messageHandler.write(messages);
+        messages.clear();
         messages.addAll(this.messageHandler.writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming()));
         this.messageHandler.assertOnEquals(OK.getFragment(), MN_LOCATION.getFragment(), messages);
     }
