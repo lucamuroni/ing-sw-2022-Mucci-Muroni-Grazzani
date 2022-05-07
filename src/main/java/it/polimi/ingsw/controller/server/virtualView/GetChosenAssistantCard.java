@@ -29,7 +29,9 @@ class GetChosenAssistantCard {
         }
         this.messageHandler.write(messages);
         messages.clear();
+        //TODO : definire un nuovo tipo in connection timings -> la scelta delle carte non è automatica da parte del client quindi non si una CONNECTION_STARTUP
         messages.addAll(this.messageHandler.writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming()));
+        //TODO : modificare qui per ricevere una carta vera e propria non una stringa
         String cardName;
         cardName = this.messageHandler.getMessagePayloadFromStream(ASSISTANT_CARD.getFragment(), messages);
         return cardName;

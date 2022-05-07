@@ -24,6 +24,7 @@ public class VirtualViewHandler implements View {
         func.handle();
     }
 
+    //TODO : invece che ritornare una Stringa ritornare direttamente una carta assistente
     public String getChosenAssistantCard(ArrayList<AssistantCard> cardsList) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetChosenAssistantCard func = new GetChosenAssistantCard(cardsList, messageHandler);
         String cardName = func.handle();
