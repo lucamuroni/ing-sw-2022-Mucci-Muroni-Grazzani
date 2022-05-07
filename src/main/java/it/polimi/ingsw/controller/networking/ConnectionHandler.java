@@ -12,6 +12,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 // TODO: check synchronized method to access inputMessages and outputMessages
+// TODO: update method to replay to ping from client
 class ConnectionHandler {
     private final Socket clientSocket;
     private PrintWriter out;

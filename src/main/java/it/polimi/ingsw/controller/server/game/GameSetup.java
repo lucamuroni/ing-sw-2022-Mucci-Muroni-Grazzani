@@ -40,10 +40,8 @@ public class GameSetup implements GamePhase{
         for(Player player : this.controller.getPlayers()){
             this.controller.getView().setCurrentPlayer(player);
             this.controller.getView().updateIslandStatus(this.game.getIslands());
-            ArrayList<Student> students = new ArrayList<>();
-            students.addAll(this.game.getBag().pullStudents(this.numStudents));
             try {
-                player.getGamer(this.game.getGamers()).initGamer(students,this.numTowers);
+                player.getGamer(this.game.getGamers()).initGamer(this.game.getBag().pullStudents(this.numStudents),this.numTowers);
             } catch (ModelErrorException e) {
                 System.out.println("Error founded in model : shutting down this game");
                 this.controller.shutdown();
@@ -52,9 +50,11 @@ public class GameSetup implements GamePhase{
             }
             this.controller.getView().updateDashboards(this.game.getGamers());
         }
-        // 8 (2) e 6 (3) torri per giocatore
-        // scegliere carte mago assitente
-        // studenti dal sacco 7 (2) oppure 9 (3)
+        for(Player player : this.controller.getPlayers()){
+            this.controller.getView().setCurrentPlayer(player);
+            AssistantCardDeckFigures figure = this.controller.getView().getChosenAssistantCardDeck(this.controller.getCardDesks());
+            this.controller.getCardDesks().remove(figure);
+        }
     }
 
     public GamePhase next(){

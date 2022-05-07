@@ -3,9 +3,11 @@ package it.polimi.ingsw.controller.server.game.gameController;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.server.GameType;
 import it.polimi.ingsw.controller.server.Server;
+import it.polimi.ingsw.controller.server.game.AssistantCardDeckFigures;
 import it.polimi.ingsw.controller.server.game.GamePhase;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.controller.server.virtualView.VirtualViewHandler;
+import it.polimi.ingsw.model.AssistantCardDeck;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 
@@ -20,6 +22,7 @@ public class GameController extends Thread{
     private GamePhase gamePhase;
     private View view;
     private boolean isOK;
+    private ArrayList<AssistantCardDeckFigures> cardDesks;
 
     public GameController(Server server, ArrayList<Player> players){
         this.server = server;
@@ -28,6 +31,10 @@ public class GameController extends Thread{
         this.game = new Game(this.gamers);
         this.view = new VirtualViewHandler();
         this.isOK = true;
+        this.cardDesks = new ArrayList<AssistantCardDeckFigures>();
+        for(AssistantCardDeckFigures figure : AssistantCardDeckFigures.values()){
+            this.cardDesks.add(figure);
+        }
     }
 
     private void createGamers(ArrayList<Player> players){
@@ -61,5 +68,9 @@ public class GameController extends Thread{
             this.view.haltOnError();
         }
         this.isOK = false;
+    }
+
+    public ArrayList<AssistantCardDeckFigures> getCardDesks(){
+        return this.cardDesks;
     }
 }
