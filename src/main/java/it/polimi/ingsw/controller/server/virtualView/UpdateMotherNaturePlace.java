@@ -28,7 +28,6 @@ class UpdateMotherNaturePlace {
 
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         ArrayList<Message> messages = new ArrayList<>();
-        // TODO :corpo della funzione (messaggio) tira tutte le eccezioni
         this.messageHandler.write(new Message(MN_LOCATION.getFragment(),island.getID().toString, this.messageHandler.getNewUniqueTopicID()));
         messages.addAll(this.messageHandler.writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming()));
         this.messageHandler.assertOnEquals(OK.getFragment(), MN_LOCATION.getFragment(), messages);

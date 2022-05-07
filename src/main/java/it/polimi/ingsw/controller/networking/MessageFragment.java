@@ -5,6 +5,7 @@ package it.polimi.ingsw.controller.networking;
  * Enum used to define standard messages headers and payloads
  */
 public enum MessageFragment {
+    ASSISTANT_CARD("assistantCard"),
     AUTH("auth"),
     AUTH_ID("auth_id"),
     GAME_TYPE("GameType"),
@@ -12,10 +13,10 @@ public enum MessageFragment {
     GREETINGS_STATUS_SUCCESFULL("successful"),
     LOBBY_TYPE("LobbyType"),
     LOBBY_SIZE("LobbySize"),
+    MN_LOCATION("MNLocation"),
     OK("ok"),
-    PLAYER_NAME("PlayerName"),
-    ASSISTANT_CARD("AssistantCard"),
-    MN_LOCATION("MNLocation");
+    PLAYER_NAME("PlayerName");
+
     private String fragment;
 
     /**

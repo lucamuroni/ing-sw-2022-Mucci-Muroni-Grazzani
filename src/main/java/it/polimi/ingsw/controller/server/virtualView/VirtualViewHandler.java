@@ -6,8 +6,11 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
+import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Island;
 import org.hamcrest.core.Is;
+
+import java.util.ArrayList;
 
 public class VirtualViewHandler implements View {
     private MessageHandler messageHandler;
@@ -19,5 +22,11 @@ public class VirtualViewHandler implements View {
     public void updateMotherNaturePlace(Island island) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         UpdateMotherNaturePlace func = new UpdateMotherNaturePlace(island, messageHandler);
         func.handle();
+    }
+
+    public String getChosenAssistantCard(ArrayList<AssistantCard> cardsList) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        GetChosenAssistantCard func = new GetChosenAssistantCard(cardsList, messageHandler);
+        String cardName = func.handle();
+        return cardName;
     }
 }
