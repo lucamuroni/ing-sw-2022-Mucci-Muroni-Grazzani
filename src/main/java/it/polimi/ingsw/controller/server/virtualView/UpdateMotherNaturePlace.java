@@ -1,9 +1,18 @@
 package it.polimi.ingsw.controller.server.virtualView;
 
+import it.polimi.ingsw.controller.networking.ConnectionTimings;
 import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
+import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
+import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
+import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.Island;
+
+import java.util.ArrayList;
+
+import static it.polimi.ingsw.controller.networking.MessageFragment.MN_LOCATION;
+import static it.polimi.ingsw.controller.networking.MessageFragment.OK;
 
 //TODO : classe che gestisce l'aggiornamento della posizione di madre natura
 
@@ -17,8 +26,11 @@ class UpdateMotherNaturePlace {
         this.messageHandler = messageHandler;
     }
 
-    public void handle() throws MalformedMessageException {
+    public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
+        ArrayList<Message> messages = new ArrayList<>();
         // TODO :corpo della funzione (messaggio) tira tutte le eccezioni
-        
+        this.messageHandler.write(new Message(MN_LOCATION.getFragment(),island.getID().toString, this.messageHandler.getNewUniqueTopicID()));
+        messages.addAll(this.messageHandler.writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming()));
+        this.messageHandler.assertOnEquals(OK.getFragment(), MN_LOCATION.getFragment(), messages);
     }
 }

@@ -14,7 +14,8 @@ public enum MessageFragment {
     LOBBY_SIZE("LobbySize"),
     OK("ok"),
     PLAYER_NAME("PlayerName"),
-    ASSISTANT_CARD("AssistantCard");
+    ASSISTANT_CARD("AssistantCard"),
+    MN_LOCATION("MNLocation");
     private String fragment;
 
     /**
