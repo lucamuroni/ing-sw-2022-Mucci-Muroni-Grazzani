@@ -15,8 +15,8 @@ import java.util.ArrayList;
 
 public interface View{
     public void setCurrentPlayer(Player player);
-    public void updateIslandStatus(Island island);
-    public void updateIslandStatus(ArrayList<Island> islands);
+    public void updateIslandStatus(Island island) throws MalformedMessageException, FlowErrorException, TimeHasEndedException, ClientDisconnectedException;
+    public void updateIslandStatus(ArrayList<Island> islands) throws MalformedMessageException, FlowErrorException, TimeHasEndedException, ClientDisconnectedException;
     public void haltOnError();
     public void updateDashboards(ArrayList<Gamer> gamers);
     public void updateMotherNaturePlace(Island island) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException;

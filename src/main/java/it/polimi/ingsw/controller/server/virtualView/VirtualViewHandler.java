@@ -30,15 +30,16 @@ public class VirtualViewHandler implements View {
     }
 
     @Override
-    public void updateIslandStatus(ArrayList<Island> islands) {
+    public void updateIslandStatus(ArrayList<Island> islands) throws MalformedMessageException, FlowErrorException, TimeHasEndedException, ClientDisconnectedException {
         for(Island island : islands){
             updateIslandStatus(island);
         }
     }
 
     @Override
-    public void updateIslandStatus(Island island) {
-
+    public void updateIslandStatus(Island island) throws MalformedMessageException, FlowErrorException, TimeHasEndedException, ClientDisconnectedException {
+        UpdateIslandStatus func = new UpdateIslandStatus(island, messageHandler);
+        func.handle();
     }
 
     @Override

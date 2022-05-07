@@ -14,8 +14,11 @@ public enum MessageFragment {
     LOBBY_TYPE("LobbyType"),
     LOBBY_SIZE("LobbySize"),
     MN_LOCATION("MNLocation"),
+    NUM_TOWERS("numTowers"),
     OK("ok"),
-    PLAYER_NAME("PlayerName");
+    OWNER("Owner"),
+    PLAYER_NAME("PlayerName"),
+    STUDENT_COLOR("studentColor");
 
     private String fragment;
 
