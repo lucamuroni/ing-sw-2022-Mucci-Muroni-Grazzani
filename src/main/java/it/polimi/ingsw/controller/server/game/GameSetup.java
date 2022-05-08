@@ -1,8 +1,9 @@
 package it.polimi.ingsw.controller.server.game;
 
 import it.polimi.ingsw.controller.networking.Player;
-import it.polimi.ingsw.controller.networking.exceptions.ModelErrorException;
+import it.polimi.ingsw.controller.networking.exceptions.*;
 import it.polimi.ingsw.controller.server.game.gameController.GameController;
+import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
@@ -15,10 +16,12 @@ public class GameSetup implements GamePhase{
     private final int numStudents;
     private final Game game;
     private final GameController controller;
+    private final View view;
 
     public GameSetup(GameController controller, Game game){
         this.game = game;
         this.controller = controller;
+        this.view = this.controller.getView();
         if(game.getGamers().size() == 2){
             this.numStudents = 7;
             this.numTowers = 8;
@@ -30,16 +33,11 @@ public class GameSetup implements GamePhase{
 
 
     public void handle(){
-        this.controller.getGamers().clear();
-        this.controller.getGamers().addAll(this.game.getGamers());
-        for(Player player : this.controller.getPlayers()){
-            this.controller.getView().setCurrentPlayer(player);
-            this.controller.getView().updateMotherNaturePlace(this.game.getMotherNature().getPlace());
-        }
+
         this.initIslands(this.game);
         for(Player player : this.controller.getPlayers()){
-            this.controller.getView().setCurrentPlayer(player);
-            this.controller.getView().updateIslandStatus(this.game.getIslands());
+            this.view.setCurrentPlayer(player);
+            this.view.updateIslandStatus(this.game.getIslands());
             try {
                 player.getGamer(this.game.getGamers()).initGamer(this.game.getBag().pullStudents(this.numStudents),this.numTowers);
             } catch (ModelErrorException e) {
@@ -48,11 +46,11 @@ public class GameSetup implements GamePhase{
                 e.printStackTrace();
                 return;
             }
-            this.controller.getView().updateDashboards(this.game.getGamers());
+            this.view.updateDashboards(this.game.getGamers());
         }
         for(Player player : this.controller.getPlayers()){
-            this.controller.getView().setCurrentPlayer(player);
-            AssistantCardDeckFigures figure = this.controller.getView().getChosenAssistantCardDeck(this.controller.getCardDesks());
+            this.view.setCurrentPlayer(player);
+            AssistantCardDeckFigures figure = this.view.getChosenAssistantCardDeck(this.controller.getCardDesks());
             //TODO : propagare la scelta delle carte agli altri giocatori
             this.controller.getCardDesks().remove(figure);
         }
@@ -80,5 +78,16 @@ public class GameSetup implements GamePhase{
         }
         students.add(copy.get(0));
         game.initIsland(students);
+    }
+
+    private void updateMotherNaturePlace() throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        for(Player player : this.controller.getPlayers()){
+            this.view.setCurrentPlayer(player);
+            try{
+                this.view.updateMotherNaturePlace(this.game.getMotherNature().getPlace());
+            }catch (FlowErrorException | ClientDisconnectedException){
+                this.controller.
+            }
+        }
     }
 }

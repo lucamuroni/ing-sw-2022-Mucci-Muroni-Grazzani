@@ -49,10 +49,7 @@ public class GameController extends Thread{
     public void run() {
 
     }
-
-    public ArrayList<Gamer> getGamers(){
-        return this.gamers;
-    }
+    //TODO : fare una funzione che dai gamers del model si ordina l'array di players
 
     public View getView(){
         return this.view;
@@ -72,5 +69,12 @@ public class GameController extends Thread{
 
     public ArrayList<AssistantCardDeckFigures> getCardDesks(){
         return this.cardDesks;
+    }
+
+    public void handlePlayerError(Player player){
+        this.view.setCurrentPlayer(player);
+        this.view.haltOnError();
+        player.getMessageHandler().shutDown();
+        
     }
 }
