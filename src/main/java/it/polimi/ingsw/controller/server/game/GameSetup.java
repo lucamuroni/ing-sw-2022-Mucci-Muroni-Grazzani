@@ -53,12 +53,14 @@ public class GameSetup implements GamePhase{
         for(Player player : this.controller.getPlayers()){
             this.controller.getView().setCurrentPlayer(player);
             AssistantCardDeckFigures figure = this.controller.getView().getChosenAssistantCardDeck(this.controller.getCardDesks());
+            //TODO : propagare la scelta delle carte agli altri giocatori
             this.controller.getCardDesks().remove(figure);
         }
+
     }
 
     public GamePhase next(){
-        return new PlanningPhase();
+        return new PlanningPhase(this.game,this.controller);
     }
 
     private void initIslands(Game game){
