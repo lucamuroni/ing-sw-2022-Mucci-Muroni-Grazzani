@@ -65,5 +65,12 @@ public class VirtualViewHandler implements View {
         PawnColor result = func.handle();
         return result;
     }
+
+    @Override
+    public int getMovedStudentLocation() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        GetMovedStudentLocation func = new GetMovedStudentLocation(messageHandler);
+        int result = func.handle();
+        return result;
+    }
 }
 

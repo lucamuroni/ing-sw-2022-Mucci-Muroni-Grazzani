@@ -20,6 +20,7 @@ public enum MessageFragment {
     OWNER("Owner"),
     PLAYER_NAME("PlayerName"),
     STUDENT_COLOR("studentColor"),
+    STUDENT_LOCATION("studentLocation"),
     WAITING_STUDENT("waitingStudent");
 
     private String fragment;
