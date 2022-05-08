@@ -9,6 +9,7 @@ import it.polimi.ingsw.controller.server.game.AssistantCardDeckFigures;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.gamer.Gamer;
+import it.polimi.ingsw.model.pawn.PawnColor;
 
 import java.util.ArrayList;
 
@@ -16,12 +17,14 @@ import java.util.ArrayList;
 
 public interface View{
     public void setCurrentPlayer(Player player);
-    public void updateIslandStatus(Island island);
-    public void updateIslandStatus(ArrayList<Island> islands);
+    public void updateIslandStatus(Island island) throws MalformedMessageException, FlowErrorException, TimeHasEndedException, ClientDisconnectedException;
+    public void updateIslandStatus(ArrayList<Island> islands) throws MalformedMessageException, FlowErrorException, TimeHasEndedException, ClientDisconnectedException;
     public void haltOnError();
-    public void updateDashboards(ArrayList<Gamer> gamers);
+    public void updateDashboards(ArrayList<Gamer> gamers) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException;
     public void updateMotherNaturePlace(Island island) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException;
-    public String getChosenAssistantCard(ArrayList<AssistantCard> cardsList) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
-
     public AssistantCardDeckFigures getChosenAssistantCardDeck(ArrayList<AssistantCardDeckFigures> cardDesks);
+    public AssistantCard getChosenAssistantCard(ArrayList<AssistantCard> cardsList) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+    public PawnColor getMovedStudentColor() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+    public int getMovedStudentLocation() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+    public Island getMNLocation(ArrayList<Island> islands) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 }

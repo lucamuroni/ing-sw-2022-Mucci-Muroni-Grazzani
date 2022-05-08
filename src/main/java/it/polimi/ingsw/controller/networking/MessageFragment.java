@@ -11,11 +11,18 @@ public enum MessageFragment {
     GAME_TYPE("GameType"),
     GREETINGS("greetings"),
     GREETINGS_STATUS_SUCCESFULL("successful"),
+    HALL_STUDENT("hallStudent"),
+    ISLAND_ID("island_id"),
     LOBBY_TYPE("LobbyType"),
     LOBBY_SIZE("LobbySize"),
     MN_LOCATION("MNLocation"),
+    NUM_TOWERS("numTowers"),
     OK("ok"),
-    PLAYER_NAME("PlayerName");
+    OWNER("Owner"),
+    PLAYER_NAME("PlayerName"),
+    STUDENT_COLOR("studentColor"),
+    STUDENT_LOCATION("studentLocation"),
+    WAITING_STUDENT("waitingStudent");
 
     private String fragment;
 

@@ -6,6 +6,7 @@ package it.polimi.ingsw.controller.networking;
  */
 public enum ConnectionTimings {
     CONNECTION_STARTUP(40000),
+    PLAYER_MOVE(30000),
     INFINITE(600000);
 
     private int timeToRespond;
