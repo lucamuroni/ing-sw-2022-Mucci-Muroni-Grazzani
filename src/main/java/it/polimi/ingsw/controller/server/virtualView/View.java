@@ -24,4 +24,5 @@ public interface View{
     public AssistantCard getChosenAssistantCard(ArrayList<AssistantCard> cardsList) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
     public PawnColor getMovedStudentColor() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
     public int getMovedStudentLocation() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+    public Island getMNLocation(ArrayList<Island> islands) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 }

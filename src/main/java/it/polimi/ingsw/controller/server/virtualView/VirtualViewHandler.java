@@ -54,12 +54,14 @@ public class VirtualViewHandler implements View {
         func.handle();
     }
 
+    @Override
     public AssistantCard getChosenAssistantCard(ArrayList<AssistantCard> cardsList) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetChosenAssistantCard func = new GetChosenAssistantCard(cardsList, messageHandler);
         AssistantCard result = func.handle();
         return result;
     }
 
+    @Override
     public PawnColor getMovedStudentColor() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetMovedStudentColor func = new GetMovedStudentColor(messageHandler);
         PawnColor result = func.handle();
@@ -69,7 +71,16 @@ public class VirtualViewHandler implements View {
     @Override
     public int getMovedStudentLocation() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetMovedStudentLocation func = new GetMovedStudentLocation(messageHandler);
+        //Controllare con Grazza: l'idea è che la funzione ritornerà un int che potrà essere 0, e allora indicherà che lo studente
+        //è stato mosso nella hall, o un numero che va da 1 a 12, e allora indicherà una delle 12 isole
         int result = func.handle();
+        return result;
+    }
+
+    @Override
+    public Island getMNLocation(ArrayList<Island> islands) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        GetMNLocation func = new GetMNLocation(islands, messageHandler);
+        Island result = func.handle();
         return result;
     }
 }

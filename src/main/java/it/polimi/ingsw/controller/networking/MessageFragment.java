@@ -12,6 +12,7 @@ public enum MessageFragment {
     GREETINGS("greetings"),
     GREETINGS_STATUS_SUCCESFULL("successful"),
     HALL_STUDENT("hallStudent"),
+    ISLAND_ID("island_id"),
     LOBBY_TYPE("LobbyType"),
     LOBBY_SIZE("LobbySize"),
     MN_LOCATION("MNLocation"),
