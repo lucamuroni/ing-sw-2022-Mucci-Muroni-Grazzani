@@ -83,5 +83,12 @@ public class VirtualViewHandler implements View {
         Island result = func.handle();
         return result;
     }
+
+    //TODO: Controllare con Grazza: serve una classe TowerColor, di tipo enum, per passare il colore al client
+    @Override
+    public void sendTowerColor(TowerColor color) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException{
+        SendTowerColor func = new SendTowerColor(color, messageHandler);
+        func.handle();
+    }
 }
 
