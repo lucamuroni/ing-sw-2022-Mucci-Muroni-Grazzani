@@ -1,12 +1,9 @@
 package it.polimi.ingsw.controller.networking;
 
-import it.polimi.ingsw.controller.networking.exceptions.ModelErrorException;
-import it.polimi.ingsw.controller.server.GameType;
-import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.model.gamer.Gamer;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * @author Davide Grazzani
@@ -39,7 +36,7 @@ public class Player {
      * Getter method
      * @return the gamers' token
      */
-    public int getGamer() {
+    public int getToken() {
         return this.token;
     }
 

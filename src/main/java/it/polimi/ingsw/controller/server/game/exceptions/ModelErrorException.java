@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.networking.exceptions;
+package it.polimi.ingsw.controller.server.game.exceptions;
 
 public class ModelErrorException extends Exception{
     public ModelErrorException(){

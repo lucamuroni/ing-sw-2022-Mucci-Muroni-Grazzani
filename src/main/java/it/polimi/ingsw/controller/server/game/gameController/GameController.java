@@ -1,14 +1,12 @@
 package it.polimi.ingsw.controller.server.game.gameController;
 
 import it.polimi.ingsw.controller.networking.Player;
-import it.polimi.ingsw.controller.networking.exceptions.ModelErrorException;
-import it.polimi.ingsw.controller.server.GameType;
+import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.Server;
 import it.polimi.ingsw.controller.server.game.AssistantCardDeckFigures;
 import it.polimi.ingsw.controller.server.game.GamePhase;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.controller.server.virtualView.VirtualViewHandler;
-import it.polimi.ingsw.model.AssistantCardDeck;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 
@@ -39,7 +37,7 @@ public class GameController extends Thread{
     private ArrayList<Gamer> createGamers(ArrayList<Player> players){
         ArrayList<Gamer> gamers = new ArrayList<Gamer>();
         for(Player player : players){
-            Gamer gamer = new Gamer(player.getGamer(), player.getUsername());
+            Gamer gamer = new Gamer(player.getToken(), player.getUsername());
             gamers.add(gamer);
         }
         return gamers;
@@ -60,6 +58,7 @@ public class GameController extends Thread{
     }
 
     public void shutdown(){
+        System.out.println("Error revealed on server side : shutting down game");
         for(Player player : this.players){
             this.view.setCurrentPlayer(player);
             this.view.haltOnError();
@@ -72,7 +71,8 @@ public class GameController extends Thread{
     }
 
     public void handlePlayerError(Player player){
-        System.out.println("Error revealed");
+        System.out.println("Error revealed on client side");
+        System.out.println("Gamer info : "+player.getUsername()+", token : "+player.getToken());
         this.view.setCurrentPlayer(player);
         this.view.haltOnError();
         player.getMessageHandler().shutDown();
