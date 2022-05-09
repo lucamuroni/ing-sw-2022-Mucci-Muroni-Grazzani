@@ -83,4 +83,16 @@ public class GameController extends Thread{
         }
         this.players.remove(player);
     }
+
+    public Player getPlayer(Gamer currentPlayer) throws ModelErrorException {
+        for(Player player : this.players){
+            ArrayList<Gamer> gamers = new ArrayList<Gamer>();
+            gamers.add(currentPlayer);
+            try{
+                player.getGamer(gamers);
+                return player;
+            }catch(ModelErrorException e){}
+        }
+        throw new ModelErrorException();
+    }
 }

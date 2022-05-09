@@ -93,6 +93,9 @@ public class PlanningPhase implements GamePhase{
         }catch (TimeHasEndedException e){
             result = this.getRandomAssistantCard(cardsOfPlayer);
         }
+        //TODO : broadcastare a tutti gli altri player la propria decisione
+        currentPlayer.getDeck().setPastSelection();
+        currentPlayer.getDeck().setCurrentSelection(result);
         return result;
     }
 

@@ -25,7 +25,7 @@ public class GetMovedStudentLocation {
         this.messageHandler.write(messages);
         messages.clear();
         messages.addAll(this.messageHandler.writeOutAndWait(ConnectionTimings.PLAYER_MOVE.getTiming()));
-        //TODO: Controllare con Grazza: non sono sicuro che sia giusto così, lo sono al 95%
+        //TODO : modificare funzione in modo tale che restituisca un' isola e non un intero (passando anche come parametro l'array di isole
         int result = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(STUDENT_LOCATION.getFragment(), messages));
         return result;
     }
