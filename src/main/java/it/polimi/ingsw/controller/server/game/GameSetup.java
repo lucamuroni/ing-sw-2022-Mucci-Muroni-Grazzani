@@ -33,11 +33,12 @@ public class GameSetup implements GamePhase{
 
 
     public void handle(){
-
+        for(Player player : this.controller.getPlayers()){
+            this.updateMotherNaturePlace(player);
+        }
         this.initIslands(this.game);
         for(Player player : this.controller.getPlayers()){
-            this.view.setCurrentPlayer(player);
-            this.view.updateIslandStatus(this.game.getIslands());
+            this.updateIslandStatus(player);
             try {
                 player.getGamer(this.game.getGamers()).initGamer(this.game.getBag().pullStudents(this.numStudents),this.numTowers);
             } catch (ModelErrorException e) {
@@ -46,15 +47,16 @@ public class GameSetup implements GamePhase{
                 e.printStackTrace();
                 return;
             }
-            this.view.updateDashboards(this.game.getGamers());
+            this.updateDashboards(player);
         }
         for(Player player : this.controller.getPlayers()){
-            this.view.setCurrentPlayer(player);
-            AssistantCardDeckFigures figure = this.view.getChosenAssistantCardDeck(this.controller.getCardDesks());
-            //TODO : propagare la scelta delle carte agli altri giocatori
-            this.controller.getCardDesks().remove(figure);
+            AssistantCardDeckFigures figure = this.getChosenAssistantCardDeck(player);
+            for(Player player1 : this.controller.getPlayers()){
+                if(!player.equals(player1)){
+                    this.updateChosenCardDeck(player1);
+                }
+            }
         }
-
     }
 
     public GamePhase next(){
@@ -80,14 +82,77 @@ public class GameSetup implements GamePhase{
         game.initIsland(students);
     }
 
-    private void updateMotherNaturePlace() throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        for(Player player : this.controller.getPlayers()){
-            this.view.setCurrentPlayer(player);
+    private void updateMotherNaturePlace(Player player) {
+        this.view.setCurrentPlayer(player);
+        try{
             try{
                 this.view.updateMotherNaturePlace(this.game.getMotherNature().getPlace());
-            }catch (FlowErrorException | ClientDisconnectedException){
-                this.controller.
+            }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                this.view.updateMotherNaturePlace(this.game.getMotherNature().getPlace());
             }
+        }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
+            this.controller.handlePlayerError(player);
         }
     }
+
+    private void updateIslandStatus(Player player){
+        this.view.setCurrentPlayer(player);
+        try{
+            try{
+                this.view.updateIslandStatus(this.game.getIslands());
+            }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                this.view.updateIslandStatus(this.game.getIslands());
+            }
+        }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
+            this.controller.handlePlayerError(player);
+        }
+    }
+
+    private void updateDashboards(Player player){
+        this.view.setCurrentPlayer(player);
+        try{
+            try{
+                this.view.updateDashboards(this.game.getGamers());
+            }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                this.view.updateDashboards(this.game.getGamers());
+            }
+        }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
+            this.controller.handlePlayerError(player);
+        }
+    }
+
+    private AssistantCardDeckFigures getChosenAssistantCardDeck(Player player){
+        //TODO : selezione randomica dell'immagine nel caso non risponda in tempo
+        AssistantCardDeckFigures card = ;
+        this.view.setCurrentPlayer(player);
+        try{
+            try{
+                card =this.view.getChosenAssistantCardDeck(this.controller.getCardDesks());
+            }catch (MalformedMessageException | FlowErrorException e){
+                this.view.getChosenAssistantCardDeck(this.controller.getCardDesks());
+            }catch (TimeHasEndedException e1){
+                System.out.println("Time for selecting Wizard Deck is Over");
+                this.updateChosenCardDeck(player);
+            }
+        }catch (FlowErrorException | MalformedMessageException | ClientDisconnectedException e){
+            this.controller.handlePlayerError(player);
+        }
+        this.controller.getCardDesks().remove(card);
+        return card;
+    }
+
+    private void updateChosenCardDeck(Player player){
+        //TODO :definire una funzione in view per aggiornare il mazzo scelto
+        this.view.setCurrentPlayer(player);
+        try{
+            try{
+                this.view.updateChosenCardDeck(this.game.getIslands());
+            }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                this.view.updateChosenCardDeck(this.game.getIslands());
+            }
+        }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
+            this.controller.handlePlayerError(player);
+        }
+    }
+
 }
