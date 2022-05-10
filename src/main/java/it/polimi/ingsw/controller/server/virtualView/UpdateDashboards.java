@@ -10,9 +10,7 @@ import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
-
 import java.util.ArrayList;
-
 import static it.polimi.ingsw.controller.networking.MessageFragment.*;
 import static java.lang.Integer.valueOf;
 
@@ -44,19 +42,19 @@ public class UpdateDashboards {
         }
         this.messageHandler.write(messages);
         messages.clear();
-        messages.addAll(this.messageHandler.writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming()));
+        this.messageHandler.writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming());
         for (Gamer gamer : this.gamers) {
-            this.messageHandler.assertOnEquals(OK.getFragment(), OWNER.getFragment(), messages);
-            this.messageHandler.assertOnEquals(OK.getFragment(), NUM_TOWERS.getFragment(), messages);
+            this.messageHandler.assertOnEquals(OK.getFragment(), OWNER.getFragment());
+            this.messageHandler.assertOnEquals(OK.getFragment(), NUM_TOWERS.getFragment());
             //TODO: Controllare con Grazza: l'idea è che va controllato se tutti gli studenti della waiting room sono arrivati e non solo vedere se c'è almeno
             // un messaggio con questo header
             for (Student student : gamer.getDashboard().getWaitingRoom()) {
-                this.messageHandler.assertOnEquals(OK.getFragment(), WAITING_STUDENT.getFragment(), messages);
+                this.messageHandler.assertOnEquals(OK.getFragment(), WAITING_STUDENT.getFragment());
             }
             //TODO: Controllare con Grazza: stesso concetto del for soprastante, ma semplificato perché si controlla solo che siano arrivati dei messaggi
             // di "ok" tanti quanti sono i colori delle pedine studente
             for (PawnColor color : PawnColor.values()) {
-                this.messageHandler.assertOnEquals(OK.getFragment(), HALL_STUDENT.getFragment(), messages);
+                this.messageHandler.assertOnEquals(OK.getFragment(), HALL_STUDENT.getFragment());
             }
         }
 

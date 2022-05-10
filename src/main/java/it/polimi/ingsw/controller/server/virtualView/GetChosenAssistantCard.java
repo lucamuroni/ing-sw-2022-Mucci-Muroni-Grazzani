@@ -29,10 +29,10 @@ class GetChosenAssistantCard {
         }
         this.messageHandler.write(messages);
         messages.clear();
-        messages.addAll(this.messageHandler.writeOutAndWait(ConnectionTimings.PLAYER_MOVE.getTiming()));
+        this.messageHandler.writeOutAndWait(ConnectionTimings.PLAYER_MOVE.getTiming());
         String cardName;
         AssistantCard result = null;
-        cardName = this.messageHandler.getMessagePayloadFromStream(ASSISTANT_CARD.getFragment(), messages);
+        cardName = this.messageHandler.getMessagePayloadFromStream(ASSISTANT_CARD.getFragment());
         for (AssistantCard card : this.cards) {
             if (card.getName().equals(cardName))
                 result = card;

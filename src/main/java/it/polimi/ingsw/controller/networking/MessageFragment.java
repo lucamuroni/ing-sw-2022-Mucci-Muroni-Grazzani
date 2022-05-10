@@ -6,9 +6,11 @@ package it.polimi.ingsw.controller.networking;
  */
 public enum MessageFragment {
     ASSISTANT_CARD("assistantCard"),
+    ASSISTANT_CARD_DECK("assistantCardDeck"),
     AUTH("auth"),
     AUTH_ID("auth_id"),
     CLOUD("cloud"),
+    CLOUD_ID("cloud_id"),
     GAME_TYPE("GameType"),
     GREETINGS("greetings"),
     GREETINGS_STATUS_SUCCESFULL("successful"),

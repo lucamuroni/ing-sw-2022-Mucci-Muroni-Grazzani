@@ -42,12 +42,12 @@ public class UpdateIslandStatus {
         }
         this.messageHandler.write(messages);
         messages.clear();
-        messages.addAll(this.messageHandler.writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming()));
-        this.messageHandler.assertOnEquals(OK.getFragment(), OWNER.getFragment(), messages);
-        this.messageHandler.assertOnEquals(OK.getFragment(), NUM_TOWERS.getFragment(), messages);
+        this.messageHandler.writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming());
+        this.messageHandler.assertOnEquals(OK.getFragment(), OWNER.getFragment());
+        this.messageHandler.assertOnEquals(OK.getFragment(), NUM_TOWERS.getFragment());
         //TODO: Controllare con Grazza se idea è giusta: vedo se nei messaggi ho ricevuto un "ok" per tutti gli studenti
         // passati, altrimenti la seconda possibilità è il controllo di un solo messaggio di "ok" comprensivo per tutti gli studenti ricevuti
         for (int i = 0; i < this.island.getStudents().size(); i++)
-            this.messageHandler.assertOnEquals(OK.getFragment(), STUDENT_COLOR.getFragment(), messages);
+            this.messageHandler.assertOnEquals(OK.getFragment(), STUDENT_COLOR.getFragment());
     }
 }

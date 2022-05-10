@@ -8,7 +8,7 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.Cloud;
 import java.util.ArrayList;
-import static it.polimi.ingsw.controller.networking.MessageFragment.CLOUD;
+import static it.polimi.ingsw.controller.networking.MessageFragment.CLOUD_ID;
 
 public class GetChosenCloud {
     ArrayList<Cloud> clouds;
@@ -20,16 +20,16 @@ public class GetChosenCloud {
     public Cloud handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
-        for (Cloud cloud: clouds) {
-            messages.add(new Message(CLOUD.getFragment(), cloud.getID(), topicId));
+        for (Cloud cloud: this.clouds) {
+            messages.add(new Message(CLOUD_ID.getFragment(), cloud.getID(), topicId));
         }
         this.messageHandler.write(messages);
         messages.clear();
-        messages.addAll(this.messageHandler.writeOutAndWait(ConnectionTimings.PLAYER_MOVE.getTiming()));
+        this.messageHandler.writeOutAndWait(ConnectionTimings.PLAYER_MOVE.getTiming());
         String cloudID;
         Cloud result = null;
-        cloudID = this.messageHandler.getMessagePayloadFromStream(CLOUD.getFragment(), messages);
-        for (Cloud cloud : clouds) {
+        cloudID = this.messageHandler.getMessagePayloadFromStream(CLOUD_ID.getFragment());
+        for (Cloud cloud : this.clouds) {
             if (cloud.getID().equals(cloudID))
                 result = cloud;
         }
