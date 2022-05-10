@@ -94,6 +94,11 @@ public class PlanningPhase implements GamePhase{
             result = this.getRandomAssistantCard(cardsOfPlayer);
         }
         //TODO : broadcastare a tutti gli altri player la propria decisione
+        ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
+        players.remove(player);
+        for (Player pl : players) {
+            this.view.sendChosenAssistantCard(result, player.getToken());
+        }
         currentPlayer.getDeck().setPastSelection();
         currentPlayer.getDeck().setCurrentSelection(result);
         return result;
