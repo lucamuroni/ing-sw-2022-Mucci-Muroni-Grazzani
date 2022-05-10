@@ -5,13 +5,19 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
+import it.polimi.ingsw.controller.server.game.exceptions.GenericErrorException;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
+import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
+import it.polimi.ingsw.model.pawn.Student;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class ActionPhase1 implements GamePhase{
     private final Game game;
@@ -37,7 +43,20 @@ public class ActionPhase1 implements GamePhase{
     //calcolo professori
     @Override
     public void handle() {
-
+        try {
+            this.moveStudentToLocation();
+            ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
+            players.remove(this.controller.getPlayer());
+            for (Player pl : players) {
+                this.view.sendChosenAssistantCard(result, player.getToken());
+            }
+        } catch (ModelErrorException e) {
+            this.controller.shutdown();
+            e.printStackTrace();
+            return;
+        } catch (GenericErrorException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -46,22 +65,41 @@ public class ActionPhase1 implements GamePhase{
     }
 
     private void moveStudentToLocation(){
-        Island place = null;
-        PawnColor color;
+        int place = 0;
+        PawnColor color = null;
         try{
             try{
                 color = this.view.getMovedStudentColor();
-                place = this.view.getMovedStudentLocation(this.game.getIslands());
+                place = this.view.getMovedStudentLocation();
             }catch (MalformedMessageException e){
                 color = this.view.getMovedStudentColor();
+                place = this.view.getMovedStudentLocation();
             }catch (TimeHasEndedException e){
                 color = this.randomColorPicker();
+                place = this.randomPlacePicker();
             }
         }catch (MalformedMessageException | ClientDisconnectedException e){
             this.controller.handlePlayerError(this.player);
         }catch (TimeHasEndedException e){
             color = this.randomColorPicker();
+            place = this.randomPlacePicker();
         }
+        PawnColor finalColor = color;
+        Student stud = this.game.getCurrentPlayer().getDashboard().getWaitingRoom().stream().filter(x -> x.getColor().equals(finalColor)).findFirst().get();
+        if (place == 0) {
+            this.game.getCurrentPlayer().getDashboard().moveStudent(stud);
+            try {
+                this.game.changeProfessorOwner(stud.getColor());
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+        else {
+            Island isl = this.game.getIslands().get(place);
+            this.game.getCurrentPlayer().getDashboard().moveStudent(stud, isl);
+        }
+
     }
 
     private void updateCurrentPlayer() throws ModelErrorException {
@@ -71,6 +109,14 @@ public class ActionPhase1 implements GamePhase{
     }
 
     private PawnColor randomColorPicker(){
-        //TODO : funzione che genera un colore casuale a partire dai colori disponibili nella hall del currentPlayer
+        Random random = new Random();
+        int rand = random.nextInt(0, PawnColor.values().length);
+        return PawnColor.values()[rand];
+    }
+
+    private int randomPlacePicker() {
+        Random random = new Random();
+        int rand = random.nextInt(0, this.game.getIslands().size());
+        return rand;
     }
 }
