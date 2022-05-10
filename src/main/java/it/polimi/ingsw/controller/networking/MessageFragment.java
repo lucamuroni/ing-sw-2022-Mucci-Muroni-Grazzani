@@ -11,6 +11,7 @@ public enum MessageFragment {
     AUTH_ID("auth_id"),
     CLOUD("cloud"),
     CLOUD_ID("cloud_id"),
+    DASHBOARD("dashboard"),
     GAME_TYPE("GameType"),
     GREETINGS("greetings"),
     GREETINGS_STATUS_SUCCESFULL("successful"),
