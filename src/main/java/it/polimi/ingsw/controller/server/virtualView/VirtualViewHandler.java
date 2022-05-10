@@ -93,7 +93,7 @@ public class VirtualViewHandler implements View {
     }
     @Override
     public Cloud getChosenCloud(ArrayList<Cloud> clouds) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        GetChosenCloud func = new GetChosenCloud(ArrayList<Cloud> clouds);  //TODO: rivedere errore
+        GetChosenCloud func = new GetChosenCloud(clouds, messageHandler);  //TODO: rivedere errore
         Cloud result = func.handle();
         return result;
     }
