@@ -115,5 +115,10 @@ public class VirtualViewHandler implements View {
         SendChosenAssistantCard func = new SendChosenAssistantCard(card, token, messageHandler);
         func.handle();
     }
+    @Override
+    public void sendChosenAssistantCardDeck(AssistantCardDeckFigures deck, Integer token) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        SendChosenAssistantCardDeck func = new SendChosenAssistantCardDeck(deck, token, messageHandler);
+        func.handle();
+    }
 }
 
