@@ -8,6 +8,7 @@ public enum MessageFragment {
     ASSISTANT_CARD("assistantCard"),
     AUTH("auth"),
     AUTH_ID("auth_id"),
+    CLOUD("cloud"),
     GAME_TYPE("GameType"),
     GREETINGS("greetings"),
     GREETINGS_STATUS_SUCCESFULL("successful"),
