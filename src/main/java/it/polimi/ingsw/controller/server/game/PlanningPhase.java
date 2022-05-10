@@ -12,6 +12,7 @@ import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class PlanningPhase implements GamePhase{
     private final Game game;
@@ -93,7 +94,6 @@ public class PlanningPhase implements GamePhase{
         }catch (TimeHasEndedException e){
             result = this.getRandomAssistantCard(cardsOfPlayer);
         }
-        //TODO : broadcastare a tutti gli altri player la propria decisione
         ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
         players.remove(player);
         for (Player pl : players) {
@@ -105,6 +105,8 @@ public class PlanningPhase implements GamePhase{
     }
 
     private AssistantCard getRandomAssistantCard(ArrayList<AssistantCard> cards){
-        //TODO : implementare funzione randomica per scegliere una carta a caso nel caso in cui il giocatore non risponda in tempo
+        Random random = new Random();
+        int rand = random.nextInt(0, cards.size());
+        return cards.get(rand);
     }
 }
