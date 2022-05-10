@@ -20,9 +20,6 @@ class ConnectionHandler {
     private ArrayList<String> outputMessages;
     private boolean isON;
     private boolean isSocketTimeOutOccurred;
-    private final Object inputMessagesLock = new Object();
-    private final Object outputMessagesLock = new Object();
-    private final Object outLock = new Object();
 
     public ConnectionHandler(Socket socket){
         this.clientSocket = socket;
@@ -58,8 +55,12 @@ class ConnectionHandler {
                     s = this.in.readLine();
                     if(s.equals("ping-ok")){
                         this.ping(8000);
+                    }else if(s.equals("ping")){
+                        synchronized (this.out){
+                            this.out.println("ping-ok");
+                        }
                     }else{
-                        synchronized (this.inputMessagesLock){
+                        synchronized (this.inputMessages){
                             this.inputMessages.add(s);
                         }
                     }
@@ -79,7 +80,7 @@ class ConnectionHandler {
         MessageTimer msgTimer = new MessageTimer(actionTimeOutMs);
         msgTimer.start();
         while(isInputEmpty){
-            synchronized (this.inputMessagesLock){
+            synchronized (this.inputMessages){
                 if(!this.inputMessages.isEmpty()){
                     isInputEmpty = false;
                 }
@@ -93,7 +94,7 @@ class ConnectionHandler {
         }
         msgTimer.kill();
         String s;
-        synchronized (this.inputMessagesLock){
+        synchronized (this.inputMessages){
             s = this.inputMessages.get(0);
             this.inputMessages.remove(0);
         }
@@ -101,7 +102,7 @@ class ConnectionHandler {
     }
 
     public void setOutputMessage(String string){
-        synchronized (this.outputMessagesLock){
+        synchronized (this.outputMessages){
             this.outputMessages.add(string);
             this.outputMessages.notifyAll();
         }
@@ -113,20 +114,22 @@ class ConnectionHandler {
             boolean empty = true;
             while (this.isON){
                 while(empty) {
-                    synchronized (this.outputMessagesLock){
+                    synchronized (this.outputMessages){
                         if(!this.outputMessages.isEmpty()){
                             empty = false;
                         }
                     }
                     try {
-                        this.outputMessages.wait(10000);
+                        synchronized (this.outputMessages){
+                            this.outputMessages.wait(10000);
+                        }
                     } catch (InterruptedException e) {
                         System.out.println("Could not wait for new output message");
                     }
                 }
-                synchronized (this.outputMessagesLock){
+                synchronized (this.outputMessages){
                     while(!this.outputMessages.isEmpty()){
-                        synchronized (this.outLock){
+                        synchronized (this.out){
                             this.out.println(this.outputMessages.get(0));
                             this.outputMessages.remove(0);
                         }
@@ -140,7 +143,7 @@ class ConnectionHandler {
 
     private void ping(int milliSeconds){
         Thread t = new Thread(()->{
-            synchronized (this.outLock){
+            synchronized (this.out){
                 if(milliSeconds>0){
                     try {
                         this.out.wait(milliSeconds);
@@ -156,10 +159,10 @@ class ConnectionHandler {
 
     
     public void restLines(){
-        synchronized (this.outputMessagesLock){
+        synchronized (this.outputMessages){
             this.outputMessages.clear();
         }
-        synchronized (this.inputMessagesLock){
+        synchronized (this.inputMessages){
             try {
                 this.inputMessages.wait(1000);
             } catch (InterruptedException e) {}
