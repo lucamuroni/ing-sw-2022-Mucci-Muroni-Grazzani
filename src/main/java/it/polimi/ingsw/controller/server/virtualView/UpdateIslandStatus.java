@@ -42,7 +42,7 @@ public class UpdateIslandStatus {
         }
         this.messageHandler.write(messages);
         messages.clear();
-        this.messageHandler.writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming());
+        this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
         this.messageHandler.assertOnEquals(OK.getFragment(), OWNER.getFragment());
         this.messageHandler.assertOnEquals(OK.getFragment(), NUM_TOWERS.getFragment());
         //TODO: Controllare con Grazza se idea è giusta: vedo se nei messaggi ho ricevuto un "ok" per tutti gli studenti

@@ -120,5 +120,10 @@ public class VirtualViewHandler implements View {
         SendChosenAssistantCardDeck func = new SendChosenAssistantCardDeck(deck, token, messageHandler);
         func.handle();
     }
+    @Override
+    public void sendNewPhase(Phase phase) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        SendNewPhase func = new SendNewPhase(phase, messageHandler);
+        func.handle();
+    }
 }
 

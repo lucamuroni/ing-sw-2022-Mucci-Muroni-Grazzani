@@ -28,7 +28,7 @@ public class SendTowerColor {
         messages.add(new Message(TOWER_COLOR.getFragment(), color.getColor(), topicId));
         this.messageHandler.write(messages);
         messages.clear();
-        this.messageHandler.writeOutAndWait(ConnectionTimings.PLAYER_MOVE.getTiming());
+        this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
         this.messageHandler.assertOnEquals(OK.getFragment(), TOWER_COLOR.getFragment());
     }
 }

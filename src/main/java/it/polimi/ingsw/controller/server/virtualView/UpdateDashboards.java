@@ -42,7 +42,7 @@ public class UpdateDashboards {
         }
         this.messageHandler.write(messages);
         messages.clear();
-        this.messageHandler.writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming());
+        this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
         for (Gamer gamer : this.gamers) {
             this.messageHandler.assertOnEquals(OK.getFragment(), OWNER.getFragment());
             this.messageHandler.assertOnEquals(OK.getFragment(), NUM_TOWERS.getFragment());

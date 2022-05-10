@@ -29,7 +29,7 @@ public class SendChosenAssistantCard {
         messages.add(new Message(ASSISTANT_CARD.getFragment(),this.card.getName(), topicId));
         this.messageHandler.write(messages);
         messages.clear();
-        this.messageHandler.writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming());
+        this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
         this.messageHandler.assertOnEquals(OK.getFragment(), ASSISTANT_CARD.getFragment());
     }
 }
