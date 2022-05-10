@@ -44,18 +44,28 @@ public class ActionPhase1 implements GamePhase{
     @Override
     public void handle() {
         try {
-            this.moveStudentToLocation();
+            this.view.phaseChanghe("ActionPhase1");
+        } catch () {}
+        try {
+            this.moveStudentToLocation(this.controller.getPlayer(this.game.getCurrentPlayer()));
             ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
-            players.remove(this.controller.getPlayer());
+            players.remove(this.controller.getPlayer(this.game.getCurrentPlayer()));
             for (Player pl : players) {
-                this.view.sendChosenAssistantCard(result, player.getToken());
+                this.view.setCurrentPlayer(pl);
+                try {
+                    try {
+                        this.view.updateDashboards(this.game.getGamers());
+                    } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
+                        this.view.updateDashboards(this.game.getGamers());
+                    }
+                } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
+                    this.controller.handlePlayerError(pl);
+                }
             }
         } catch (ModelErrorException e) {
             this.controller.shutdown();
             e.printStackTrace();
             return;
-        } catch (GenericErrorException e) {
-            e.printStackTrace();
         }
     }
 
@@ -64,7 +74,8 @@ public class ActionPhase1 implements GamePhase{
         return new MotherNaturePhase(this.game,this.controller);
     }
 
-    private void moveStudentToLocation(){
+    private void moveStudentToLocation(Player player){
+        this.view.setCurrentPlayer(player);
         int place = 0;
         PawnColor color = null;
         try{
@@ -93,13 +104,11 @@ public class ActionPhase1 implements GamePhase{
             }catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
         else {
             Island isl = this.game.getIslands().get(place);
             this.game.getCurrentPlayer().getDashboard().moveStudent(stud, isl);
         }
-
     }
 
     private void updateCurrentPlayer() throws ModelErrorException {
