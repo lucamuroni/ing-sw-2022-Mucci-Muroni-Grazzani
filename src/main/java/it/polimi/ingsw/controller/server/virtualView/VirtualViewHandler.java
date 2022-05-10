@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.AssistantCard;
+import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
@@ -81,6 +82,19 @@ public class VirtualViewHandler implements View {
     public Island getMNLocation(ArrayList<Island> islands) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetMNLocation func = new GetMNLocation(islands, messageHandler);
         Island result = func.handle();
+        return result;
+    }
+
+    //TODO: Controllare con Grazza: serve una classe TowerColor, di tipo enum, per passare il colore al client
+    @Override
+    public void sendTowerColor(TowerColor color) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException{
+        SendTowerColor func = new SendTowerColor(color, messageHandler);
+        func.handle();
+    }
+    @Override
+    public Cloud getChosenCloud(ArrayList<Cloud> clouds) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        GetChosenCloud func = new GetChosenCloud(ArrayList<Cloud> clouds);  //TODO: rivedere errore
+        Cloud result = func.handle();
         return result;
     }
 }
