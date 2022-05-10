@@ -1,16 +1,13 @@
-# Ingengneria del Software 2022 Mucci-Muroni-Grazzani
+# Ingegneria del Software 2022 Mucci-Muroni-Grazzani
 
-# Scandenze
+# Scandenze (entro sabato)
 
 ## Davide
- - Modifica MessageHandler
- - Sequence Diagram
+ - 
 ## Luca
- - Togliere classe bagExpert e modificare la classe bag di conseguenza
- - Controllare metodo getDashboard di ExpertDashboard -> se funziona rinominare tutto
- - finire test game
+ - fasi (tutte tranne end game)
 ## Sara 
-- test carte esperto completate
+- controllare messaggi + test + javadoc
 
 # Calendar
 |data| Consegna |
