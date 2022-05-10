@@ -64,19 +64,19 @@ class ClientReception extends Thread{
                 }
             }
             try {
-                msgs.addAll(player.getMessageHandler().writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming()));
-                player.getMessageHandler().assertOnEquals(MessageFragment.OK.getFragment(), MessageFragment.GREETINGS.getFragment(), msgs);
+                player.getMessageHandler().writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming());
+                player.getMessageHandler().assertOnEquals(MessageFragment.OK.getFragment(), MessageFragment.GREETINGS.getFragment());
                 msgs.clear();
                 Integer uniquePlayerID = this.generateUniquePlayerID();
                 msgs.add(new Message(MessageFragment.AUTH_ID.getFragment(), uniquePlayerID.toString(),uniqueMsgID));
                 player.getMessageHandler().write(msgs);
                 msgs.clear();
-                msgs.addAll(player.getMessageHandler().writeOutAndWait(ConnectionTimings.INFINITE.getTiming()));
-                player.getMessageHandler().assertOnEquals(uniquePlayerID.toString(), MessageFragment.AUTH_ID.getFragment(), msgs);
-                String name = player.getMessageHandler().getMessagePayloadFromStream(MessageFragment.PLAYER_NAME.getFragment(),msgs);
+                player.getMessageHandler().writeOutAndWait(ConnectionTimings.INFINITE.getTiming());
+                player.getMessageHandler().assertOnEquals(uniquePlayerID.toString(), MessageFragment.AUTH_ID.getFragment());
+                String name = player.getMessageHandler().getMessagePayloadFromStream(MessageFragment.PLAYER_NAME.getFragment());
                 player.createGamer(name,uniquePlayerID);
-                String gameType = player.getMessageHandler().getMessagePayloadFromStream(MessageFragment.GAME_TYPE.getFragment(),msgs);
-                String lobbySize = player.getMessageHandler().getMessagePayloadFromStream(MessageFragment.LOBBY_SIZE.getFragment(),msgs);
+                String gameType = player.getMessageHandler().getMessagePayloadFromStream(MessageFragment.GAME_TYPE.getFragment());
+                String lobbySize = player.getMessageHandler().getMessagePayloadFromStream(MessageFragment.LOBBY_SIZE.getFragment());
                 insertPlayerIntoLobby(gameType,lobbySize,player);
             } catch (TimeHasEndedException | ClientDisconnectedException | MalformedMessageException | FlowErrorException e) {
                 e.printStackTrace();
@@ -129,9 +129,8 @@ class ClientReception extends Thread{
         messages.add(new Message(MessageFragment.GREETINGS.getFragment(), MessageFragment.GREETINGS_STATUS_SUCCESFULL.getFragment(),uniqueMsgID));
         try{
             player.getMessageHandler().write(messages);
-            messages.clear();
-            messages.addAll(player.getMessageHandler().writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming()));
-            player.getMessageHandler().assertOnEquals(MessageFragment.OK.getFragment(), MessageFragment.GREETINGS.getFragment(), messages);
+            player.getMessageHandler().writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming());
+            player.getMessageHandler().assertOnEquals(MessageFragment.OK.getFragment(), MessageFragment.GREETINGS.getFragment());
             this.lobbiesLock.notifyAll();
         }catch (TimeHasEndedException | ClientDisconnectedException | MalformedMessageException | FlowErrorException e){
             synchronized (this.lobbiesLock){
