@@ -24,6 +24,7 @@ import java.util.Random;
  * from his waitingRoom to an island or his hall
  */
 public class ActionPhase1 implements GamePhase{
+    //TODO: Bisogna risolvere questo problema: se il game è in modalità esperta, non si possono gestire le monete
     private final Game game;
     private final GameController controller;
     private Gamer currentPlayer;
