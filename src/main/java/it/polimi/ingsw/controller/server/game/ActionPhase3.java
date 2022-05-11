@@ -16,19 +16,30 @@ import it.polimi.ingsw.model.gamer.Gamer;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * This class implements the fourth phase of the game, which is the ActionPhase3, where the currentPlayer chooses a cloud
+ */
 public class ActionPhase3 implements GamePhase{
     private final Game game;
     private final GameController controller;
     private Gamer currentPlayer;
     private final View view;
 
-
+    /**
+     * Constructor of the class
+     * @param game represents the current game
+     * @param controller represents the controller linked with this game
+     */
     public ActionPhase3(Game game, GameController controller){
         this.game = game;
         this.controller = controller;
         this.currentPlayer = this.game.getCurrentPlayer();
         this.view = this.controller.getView();
     }
+
+    /**
+     * This is the main method that handles this phase
+     */
     @Override
     public void handle() {
         try {
@@ -60,7 +71,12 @@ public class ActionPhase3 implements GamePhase{
         }
     }
 
-
+    /**
+     * This method handles the pull of the cloud chosen by the player, and it is called in handle()
+     * @param player representd the currentPlayer
+     * @throws GenericErrorException when the message from the client is malformed twice or the player doesn't reply in time
+     * @throws ModelErrorException
+     */
     private void choseCloud(Player player) throws GenericErrorException, ModelErrorException {
         this.view.setCurrentPlayer(player);
         Cloud chosenCloud = null;
@@ -88,12 +104,21 @@ public class ActionPhase3 implements GamePhase{
         gamer.getDashboard().addStudentsWaitingRoom(chosenCloud.pullStudent());
     }
 
+    /**
+     * Method called by chooseCloud() that picks a random cloud when the player doesn't reply in time
+     * @param clouds is the ArrayList of possible choices
+     * @return a random cloud
+     */
     private Cloud getRandomCloud(ArrayList<Cloud> clouds) {
         Random random = new Random();
         int rand = random.nextInt(0, clouds.size());
         return clouds.get(rand);
     }
 
+    /**
+     * This method changes the phase to the next one
+     * @return the next GamePhase
+     */
     @Override
     public GamePhase next() {
         return new PlanningPhase(this.game, this.controller);
