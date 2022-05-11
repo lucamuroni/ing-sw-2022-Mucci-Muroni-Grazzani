@@ -16,6 +16,10 @@ import it.polimi.ingsw.model.gamer.Gamer;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * This class implements the first part of the second phase of the game, which is the actionPhase2, and in particular this part
+ * handles the movement of MotherNature
+ */
 public class MotherNaturePhase implements GamePhase{
     private final Game game;
     private final GameController controller;
@@ -23,6 +27,11 @@ public class MotherNaturePhase implements GamePhase{
     private final View view;
     private Player player = null;
 
+    /**
+     * Constructor of the class
+     * @param game represents the current game
+     * @param controller represents the controller linked with this game
+     */
     public MotherNaturePhase(Game game, GameController controller){
         this.game = game;
         this.controller = controller;
@@ -30,6 +39,9 @@ public class MotherNaturePhase implements GamePhase{
         this.view = this.controller.getView();
     }
 
+    /**
+     * this is the main method that handles this phase
+     */
     @Override
     public void handle() {
         try {
@@ -61,6 +73,11 @@ public class MotherNaturePhase implements GamePhase{
         }
     }
 
+    /**
+     * This method handles the movement of MN and is called in handle()
+     * @param player represents the currentPlayer that is playing
+     * @throws GenericErrorException when the message from the client is malformed twice or the player disconnects from the game
+     */
     private void moveMotherNature(Player player) throws GenericErrorException {
         this.view.setCurrentPlayer(player);
         Island place = null;
@@ -83,12 +100,21 @@ public class MotherNaturePhase implements GamePhase{
         this.game.moveMotherNature(place);
     }
 
+    /**
+     * This method is called by moveMotherNature() when the player doesn't reply in time and that choose a random island
+     * @param choices is the ArrayList of possible islands to choose from
+     * @return a random island
+     */
     private Island getRandomIsland(ArrayList<Island> choices) {
         Random random = new Random();
         int rand = random.nextInt(0, choices.size());
         return choices.get(rand);
     }
 
+    /**
+     * this method changes the phase to the next one
+     * @return the next GamePhase
+     */
     @Override
     public GamePhase next() {
         return new ConquerIslandPhase(this.game,this.controller);

@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * This class implements the first part of the second phase of the game, which is the actionPhase2, and in particular this part
- * handles the movement of MotherNature
+ * This class implements the second phase of the game, which is the ActionPhase1, where the current player moves 3/4 students
+ * from his waitingRoom to an island or his hall
  */
 public class ActionPhase1 implements GamePhase{
     private final Game game;
@@ -35,7 +35,7 @@ public class ActionPhase1 implements GamePhase{
 
     /**
      * Constructor of the class
-     * @param game represents the current game that is handled
+     * @param game represents the current game
      * @param controller represents the controller linked with this game
      */
     public ActionPhase1(Game game, GameController controller){
@@ -97,8 +97,9 @@ public class ActionPhase1 implements GamePhase{
     }
 
     /**
-     * This method handles the movement of the student choose by the player and also modifies the model
+     * This method handles the movement of the student choose by the player and is called in handle()
      * @param player represents the currentPlayer that is playing
+     * @throws GenericErrorException when the message from the client is malformed twice or the player disconnects from the game
      */
     private void moveStudentToLocation(Player player) throws GenericErrorException {
         this.view.setCurrentPlayer(player);
@@ -146,7 +147,8 @@ public class ActionPhase1 implements GamePhase{
     }
 
     /**
-     * Method called by moveStudentToLocation() when the player doesn't reply in time
+     * Method called by moveStudentToLocation() when the player doesn't reply in time and that choose a random color
+     * for the student moved
      * @return a random color
      */
     private PawnColor randomColorPicker(){
@@ -156,7 +158,8 @@ public class ActionPhase1 implements GamePhase{
     }
 
     /**
-     * Method called by moveStudentToLocation() when the player doesn't reply in time
+     * Method called by moveStudentToLocation() when the player doesn't reply in time and that choose a random location
+     * for the student moved
      * @return a random place
      */
     private int randomPlacePicker() {

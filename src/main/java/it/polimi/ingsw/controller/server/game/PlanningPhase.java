@@ -26,7 +26,7 @@ public class PlanningPhase implements GamePhase{
 
     /**
      * Constructor of the class
-     * @param game represents the current game that is handled
+     * @param game represents the current game
      * @param controller represents the controller linked with this game
      */
     public PlanningPhase(Game game, GameController controller){
@@ -96,7 +96,7 @@ public class PlanningPhase implements GamePhase{
      * @param alreadyPlayedCards are all the cards played till this moment
      * @return the card chosen by the player
      * @throws ModelErrorException
-     * @throws GenericErrorException
+     * @throws GenericErrorException when the message from the client is malformed twice or the player disconnects from the game
      */
     private AssistantCard getChoseAssistantCard(Player player,ArrayList<AssistantCard> alreadyPlayedCards) throws ModelErrorException, GenericErrorException {
         this.view.setCurrentPlayer(player);
