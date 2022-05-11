@@ -92,9 +92,9 @@ public class PlanningPhase implements GamePhase{
 
     /**
      * This method, called by handle(), manages the AssistantCards choose by the players
-     * @param player
-     * @param alreadyPlayedCards
-     * @return
+     * @param player represents the current player
+     * @param alreadyPlayedCards are all the cards played till this moment
+     * @return the card chosen by the player
      * @throws ModelErrorException
      * @throws GenericErrorException
      */

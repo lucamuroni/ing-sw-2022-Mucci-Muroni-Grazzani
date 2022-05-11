@@ -19,6 +19,10 @@ import it.polimi.ingsw.model.pawn.Student;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * This class implements the first part of the second phase of the game, which is the actionPhase2, and in particular this part
+ * handles the movement of MotherNature
+ */
 public class ActionPhase1 implements GamePhase{
     private final Game game;
     private final GameController controller;
@@ -27,7 +31,13 @@ public class ActionPhase1 implements GamePhase{
     private final View view;
     private Player player = null;
 
-        //TODO :ricodarsi di aggiornare il currentPlayer in gameCOntroller
+    //TODO :ricodarsi di aggiornare il currentPlayer in gameCOntroller
+
+    /**
+     * Constructor of the class
+     * @param game represents the current game that is handled
+     * @param controller represents the controller linked with this game
+     */
     public ActionPhase1(Game game, GameController controller){
         this.game = game;
         this.controller = controller;
@@ -39,42 +49,58 @@ public class ActionPhase1 implements GamePhase{
         }
         this.view = this.controller.getView();
     }
-    //mouve gli studenti dove ha voglia
-    //calcolo professori
+
+    /**
+     *This is the main method that handles this phase
+     */
     @Override
     public void handle() {
         try {
             this.view.phaseChanghe("ActionPhase1");
         } catch () {}
-        try {
-            this.moveStudentToLocation(this.controller.getPlayer(this.game.getCurrentPlayer()));
-            ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
-            players.remove(this.controller.getPlayer(this.game.getCurrentPlayer()));
-            for (Player pl : players) {
-                this.view.setCurrentPlayer(pl);
-                try {
+        for (int cont = 0; cont < numOfMovements; cont++) {
+            try {
+                this.moveStudentToLocation(this.controller.getPlayer(this.game.getCurrentPlayer()));
+                ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
+                players.remove(this.controller.getPlayer(this.game.getCurrentPlayer()));
+                for (Player pl : players) {
+                    this.view.setCurrentPlayer(pl);
                     try {
-                        this.view.updateDashboards(this.game.getGamers());
-                    } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
-                        this.view.updateDashboards(this.game.getGamers());
+                        try {
+                            this.view.updateDashboards(this.game.getGamers());
+                        } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
+                            this.view.updateDashboards(this.game.getGamers());
+                        }
+                    } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
+                        this.controller.handlePlayerError(pl);
                     }
-                } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
-                    this.controller.handlePlayerError(pl);
                 }
+            } catch (ModelErrorException e) {
+                this.controller.shutdown();
+                e.printStackTrace();
+                return;
+            } catch (GenericErrorException e) {
+                e.printStackTrace();
+                return;
             }
-        } catch (ModelErrorException e) {
-            this.controller.shutdown();
-            e.printStackTrace();
-            return;
         }
+
     }
 
+    /**
+     * This method changes the phase to the next one
+     * @return the next GamePhase
+     */
     @Override
     public GamePhase next() {
         return new MotherNaturePhase(this.game,this.controller);
     }
 
-    private void moveStudentToLocation(Player player){
+    /**
+     * This method handles the movement of the student choose by the player and also modifies the model
+     * @param player represents the currentPlayer that is playing
+     */
+    private void moveStudentToLocation(Player player) throws GenericErrorException {
         this.view.setCurrentPlayer(player);
         int place = 0;
         PawnColor color = null;
@@ -91,6 +117,7 @@ public class ActionPhase1 implements GamePhase{
             }
         }catch (MalformedMessageException | ClientDisconnectedException e){
             this.controller.handlePlayerError(this.player);
+            throw new GenericErrorException();
         }catch (TimeHasEndedException e){
             color = this.randomColorPicker();
             place = this.randomPlacePicker();
@@ -106,23 +133,32 @@ public class ActionPhase1 implements GamePhase{
             }
         }
         else {
-            Island isl = this.game.getIslands().get(place);
+            Island isl = this.game.getIslands().get(place-1);
             this.game.getCurrentPlayer().getDashboard().moveStudent(stud, isl);
         }
     }
 
+    //TODO: A cosa serve questo metodo?
     private void updateCurrentPlayer() throws ModelErrorException {
         this.currentPlayer = this.game.getCurrentPlayer();
         this.player = this.controller.getPlayer(this.currentPlayer);
         this.view.setCurrentPlayer(this.player);
     }
 
+    /**
+     * Method called by moveStudentToLocation() when the player doesn't reply in time
+     * @return a random color
+     */
     private PawnColor randomColorPicker(){
         Random random = new Random();
         int rand = random.nextInt(0, PawnColor.values().length);
         return PawnColor.values()[rand];
     }
 
+    /**
+     * Method called by moveStudentToLocation() when the player doesn't reply in time
+     * @return a random place
+     */
     private int randomPlacePicker() {
         Random random = new Random();
         int rand = random.nextInt(0, this.game.getIslands().size());
