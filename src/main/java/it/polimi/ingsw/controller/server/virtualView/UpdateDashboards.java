@@ -14,14 +14,31 @@ import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.MessageFragment.*;
 import static java.lang.Integer.valueOf;
 
+/**
+ * @author LucaMuroni
+ * Class that implements the mssage to update the status of the dashboards
+ */
 public class UpdateDashboards {
-    private ArrayList<Gamer> gamers;
-    private MessageHandler messageHandler;
+    ArrayList<Gamer> gamers;
+    MessageHandler messageHandler;
+
+    /**
+     * Class constructor
+     * @param gamers represents the players whose dashboards have to be updated
+     * @param messageHandler represents the messageHandler used for the message
+     */
     public UpdateDashboards(ArrayList<Gamer> gamers, MessageHandler messageHandler){
         this.gamers = gamers;
         this.messageHandler = messageHandler;
     }
 
+    /**
+     * Method that handles the message exchange
+     * @throws MalformedMessageException launched if the message isn't created in the correct way
+     * @throws TimeHasEndedException launched when the available time for the response has ended
+     * @throws ClientDisconnectedException launched if the client disconnects from the game
+     * @throws FlowErrorException launched when the client sends an unexpected response
+     */
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getNewUniqueTopicID();

@@ -11,17 +11,35 @@ import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.MessageFragment.OK;
 import static it.polimi.ingsw.controller.networking.MessageFragment.PHASE;
 
+/**
+ * @author Sara Mucci
+ * Class that implements the message to send the new phase to the current player
+ */
 public class SendNewPhase {
     MessageHandler messageHandler;
     Phase phase;
+
+    /**
+     * Class constructor
+     * @param phase represents the phase to send
+     * @param messageHandler represents the messageHandler used for the message
+     */
     public SendNewPhase(Phase phase, MessageHandler messageHandler) {
         this.phase = phase;
         this.messageHandler = messageHandler;
     }
+
+    /**
+     * Method that handles the message exchange
+     * @throws MalformedMessageException launched if the message isn't created in the correct way
+     * @throws TimeHasEndedException launched when the available time for the response has ended
+     * @throws ClientDisconnectedException launched if the client disconnects from the game
+     * @throws FlowErrorException launched when the client sends an unexpected response
+     */
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
-        messages.add(new Message(PHASE.getFragment(), phase, topicId));
+        messages.add(new Message(PHASE.getFragment(), phase.name(), topicId));
         this.messageHandler.write(messages);
         messages.clear();
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());

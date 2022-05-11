@@ -9,18 +9,35 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.pawn.Student;
-
 import static it.polimi.ingsw.controller.networking.MessageFragment.*;
 import static java.lang.Integer.valueOf;
 import java.util.ArrayList;
 
+/**
+ * @author Sara Mucci
+ * Class that implements the message to update che status of the clouds
+ */
 public class UpdateCloudsStatus {
-    private ArrayList<Cloud> clouds;
-    private MessageHandler messageHandler;
+    ArrayList<Cloud> clouds;
+    MessageHandler messageHandler;
+
+    /**
+     * Class constructor
+     * @param clouds represents the clouds to update
+     * @param messageHandler represents the messageHandler used for the message
+     */
     public UpdateCloudsStatus(ArrayList<Cloud> clouds, MessageHandler messageHandler) {
         this.clouds = clouds;
         this.messageHandler = messageHandler;
     }
+
+    /**
+     * Method that handles the message exchange
+     * @throws MalformedMessageException launched if the message isn't created in the correct way
+     * @throws TimeHasEndedException launched when the available time for the response has ended
+     * @throws ClientDisconnectedException launched if the client disconnects from the game
+     * @throws FlowErrorException launched when the client sends an unexpected response
+     */
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getNewUniqueTopicID();

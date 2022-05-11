@@ -7,18 +7,32 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.pawn.PawnColor;
-
 import java.util.ArrayList;
-
 import static it.polimi.ingsw.controller.networking.MessageFragment.STUDENT_COLOR;
 
+/**
+ * @author Luca Muroni
+ * @author Sara Mucci
+ * Class that implements the message to get the color of the student the current player moves
+ */
 public class GetMovedStudentColor {
-    private MessageHandler messageHandler;
+    MessageHandler messageHandler;
 
+    /**
+     * Class constructor
+     * @param messageHandler represents the messageHandler used for the message
+     */
     public GetMovedStudentColor(MessageHandler messageHandler) {
         this.messageHandler = messageHandler;
     }
 
+    /**
+     * Method that handles the message exchange
+     * @return the color of the chosen student
+     * @throws MalformedMessageException launched if the message isn't created in the correct way
+     * @throws TimeHasEndedException launched when the available time for the response has ended
+     * @throws ClientDisconnectedException launched if the client disconnects from the game
+     */
     public PawnColor handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
@@ -30,7 +44,7 @@ public class GetMovedStudentColor {
         PawnColor result = null;
         for (PawnColor color : PawnColor.values()) {
             //TODO: Controllare con Grazza: non sono sicuro che il controllo sia corretto
-            if (color.equals(studentColor))
+            if (color.name().equals(studentColor))
                 result = color;
         }
         return result;

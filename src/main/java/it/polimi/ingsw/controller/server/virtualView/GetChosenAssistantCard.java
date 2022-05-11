@@ -29,7 +29,7 @@ class GetChosenAssistantCard {
     }
 
     /**
-     * method that implements the message exchange
+     * Method that handles the message exchange
      * @return the chosen assistant card
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      * @throws TimeHasEndedException launched when the available time for the response has ended

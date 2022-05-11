@@ -50,6 +50,16 @@ public interface View{
     public void updateIslandStatus(ArrayList<Island> islands) throws MalformedMessageException, FlowErrorException, TimeHasEndedException, ClientDisconnectedException;
 
     /**
+     * Method that handles the messages to update the clouds status
+     * @param clouds the clouds to update
+     * @throws FlowErrorException launched when the client sends an unexpected response
+     * @throws MalformedMessageException launched if the message isn't created the correct way
+     * @throws TimeHasEndedException launched when the available time for the response ends
+     * @throws ClientDisconnectedException launched if the client disconnects
+     */
+    public void updateCloudsStatus(ArrayList<Cloud> clouds) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+
+    /**
      *
      */
     public void haltOnError();
@@ -85,6 +95,17 @@ public interface View{
     public AssistantCardDeckFigures getChosenAssistantCardDeck(ArrayList<AssistantCardDeckFigures> cardDeck) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
     /**
+     * Method that handles the messages to send the assistant card deck chosen by the current player
+     * @param deck represents the chosen deck
+     * @param token represents the token associated to the current player
+     * @throws FlowErrorException launched when the client sends an unexpected response
+     * @throws MalformedMessageException launched if the message isn't created the correct way
+     * @throws TimeHasEndedException launched when the available time for the response ends
+     * @throws ClientDisconnectedException launched if the client disconnects
+     */
+    public void sendChosenAssistantCardDeck(AssistantCardDeckFigures deck, Integer token) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+
+    /**
      * Method that handles the messages to get the assistant card the current player chooses
      * @param cardsList represents the available cards
      * @return the chosen card
@@ -95,21 +116,73 @@ public interface View{
     public AssistantCard getChosenAssistantCard(ArrayList<AssistantCard> cardsList) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
     /**
-     *
-     * @return
-     * @throws MalformedMessageException
-     * @throws TimeHasEndedException
-     * @throws ClientDisconnectedException
+     * Method that handles the messages to send the assistant card chosen by the current player
+     * @param card represents the chosen card
+     * @param token represents the token associated to the current player
+     * @throws FlowErrorException launched when the client sends an unexpected response
+     * @throws MalformedMessageException launched if the message isn't created the correct way
+     * @throws TimeHasEndedException launched when the available time for the response ends
+     * @throws ClientDisconnectedException launched if the client disconnects
+     */
+    public void sendChosenAssistantCard(AssistantCard card, Integer token) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+
+    /**
+     *Method that handles the messages to get the color of the student the current player moves
+     * @return the color of the moved student
+     * @throws MalformedMessageException launched if the message isn't created the correct way
+     * @throws TimeHasEndedException launched when the available time for the response ends
+     * @throws ClientDisconnectedException launched if the client disconnects
      */
     public PawnColor getMovedStudentColor() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
-    //TODO: modificare il return di getMovedStudentLocation da int a isola(riferimento dell'isola va preso da game)  
+    //TODO: modificare il return di getMovedStudentLocation da int a isola(riferimento dell'isola va preso da game)
+
+    /**
+     * Method that handles the messages to get the location of the student the current player moves
+     * @return the location of the moved student
+     * @throws MalformedMessageException launched if the message isn't created the correct way
+     * @throws TimeHasEndedException launched when the available time for the response ends
+     * @throws ClientDisconnectedException launched if the client disconnects
+     */
     public int getMovedStudentLocation() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+
+    /**
+     * Method that handles the messages to get the new mother nature location
+     * @param islands represents the available islands
+     * @return the new mother nature location
+     * @throws MalformedMessageException launched if the message isn't created the correct way
+     * @throws TimeHasEndedException launched when the available time for the response ends
+     * @throws ClientDisconnectedException launched if the client disconnects
+     */
     public Island getMNLocation(ArrayList<Island> islands) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
-    public void updateCloudsStatus(ArrayList<Cloud> clouds) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+
+    /**
+     * Method that handles the messages to send the color of the current player
+     * @param color represents the current player's color
+     * @throws MalformedMessageException launched if the message isn't created the correct way
+     * @throws TimeHasEndedException launched when the available time for the response ends
+     * @throws ClientDisconnectedException launched if the client disconnects
+     * @throws FlowErrorException launched when the client sends an unexpected response
+     */
     public void sendTowerColor(TowerColor color) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException;
+
+    /**
+     * Method that handles the messages to get the cloud chosen by the current player
+     * @param clouds represents the available islands
+     * @return the chosen island
+     * @throws MalformedMessageException launched if the message isn't created the correct way
+     * @throws TimeHasEndedException launched when the available time for the response ends
+     * @throws ClientDisconnectedException launched if the client disconnects
+     */
     public Cloud getChosenCloud(ArrayList<Cloud> clouds) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
-    public void sendChosenAssistantCard(AssistantCard card, Integer token) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
-    public void sendChosenAssistantCardDeck(AssistantCardDeckFigures deck, Integer token) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+
+    /**
+     * Method that handles the messages to send the new phase to the current player
+     * @param phase represents the new phase
+     * @throws FlowErrorException launched when the client sends an unexpected response
+     * @throws MalformedMessageException launched if the message isn't created the correct way
+     * @throws TimeHasEndedException launched when the available time for the response ends
+     * @throws ClientDisconnectedException launched if the client disconnects
+     */
     public void sendNewPhase(Phase phase) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
 }

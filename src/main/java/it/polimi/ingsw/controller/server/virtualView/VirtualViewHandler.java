@@ -15,12 +15,17 @@ import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import org.hamcrest.core.Is;
-
 import java.util.ArrayList;
 
+/**
+ * @author Davide Grazzani
+ * @author Luca Muroni
+ * @author Sara Mucci
+ * Class that implements the view interface
+ */
 public class VirtualViewHandler implements View {
 
-    private MessageHandler messageHandler;
+    MessageHandler messageHandler;
 
     @Override
     public void setCurrentPlayer(Player player) {
@@ -93,33 +98,39 @@ public class VirtualViewHandler implements View {
         SendTowerColor func = new SendTowerColor(color, messageHandler);
         func.handle();
     }
+
     @Override
     public Cloud getChosenCloud(ArrayList<Cloud> clouds) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetChosenCloud func = new GetChosenCloud(clouds, messageHandler);
         Cloud result = func.handle();
         return result;
     }
+
     @Override
     public AssistantCardDeckFigures getChosenAssistantCardDeck(ArrayList<AssistantCardDeckFigures> cardDeck) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetChosenAssistantCardDeck func = new GetChosenAssistantCardDeck(cardDeck, messageHandler);
         AssistantCardDeckFigures result = func.handle();
         return result;
     }
+
     @Override
     public void updateCloudsStatus(ArrayList<Cloud> clouds) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         UpdateCloudsStatus func = new UpdateCloudsStatus(clouds, messageHandler);
         func.handle();
     }
+
     @Override
     public void sendChosenAssistantCard(AssistantCard card, Integer token) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         SendChosenAssistantCard func = new SendChosenAssistantCard(card, token, messageHandler);
         func.handle();
     }
+
     @Override
     public void sendChosenAssistantCardDeck(AssistantCardDeckFigures deck, Integer token) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         SendChosenAssistantCardDeck func = new SendChosenAssistantCardDeck(deck, token, messageHandler);
         func.handle();
     }
+
     @Override
     public void sendNewPhase(Phase phase) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         SendNewPhase func = new SendNewPhase(phase, messageHandler);
