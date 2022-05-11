@@ -15,18 +15,31 @@ import it.polimi.ingsw.model.gamer.Gamer;
 import java.util.ArrayList;
 import java.util.Optional;
 
+/**
+ * This class implements the second part of the third phase of the game, which is the actionPhase2, and in particular this part
+ * handles the conquest of an island
+ */
 public class ConquerIslandPhase implements GamePhase{
     private final Game game;
     private final GameController controller;
     private Gamer currentPlayer;
     private final View view;
-    private Player player = null;
 
+    /**
+     * Constructor of the class
+     * @param game represents the current game
+     * @param controller represents the controller link with this game
+     */
     public ConquerIslandPhase(Game game, GameController controller){
         this.game = game;
         this.controller = controller;
         this.currentPlayer = this.game.getCurrentPlayer();
+        this.view = this.controller.getView();
     }
+
+    /**
+     * This is the main method that handles this phase
+     */
     @Override
     public void handle() {
         try {
@@ -48,6 +61,10 @@ public class ConquerIslandPhase implements GamePhase{
         }
     }
 
+    /**
+     * This method is called by handle() and it calculates the new owner of the island on which mother is
+     * @return the color of the towers of the new owner
+     */
     private TowerColor conquerIsland() {
         Optional<Gamer> conqueror = this.game.checkIslandOwner();
         if (conqueror.isPresent()) {
@@ -57,6 +74,10 @@ public class ConquerIslandPhase implements GamePhase{
         return null;
     }
 
+    /**
+     * This method changes the phase to the next one
+     * @return the next GamePhase
+     */
     @Override
     public GamePhase next() {
         return new ActionPhase3(this.game,this.controller);

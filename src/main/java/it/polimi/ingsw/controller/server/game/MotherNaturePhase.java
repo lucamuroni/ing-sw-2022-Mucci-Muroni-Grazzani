@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * This class implements the first part of the second phase of the game, which is the actionPhase2, and in particular this part
+ * This class implements the first part of the third phase of the game, which is the actionPhase2, and in particular this part
  * handles the movement of MotherNature
  */
 public class MotherNaturePhase implements GamePhase{
@@ -25,7 +25,6 @@ public class MotherNaturePhase implements GamePhase{
     private final GameController controller;
     private Gamer currentPlayer;
     private final View view;
-    private Player player = null;
 
     /**
      * Constructor of the class
@@ -81,8 +80,7 @@ public class MotherNaturePhase implements GamePhase{
     private void moveMotherNature(Player player) throws GenericErrorException {
         this.view.setCurrentPlayer(player);
         Island place = null;
-        ArrayList<Island> possibleChoices = null;
-        possibleChoices = this.game.getMotherNatureDestination();
+        ArrayList<Island> possibleChoices = this.game.getMotherNatureDestination();
         try {
             try {
                 place = this.view.getMNLocation(possibleChoices);
@@ -112,7 +110,7 @@ public class MotherNaturePhase implements GamePhase{
     }
 
     /**
-     * this method changes the phase to the next one
+     * This method changes the phase to the next one
      * @return the next GamePhase
      */
     @Override

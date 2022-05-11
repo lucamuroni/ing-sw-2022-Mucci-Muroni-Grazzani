@@ -29,7 +29,7 @@ public class ActionPhase1 implements GamePhase{
     private Gamer currentPlayer;
     private final int numOfMovements;
     private final View view;
-    private Player player = null;
+    //private Player player = null;
 
     //TODO :ricodarsi di aggiornare il currentPlayer in gameCOntroller
 
@@ -58,8 +58,9 @@ public class ActionPhase1 implements GamePhase{
         try {
             this.view.phaseChanghe("ActionPhase1");
         } catch () {}
-        for (int cont = 0; cont < numOfMovements; cont++) {
-            try {
+        try {
+            //this.updateCurrentPlayer();
+            for (int cont = 0; cont < this.numOfMovements; cont++) {
                 this.moveStudentToLocation(this.controller.getPlayer(this.game.getCurrentPlayer()));
                 ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
                 players.remove(this.controller.getPlayer(this.game.getCurrentPlayer()));
@@ -75,15 +76,16 @@ public class ActionPhase1 implements GamePhase{
                         this.controller.handlePlayerError(pl);
                     }
                 }
-            } catch (ModelErrorException e) {
-                this.controller.shutdown();
-                e.printStackTrace();
-                return;
-            } catch (GenericErrorException e) {
-                e.printStackTrace();
-                return;
             }
+        } catch (ModelErrorException e) {
+            this.controller.shutdown();
+            e.printStackTrace();
+            return;
+        } catch (GenericErrorException e) {
+            e.printStackTrace();
+            return;
         }
+
 
     }
 
@@ -117,7 +119,7 @@ public class ActionPhase1 implements GamePhase{
                 place = this.randomPlacePicker();
             }
         }catch (MalformedMessageException | ClientDisconnectedException e){
-            this.controller.handlePlayerError(this.player);
+            this.controller.handlePlayerError(player);
             throw new GenericErrorException();
         }catch (TimeHasEndedException e){
             color = this.randomColorPicker();
@@ -139,7 +141,11 @@ public class ActionPhase1 implements GamePhase{
         }
     }
 
-    //TODO: A cosa serve questo metodo?
+    //TODO: metodo inutile
+    /**
+     * This method is called in handle() to adjourn the currentPlayer
+     * @throws ModelErrorException
+     */
     private void updateCurrentPlayer() throws ModelErrorException {
         this.currentPlayer = this.game.getCurrentPlayer();
         this.player = this.controller.getPlayer(this.currentPlayer);
