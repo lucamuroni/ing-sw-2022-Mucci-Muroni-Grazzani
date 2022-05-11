@@ -85,8 +85,6 @@ public class ActionPhase1 implements GamePhase{
             e.printStackTrace();
             return;
         }
-
-
     }
 
     /**

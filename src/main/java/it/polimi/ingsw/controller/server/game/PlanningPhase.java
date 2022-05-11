@@ -44,6 +44,9 @@ public class PlanningPhase implements GamePhase{
      * This main method that handles this phase
      */
     public void handle (){
+        try {
+            this.view.phaseChanghe("ActionPhase1");
+        } catch () {}
         for(Cloud cloud : this.game.getClouds()){
             this.game.fillCloud(this.game.getBag().pullStudents(this.numStudents), cloud);
         }
