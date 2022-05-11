@@ -69,14 +69,6 @@ public class PlanningPhase implements GamePhase{
     }
 
     /**
-     * This method changes the phase to the next one
-     * @return the next GamePhase
-     */
-    public GamePhase next(){
-        return new ActionPhase1(this.game,this.controller);
-    }
-
-    /**
      * This method is called in handle() to update the dashboards of all the players when the clouds are filled
      * @param player represents the player whose view will be adjourned
      */
@@ -137,7 +129,7 @@ public class PlanningPhase implements GamePhase{
     }
 
     /**
-     * Method called by getChoseAssistantCard() that pick a random AssistantCard when the player doesn't reply in time
+     * Method called by getChoseAssistantCard() that picks a random AssistantCard when the player doesn't reply in time
      * @param cards is the ArrayList of possible choices
      * @return the random AssistantCard chosen
      */
@@ -145,5 +137,13 @@ public class PlanningPhase implements GamePhase{
         Random random = new Random();
         int rand = random.nextInt(0, cards.size());
         return cards.get(rand);
+    }
+
+    /**
+     * This method changes the phase to the next one
+     * @return the next GamePhase
+     */
+    public GamePhase next(){
+        return new ActionPhase1(this.game, this.controller);
     }
 }

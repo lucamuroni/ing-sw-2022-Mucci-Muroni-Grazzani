@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * This class implements the first part of the third phase of the game, which is the actionPhase2, and in particular this part
+ * This class implements the first part of the third phase of the game, which is the ActionPhase2, and in particular this part
  * handles the movement of MotherNature
  */
 public class MotherNaturePhase implements GamePhase{
@@ -99,7 +99,7 @@ public class MotherNaturePhase implements GamePhase{
     }
 
     /**
-     * This method is called by moveMotherNature() when the player doesn't reply in time and that choose a random island
+     * Method called by moveMotherNature() that picks a random island when the player doesn't reply in time
      * @param choices is the ArrayList of possible islands to choose from
      * @return a random island
      */
@@ -115,6 +115,6 @@ public class MotherNaturePhase implements GamePhase{
      */
     @Override
     public GamePhase next() {
-        return new ConquerIslandPhase(this.game,this.controller);
+        return new ConquerIslandPhase(this.game, this.controller);
     }
 }

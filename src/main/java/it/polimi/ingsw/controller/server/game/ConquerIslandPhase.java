@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 /**
- * This class implements the second part of the third phase of the game, which is the actionPhase2, and in particular this part
+ * This class implements the second part of the third phase of the game, which is the ActionPhase2, and in particular this part
  * handles the conquest of an island
  */
 public class ConquerIslandPhase implements GamePhase{
@@ -62,7 +62,7 @@ public class ConquerIslandPhase implements GamePhase{
     }
 
     /**
-     * This method is called by handle() and it calculates the new owner of the island on which mother is
+     * Method called by handle() that calculates the new owner of the island on which MotherNature is
      * @return the color of the towers of the new owner
      */
     private TowerColor conquerIsland() {
@@ -80,6 +80,6 @@ public class ConquerIslandPhase implements GamePhase{
      */
     @Override
     public GamePhase next() {
-        return new ActionPhase3(this.game,this.controller);
+        return new ActionPhase3(this.game, this.controller);
     }
 }

@@ -88,15 +88,6 @@ public class ActionPhase1 implements GamePhase{
     }
 
     /**
-     * This method changes the phase to the next one
-     * @return the next GamePhase
-     */
-    @Override
-    public GamePhase next() {
-        return new MotherNaturePhase(this.game,this.controller);
-    }
-
-    /**
      * This method handles the movement of the student choose by the player and is called in handle()
      * @param player represents the currentPlayer that is playing
      * @throws GenericErrorException when the message from the client is malformed twice or the player disconnects from the game
@@ -151,7 +142,7 @@ public class ActionPhase1 implements GamePhase{
     }
 
     /**
-     * Method called by moveStudentToLocation() when the player doesn't reply in time and that choose a random color
+     * Method called by moveStudentToLocation() when the player doesn't reply in time and that chooses a random color
      * for the student moved
      * @return a random color
      */
@@ -162,7 +153,7 @@ public class ActionPhase1 implements GamePhase{
     }
 
     /**
-     * Method called by moveStudentToLocation() when the player doesn't reply in time and that choose a random location
+     * Method called by moveStudentToLocation() that picks a random place when the player doesn't reply in time
      * for the student moved
      * @return a random place
      */
@@ -170,5 +161,14 @@ public class ActionPhase1 implements GamePhase{
         Random random = new Random();
         int rand = random.nextInt(0, this.game.getIslands().size());
         return rand;
+    }
+
+    /**
+     * This method changes the phase to the next one
+     * @return the next GamePhase
+     */
+    @Override
+    public GamePhase next() {
+        return new MotherNaturePhase(this.game, this.controller);
     }
 }
