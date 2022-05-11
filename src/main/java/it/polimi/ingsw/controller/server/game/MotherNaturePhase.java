@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
+import it.polimi.ingsw.controller.server.game.exceptions.GenericErrorException;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
@@ -54,10 +55,13 @@ public class MotherNaturePhase implements GamePhase{
             this.controller.shutdown();
             e.printStackTrace();
             return;
+        } catch (GenericErrorException e) {
+            e.printStackTrace();
+            return;
         }
     }
 
-    private void moveMotherNature(Player player) {
+    private void moveMotherNature(Player player) throws GenericErrorException {
         this.view.setCurrentPlayer(player);
         Island place = null;
         ArrayList<Island> possibleChoices = null;
@@ -72,6 +76,7 @@ public class MotherNaturePhase implements GamePhase{
             }
         } catch (MalformedMessageException | ClientDisconnectedException e) {
             this.controller.handlePlayerError(player);
+            throw new GenericErrorException();
         } catch (TimeHasEndedException e) {
             place = this.getRandomIsland(possibleChoices);
         }
