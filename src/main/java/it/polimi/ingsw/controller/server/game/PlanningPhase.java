@@ -14,12 +14,21 @@ import it.polimi.ingsw.model.gamer.Gamer;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * This class implements the first phase of the game, which is the planning phase, where all the players choose
+ * an AssistantCard to be played
+ */
 public class PlanningPhase implements GamePhase{
     private final Game game;
     private final GameController controller;
     private final int numStudents;
     private final View view;
 
+    /**
+     * Constructor of the class
+     * @param game represents the current game that is handled
+     * @param controller represents the controller linked with this game
+     */
     public PlanningPhase(Game game, GameController controller){
         this.game = game;
         this.controller = controller;
@@ -30,6 +39,10 @@ public class PlanningPhase implements GamePhase{
             this.numStudents = 4;
         }
     }
+
+    /**
+     * This main method that handles this phase
+     */
     public void handle (){
         for(Cloud cloud : this.game.getClouds()){
             this.game.fillCloud(this.game.getBag().pullStudents(this.numStudents), cloud);
@@ -52,10 +65,18 @@ public class PlanningPhase implements GamePhase{
         }
     }
 
+    /**
+     * This method changes the phase to the next one
+     * @return the next GamePhase
+     */
     public GamePhase next(){
         return new ActionPhase1(this.game,this.controller);
     }
 
+    /**
+     * This method is called in handle() to update the dashboards of all the players when the clouds are filled
+     * @param player represents the player whose view will be adjourned
+     */
     private void updateCloudsStatus(Player player){
         this.view.setCurrentPlayer(player);
         try{
@@ -69,6 +90,14 @@ public class PlanningPhase implements GamePhase{
         }
     }
 
+    /**
+     * This method, called by handle(), manages the AssistantCards choose by the players
+     * @param player
+     * @param alreadyPlayedCards
+     * @return
+     * @throws ModelErrorException
+     * @throws GenericErrorException
+     */
     private AssistantCard getChoseAssistantCard(Player player,ArrayList<AssistantCard> alreadyPlayedCards) throws ModelErrorException, GenericErrorException {
         this.view.setCurrentPlayer(player);
         ArrayList<AssistantCard> cardsOfPlayer;
@@ -104,6 +133,11 @@ public class PlanningPhase implements GamePhase{
         return result;
     }
 
+    /**
+     * Method called by getChoseAssistantCard() that pick a random AssistantCard when the player doesn't reply in time
+     * @param cards is the ArrayList of possible choices
+     * @return the random AssistantCard chosen
+     */
     private AssistantCard getRandomAssistantCard(ArrayList<AssistantCard> cards){
         Random random = new Random();
         int rand = random.nextInt(0, cards.size());
