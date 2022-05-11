@@ -11,7 +11,6 @@ import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.game.Game;
-import it.polimi.ingsw.model.gamer.Gamer;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -23,7 +22,6 @@ import java.util.Random;
 public class MotherNaturePhase implements GamePhase{
     private final Game game;
     private final GameController controller;
-    private Gamer currentPlayer;
     private final View view;
 
     /**
@@ -34,7 +32,6 @@ public class MotherNaturePhase implements GamePhase{
     public MotherNaturePhase(Game game, GameController controller){
         this.game = game;
         this.controller = controller;
-        this.currentPlayer = this.game.getCurrentPlayer();
         this.view = this.controller.getView();
     }
 
@@ -65,10 +62,8 @@ public class MotherNaturePhase implements GamePhase{
         } catch (ModelErrorException e) {
             this.controller.shutdown();
             e.printStackTrace();
-            return;
         } catch (GenericErrorException e) {
             e.printStackTrace();
-            return;
         }
     }
 

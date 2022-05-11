@@ -21,7 +21,6 @@ import java.util.Optional;
 public class ConquerIslandPhase implements GamePhase{
     private final Game game;
     private final GameController controller;
-    private Gamer currentPlayer;
     private final View view;
 
     /**
@@ -32,7 +31,6 @@ public class ConquerIslandPhase implements GamePhase{
     public ConquerIslandPhase(Game game, GameController controller){
         this.game = game;
         this.controller = controller;
-        this.currentPlayer = this.game.getCurrentPlayer();
         this.view = this.controller.getView();
     }
 

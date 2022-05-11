@@ -53,7 +53,7 @@ public class PlanningPhase implements GamePhase{
         for(Player player : this.controller.getPlayers()){
             this.updateCloudsStatus(player);
         }
-        ArrayList<AssistantCard> alreadyPlayedCards = new ArrayList<AssistantCard>();
+        ArrayList<AssistantCard> alreadyPlayedCards = new ArrayList<>();
         for(Player player : this.controller.getPlayers()){
             try {
                 AssistantCard card = this.getChoseAssistantCard(player,alreadyPlayedCards);
@@ -98,7 +98,7 @@ public class PlanningPhase implements GamePhase{
         ArrayList<AssistantCard> cardsOfPlayer;
         Gamer currentPlayer = player.getGamer(this.game.getGamers());
         AssistantCard result;
-        cardsOfPlayer = new ArrayList<AssistantCard>(currentPlayer.getDeck().getCardList());
+        cardsOfPlayer = new ArrayList<>(currentPlayer.getDeck().getCardList());
         if(alreadyPlayedCards.size()>=1){
             for(AssistantCard cardAlreadySelected: alreadyPlayedCards){
                 cardsOfPlayer.remove(cardAlreadySelected);
@@ -120,7 +120,7 @@ public class PlanningPhase implements GamePhase{
         }
         ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
         players.remove(player);
-        for (Player pl : players) {
+        for (int i = 0; i<players.size(); i++) {
             this.view.sendChosenAssistantCard(result, player.getToken());
         }
         currentPlayer.getDeck().setPastSelection();

@@ -9,10 +9,8 @@ import it.polimi.ingsw.controller.server.game.exceptions.GenericErrorException;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
-import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.game.Game;
-import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
 
@@ -27,10 +25,8 @@ public class ActionPhase1 implements GamePhase{
     //TODO: Bisogna risolvere questo problema: se il game è in modalità esperta, non si possono gestire le monete
     private final Game game;
     private final GameController controller;
-    private Gamer currentPlayer;
     private final int numOfMovements;
     private final View view;
-    //private Player player = null;
 
     //TODO :ricodarsi di aggiornare il currentPlayer in gameCOntroller
 
@@ -42,7 +38,6 @@ public class ActionPhase1 implements GamePhase{
     public ActionPhase1(Game game, GameController controller){
         this.game = game;
         this.controller = controller;
-        this.currentPlayer = this.game.getCurrentPlayer();
         if(this.game.getGamers().size() == 2){
             this.numOfMovements = 3;
         }else {
@@ -81,10 +76,8 @@ public class ActionPhase1 implements GamePhase{
         } catch (ModelErrorException e) {
             this.controller.shutdown();
             e.printStackTrace();
-            return;
         } catch (GenericErrorException e) {
             e.printStackTrace();
-            return;
         }
     }
 
@@ -95,8 +88,8 @@ public class ActionPhase1 implements GamePhase{
      */
     private void moveStudentToLocation(Player player) throws GenericErrorException {
         this.view.setCurrentPlayer(player);
-        int place = 0;
-        PawnColor color = null;
+        int place;
+        PawnColor color;
         try{
             try{
                 color = this.view.getMovedStudentColor();
@@ -131,17 +124,6 @@ public class ActionPhase1 implements GamePhase{
         }
     }
 
-    //TODO: metodo inutile
-    /**
-     * This method is called in handle() to adjourn the currentPlayer
-     * @throws ModelErrorException
-     */
-    private void updateCurrentPlayer() throws ModelErrorException {
-        this.currentPlayer = this.game.getCurrentPlayer();
-        this.player = this.controller.getPlayer(this.currentPlayer);
-        this.view.setCurrentPlayer(this.player);
-    }
-
     /**
      * Method called by moveStudentToLocation() when the player doesn't reply in time and that chooses a random color
      * for the student moved
@@ -160,8 +142,7 @@ public class ActionPhase1 implements GamePhase{
      */
     private int randomPlacePicker() {
         Random random = new Random();
-        int rand = random.nextInt(0, this.game.getIslands().size());
-        return rand;
+        return random.nextInt(0, this.game.getIslands().size());
     }
 
     /**
