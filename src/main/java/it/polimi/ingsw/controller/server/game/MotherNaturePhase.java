@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * This class implements the first part of the third phase of the game, which is the ActionPhase2, and in particular this part
+ * This class implements the first part of the third phase of the game, which is the MotherNaturePhase, and in particular this part
  * handles the movement of MotherNature
  */
 public class MotherNaturePhase implements GamePhase{
