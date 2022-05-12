@@ -1,7 +1,15 @@
 package it.polimi.ingsw.controller.server.game;
 
+import it.polimi.ingsw.controller.networking.Player;
+import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
+import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
+import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
+import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
+import it.polimi.ingsw.controller.server.game.exceptions.GenericErrorException;
+import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
+import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 
@@ -29,28 +37,29 @@ public class VictoryPhase {
     }
 
     public void handle() {
-        ArrayList<String> names = new ArrayList<>();
-        names.addAll(this.checkTowers());
-        if (names.isEmpty()) {
-            names.addAll()
-        }
-
-    }
-
-    private ArrayList<String> checkTowers() {
-        ArrayList<String> winner = new ArrayList<>();
-        for (Gamer gamer : this.game.getGamers()) {
-            if (game.checkWinner1()) {
-                winner.add(gamer.getUsername());
-                return winner;
+        ArrayList<Gamer> winners = new ArrayList<>();
+        winners.addAll(this.game.checkWinner());
+        if (!winners.isEmpty()) {
+            ArrayList<String> names = new ArrayList<>();
+            for (Gamer gamer : winners) {
+                names.add(gamer.getUsername());
+            }
+            for (Player player : this.controller.getPlayers()) {
+                this.view.setCurrentPlayer(player);
+                try {
+                    try {
+                        this.view.sendWinner(names);
+                    } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
+                        this.view.sendWinner(names);
+                    }
+                } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
+                    this.controller.handlePlayerError(player);
+                }
             }
         }
-        return winner;
-    }
-
-    private ArrayList<String> checkNumTowers() {
-        ArrayList<String> winner = new ArrayList<>();
-        
+        else {
+            this.next();
+        }
     }
 
     public GamePhase next() {
