@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller.server.virtualView;
 
-import it.polimi.ingsw.controller.networking.ConnectionTimings;
+import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
 import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
@@ -8,7 +8,7 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.Cloud;
 import java.util.ArrayList;
-import static it.polimi.ingsw.controller.networking.MessageFragment.CLOUD;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CLOUD;
 
 public class GetChosenCloud {
     ArrayList<Cloud> clouds;

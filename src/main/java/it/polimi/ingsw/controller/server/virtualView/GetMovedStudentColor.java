@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller.server.virtualView;
 
-import it.polimi.ingsw.controller.networking.ConnectionTimings;
+import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
 import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
@@ -10,7 +10,7 @@ import it.polimi.ingsw.model.pawn.PawnColor;
 
 import java.util.ArrayList;
 
-import static it.polimi.ingsw.controller.networking.MessageFragment.STUDENT_COLOR;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.STUDENT_COLOR;
 
 public class GetMovedStudentColor {
     private MessageHandler messageHandler;

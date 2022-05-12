@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller.server.virtualView;
 
-import it.polimi.ingsw.controller.networking.ConnectionTimings;
+import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
 import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
@@ -11,8 +11,8 @@ import it.polimi.ingsw.model.Island;
 
 import java.util.ArrayList;
 
-import static it.polimi.ingsw.controller.networking.MessageFragment.MN_LOCATION;
-import static it.polimi.ingsw.controller.networking.MessageFragment.OK;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.MN_LOCATION;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
 
 import static java.lang.Integer.valueOf;
 
