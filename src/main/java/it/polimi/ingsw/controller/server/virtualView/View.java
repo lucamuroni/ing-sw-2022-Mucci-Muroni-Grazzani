@@ -62,7 +62,7 @@ public interface View{
     /**
      *
      */
-    public void haltOnError();
+    public void haltOnError(); //TODO: scrivere il metodo
 
     /**
      * Method that handles the messages to update the status of the dashboards
