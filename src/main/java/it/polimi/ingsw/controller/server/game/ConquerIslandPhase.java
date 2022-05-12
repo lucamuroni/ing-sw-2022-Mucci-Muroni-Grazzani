@@ -77,6 +77,6 @@ public class ConquerIslandPhase implements GamePhase{
      */
     @Override
     public GamePhase next() {
-        return new ActionPhase3(this.game, this.controller);
+        return new VictoryPhase(this.game, this.controller);
     }
 }
