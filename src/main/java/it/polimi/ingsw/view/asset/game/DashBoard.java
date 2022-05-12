@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.asset;
+package it.polimi.ingsw.view.asset.game;
 
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;

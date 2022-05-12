@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.asset;
+package it.polimi.ingsw.view.asset.game;
 
 public class Gamer {
 }
