@@ -41,7 +41,7 @@ public class MessageHandler {
      * @throws MalformedMessageException if another message is present and differs by TopicID
      */
     public void write(Message msg) throws MalformedMessageException{
-        if(this.encoder.equals(null)){
+        if(this.encoder==null){
             this.encoder = new JSONObject();
             this.encoder.put(this.topKeyWord,msg.getUniqueTopicID());
         }else{
@@ -67,7 +67,7 @@ public class MessageHandler {
      * Method used to flush a message (created with write method) through the sockets.
      */
     public void writeOut(){
-        this.connectionHandler.setOutputMessage(this.encoder.toJSONString());
+        this.connectionHandler.setOutputMessage(this.encoder.toString());
         this.encoder = null;
     }
 
@@ -102,10 +102,10 @@ public class MessageHandler {
         /* Object messagesParsed = JSONValue.parse(messages);
         this.decoder = (JSONObject) messagesParsed; */
         decoder = (JSONObject) JSONValue.parse(messages);
-        uniqueID = (int)decoder.get(this.topKeyWord);
+        uniqueID = (int)((Long)decoder.get(this.topKeyWord)).intValue();
         Set<String> keySet = decoder.keySet();
         for(String key : keySet){
-            Message m = new Message(key,(String) decoder.get(key),uniqueID);
+            Message m = new Message(key,String.valueOf( decoder.get(key)),uniqueID);
             this.incomingMessages.add(m);
         }
     }

@@ -81,6 +81,7 @@ class ConnectionHandlerTest {
                 throw new RuntimeException(e);
             }
             try {
+                System.out.println("aspetto i messaggi");
                 String message = server.getInputMessage(5000);
                 assertEquals(this.msg,message);
                 synchronized (flip){
@@ -107,7 +108,7 @@ class ConnectionHandlerTest {
                 }
             }
             System.out.println("ho scritto");
-            client.setOutputMessage(this.msg);
+            //client.setOutputMessage(this.msg);
         });
        h.start();
         synchronized (flip){
