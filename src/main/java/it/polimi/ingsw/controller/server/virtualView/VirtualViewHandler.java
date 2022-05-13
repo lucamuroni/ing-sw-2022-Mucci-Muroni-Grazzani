@@ -263,5 +263,19 @@ public class VirtualViewHandler implements View {
         SendNewPhase func = new SendNewPhase(phase, messageHandler);
         func.handle();
     }
+
+    /**
+     * Method that handles the message to send the username of the winner / the usernames of the winners in case of a draw
+     * @param names represents the usernames to be sent
+     * @throws FlowErrorException launched when the client sends an unexpected response
+     * @throws MalformedMessageException launched if the message isn't created the correct way
+     * @throws TimeHasEndedException launched when the available time for the response ends
+     * @throws ClientDisconnectedException launched if the client disconnects
+     */
+    @Override
+    public void sendWinner(ArrayList<String> names) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        SendWinner func = new SendWinner(names, messageHandler);
+        func.handle();
+    }
 }
 

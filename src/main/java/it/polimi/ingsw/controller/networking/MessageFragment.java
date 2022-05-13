@@ -29,7 +29,8 @@ public enum MessageFragment {
     STUDENT_COLOR("studentColor"),
     STUDENT_LOCATION("studentLocation"),
     TOWER_COLOR("towerColor"),
-    WAITING_STUDENT("waitingStudent");
+    WAITING_STUDENT("waitingStudent"),
+    WINNER("winner");
 
     private String fragment;
 
