@@ -34,4 +34,12 @@ public class Island {
         this.students.addAll(students);
         this.towersColor = towersColor;
     }
+
+    /**
+     * This method add a student on the island on client's move
+     * @param student
+     */
+    public void addStudent(Student student) {
+        this.students.add(student);
+    }
 }
