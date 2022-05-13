@@ -11,7 +11,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
-// TODO: update method to replay to ping from client
 class ConnectionHandler {
     private final Socket clientSocket;
     private PrintWriter out;
@@ -19,24 +18,19 @@ class ConnectionHandler {
     private ArrayList<String> inputMessages;
     private ArrayList<String> outputMessages;
     private boolean isON;
-    private boolean isSocketTimeOutOccurred;
+    private boolean hasConnectionBeenLost;
 
     public ConnectionHandler(Socket socket){
         this.clientSocket = socket;
         this.isON = true;
         this.inputMessages = new ArrayList<String>();
         this.outputMessages = new ArrayList<String>();
-        this.isSocketTimeOutOccurred = false;
+        this.hasConnectionBeenLost = false;
     }
 
-    public void start() {
-        try{
-            this.out = new PrintWriter(this.clientSocket.getOutputStream(),true);
-            this.in = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
-        }catch (IOException e){
-            System.out.println("Error while opening connection between server and client");
-            e.printStackTrace();
-        }
+    public void start() throws IOException{
+        this.out = new PrintWriter(this.clientSocket.getOutputStream(),true);
+        this.in = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
         this.readInputMessage();
         this.writeOutputMessage();
         this.ping(3000);
@@ -64,10 +58,8 @@ class ConnectionHandler {
                             this.inputMessages.add(s);
                         }
                     }
-                } catch (SocketException e) {
-                    isSocketTimeOutOccurred = true;
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    hasConnectionBeenLost = true;
                 }
             }
         });
@@ -81,11 +73,9 @@ class ConnectionHandler {
         msgTimer.start();
         while(isInputEmpty){
             synchronized (this.inputMessages){
-                if(!this.inputMessages.isEmpty()){
-                    isInputEmpty = false;
-                }
+                isInputEmpty = this.inputMessages.isEmpty();
             }
-            if(isSocketTimeOutOccurred){
+            if(hasConnectionBeenLost){
                 throw new ClientDisconnectedException("Found disconnection");
             }
             if(msgTimer.isTimeEnded()){
@@ -121,10 +111,12 @@ class ConnectionHandler {
                     }
                     try {
                         synchronized (this.outputMessages){
-                            this.outputMessages.wait(10000);
+                            this.outputMessages.wait(50);
                         }
                     } catch (InterruptedException e) {
                         System.out.println("Could not wait for new output message");
+                        System.out.println("Restarting Thread ...");
+                        this.writeOutputMessage();
                     }
                 }
                 synchronized (this.outputMessages){
@@ -144,14 +136,15 @@ class ConnectionHandler {
     private void ping(int milliSeconds){
         Thread t = new Thread(()->{
             synchronized (this.out){
-                if(milliSeconds>0){
-                    try {
+                try{
+                    if(milliSeconds>0){
                         this.out.wait(milliSeconds);
-                    } catch (InterruptedException e) {
-                        System.out.println("Could not wait for time before sending ping");
                     }
+                }catch (InterruptedException e){
+                    System.out.println("Could not wait for time before sending ping");
+                }finally {
+                    this.out.println("ping");
                 }
-                this.out.println("ping");
             }
         });
         t.start();
@@ -165,7 +158,9 @@ class ConnectionHandler {
         synchronized (this.inputMessages){
             try {
                 this.inputMessages.wait(1000);
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException e) {
+                System.out.println("Could not wait for time before cleaning up cache");
+            }
             finally {
                 this.inputMessages.clear();
             }

@@ -8,6 +8,7 @@ import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
+import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
@@ -112,7 +113,7 @@ public class MessageHandler {
     /**
      * Method used for creating a stable connection between client and server
      */
-    public void startConnection(){
+    public void startConnection() throws IOException {
         this.connectionHandler.start();
     }
 

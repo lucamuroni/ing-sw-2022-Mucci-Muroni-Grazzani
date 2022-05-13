@@ -48,12 +48,20 @@ class ConnectionHandlerTest {
     void start() {
         Thread t = new Thread(()->{
             startServer();
-            server.start();
+            try {
+                server.start();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
         t.start();
         Thread h = new Thread(()->{
             startClient();
-            client.start();
+            try {
+                client.start();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
         h.start();
     }
@@ -67,9 +75,13 @@ class ConnectionHandlerTest {
     void getInputMessage() {
         Thread t = new Thread(()->{
             startServer();
-            server.start();
             try {
-                String message = server.getInputMessage(15000);
+                server.start();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                String message = server.getInputMessage(5000);
                 assertEquals(this.msg,message);
                 synchronized (flip){
                     done = true;
@@ -82,7 +94,11 @@ class ConnectionHandlerTest {
         t.start();
         Thread h = new Thread(()->{
             startClient();
-            client.start();
+            try {
+                client.start();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             synchronized (this.client){
                 try {
                     this.client.wait(10);
@@ -110,19 +126,76 @@ class ConnectionHandlerTest {
     void setOutputMessage() {
         Thread t = new Thread(()->{
             startServer();
-            server.start();
-                server.setOutputMessage(msg);
+            try {
+                server.start();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            server.setOutputMessage(msg);
 
         });
         t.start();
 
         Thread h = new Thread(()->{
             startClient();
-            client.start();
+            try {
+                client.start();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             System.out.println("sto aspettando");
             try {
                 messgae = client.getInputMessage(15000);
                 assertEquals(this.msg, messgae);
+                synchronized (flip) {
+                    done = true;
+                }
+            }catch (TimeHasEndedException | ClientDisconnectedException e) {
+                System.out.println("Non funziona un cazzo");
+                e.printStackTrace();
+            }
+            synchronized (flip){
+                done = true;
+            }
+        });
+        h.start();
+        synchronized (flip){
+            while (!done){
+                try {
+                    flip.wait(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Test
+    void resetLines(){
+        Thread t = new Thread(()->{
+            startServer();
+            try {
+                server.start();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            server.setOutputMessage(msg);
+
+        });
+        t.start();
+
+        Thread h = new Thread(()->{
+            startClient();
+            try {
+                client.start();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            System.out.println("sto aspettando");
+            try {
+                messgae = client.getInputMessage(15000);
+                assertEquals(this.msg, messgae);
+                client.restLines();
                 synchronized (flip) {
                     done = true;
                 }
