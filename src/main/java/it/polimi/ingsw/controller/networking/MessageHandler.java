@@ -40,6 +40,7 @@ public class MessageHandler {
      * @param msg represent a fragment of a socket-Message
      * @throws MalformedMessageException if another message is present and differs by TopicID
      */
+    //TODO : modificare in modo tale che quando si aggiunge un messaggio si cerca nel messaggio già formato se la key non è già presente altrimenti throw MalformedMessageException
     public void write(Message msg) throws MalformedMessageException{
         if(this.encoder==null){
             this.encoder = new JSONObject();
