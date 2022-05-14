@@ -57,4 +57,8 @@ public class Gamer {
     public DashBoard getDashBoard() {
         return this.dashBoard;
     }
+
+    public ArrayList<AssistantCard> getCards() {
+        return this.cards;
+    }
 }

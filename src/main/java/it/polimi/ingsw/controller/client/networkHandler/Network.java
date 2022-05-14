@@ -3,12 +3,7 @@ package it.polimi.ingsw.controller.client.networkHandler;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.model.AssistantCard;
-import it.polimi.ingsw.model.Cloud;
-import it.polimi.ingsw.model.Island;
-import it.polimi.ingsw.model.game.Game;
-import it.polimi.ingsw.model.pawn.PawnColor;
-import it.polimi.ingsw.model.pawn.Student;
-import it.polimi.ingsw.view.asset.game.DashBoard;
+import it.polimi.ingsw.view.asset.game.*;
 
 import java.util.ArrayList;
 

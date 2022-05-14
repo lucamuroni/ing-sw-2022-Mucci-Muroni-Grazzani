@@ -23,4 +23,8 @@ public class Game {
         this.islands.addAll(islands);
         this.clouds.addAll(clouds);
     }
+
+    public Gamer getSelf() {
+        return this.self;
+    }
 }
