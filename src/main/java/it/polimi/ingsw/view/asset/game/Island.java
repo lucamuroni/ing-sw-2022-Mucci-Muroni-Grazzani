@@ -20,6 +20,7 @@ public class Island {
      */
     public Island(int id){
         this.id = id;
+        this.numTowers = 0;
     }
 
     /**
