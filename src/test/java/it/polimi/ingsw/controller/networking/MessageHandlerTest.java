@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MessageHandlerTest {
     private MessageHandler client;
     private MessageHandler server;
-    private final int port =17098;
+    private final int port =17099;
     private final String localhost = "127.0.0.1";
     private final static int defaultTimeOut = 10000;
 
@@ -58,9 +58,9 @@ class MessageHandlerTest {
             }
             try {
                 System.out.println("s: controllo correttezza primo messaggio");
-                this.server.assertOnEquals("secondoPayload","Ciao");
+                this.server.assertOnEquals("primoPayload","Ciao");
                 System.out.println("s : printo secondo messaggio");
-                System.out.println(this.server.getMessagePayloadFromStream("Ciao"));
+                System.out.println(this.server.getMessagePayloadFromStream("bello"));
             } catch (MalformedMessageException | FlowErrorException e) {
                 System.out.println("s :qualcosa è già andata storta con i primi 2 messaggi");
             }
@@ -75,33 +75,35 @@ class MessageHandlerTest {
                     System.out.println("s :non sono riuscito a ricevere il secondo e terzo messaggio");
                 }
                 try {
-                    this.server.write(new Message("Status","Test concluso con successo", server.getNewUniqueTopicID()));
+                    this.server.write(new Message("Status","Test concluso con successo", this.server.getMessagesUniqueTopic()));
+                    this.server.writeOut();
                 } catch (MalformedMessageException e) {
-                    System.out.println("sono cazzi");
+                    System.out.println("s :sono cazzi");
                 }
                 try {
-                    System.out.println("Ultimo sforzo");
-                    server.assertOnEquals("terzoPayload","Ciao");
-                    server.assertOnEquals("quartoPayload","Ciao");
+                    System.out.println("s :Ultimo sforzo");
+                    server.assertOnEquals("terzoPayload","cazzo");
+                    server.assertOnEquals("quartoPayload","bufu");
                 } catch (MalformedMessageException |FlowErrorException e) {
-                    System.out.println("Proprio alla fine");
+                    System.out.println("s: errore Proprio alla fine");
                 }
             }
-
+            System.out.println("Server ha finito");
         });
         t.start();
         Thread h = new Thread(()->{
             try {
                 startClient();
             } catch (IOException e) {
-                System.out.println("Error while opening client");
+                System.out.println("c: Error while opening client");
             }
             int topic = this.client.getNewUniqueTopicID();
             try {
                 this.client.write(new Message("Ciao","primoPayload",topic));
-                this.client.write(new Message("Ciao","secondoPayload",topic));
+                this.client.write(new Message("bello","secondoPayload",topic));
                 this.client.writeOut();
-                this.client.write(new Message("Ciao","terzoPayload",topic));
+                System.out.println("c: Ho scritto i primi 2 messaggi");
+                this.client.write(new Message("cazzo","terzoPayload",topic));
             } catch (MalformedMessageException e) {
                 throw new RuntimeException(e);
             }
@@ -112,16 +114,18 @@ class MessageHandlerTest {
                 System.out.println("c :Good boy you founded a expected exception");
             }finally {
                 try {
-                    this.client.write(new Message("Ciao","quartoPayload",topic));
+                    this.client.write(new Message("bufu","quartoPayload",topic));
+                    System.out.println("c :Awaiting for msg");
                     this.client.writeOutAndWait(defaultTimeOut);
                 } catch (TimeHasEndedException | MalformedMessageException | ClientDisconnectedException e) {
-                    System.out.println("Cazzo di errore trovato");
+                    System.out.println("Cazzo di errore trovato qui");
                 }
                 try {
                     this.client.assertOnEquals("Test concluso con successo","Status");
                 } catch (FlowErrorException | MalformedMessageException e) {
                     System.out.println("Cazzo di errore trovato");
                 }
+                System.out.println("Client ha finito");
             }
         });
         h.start();

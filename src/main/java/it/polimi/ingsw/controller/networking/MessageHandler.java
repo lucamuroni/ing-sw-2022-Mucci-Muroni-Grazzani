@@ -23,6 +23,7 @@ public class MessageHandler {
     private final static String topKeyWord = "topicUniqueID";
     private final ConnectionHandler connectionHandler;
     private ArrayList<Message> incomingMessages;
+    private int lastTopicRead;
 
     /**
      * Class Builder
@@ -31,6 +32,7 @@ public class MessageHandler {
     public MessageHandler(Socket socket){
         connectionHandler = new ConnectionHandler(socket);
         incomingMessages = new ArrayList<Message>();
+        this.lastTopicRead = 0;
     }
 
     /**
@@ -40,15 +42,18 @@ public class MessageHandler {
      * @param msg represent a fragment of a socket-Message
      * @throws MalformedMessageException if another message is present and differs by TopicID
      */
-    //TODO : modificare in modo tale che quando si aggiunge un messaggio si cerca nel messaggio già formato se la key non è già presente altrimenti throw MalformedMessageException
+    //TODO : javadoc
     public void write(Message msg) throws MalformedMessageException{
         if(this.encoder==null){
             this.encoder = new JSONObject();
             this.encoder.put(this.topKeyWord,msg.getUniqueTopicID());
         }else{
             if(msg.getUniqueTopicID() != (int)this.encoder.get(this.topKeyWord)){
-                throw new MalformedMessageException("Message already present, please writeOut() it before writing a new one");
+                throw new MalformedMessageException("A message is already present, please writeOut() it before writing a new one");
             }
+        }
+        if(this.encoder.containsKey(msg.getHeader())){
+            throw new MalformedMessageException("A message fragment with this key is already present");
         }
         this.encoder.put(msg.getHeader(),msg.getPayload());
     }
@@ -151,6 +156,7 @@ public class MessageHandler {
     public String getMessagePayloadFromStream(String key) throws MalformedMessageException {
         for(Message msg : this.incomingMessages){
             if(msg.getHeader().equals(key)){
+                updateLastTopic(msg);
                 this.incomingMessages.remove(msg);
                 return msg.getPayload();
             }
@@ -171,5 +177,12 @@ public class MessageHandler {
         }
     }
 
+    public int getMessagesUniqueTopic(){
+        return this.lastTopicRead;
+    }
+
+    private void updateLastTopic(Message message){
+        this.lastTopicRead = this.incomingMessages.get(this.incomingMessages.indexOf(message)).getUniqueTopicID();
+    }
 
 }
