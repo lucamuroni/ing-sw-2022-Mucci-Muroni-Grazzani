@@ -129,9 +129,6 @@ class MessageHandlerTest {
             }
         });
         h.start();
-        while(true){
-
-        }
     }
 
     @Test
@@ -169,9 +166,6 @@ class MessageHandlerTest {
             }
         });
         client.start();
-        while(true){
-
-        }
     }
 
     @Test
