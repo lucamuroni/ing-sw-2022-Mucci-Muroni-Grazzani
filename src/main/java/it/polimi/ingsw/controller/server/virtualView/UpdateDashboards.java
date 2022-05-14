@@ -21,6 +21,7 @@ import static java.lang.Integer.valueOf;
 public class UpdateDashboards {
     ArrayList<Gamer> gamers;
     MessageHandler messageHandler;
+    //Game game;
 
     /**
      * Class constructor
@@ -30,6 +31,7 @@ public class UpdateDashboards {
     public UpdateDashboards(ArrayList<Gamer> gamers, MessageHandler messageHandler){
         this.gamers = gamers;
         this.messageHandler = messageHandler;
+        //this.game = game;
     }
 
     /**
@@ -56,6 +58,11 @@ public class UpdateDashboards {
                 Integer numStud = Math.toIntExact(gamer.getDashboard().getHall().stream().filter(x -> x.getColor().equals(color)).count());
                 messages.add(new Message(HALL_STUDENT.getFragment(), numStud.toString(), topicId));
             }
+            //TODO: verificare che sia da fare così
+            /**for (Professor professor : game.getProfessorsByGamer(gamer)) {
+             *      messages.add(new Message(PROFESSOR.getFragment(), professor.color, topicId));
+             * }
+             */
         }
         this.messageHandler.write(messages);
         messages.clear();
