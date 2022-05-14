@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.pawn.PawnColor;
+import it.polimi.ingsw.view.asset.game.DashBoard;
 
 import java.util.ArrayList;
 
@@ -113,25 +114,25 @@ public class ClientController implements Network {
     }
 
     @Override
-    public void getCloudStatus() {
+    public Cloud getCloudStatus() {
         GetCloudStatus func = new GetCloudStatus(messageHandler);
         func.handle();
     }
 
     @Override
-    public void getDashboard() {
+    public DashBoard getDashboard() {
         GetDashboard func = new GetDashboard(messageHandler);
         func.handle();
     }
 
     @Override
-    public void getIslandStatus() {
+    public Island getIslandStatus() {
         GetIslandStatus func = new GetIslandStatus(messageHandler);
         func.handle();
     }
 
     @Override
-    public void getMotherNaturePlace() {
+    public Island getMotherNaturePlace() {
         GetMotherNaturePlace func = new GetMotherNaturePlace(messageHandler);
         func.handle();
     }

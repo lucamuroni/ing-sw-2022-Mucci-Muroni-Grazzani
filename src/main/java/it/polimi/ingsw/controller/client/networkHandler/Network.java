@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.pawn.PawnColor;
+import it.polimi.ingsw.model.pawn.Student;
+import it.polimi.ingsw.view.asset.game.DashBoard;
+
 import java.util.ArrayList;
 
 /**
@@ -44,11 +47,11 @@ public interface Network {
 
     public ArrayList<Player> getWinner();
 
-    public void getCloudStatus();
+    public Cloud getCloudStatus();
 
-    public void getDashboard();
+    public DashBoard getDashboard();
 
-    public void getIslandStatus();
+    public Island getIslandStatus();
 
-    public void getMotherNaturePlace();
+    public Island getMotherNaturePlace();
 }
