@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.client.networkHandler;
 
+import it.polimi.ingsw.controller.client.game.GamePhase;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.model.AssistantCard;
@@ -20,7 +21,7 @@ public interface Network {
 
     public void getLobbyStatus();
 
-    public Phase getPhase(Phase phase);
+    public GamePhase getPhase();
 
     public ArrayList<AssistantCard> getPossibleCards();
 
