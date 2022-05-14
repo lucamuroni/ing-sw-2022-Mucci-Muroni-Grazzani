@@ -113,26 +113,26 @@ public class ClientController implements Network {
     }
 
     @Override
-    public void updateCloudsStatus() {
-        UpdateCloudsStatus func = new UpdateCloudsStatus(messageHandler);
+    public void getCloudStatus() {
+        GetCloudStatus func = new GetCloudStatus(messageHandler);
         func.handle();
     }
 
     @Override
-    public void updateDashboards() {
-        UpdateDashboards func = new UpdateDashboards(messageHandler);
+    public void getDashboard() {
+        GetDashboard func = new GetDashboard(messageHandler);
         func.handle();
     }
 
     @Override
-    public void updateIslandStatus() {
-        UpdateIslandStatus func = new UpdateIslandStatus(messageHandler);
+    public void getIslandStatus() {
+        GetIslandStatus func = new GetIslandStatus(messageHandler);
         func.handle();
     }
 
     @Override
-    public void updateMotherNaturePlace() {
-        UpdateMotherNaturePlace func = new UpdateMotherNaturePlace(messageHandler);
+    public void getMotherNaturePlace() {
+        GetMotherNaturePlace func = new GetMotherNaturePlace(messageHandler);
         func.handle();
     }
 }
