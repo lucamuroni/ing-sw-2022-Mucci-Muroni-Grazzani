@@ -44,11 +44,11 @@ public interface Network {
 
     public ArrayList<Player> getWinner();
 
-    public void updateCloudsStatus();
+    public void getCloudStatus();
 
-    public void updateDashboards();
+    public void getDashboard();
 
-    public void updateIslandStatus();
+    public void getIslandStatus();
 
-    public void updateMotherNaturePlace();
+    public void getMotherNaturePlace();
 }
