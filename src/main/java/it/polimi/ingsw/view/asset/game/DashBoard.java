@@ -10,7 +10,6 @@ import java.util.ArrayList;
  * This class represents a Dashboard
  */
 public class DashBoard {
-    private final Gamer gamer;
     private ArrayList<Student> waitingRoom;
     private ArrayList<Student> hall;
     private int numTower;
@@ -18,10 +17,8 @@ public class DashBoard {
 
     /**
      * Constructor of the class
-     * @param gamer
      */
-    public DashBoard(Gamer gamer){
-        this.gamer = gamer;
+    public DashBoard(){
         this.waitingRoom = new ArrayList<>();
         this.hall = new ArrayList<>();
         this.professors = new ArrayList<>();
