@@ -4,11 +4,9 @@ import it.polimi.ingsw.controller.client.networkHandler.*;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.server.virtualView.GetChosenCloud;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.Island;
-import it.polimi.ingsw.model.dashboard.Dashboard;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.pawn.PawnColor;
 
@@ -64,13 +62,13 @@ public class ClientController implements Network {
 
     @Override
     public void sendColor(PawnColor color) {
-        SendColor func = new SendColor(color, messageHandler);
+        SendStudentColor func = new SendStudentColor(color, messageHandler);
         func.handle();
     }
 
     @Override
     public void sendLocation(int location) {
-        SendLocation func = new SendLocation(location, messageHandler);
+        SendStudentLocation func = new SendStudentLocation(location, messageHandler);
         func.handle();
     }
 
