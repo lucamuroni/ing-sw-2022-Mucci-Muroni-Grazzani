@@ -21,14 +21,6 @@ public class Cloud {
     }
 
     /**
-     * This method is used to show in client's view the fill of the cloud
-     * @param students
-     */
-    public void addStudent(ArrayList<Student> students){
-        this.students.addAll(students);
-    }
-
-    /**
      * This method is used in client's view to show the remove of students from the cloud
      * @return
      */
@@ -50,6 +42,10 @@ public class Cloud {
      * @param students is the array containing the new students that are on the cloud
      */
     public void update(ArrayList<Student> students) {
-        this.students.addAll(students);
+        if (students.isEmpty()) {
+            this.students.clear();
+        } else {
+            this.students.addAll(students);
+        }
     }
 }

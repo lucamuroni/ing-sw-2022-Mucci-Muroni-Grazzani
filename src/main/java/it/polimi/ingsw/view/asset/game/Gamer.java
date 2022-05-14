@@ -14,7 +14,6 @@ public class Gamer {
     private String username;
     private ArrayList<AssistantCard> cards;
     private AssistantCard currentSelection;
-    private AssistantCard pastSelection;
     private AssistantCardDeckFigures figure;
     private DashBoard dashBoard;
 
@@ -23,11 +22,11 @@ public class Gamer {
      * @param id is the unique token that identifies the gamer
      * @param username is the nick choose by the player
      */
-    public Gamer(int id, String username, DashBoard dashBoard) {
+    public Gamer(int id, String username) {
         this.id = id;
         this.username = username;
         this.cards = new ArrayList<>();
-        this.dashBoard = dashBoard;
+        this.dashBoard = new DashBoard();
     }
 
     /**
@@ -55,11 +54,7 @@ public class Gamer {
         this.currentSelection = card;
     }
 
-    /**
-     * Method used to update the past chosen card
-     * @param card is the past chosen card
-     */
-    public void updatePastSelection(AssistantCard card) {
-        this.pastSelection = card;
+    public DashBoard getDashBoard() {
+        return this.dashBoard;
     }
 }

@@ -8,12 +8,14 @@ public class Game {
     private ArrayList<Gamer> gamers;
     private ArrayList<Island> islands;
     private ArrayList<Cloud> clouds;
+    private Gamer self;
     //private ArrayList<Student> bag;
 
-    public Game() {
+    public Game(Gamer gamer) {
         this.gamers = new ArrayList<>();
         this.islands = new ArrayList<>();
         this.clouds = new ArrayList<>();
+        this.self = gamer;
     }
 
     public void updateGame(ArrayList<Gamer> gamers, ArrayList<Island> islands, ArrayList<Cloud> clouds) {
