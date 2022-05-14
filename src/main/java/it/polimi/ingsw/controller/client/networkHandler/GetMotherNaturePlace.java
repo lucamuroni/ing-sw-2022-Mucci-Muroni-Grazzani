@@ -6,12 +6,12 @@ import java.util.ArrayList;
 
 /**
  * @author Sara Mucci
- * Class that updates the dashboards in the view
+ * Class that updates the mother nature location in the view
  */
-public class UpdateDashboards {
+public class GetMotherNaturePlace {
     MessageHandler messageHandler;
 
-    public UpdateDashboards(MessageHandler messageHandler) {
+    public GetMotherNaturePlace(MessageHandler messageHandler) {
         this.messageHandler = messageHandler;
     }
 
@@ -20,3 +20,4 @@ public class UpdateDashboards {
         int topicId = this.messageHandler.getNewUniqueTopicID();
     }
 }
+

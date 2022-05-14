@@ -8,10 +8,10 @@ import java.util.ArrayList;
  * @author Sara Mucci
  * Class that updates the islands' status in the view
  */
-public class UpdateIslandStatus {
+public class GetIslandStatus {
     MessageHandler messageHandler;
 
-    public UpdateIslandStatus(MessageHandler messageHandler) {
+    public GetIslandStatus(MessageHandler messageHandler) {
         this.messageHandler = messageHandler;
     }
 

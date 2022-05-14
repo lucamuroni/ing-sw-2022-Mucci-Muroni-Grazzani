@@ -6,12 +6,12 @@ import java.util.ArrayList;
 
 /**
  * @author Sara Mucci
- * Class that updates the clouds status in the view
+ * Class that updates the dashboards in the view
  */
-public class UpdateCloudsStatus {
+public class GetDashboards {
     MessageHandler messageHandler;
 
-    public UpdateCloudsStatus(MessageHandler messageHandler) {
+    public GetDashboards(MessageHandler messageHandler) {
         this.messageHandler = messageHandler;
     }
 
