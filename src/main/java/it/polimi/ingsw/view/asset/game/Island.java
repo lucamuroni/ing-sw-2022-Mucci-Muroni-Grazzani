@@ -42,4 +42,10 @@ public class Island {
     public void addStudent(Student student) {
         this.students.add(student);
     }
+
+    public void changeOwner(TowerColor color) {
+        this.towersColor = color;
+    }
+
+    //Serve un metodo per aumentare/diminuire il numero di torri?
 }
