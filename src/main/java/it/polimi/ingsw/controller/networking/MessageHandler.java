@@ -42,7 +42,6 @@ public class MessageHandler {
      * @param msg represent a fragment of a socket-Message
      * @throws MalformedMessageException if another message is present and differs by TopicID
      */
-    //TODO : javadoc
     public void write(Message msg) throws MalformedMessageException{
         if(this.encoder==null){
             this.encoder = new JSONObject();

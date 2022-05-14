@@ -9,8 +9,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.ArrayList;
+
+/**
+ * Class used to manage connections between hosts
+ * @author Davide Grazzani
+ */
 class ConnectionHandler {
     private final Socket clientSocket;
     private PrintWriter out;
@@ -20,6 +24,10 @@ class ConnectionHandler {
     private boolean isON;
     private boolean hasConnectionBeenLost;
 
+    /**
+     * Class builder
+     * @param socket is the socket of the host you want to connect to
+     */
     public ConnectionHandler(Socket socket){
         this.clientSocket = socket;
         this.isON = true;
@@ -28,6 +36,10 @@ class ConnectionHandler {
         this.hasConnectionBeenLost = false;
     }
 
+    /**
+     * Method used to start the connections between hosts
+     * @throws IOException if the local machine cannot open a channel to comunicate in either directions
+     */
     public void start() throws IOException{
         this.out = new PrintWriter(this.clientSocket.getOutputStream(),true);
         this.in = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
@@ -36,10 +48,17 @@ class ConnectionHandler {
         this.ping(3000);
     }
 
+    /**
+     * Method used to safely shut down communications threads
+     */
     public void shutDown(){
         this.isON = false;
     }
 
+    /**
+     * Method responsible for reading incoming messages from socket. It starts a thread that can autodetect ping requests and replay to them without touching incoming messages.
+     * Messages are managed with a FIFO politics
+     */
     private void readInputMessage(){
         Thread t = new Thread(()->{
             String s;
@@ -60,13 +79,20 @@ class ConnectionHandler {
                     }
                 } catch (IOException e) {
                     hasConnectionBeenLost = true;
+                    this.shutDown();
                 }
             }
         });
         t.start();
     }
 
-
+    /**
+     * Method used to get a message from other clients
+     * @param actionTimeOutMs is the maximum time allowed to read the message
+     * @return the first messages that has already been read or the first message that this client receives in the timing window
+     * @throws TimeHasEndedException if no messages where founded on this lapse of time
+     * @throws ClientDisconnectedException if a disconnection is revealed
+     */
     public String getInputMessage(int actionTimeOutMs) throws TimeHasEndedException, ClientDisconnectedException {
         boolean isInputEmpty = true;
         MessageTimer msgTimer = new MessageTimer(actionTimeOutMs);
@@ -91,6 +117,10 @@ class ConnectionHandler {
         return s;
     }
 
+    /**
+     * Method used to send a message to another client
+     * @param string is the string you want to send
+     */
     public void setOutputMessage(String string){
         synchronized (this.outputMessages){
             this.outputMessages.add(string);
@@ -98,7 +128,10 @@ class ConnectionHandler {
         }
     }
 
-
+    /**
+     *  Method responsible for sending to the socket. It starts a thread that waits for a new message to be sent.
+     *  If no message is present it will sleep for 50 ns.
+     */
     private void writeOutputMessage(){
         Thread t = new Thread(()->{
             boolean empty = true;
@@ -132,7 +165,10 @@ class ConnectionHandler {
         t.start();
     }
 
-
+    /**
+     * Method used to send ping request to other clients
+     * @param milliSeconds are the seconds to wait before sending the ping request
+     */
     private void ping(int milliSeconds){
         Thread t = new Thread(()->{
             synchronized (this.out){
@@ -150,7 +186,10 @@ class ConnectionHandler {
         t.start();
     }
 
-    
+    /**
+     * Method used to reset all piped messages already present.
+     * This method was concept to try to recovery possible errors
+     */
     public void restLines(){
         synchronized (this.outputMessages){
             this.outputMessages.clear();
