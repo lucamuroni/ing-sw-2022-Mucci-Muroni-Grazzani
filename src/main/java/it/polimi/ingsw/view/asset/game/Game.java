@@ -1,15 +1,18 @@
 package it.polimi.ingsw.view.asset.game;
 
-import it.polimi.ingsw.model.pawn.Student;
-
 import java.util.ArrayList;
 
 public class Game {
     private ArrayList<Gamer> gamers;
     private ArrayList<Island> islands;
     private ArrayList<Cloud> clouds;
+    private Island motherNaturePosition;
     private Gamer self;
     //private ArrayList<Student> bag;
+
+    public void setMotherNaturePosition(Island motherNaturePosition) {
+        this.motherNaturePosition = motherNaturePosition;
+    }
 
     public Game(Gamer gamer) {
         this.gamers = new ArrayList<>();
@@ -18,10 +21,11 @@ public class Game {
         this.self = gamer;
     }
 
-    public void updateGame(ArrayList<Gamer> gamers, ArrayList<Island> islands, ArrayList<Cloud> clouds) {
+    public void updateGame(ArrayList<Gamer> gamers, ArrayList<Island> islands, ArrayList<Cloud> clouds, Island motherNaturePosition) {
         this.gamers.addAll(gamers);
         this.islands.addAll(islands);
         this.clouds.addAll(clouds);
+        this.motherNaturePosition = motherNaturePosition;
     }
 
     public Gamer getSelf() {
@@ -38,5 +42,9 @@ public class Game {
 
     public ArrayList<Cloud> getClouds() {
         return clouds;
+    }
+
+    public Island getMotherNaturePosition() {
+        return motherNaturePosition;
     }
 }
