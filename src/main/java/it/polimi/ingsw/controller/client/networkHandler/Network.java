@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.client.game.GamePhase;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.model.AssistantCard;
+import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.view.asset.game.*;
 
 import java.util.ArrayList;
