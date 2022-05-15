@@ -27,4 +27,16 @@ public class Game {
     public Gamer getSelf() {
         return this.self;
     }
+
+    public ArrayList<Gamer> getGamers() {
+        return gamers;
+    }
+
+    public ArrayList<Island> getIslands() {
+        return islands;
+    }
+
+    public ArrayList<Cloud> getClouds() {
+        return clouds;
+    }
 }

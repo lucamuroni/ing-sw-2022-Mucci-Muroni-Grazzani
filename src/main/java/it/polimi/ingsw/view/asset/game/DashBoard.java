@@ -69,4 +69,20 @@ public class DashBoard {
     public void addStudentToWaiting(ArrayList<Student> students) {
         this.waitingRoom.addAll(students);
     }
+
+    public ArrayList<Student> getWaitingRoom() {
+        return waitingRoom;
+    }
+
+    public ArrayList<Student> getHall() {
+        return hall;
+    }
+
+    public int getNumTower() {
+        return numTower;
+    }
+
+    public ArrayList<PawnColor> getProfessors() {
+        return professors;
+    }
 }

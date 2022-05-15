@@ -43,4 +43,20 @@ public class Island {
     public void addStudent(Student student) {
         this.students.add(student);
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public ArrayList<Student> getStudents() {
+        return students;
+    }
+
+    public int getNumTowers() {
+        return numTowers;
+    }
+
+    public TowerColor getTowersColor() {
+        return towersColor;
+    }
 }

@@ -61,4 +61,20 @@ public class Gamer {
     public ArrayList<AssistantCard> getCards() {
         return this.cards;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public AssistantCard getCurrentSelection() {
+        return currentSelection;
+    }
+
+    public AssistantCardDeckFigures getFigure() {
+        return figure;
+    }
 }

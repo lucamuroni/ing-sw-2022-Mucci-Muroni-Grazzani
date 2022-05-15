@@ -48,4 +48,12 @@ public class Cloud {
             this.students.addAll(students);
         }
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public ArrayList<Student> getStudents() {
+        return students;
+    }
 }
