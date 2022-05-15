@@ -37,6 +37,6 @@ public class PlanningPhase implements GamePhase {
 
     @Override
     public GamePhase next() {
-        return new Idle(this.game, this.controller);
+        return new Idle(this.game, this.controller, this.view);
     }
 }
