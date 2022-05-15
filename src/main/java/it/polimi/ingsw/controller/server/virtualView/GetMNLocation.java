@@ -29,6 +29,7 @@ public class GetMNLocation {
         }
         this.messageHandler.write(messages);
         messages.clear();
+        //TODO: modificare
         messages.addAll(this.messageHandler.writeOutAndWait(ConnectionTimings.PLAYER_MOVE.getTiming()));
         int islandId = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(ISLAND_ID.getFragment(), messages));
         Island result = null;
