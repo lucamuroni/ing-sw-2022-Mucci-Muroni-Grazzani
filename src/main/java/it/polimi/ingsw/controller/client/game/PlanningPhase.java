@@ -7,6 +7,7 @@ import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Game;
 
 public class PlanningPhase implements GamePhase {
+    private final PhaseName name = PhaseName.PLANNING_PHASE;
     private final Game game;
     private final ViewHandler view;
     private final Network network;
@@ -27,6 +28,11 @@ public class PlanningPhase implements GamePhase {
             this.game.getSelf().updateCurrentSelection(choice);
             this.network.sendCard(choice);
         } catch ()
+    }
+
+    @Override
+    public PhaseName getNamePhase() {
+        return name;
     }
 
     @Override

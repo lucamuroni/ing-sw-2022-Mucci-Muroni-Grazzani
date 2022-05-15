@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.client.networkHandler.Network;
 import it.polimi.ingsw.view.asset.game.Game;
 
 public class Idle implements GamePhase{
+    private PhaseName name = PhaseName.IDLE;
     private Network network;
     private ClientController controller;
     private Game game;
@@ -20,7 +21,19 @@ public class Idle implements GamePhase{
     public void handle() {
         try {
             phase = this.network.getPhase();
-        } catch ()
+        } catch () {
+
+        }
+
+    }
+
+    private void update() {
+
+    }
+
+    @Override
+    public PhaseName getNamePhase() {
+        return null;
     }
 
     @Override
