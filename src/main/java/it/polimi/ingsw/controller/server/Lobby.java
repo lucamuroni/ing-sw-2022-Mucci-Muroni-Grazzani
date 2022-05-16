@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.server;
 
+import it.polimi.ingsw.controller.networking.GameType;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.server.game.gameController.GameController;
 
