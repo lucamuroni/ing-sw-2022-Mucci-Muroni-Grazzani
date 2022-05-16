@@ -10,6 +10,7 @@ import java.util.ArrayList;
  * This class represents a Dashboard
  */
 public class DashBoard {
+    private final int idOwner;
     private ArrayList<Student> waitingRoom;
     private ArrayList<Student> hall;
     private int numTower;
@@ -18,10 +19,11 @@ public class DashBoard {
     /**
      * Constructor of the class
      */
-    public DashBoard(){
+    public DashBoard(int idOwner){
         this.waitingRoom = new ArrayList<>();
         this.hall = new ArrayList<>();
         this.professors = new ArrayList<>();
+        this.idOwner = idOwner;
     }
 
     /**
@@ -68,6 +70,10 @@ public class DashBoard {
      */
     public void addStudentToWaiting(ArrayList<Student> students) {
         this.waitingRoom.addAll(students);
+    }
+
+    public int getIdOwner() {
+        return idOwner;
     }
 
     public ArrayList<Student> getWaitingRoom() {

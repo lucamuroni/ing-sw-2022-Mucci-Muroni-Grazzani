@@ -26,7 +26,7 @@ public class Gamer {
         this.id = id;
         this.username = username;
         this.cards = new ArrayList<>();
-        this.dashBoard = new DashBoard();
+        this.dashBoard = new DashBoard(this.id);
     }
 
     /**

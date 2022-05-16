@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.client.networkHandler.Network;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.DashBoard;
+import it.polimi.ingsw.view.asset.game.Gamer;
 import it.polimi.ingsw.view.asset.game.Island;
 import it.polimi.ingsw.model.pawn.Student;
 import it.polimi.ingsw.view.ViewHandler;
@@ -38,7 +39,7 @@ public class ActionPhase1 implements GamePhase{
                 if (this.view.choosePlace().equals("Island")) {
                     Island island = this.view.chooseIsland(this.game.getIslands());
                     this.game.getSelf().getDashBoard().moveStudentToIsland(island, student);
-                    location = this.game.getIslands().indexOf(island);
+                    location = this.game.getIslands().indexOf(island) + 1;
                 } else {
                     this.game.getSelf().getDashBoard().moveStudentToHall(student);
                 }
@@ -55,8 +56,13 @@ public class ActionPhase1 implements GamePhase{
         //TODO: discutere con Grazza come vanno spedite le info sulle Dashboard e, in particolare, come vanno poi
         //      analizzate lato client per capire a chi è associata la dashboard
         //TODO: per me sarebbe meglio se il currentPlayer ricevesse semplicemente la lista di nuovi prof anzichè aggiornare
-        //      tutto da capo, è molto più "difficile" (per non dire lungo) a livello di codice
-        DashBoard dashBoard = this.network.getDashboard();
+        //      tutto da capo, è molto più "oneroso"
+        for (Gamer gamer : this.game.getGamers()) {
+            DashBoard dashBoard = this.network.getDashboard();
+            if (gamer.getId() == dashBoard.getIdOwner()) {
+                dashBoard.updateDashBoard(dashBoard.getNumTower(), dashBoard.getWaitingRoom(), dashBoard.getHall(), dashBoard.getProfessors());
+            }
+        }
     }
 
     @Override
