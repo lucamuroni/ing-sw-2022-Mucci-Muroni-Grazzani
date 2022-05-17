@@ -6,6 +6,7 @@ public class Menù {
     private ArrayList<String> options;
     private final int menùLength;
     private final String padding = "  ";
+    private String context = "";
 
     public Menù(ArrayList<String> options){
         this(options,80);
@@ -31,14 +32,52 @@ public class Menù {
         }
         System.out.print("\n");
         int menùIndex = 0;
+        int counter;
+        String header = "# ";
+        for(counter =0; counter<this.context.length();counter++){
+            if (counter == (menùLength-(header.length()+2+padding.length()))){
+                System.out.print("   #");
+                System.out.print("\n");
+            }
+            System.out.print(this.context.toCharArray()[counter]);
+        }
+        counter = counter%this.menùLength;
+        while (counter<this.menùLength-(header.length()+2+padding.length())){
+            System.out.print(" ");
+        }
+        System.out.print("   #");
+        System.out.print("\n");
         for(String option : options){
             menùIndex ++;
-            String header = "# "+menùIndex+")"+padding;
+            header = "# "+menùIndex+")"+padding;
             System.out.print(header);
-            int counter = 0;
-            while (counter < (menùLength-(header.length()+2+padding.length())) && counter< option.length()){
-                System.out.print(//pezzo di parola da scrivere);
+            for(counter =0; counter<option.length();counter++){
+                if (counter == (menùLength-(header.length()+2+padding.length()))){
+                    System.out.print("   #");
+                    System.out.print("\n");
+                }
+                System.out.print(option.toCharArray()[counter]);
             }
+            counter = counter%this.menùLength;
+            while (counter<this.menùLength-(header.length()+2+padding.length())){
+                System.out.print(" ");
+            }
+            System.out.print("   #");
+            System.out.print("\n");
         }
+        for(int i = 0;i<this.menùLength;i++){
+            System.out.print("#");
+        }
+        System.out.print("\n");
+    }
+
+    public static void main(String args[]){
+        ArrayList<String> str = new ArrayList<>();
+        str.add("opt1");
+        str.add("opt2");
+    }
+
+    public void setContext(String s){
+        this.context = s;
     }
 }

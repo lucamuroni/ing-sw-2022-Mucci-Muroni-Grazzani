@@ -18,7 +18,6 @@ public class LoadingPage implements Page {
         this.isKilled = false;
     }
 
-    @Override
     public void draw() {
         String padding = "   ";
         System.out.println("Welcome to " +AnsiColor.GREEN.toString()+
