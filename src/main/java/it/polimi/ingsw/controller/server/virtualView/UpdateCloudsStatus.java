@@ -8,6 +8,7 @@ import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.Cloud;
+import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
 import static it.polimi.ingsw.controller.networking.MessageFragment.*;
 import static java.lang.Integer.valueOf;
@@ -40,23 +41,50 @@ public class UpdateCloudsStatus {
      */
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         ArrayList<Message> messages = new ArrayList<Message>();
+        int numStud;
         int topicId = this.messageHandler.getNewUniqueTopicID();
         for (Cloud cloud : this.clouds) {
             Integer token = valueOf(cloud.getID());
-            messages.add(new Message(CLOUD.getFragment(), token.toString(), topicId));
+            messages.add(new Message(CLOUD_ID.getFragment(), token.toString(), topicId));
             if (cloud.isEmpty()) {
-                messages.add(new Message(CLOUD.getFragment(), "", topicId));
+                messages.add(new Message(STUDENT_COLOR.getFragment(), "", topicId));
             }
             else {
                 ArrayList<Student> students = cloud.getStudents();
-                for (Student student : students) {
-                    messages.add(new Message(STUDENT_COLOR.getFragment(), student.getColor().toString(), topicId));
+                numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.RED)).count());
+                if (numStud > 0) {
+                    Integer result = valueOf(numStud);
+                    messages.add(new Message(PAWN_RED.getFragment(), result.toString(), topicId));
+                }
+                numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.BLUE)).count());
+                if (numStud > 0) {
+                    Integer result = valueOf(numStud);
+                    messages.add(new Message(PAWN_BLUE.getFragment(), result.toString(), topicId));
+                }
+                numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.YELLOW)).count());
+                if (numStud > 0) {
+                    Integer result = valueOf(numStud);
+                    messages.add(new Message(PAWN_YELLOW.getFragment(), result.toString(), topicId));
+                }
+                numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.GREEN)).count());
+                if (numStud > 0) {
+                    Integer result = valueOf(numStud);
+                    messages.add(new Message(PAWN_GREEN.getFragment(), result.toString(), topicId));
+                }
+                numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.PINK)).count());
+                if (numStud > 0) {
+                    Integer result = valueOf(numStud);
+                    messages.add(new Message(PAWN_PINK.getFragment(), result.toString(), topicId));
                 }
             }
+            this.messageHandler.write(messages);
+            messages.clear();
         }
-        this.messageHandler.write(messages);
-        messages.clear();
-        this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
+        this.messageHandler.write(new Message(STOP.getFragment(), "", topicId));
+        this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
+        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
+            throw new MalformedMessageException();
+        }
         this.messageHandler.assertOnEquals(OK.getFragment(), CLOUD.getFragment());
     }
 }
