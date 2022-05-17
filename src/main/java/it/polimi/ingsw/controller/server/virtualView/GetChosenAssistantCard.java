@@ -22,17 +22,17 @@ class GetChosenAssistantCard {
     }
 
     public AssistantCard handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        ArrayList<Message> messages = new ArrayList<Message>();
+        //Message messages = new Message();
         int topicId = this.messageHandler.getNewUniqueTopicID();
         for (AssistantCard card : this.cards){
-            messages.add(new Message(ASSISTANT_CARD.getFragment(), card.getName(), topicId));
+            Message message = new Message(ASSISTANT_CARD.getFragment(), card.getName(), topicId);
+            this.messageHandler.write(message);
+            this.messageHandler.writeOutAndWait(ConnectionTimings.PLAYER_MOVE.getTiming());
+
         }
-        this.messageHandler.write(messages);
-        messages.clear();
-        messages.addAll(this.messageHandler.writeOutAndWait(ConnectionTimings.PLAYER_MOVE.getTiming()));
         String cardName;
         AssistantCard result = null;
-        cardName = this.messageHandler.getMessagePayloadFromStream(ASSISTANT_CARD.getFragment(), messages);
+        cardName = this.messageHandler.getMessagePayloadFromStream(ASSISTANT_CARD.getFragment());
         for (AssistantCard card : this.cards) {
             if (card.getName().equals(cardName))
                 result = card;

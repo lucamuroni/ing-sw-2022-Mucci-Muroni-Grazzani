@@ -18,17 +18,15 @@ public class GetChosenCloud {
         this.messageHandler = messageHandler;
     }
     public Cloud handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
         for (Cloud cloud: clouds) {
-            messages.add(new Message(CLOUD.getFragment(), cloud.getID(), topicId));
+            Message message = new Message(CLOUD.getFragment(), cloud.getID(), topicId);
+            this.messageHandler.write(message);
+            this.messageHandler.writeOutAndWait(ConnectionTimings.PLAYER_MOVE.getTiming());
         }
-        this.messageHandler.write(messages);
-        messages.clear();
-        messages.addAll(this.messageHandler.writeOutAndWait(ConnectionTimings.PLAYER_MOVE.getTiming()));
         String cloudID;
         Cloud result = null;
-        cloudID = this.messageHandler.getMessagePayloadFromStream(CLOUD.getFragment(), messages);
+        cloudID = this.messageHandler.getMessagePayloadFromStream(CLOUD.getFragment());
         for (Cloud cloud : clouds) {
             if (cloud.getID().equals(cloudID))
                 result = cloud;
