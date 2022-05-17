@@ -24,6 +24,9 @@ public class GetMovedStudentColor {
         Message message = new Message(STUDENT_COLOR.getFragment(), "", topicId);
         this.messageHandler.write(message);
         this.messageHandler.writeOutAndWait(ConnectionTimings.PLAYER_MOVE.getTiming());
+        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
+            throw  new MalformedMessageException();
+        }
         String studentColor = this.messageHandler.getMessagePayloadFromStream(STUDENT_COLOR.getFragment());
         PawnColor result = null;
         for (PawnColor color : PawnColor.values()) {

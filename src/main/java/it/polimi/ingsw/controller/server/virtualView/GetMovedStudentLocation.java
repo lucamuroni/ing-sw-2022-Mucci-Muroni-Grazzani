@@ -19,14 +19,14 @@ public class GetMovedStudentLocation {
     }
 
     public int handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
-        messages.add(new Message(STUDENT_LOCATION.getFragment(), "", topicId));
-        this.messageHandler.write(messages);
-        messages.clear();
-        messages.addAll(this.messageHandler.writeOutAndWait(ConnectionTimings.PLAYER_MOVE.getTiming()));
-        //TODO : modificare funzione in modo tale che restituisca un' isola e non un intero (passando anche come parametro l'array di isole
-        int result = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(STUDENT_LOCATION.getFragment(), messages));
+        Message message = new Message(STUDENT_LOCATION.getFragment(), "", topicId);
+        this.messageHandler.write(message);
+        this.messageHandler.writeOutAndWait(ConnectionTimings.PLAYER_MOVE.getTiming());
+        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
+            throw new MalformedMessageException();
+        }
+        int result = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(STUDENT_LOCATION.getFragment()));
         return result;
     }
 }
