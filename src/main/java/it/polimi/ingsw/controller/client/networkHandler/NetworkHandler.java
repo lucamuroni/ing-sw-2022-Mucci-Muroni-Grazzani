@@ -3,7 +3,10 @@ package it.polimi.ingsw.controller.client.networkHandler;
 import it.polimi.ingsw.controller.client.game.GamePhase;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.Player;
+import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
+import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
+import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.view.asset.game.*;
@@ -42,18 +45,17 @@ public class NetworkHandler implements Network {
     @Override
     public GamePhase getPhase() {
         GetPhase func = new GetPhase(messageHandler);
-        GamePhase result = func.handle();
-        return result;
+        return func.handle();
     }
 
     @Override
-    public ArrayList<AssistantCard> getPossibleCards() {
+    public ArrayList<AssistantCard> getPossibleCards() throws TimeHasEndedException, ClientDisconnectedException {
         GetPossibleCards func = new GetPossibleCards(messageHandler);
-        func.handle();
+        return func.handle();
     }
 
     @Override
-    public void sendCard(AssistantCard card) {
+    public void sendCard(AssistantCard card) throws FlowErrorException, MalformedMessageException {
         SendCard func = new SendCard(card, messageHandler);
         func.handle();
     }
@@ -71,10 +73,9 @@ public class NetworkHandler implements Network {
     }
 
     @Override
-    public ArrayList<Island> getPossibleIslands() {
+    public ArrayList<Island> getPossibleIslands() throws TimeHasEndedException, ClientDisconnectedException {
         GetPossibleIslands func = new GetPossibleIslands(messageHandler);
-        ArrayList<Island> result = func.handle();
-        return result;
+        return func.handle();
     }
 
     @Override
@@ -86,19 +87,17 @@ public class NetworkHandler implements Network {
     @Override
     public Player getNewOwner() {
         GetNewOwner func = new GetNewOwner(messageHandler);
-        Player result = func.handle();
-        return result;
+        return func.handle();
     }
 
     @Override
-    public ArrayList<Cloud> getPossibleClouds() {
+    public ArrayList<Cloud> getPossibleClouds() throws TimeHasEndedException, ClientDisconnectedException {
         GetPossibleClouds func = new GetPossibleClouds(messageHandler);
-        ArrayList<Cloud> result = func.handle();
-        return result;
+        return func.handle();
     }
 
     @Override
-    public void sendCloud(Cloud cloud) {
+    public void sendCloud(Cloud cloud) throws FlowErrorException, MalformedMessageException {
         SendCloud func = new SendCloud(cloud, messageHandler);
         func.handle();
     }
@@ -106,31 +105,30 @@ public class NetworkHandler implements Network {
     @Override
     public ArrayList<Player> getWinner(){
         GetWinner func = new GetWinner(messageHandler);
-        ArrayList<Player> result = func.handle();
-        return result;
+        return func.handle();
     }
 
     @Override
     public Cloud getCloudStatus() {
         GetCloudStatus func = new GetCloudStatus(messageHandler);
-        func.handle();
+        return func.handle();
     }
 
     @Override
     public DashBoard getDashboard() {
         GetDashboard func = new GetDashboard(messageHandler);
-        func.handle();
+        return func.handle();
     }
 
     @Override
     public Island getIslandStatus() {
         GetIslandStatus func = new GetIslandStatus(messageHandler);
-        func.handle();
+        return func.handle();
     }
 
     @Override
     public Island getMotherNaturePlace() {
         GetMotherNaturePlace func = new GetMotherNaturePlace(messageHandler);
-        func.handle();
+        return func.handle();
     }
 }
