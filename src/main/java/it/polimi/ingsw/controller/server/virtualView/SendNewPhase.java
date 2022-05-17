@@ -37,11 +37,9 @@ public class SendNewPhase {
      * @throws FlowErrorException launched when the client sends an unexpected response
      */
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
-        ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
-        messages.add(new Message(PHASE.getFragment(), phase.name(), topicId));
-        this.messageHandler.write(messages);
-        messages.clear();
+        Message message = new Message(PHASE.getFragment(), phase.name(), topicId);
+        this.messageHandler.write(message);
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
         this.messageHandler.assertOnEquals(OK.getFragment(), PHASE.getFragment());
     }

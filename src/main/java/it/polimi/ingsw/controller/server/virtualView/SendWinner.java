@@ -10,8 +10,7 @@ import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 
 import java.util.ArrayList;
 
-import static it.polimi.ingsw.controller.networking.MessageFragment.OK;
-import static it.polimi.ingsw.controller.networking.MessageFragment.WINNER;
+import static it.polimi.ingsw.controller.networking.MessageFragment.*;
 
 /**
  * @author Sara Mucci
@@ -39,12 +38,16 @@ public class SendWinner {
      * @throws FlowErrorException launched when the client sends an unexpected response
      */
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
-        ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
-        messages.add(new Message(WINNER.getFragment(), usernames.toString(), topicId));
-        this.messageHandler.write(messages);
-        messages.clear();
-        this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
+        for (String string : this.usernames) {
+            Message message = new Message(WINNER.getFragment(), usernames.toString(), topicId);
+            this.messageHandler.write(message);
+        }
+        this.messageHandler.write(new Message(STOP.getFragment(), "", topicId));
+        this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
+        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
+            throw new MalformedMessageException();
+        }
         this.messageHandler.assertOnEquals(OK.getFragment(), WINNER.getFragment());
     }
 }
