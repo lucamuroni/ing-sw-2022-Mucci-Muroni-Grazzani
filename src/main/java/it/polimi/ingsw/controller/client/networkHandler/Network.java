@@ -54,4 +54,9 @@ public interface Network {
     public Island getIslandStatus();
 
     public Island getMotherNaturePlace() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+
+    public AssistantCard getChosenAssistantCard() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+
+    public void sendAssistantCardDeck();
+
 }

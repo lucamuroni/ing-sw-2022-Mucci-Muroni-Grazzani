@@ -129,4 +129,16 @@ public class NetworkHandler implements Network {
         GetMotherNaturePlace func = new GetMotherNaturePlace(messageHandler);
         return func.handle();
     }
+
+    @Override
+    public AssistantCard getChosenAssistantCard() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        GetChosenAssistantCard func = new GetChosenAssistantCard(messageHandler);
+        return func.handle();
+    }
+
+    @Override
+    public void sendAssistantCardDeck() {
+        SendCardDeck func = new SendCardDeck(messageHandler);
+        func.handle();
+    }
 }
