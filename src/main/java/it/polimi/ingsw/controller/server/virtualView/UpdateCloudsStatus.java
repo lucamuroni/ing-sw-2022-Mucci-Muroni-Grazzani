@@ -42,41 +42,27 @@ public class UpdateCloudsStatus {
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         ArrayList<Message> messages = new ArrayList<Message>();
         int numStud;
+        Integer result = null;
         int topicId = this.messageHandler.getNewUniqueTopicID();
         for (Cloud cloud : this.clouds) {
             Integer token = valueOf(cloud.getID());
             messages.add(new Message(CLOUD_ID.getFragment(), token.toString(), topicId));
-            if (cloud.isEmpty()) {
-                messages.add(new Message(STUDENT_COLOR.getFragment(), "", topicId));
-            }
-            else {
-                ArrayList<Student> students = cloud.getStudents();
-                numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.RED)).count());
-                if (numStud > 0) {
-                    Integer result = valueOf(numStud);
-                    messages.add(new Message(PAWN_RED.getFragment(), result.toString(), topicId));
-                }
-                numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.BLUE)).count());
-                if (numStud > 0) {
-                    Integer result = valueOf(numStud);
-                    messages.add(new Message(PAWN_BLUE.getFragment(), result.toString(), topicId));
-                }
-                numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.YELLOW)).count());
-                if (numStud > 0) {
-                    Integer result = valueOf(numStud);
-                    messages.add(new Message(PAWN_YELLOW.getFragment(), result.toString(), topicId));
-                }
-                numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.GREEN)).count());
-                if (numStud > 0) {
-                    Integer result = valueOf(numStud);
-                    messages.add(new Message(PAWN_GREEN.getFragment(), result.toString(), topicId));
-                }
-                numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.PINK)).count());
-                if (numStud > 0) {
-                    Integer result = valueOf(numStud);
-                    messages.add(new Message(PAWN_PINK.getFragment(), result.toString(), topicId));
-                }
-            }
+            ArrayList<Student> students = cloud.getStudents();
+            numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.RED)).count());
+            result = valueOf(numStud);
+            messages.add(new Message(PAWN_RED.getFragment(), result.toString(), topicId));
+            numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.BLUE)).count());
+            result = valueOf(numStud);
+            messages.add(new Message(PAWN_BLUE.getFragment(), result.toString(), topicId));
+            numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.YELLOW)).count());
+            result = valueOf(numStud);
+            messages.add(new Message(PAWN_YELLOW.getFragment(), result.toString(), topicId));
+            numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.GREEN)).count());
+            result = valueOf(numStud);
+            messages.add(new Message(PAWN_GREEN.getFragment(), result.toString(), topicId));
+            numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.PINK)).count());
+            result = valueOf(numStud);
+            messages.add(new Message(PAWN_PINK.getFragment(), result.toString(), topicId));
             this.messageHandler.write(messages);
             messages.clear();
         }

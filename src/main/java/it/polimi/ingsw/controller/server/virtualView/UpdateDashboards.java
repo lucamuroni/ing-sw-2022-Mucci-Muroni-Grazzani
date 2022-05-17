@@ -9,6 +9,7 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
+import it.polimi.ingsw.model.pawn.Professor;
 import it.polimi.ingsw.model.pawn.Student;
 import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.MessageFragment.*;
@@ -44,25 +45,69 @@ public class UpdateDashboards {
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
+        int numStud;
+        int prof;
+        Integer result = null;
+        Integer profs = null;
         for (Gamer gamer : this.gamers) {
             Integer token = valueOf(gamer.getToken());
             messages.add(new Message(OWNER.getFragment(), token.toString(), topicId));
             Integer num = valueOf(gamer.getDashboard().getNumTowers());
             messages.add(new Message(NUM_TOWERS.getFragment(), num.toString(), topicId));
-            for (Student student : gamer.getDashboard().getWaitingRoom()) {
-                messages.add(new Message(WAITING_STUDENT.getFragment(), student.getColor().toString(), topicId));
-            }
-            for (PawnColor color : PawnColor.values()) {
-                //TODO: Controllare con Grazza: ho dovuto inserire per forza un getHall, altrimenti non esisteva un metodo per ritornare
-                // gli studenti della hall
-                Integer numStud = Math.toIntExact(gamer.getDashboard().getHall().stream().filter(x -> x.getColor().equals(color)).count());
-                messages.add(new Message(HALL_STUDENT.getFragment(), numStud.toString(), topicId));
-            }
-            //TODO: verificare che sia da fare così
-            /**for (Professor professor : game.getProfessorsByGamer(gamer)) {
-             *      messages.add(new Message(PROFESSOR.getFragment(), professor.color, topicId));
-             * }
-             */
+
+            //Aggiunge studenti waitingRoom
+            ArrayList<Student> waitingStudents = gamer.getDashboard().getWaitingRoom();
+            numStud = Math.toIntExact(waitingStudents.stream().filter(x -> x.getColor().equals(PawnColor.RED)).count());
+            result = valueOf(numStud);
+            messages.add(new Message(WAITING_PAWN_RED.getFragment(), result.toString(), topicId));
+            numStud = Math.toIntExact(waitingStudents.stream().filter(x -> x.getColor().equals(PawnColor.BLUE)).count());
+            result = valueOf(numStud);
+            messages.add(new Message(WAITING_PAWN_BLUE.getFragment(), result.toString(), topicId));
+            numStud = Math.toIntExact(waitingStudents.stream().filter(x -> x.getColor().equals(PawnColor.YELLOW)).count());
+            result = valueOf(numStud);
+            messages.add(new Message(WAITING_PAWN_YELLOW.getFragment(), result.toString(), topicId));
+            numStud = Math.toIntExact(waitingStudents.stream().filter(x -> x.getColor().equals(PawnColor.GREEN)).count());
+            result = valueOf(numStud);
+            messages.add(new Message(WAITING_PAWN_GREEN.getFragment(), result.toString(), topicId));
+            numStud = Math.toIntExact(waitingStudents.stream().filter(x -> x.getColor().equals(PawnColor.PINK)).count());
+            result = valueOf(numStud);
+            messages.add(new Message(WAITING_PAWN_PINK.getFragment(), result.toString(), topicId));
+
+            //Aggiunge studenti hall
+            ArrayList<Student> hallStudents = gamer.getDashboard().getHall();
+            numStud = Math.toIntExact(hallStudents.stream().filter(x -> x.getColor().equals(PawnColor.RED)).count());
+            result = valueOf(numStud);
+            messages.add(new Message(HALL_PAWN_RED.getFragment(), result.toString(), topicId));
+            numStud = Math.toIntExact(hallStudents.stream().filter(x -> x.getColor().equals(PawnColor.BLUE)).count());
+            result = valueOf(numStud);
+            messages.add(new Message(HALL_PAWN_BLUE.getFragment(), result.toString(), topicId));
+            numStud = Math.toIntExact(hallStudents.stream().filter(x -> x.getColor().equals(PawnColor.YELLOW)).count());
+            result = valueOf(numStud);
+            messages.add(new Message(HALL_PAWN_YELLOW.getFragment(), result.toString(), topicId));
+            numStud = Math.toIntExact(hallStudents.stream().filter(x -> x.getColor().equals(PawnColor.GREEN)).count());
+            result = valueOf(numStud);
+            messages.add(new Message(HALL_PAWN_GREEN.getFragment(), result.toString(), topicId));
+            numStud = Math.toIntExact(hallStudents.stream().filter(x -> x.getColor().equals(PawnColor.PINK)).count());
+            result = valueOf(numStud);
+            messages.add(new Message(HALL_PAWN_PINK.getFragment(), result.toString(), topicId));
+
+            //Aggiunge prof
+            ArrayList<Professor> professors = game.getProfessorsByGamer(gamer);
+            prof = Math.toIntExact(professors.stream().filter(x -> x.getColor().equals(PawnColor.RED)).count());
+            profs = valueOf(prof);
+            messages.add(new Message(PAWN_RED.getFragment(), profs.toString(), topicId));
+            prof = Math.toIntExact(professors.stream().filter(x -> x.getColor().equals(PawnColor.BLUE)).count());
+            profs = valueOf(prof);
+            messages.add(new Message(PAWN_BLUE.getFragment(), profs.toString(), topicId));
+            prof = Math.toIntExact(professors.stream().filter(x -> x.getColor().equals(PawnColor.YELLOW)).count());
+            profs = valueOf(prof);
+            messages.add(new Message(PAWN_YELLOW.getFragment(), profs.toString(), topicId));
+            prof = Math.toIntExact(professors.stream().filter(x -> x.getColor().equals(PawnColor.GREEN)).count());
+            profs = valueOf(prof);
+            messages.add(new Message(PAWN_GREEN.getFragment(), profs.toString(), topicId));
+            prof = Math.toIntExact(professors.stream().filter(x -> x.getColor().equals(PawnColor.PINK)).count());
+            profs = valueOf(prof);
+            messages.add(new Message(PAWN_PINK.getFragment(), profs.toString(), topicId));
         }
         this.messageHandler.write(messages);
         messages.clear();

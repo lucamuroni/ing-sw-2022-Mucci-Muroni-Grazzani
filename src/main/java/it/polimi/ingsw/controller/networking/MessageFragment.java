@@ -16,6 +16,11 @@ public enum MessageFragment {
     GREETINGS("greetings"),
     GREETINGS_STATUS_SUCCESFULL("successful"),
     HALL_STUDENT("hallStudent"),
+    HALL_PAWN_RED("red"),
+    HALL_PAWN_BLUE("blue"),
+    HALL_PAWN_YELLOW("yellow"),
+    HALL_PAWN_GREEN("green"),
+    HALL_PAWN_PINK("pink"),
     ISLAND("island"),
     ISLAND_ID("island_id"),
     LOBBY_TYPE("LobbyType"),
@@ -36,6 +41,11 @@ public enum MessageFragment {
     STUDENT_LOCATION("studentLocation"),
     TOWER_COLOR("towerColor"),
     WAITING_STUDENT("waitingStudent"),
+    WAITING_PAWN_RED("red"),
+    WAITING_PAWN_BLUE("blue"),
+    WAITING_PAWN_YELLOW("yellow"),
+    WAITING_PAWN_GREEN("green"),
+    WAITING_PAWN_PINK("pink"),
     WINNER("winner");
 
     private String fragment;
