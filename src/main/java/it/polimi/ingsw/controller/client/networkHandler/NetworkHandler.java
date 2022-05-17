@@ -6,7 +6,9 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
+import it.polimi.ingsw.controller.server.game.AssistantCardDeckFigures;
 import it.polimi.ingsw.model.AssistantCard;
+import it.polimi.ingsw.model.AssistantCardDeck;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.view.asset.game.*;
 import java.util.ArrayList;
@@ -137,8 +139,14 @@ public class NetworkHandler implements Network {
     }
 
     @Override
-    public void sendAssistantCardDeck() {
-        SendCardDeck func = new SendCardDeck(messageHandler);
+    public void sendAssistantCardDeck(AssistantCardDeckFigures assistantCardDeck) throws MalformedMessageException {
+        SendCardDeck func = new SendCardDeck(assistantCardDeck, messageHandler);
         func.handle();
+    }
+
+    @Override
+    public ArrayList<AssistantCardDeckFigures> getPossibleDecks() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        GetPossibleDecks func = new GetPossibleDecks(messageHandler);
+        return func.handle();
     }
 }

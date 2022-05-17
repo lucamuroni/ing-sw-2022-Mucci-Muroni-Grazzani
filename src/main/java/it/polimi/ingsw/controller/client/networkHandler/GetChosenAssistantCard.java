@@ -6,16 +6,14 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.AssistantCard;
-
 import java.util.ArrayList;
-
 import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.ASSISTANT_CARD;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
 
 /**
  * @author Sara Mucci
- * Class that implements the message to get the chosen assistant card the current player chooses
+ * Class that implements the message to get the chosen assistant card the current player chooses (to update the view)
  */
 public class GetChosenAssistantCard {
     MessageHandler messageHandler;
@@ -30,7 +28,7 @@ public class GetChosenAssistantCard {
     }
 
     /**
-     * Method that handles the messages to get the choosen assistant card
+     * Method that handles the messages to get the chosen assistant card
      * @return the chosen assistant card
      * @throws TimeHasEndedException launched when the available time for the response has ended
      * @throws ClientDisconnectedException launched if the client disconnects from the game

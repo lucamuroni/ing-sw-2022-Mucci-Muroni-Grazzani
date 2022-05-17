@@ -28,3 +28,4 @@ public class GetDashboard {
         }
     }
 }
+//TODO: da fare appena luca completa la classe nel server

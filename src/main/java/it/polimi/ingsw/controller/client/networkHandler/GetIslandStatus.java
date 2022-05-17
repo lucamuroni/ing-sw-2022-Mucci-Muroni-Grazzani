@@ -20,3 +20,4 @@ public class GetIslandStatus {
         int topicId = this.messageHandler.getNewUniqueTopicID();
     }
 }
+//TODO: da fare

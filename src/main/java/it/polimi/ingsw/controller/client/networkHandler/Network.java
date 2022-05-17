@@ -6,7 +6,9 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
+import it.polimi.ingsw.controller.server.game.AssistantCardDeckFigures;
 import it.polimi.ingsw.model.AssistantCard;
+import it.polimi.ingsw.model.AssistantCardDeck;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.view.asset.game.*;
 
@@ -57,6 +59,8 @@ public interface Network {
 
     public AssistantCard getChosenAssistantCard() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
-    public void sendAssistantCardDeck();
+    public void sendAssistantCardDeck(AssistantCardDeckFigures assistantCardDeck) throws MalformedMessageException;
+
+    public ArrayList<AssistantCardDeckFigures> getPossibleDecks() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
 }

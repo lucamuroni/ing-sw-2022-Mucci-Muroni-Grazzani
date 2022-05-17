@@ -1,13 +1,18 @@
 package it.polimi.ingsw.controller.client.networkHandler;
 
+import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Island;
+
+import java.util.ArrayList;
+
 import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.ISLAND_ID;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
 
 /**
  * @author Sara Mucci
@@ -35,6 +40,7 @@ public class GetMotherNaturePlace {
      * @throws MalformedMessageException launched if the message isn't created the correct way
      */
     public Island handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+        ArrayList<Message> messages = new ArrayList<Message>();
         while (!stop) {
             this.messageHandler.read(PLAYER_MOVE.getTiming());
             String string = this.messageHandler.getMessagePayloadFromStream(ISLAND_ID.getFragment());
@@ -48,6 +54,9 @@ public class GetMotherNaturePlace {
                 }
             }
         }
+        int topicId = this.messageHandler.getMessagesUniquePaylod();
+        messages.add(new Message(OK.getFragment(), "", topicId));
+        this.messageHandler.write(messages);
         return MNIsland;
     }
 }

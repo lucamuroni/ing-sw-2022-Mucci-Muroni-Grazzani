@@ -8,7 +8,6 @@ import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
 import it.polimi.ingsw.view.asset.game.Island;
 import java.util.ArrayList;
-
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.ISLAND_ID;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
 
@@ -38,11 +37,12 @@ public class SendIsland {
      */
     public void handle() throws MalformedMessageException, FlowErrorException, TimeHasEndedException {
         ArrayList<Message> messages = new ArrayList<Message>();
-        int topicId = this.messageHandler.getNewUniqueTopicID();
+        int topicId = this.messageHandler.getMessagesUniqueTopic(); //TODO: è giusto prendere il topicId del messaggio che manda il server?
         messages.add(new Message(ISLAND_ID.getFragment(), Integer.toString(island.getId()), topicId));
         this.messageHandler.write(messages);
         messages.clear();
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
         this.messageHandler.assertOnEquals(OK.getFragment(), ISLAND_ID.getFragment());
+        //TODO: nel server non si deve aggiungere un messaggio OK per confermare la ricezione?
     }
 }

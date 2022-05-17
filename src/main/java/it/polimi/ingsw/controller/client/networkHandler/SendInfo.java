@@ -41,3 +41,4 @@ public class SendInfo {
         this.messageHandler.assertOnEquals(OK.getFragment(), INFO.getFragment());
     }
 }
+//TODO: da ricontrollare

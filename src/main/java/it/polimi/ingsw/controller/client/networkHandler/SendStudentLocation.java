@@ -36,11 +36,12 @@ public class SendStudentLocation {
      */
     public void handle() throws MalformedMessageException, FlowErrorException, TimeHasEndedException {
         ArrayList<Message> messages = new ArrayList<Message>();
-        int topicId = this.messageHandler.getNewUniqueTopicID();
+        int topicId = this.messageHandler.getMessagesUniqueTopic(); //TODO: è giusto prendere il topicId del messaggio che manda il server?
         messages.add(new Message(STUDENT_LOCATION.getFragment(), Integer.toString(location), topicId));
         this.messageHandler.write(messages);
         messages.clear();
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
         this.messageHandler.assertOnEquals(OK.getFragment(), STUDENT_LOCATION.getFragment());
+        //TODO: nel server non si deve aggiungere un messaggio OK per confermare la ricezione?
     }
 }
