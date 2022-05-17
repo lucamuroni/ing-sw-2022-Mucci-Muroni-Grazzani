@@ -7,26 +7,25 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
-import it.polimi.ingsw.model.pawn.TowerColor;
 import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.MessageFragment.OK;
-import static it.polimi.ingsw.controller.networking.MessageFragment.TOWER_COLOR;
+import static it.polimi.ingsw.controller.networking.MessageFragment.PHASE;
 
 /**
- * @author Luca Muroni
- * Class that implements the message to send the color associated to the current player
+ * @author Sara Mucci
+ * Class that implements the message to send the new phase to the current player
  */
-public class SendTowerColor {
-    TowerColor color;
+public class SendNewPhase {
     MessageHandler messageHandler;
+    Phase phase;
 
     /**
      * Class constructor
-     * @param color represents the color to be sent
+     * @param phase represents the phase to send
      * @param messageHandler represents the messageHandler used for the message
      */
-    public SendTowerColor(TowerColor color, MessageHandler messageHandler){
-        this.color = color;
+    public SendNewPhase(Phase phase, MessageHandler messageHandler) {
+        this.phase = phase;
         this.messageHandler = messageHandler;
     }
 
@@ -40,10 +39,10 @@ public class SendTowerColor {
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
-        messages.add(new Message(TOWER_COLOR.getFragment(), color.getColor(), topicId));
+        messages.add(new Message(PHASE.getFragment(), phase.name(), topicId));
         this.messageHandler.write(messages);
         messages.clear();
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
-        this.messageHandler.assertOnEquals(OK.getFragment(), TOWER_COLOR.getFragment());
+        this.messageHandler.assertOnEquals(OK.getFragment(), PHASE.getFragment());
     }
 }

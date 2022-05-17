@@ -11,13 +11,31 @@ import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.MessageFragment.CLOUD;
 import static it.polimi.ingsw.controller.networking.MessageFragment.STOP;
 
+/**
+ * @author Sara Mucci
+ * Class that implements the message to get the cloud chosen by the current player
+ */
 public class GetChosenCloud {
     ArrayList<Cloud> clouds;
     MessageHandler messageHandler;
+
+    /**
+     * Class constructor
+     * @param clouds represents the available clouds
+     * @param messageHandler represents the messageHandles used for the message
+     */
     public GetChosenCloud(ArrayList<Cloud> clouds, MessageHandler messageHandler) {
         this.clouds = clouds;
         this.messageHandler = messageHandler;
     }
+
+    /**
+     * Method that handles the message exchange
+     * @return the chosen cloud
+     * @throws MalformedMessageException launched if the message isn't created in the correct way
+     * @throws TimeHasEndedException launched when the available time for the response has ended
+     * @throws ClientDisconnectedException launched if the client disconnects from the game
+     */
     public Cloud handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
         for (Cloud cloud: clouds) {

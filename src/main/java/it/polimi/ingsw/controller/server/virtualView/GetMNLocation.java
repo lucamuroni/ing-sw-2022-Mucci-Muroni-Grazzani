@@ -7,21 +7,35 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.Island;
-
 import java.util.ArrayList;
-
 import static it.polimi.ingsw.controller.networking.MessageFragment.ISLAND_ID;
 import static it.polimi.ingsw.controller.networking.MessageFragment.STOP;
 
+/**
+ * @author Luca Muroni
+ * Class that implements the message to get the current mother nature position
+ */
 public class GetMNLocation {
-    private ArrayList<Island> islands;
-    private MessageHandler messageHandler;
+    ArrayList<Island> islands;
+    MessageHandler messageHandler;
 
+    /**
+     * Class constructor
+     * @param islands represents the available islands
+     * @param messageHandler represents the messageHandler used for the message
+     */
     public GetMNLocation(ArrayList<Island> islands, MessageHandler messageHandler) {
         this.islands = islands;
         this.messageHandler = messageHandler;
     }
 
+    /**
+     * Method that handles the message exchange
+     * @return the chosen island
+     * @throws MalformedMessageException launched if the message isn't created in the correct way
+     * @throws TimeHasEndedException launched when the available time for the response has ended
+     * @throws ClientDisconnectedException launched if the client disconnects from the game
+     */
     public Island handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
         for (Island island : this.islands) {

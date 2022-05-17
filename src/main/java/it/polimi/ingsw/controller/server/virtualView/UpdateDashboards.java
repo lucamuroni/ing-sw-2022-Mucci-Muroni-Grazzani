@@ -10,20 +10,37 @@ import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
-
 import java.util.ArrayList;
-
 import static it.polimi.ingsw.controller.networking.MessageFragment.*;
 import static java.lang.Integer.valueOf;
 
+/**
+ * @author LucaMuroni
+ * Class that implements the mssage to update the status of the dashboards
+ */
 public class UpdateDashboards {
-    private ArrayList<Gamer> gamers;
-    private MessageHandler messageHandler;
+    ArrayList<Gamer> gamers;
+    MessageHandler messageHandler;
+    //Game game;
+
+    /**
+     * Class constructor
+     * @param gamers represents the players whose dashboards have to be updated
+     * @param messageHandler represents the messageHandler used for the message
+     */
     public UpdateDashboards(ArrayList<Gamer> gamers, MessageHandler messageHandler){
         this.gamers = gamers;
         this.messageHandler = messageHandler;
+        //this.game = game;
     }
 
+    /**
+     * Method that handles the message exchange
+     * @throws MalformedMessageException launched if the message isn't created in the correct way
+     * @throws TimeHasEndedException launched when the available time for the response has ended
+     * @throws ClientDisconnectedException launched if the client disconnects from the game
+     * @throws FlowErrorException launched when the client sends an unexpected response
+     */
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
@@ -41,24 +58,15 @@ public class UpdateDashboards {
                 Integer numStud = Math.toIntExact(gamer.getDashboard().getHall().stream().filter(x -> x.getColor().equals(color)).count());
                 messages.add(new Message(HALL_STUDENT.getFragment(), numStud.toString(), topicId));
             }
+            //TODO: verificare che sia da fare così
+            /**for (Professor professor : game.getProfessorsByGamer(gamer)) {
+             *      messages.add(new Message(PROFESSOR.getFragment(), professor.color, topicId));
+             * }
+             */
         }
         this.messageHandler.write(messages);
         messages.clear();
-        messages.addAll(this.messageHandler.writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming()));
-        for (Gamer gamer : this.gamers) {
-            this.messageHandler.assertOnEquals(OK.getFragment(), OWNER.getFragment(), messages);
-            this.messageHandler.assertOnEquals(OK.getFragment(), NUM_TOWERS.getFragment(), messages);
-            //TODO: Controllare con Grazza: l'idea è che va controllato se tutti gli studenti della waiting room sono arrivati e non solo vedere se c'è almeno
-            // un messaggio con questo header
-            for (Student student : gamer.getDashboard().getWaitingRoom()) {
-                this.messageHandler.assertOnEquals(OK.getFragment(), WAITING_STUDENT.getFragment(), messages);
-            }
-            //TODO: Controllare con Grazza: stesso concetto del for soprastante, ma semplificato perché si controlla solo che siano arrivati dei messaggi
-            // di "ok" tanti quanti sono i colori delle pedine studente
-            for (PawnColor color : PawnColor.values()) {
-                this.messageHandler.assertOnEquals(OK.getFragment(), HALL_STUDENT.getFragment(), messages);
-            }
-        }
-
+        this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
+        this.messageHandler.assertOnEquals(OK.getFragment(), DASHBOARD.getFragment());
     }
 }

@@ -6,13 +6,17 @@ package it.polimi.ingsw.controller.networking;
  */
 public enum MessageFragment {
     ASSISTANT_CARD("assistantCard"),
+    ASSISTANT_CARD_DECK("assistantCardDeck"),
     AUTH("auth"),
     AUTH_ID("auth_id"),
     CLOUD("cloud"),
+    CLOUD_ID("cloud_id"),
+    DASHBOARD("dashboard"),
     GAME_TYPE("GameType"),
     GREETINGS("greetings"),
     GREETINGS_STATUS_SUCCESFULL("successful"),
     HALL_STUDENT("hallStudent"),
+    ISLAND("island"),
     ISLAND_ID("island_id"),
     LOBBY_TYPE("LobbyType"),
     LOBBY_SIZE("LobbySize"),
@@ -20,12 +24,14 @@ public enum MessageFragment {
     NUM_TOWERS("numTowers"),
     OK("ok"),
     OWNER("Owner"),
+    PHASE ("phase"),
     PLAYER_NAME("PlayerName"),
     STOP("Stop"),
     STUDENT_COLOR("studentColor"),
     STUDENT_LOCATION("studentLocation"),
     TOWER_COLOR("towerColor"),
-    WAITING_STUDENT("waitingStudent");
+    WAITING_STUDENT("waitingStudent"),
+    WINNER("winner");
 
     private String fragment;
 

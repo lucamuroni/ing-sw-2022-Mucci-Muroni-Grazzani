@@ -9,20 +9,36 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.pawn.Student;
-
 import java.util.ArrayList;
-
 import static it.polimi.ingsw.controller.networking.MessageFragment.*;
 import static java.lang.Integer.valueOf;
 
+/**
+ * @author Luca Muroni
+ * @author Sara Mucci
+ * Class that implements the message to update the status of an island
+ */
 public class UpdateIslandStatus {
-    private Island island;
-    private MessageHandler messageHandler;
+    Island island;
+    MessageHandler messageHandler;
+
+    /**
+     * Class constructor
+     * @param island represents the island to update
+     * @param messageHandler represents the messageHandler used for the message
+     */
     public UpdateIslandStatus(Island island, MessageHandler messageHandler){
         this.island = island;
         this.messageHandler = messageHandler;
     }
 
+    /**
+     * Method that handles the message exchange
+     * @throws MalformedMessageException launched if the message isn't created in the correct way
+     * @throws TimeHasEndedException launched when the available time for the response has ended
+     * @throws ClientDisconnectedException launched if the client disconnects from the game
+     * @throws FlowErrorException launched when the client sends an unexpected response
+     */
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
@@ -37,17 +53,16 @@ public class UpdateIslandStatus {
             token = valueOf(0);
         }
         messages.add(new Message(OWNER.getFragment(), token.toString(), topicId));
-        for (Student student : this.island.getStudents()) {
-            messages.add(new Message(STUDENT_COLOR.getFragment(), student.getColor().toString(), topicId));
+        if (island.getStudents().isEmpty())
+            messages.add(new Message(STUDENT_COLOR.getFragment(), "", topicId));
+        else {
+            for (Student student : this.island.getStudents()) {
+                messages.add(new Message(STUDENT_COLOR.getFragment(), student.getColor().toString(), topicId));
+            }
         }
         this.messageHandler.write(messages);
         messages.clear();
-        messages.addAll(this.messageHandler.writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming()));
-        this.messageHandler.assertOnEquals(OK.getFragment(), OWNER.getFragment(), messages);
-        this.messageHandler.assertOnEquals(OK.getFragment(), NUM_TOWERS.getFragment(), messages);
-        //TODO: Controllare con Grazza se idea è giusta: vedo se nei messaggi ho ricevuto un "ok" per tutti gli studenti
-        // passati, altrimenti la seconda possibilità è il controllo di un solo messaggio di "ok" comprensivo per tutti gli studenti ricevuti
-        for (int i = 0; i < this.island.getStudents().size(); i++)
-            this.messageHandler.assertOnEquals(OK.getFragment(), STUDENT_COLOR.getFragment(), messages);
+        this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
+        this.messageHandler.assertOnEquals(OK.getFragment(), ISLAND.getFragment());
     }
 }

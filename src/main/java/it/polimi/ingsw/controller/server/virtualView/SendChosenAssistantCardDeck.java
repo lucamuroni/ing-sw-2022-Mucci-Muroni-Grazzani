@@ -7,27 +7,30 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
-import it.polimi.ingsw.model.pawn.TowerColor;
+import it.polimi.ingsw.controller.server.game.AssistantCardDeckFigures;
 import java.util.ArrayList;
+import static it.polimi.ingsw.controller.networking.MessageFragment.ASSISTANT_CARD_DECK;
 import static it.polimi.ingsw.controller.networking.MessageFragment.OK;
-import static it.polimi.ingsw.controller.networking.MessageFragment.TOWER_COLOR;
 
 /**
- * @author Luca Muroni
- * Class that implements the message to send the color associated to the current player
+ * @author Sara Mucci
+ * Class that implements the message to send to a player the assistant card deck the current player choses
  */
-public class SendTowerColor {
-    TowerColor color;
+public class SendChosenAssistantCardDeck {
+    AssistantCardDeckFigures deck;
+    Integer token;
     MessageHandler messageHandler;
 
     /**
      * Class constructor
-     * @param color represents the color to be sent
-     * @param messageHandler represents the messageHandler used for the message
+     * @param deck represents the chosen deck
+     * @param token represents the token associated to the current player
+     * @param messageHandler represents the messageHandles used for the message
      */
-    public SendTowerColor(TowerColor color, MessageHandler messageHandler){
-        this.color = color;
+    public SendChosenAssistantCardDeck(AssistantCardDeckFigures deck, Integer token, MessageHandler messageHandler) {
+        this.deck = deck;
         this.messageHandler = messageHandler;
+        this.token = token;
     }
 
     /**
@@ -40,10 +43,10 @@ public class SendTowerColor {
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
-        messages.add(new Message(TOWER_COLOR.getFragment(), color.getColor(), topicId));
+        messages.add(new Message(ASSISTANT_CARD_DECK.getFragment(), this.deck.name(), topicId));
         this.messageHandler.write(messages);
         messages.clear();
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
-        this.messageHandler.assertOnEquals(OK.getFragment(), TOWER_COLOR.getFragment());
+        this.messageHandler.assertOnEquals(OK.getFragment(), ASSISTANT_CARD_DECK.getFragment());
     }
 }
