@@ -41,11 +41,10 @@ public class SendChosenAssistantCardDeck {
      * @throws FlowErrorException launched when the client sends an unexpected response
      */
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
-        ArrayList<Message> messages = new ArrayList<Message>();
+        //ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
-        messages.add(new Message(ASSISTANT_CARD_DECK.getFragment(), this.deck.name(), topicId));
-        this.messageHandler.write(messages);
-        messages.clear();
+        Message message = new Message(ASSISTANT_CARD_DECK.getFragment(), this.deck.name(), topicId);
+        this.messageHandler.write(message);
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
         this.messageHandler.assertOnEquals(OK.getFragment(), ASSISTANT_CARD_DECK.getFragment());
     }

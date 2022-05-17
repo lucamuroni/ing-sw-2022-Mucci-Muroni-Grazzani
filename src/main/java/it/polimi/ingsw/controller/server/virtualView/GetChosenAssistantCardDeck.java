@@ -10,6 +10,7 @@ import it.polimi.ingsw.controller.server.game.AssistantCardDeckFigures;
 import it.polimi.ingsw.model.AssistantCardDeck;
 import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.MessageFragment.ASSISTANT_CARD_DECK;
+import static it.polimi.ingsw.controller.networking.MessageFragment.STOP;
 
 /**
  * @author Sara Mucci
@@ -37,14 +38,17 @@ public class GetChosenAssistantCardDeck {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      */
     public AssistantCardDeckFigures handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        ArrayList<Message> messages = new ArrayList<Message>();
+        //ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
         for (AssistantCardDeckFigures assistantCardDeckFigures: this.decks) {
-            messages.add(new Message(ASSISTANT_CARD_DECK.getFragment(), assistantCardDeckFigures.name(), topicId));
+            Message message = new Message(ASSISTANT_CARD_DECK.getFragment(), assistantCardDeckFigures.name(), topicId);
+            this.messageHandler.write(message);
         }
-        this.messageHandler.write(messages);
-        messages.clear();
-        this.messageHandler.writeOutAndWait(ConnectionTimings.PLAYER_MOVE.getTiming());
+        this.messageHandler.write(new Message(STOP.getFragment(), "", topicId));
+        this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
+        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
+            throw  new MalformedMessageException();
+        }
         String deckName;
         AssistantCardDeckFigures result = null;
         deckName = this.messageHandler.getMessagePayloadFromStream(ASSISTANT_CARD_DECK.getFragment());
