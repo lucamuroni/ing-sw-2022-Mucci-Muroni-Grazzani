@@ -1,11 +1,13 @@
 package it.polimi.ingsw.controller.client.networkHandler;
 
-import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
+import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.AssistantCard;
 import java.util.ArrayList;
+import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.ASSISTANT_CARD;
 
 /**
  * @author Sara Mucci
@@ -13,6 +15,8 @@ import java.util.ArrayList;
  */
 public class GetPossibleCards {
     MessageHandler messageHandler;
+    Boolean stop = false;
+    ArrayList<AssistantCard> cards;
 
     /**
      * Class constructor
@@ -22,11 +26,28 @@ public class GetPossibleCards {
         this.messageHandler = messageHandler;
     }
 
-    public ArrayList<AssistantCard> handle() throws TimeHasEndedException, ClientDisconnectedException {
-        ArrayList<Message> messages = new ArrayList<Message>();
-        int topicId = this.messageHandler.getNewUniqueTopicID();
-        this.messageHandler.read(10000);
-        ArrayList<AssistantCard> cards = ;    //Mi serve un metodo per accedere ai messaggi che ottengo con la read
+    /**
+     * Method that handles the messages to get the available assistant cards
+     * @return the arraylist of available assistant cards
+     * @throws TimeHasEndedException launched when the available time for the response has ended
+     * @throws ClientDisconnectedException launched if the client disconnects from the game
+     * @throws MalformedMessageException launched if the message isn't created the correct way
+     */
+    public ArrayList<AssistantCard> handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+        while (!stop) {
+            this.messageHandler.read(PLAYER_MOVE.getTiming());
+            String string = this.messageHandler.getMessagePayloadFromStream(ASSISTANT_CARD.getFragment());
+            if (string.equals("stop")) {
+                stop = true;
+            }
+            else {
+                for (AssistantCard assistantCard: AssistantCard.values()) {
+                    if (string.equals(assistantCard.getName())) {
+                        cards.add(assistantCard);
+                    }
+                }
+            }
+        }
         return cards;
     }
 }

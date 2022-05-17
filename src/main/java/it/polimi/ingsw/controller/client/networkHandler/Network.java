@@ -25,25 +25,25 @@ public interface Network {
 
     public void getLobbyStatus();
 
-    public GamePhase getPhase();
+    public String getPhase() throws TimeHasEndedException, ClientDisconnectedException;
 
-    public ArrayList<AssistantCard> getPossibleCards() throws TimeHasEndedException, ClientDisconnectedException;
+    public ArrayList<AssistantCard> getPossibleCards() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
 
-    public void sendCard(AssistantCard card) throws FlowErrorException, MalformedMessageException;
+    public void sendCard(AssistantCard card) throws FlowErrorException, MalformedMessageException, TimeHasEndedException;
 
-    public void sendColor(PawnColor color);
+    public void sendColor(PawnColor color) throws FlowErrorException, MalformedMessageException, TimeHasEndedException;
 
-    public void sendLocation(int location);
+    public void sendLocation(int location) throws FlowErrorException, MalformedMessageException, TimeHasEndedException;
 
-    public ArrayList<it.polimi.ingsw.model.Island> getPossibleIslands() throws TimeHasEndedException, ClientDisconnectedException;
+    public ArrayList<Island> getPossibleIslands() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
 
-    public void sendIsland(Island island);
+    public void sendIsland(Island island) throws FlowErrorException, MalformedMessageException, TimeHasEndedException;
 
     public Player getNewOwner();
 
-    public ArrayList<Cloud> getPossibleClouds() throws TimeHasEndedException, ClientDisconnectedException;
+    public ArrayList<Cloud> getPossibleClouds() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
 
-    public void sendCloud(Cloud cloud) throws FlowErrorException, MalformedMessageException;
+    public void sendCloud(Cloud cloud) throws FlowErrorException, MalformedMessageException, TimeHasEndedException;
 
     public ArrayList<Player> getWinner();
 
@@ -53,5 +53,5 @@ public interface Network {
 
     public Island getIslandStatus();
 
-    public Island getMotherNaturePlace();
+    public Island getMotherNaturePlace() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 }

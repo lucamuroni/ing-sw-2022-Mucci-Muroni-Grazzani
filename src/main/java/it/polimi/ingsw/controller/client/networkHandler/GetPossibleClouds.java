@@ -3,9 +3,13 @@ package it.polimi.ingsw.controller.client.networkHandler;
 import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
+import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
-import it.polimi.ingsw.model.Cloud;
 import java.util.ArrayList;
+import it.polimi.ingsw.view.asset.game.Cloud;
+import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CLOUD;
+import it.polimi.ingsw.view.asset.game.Game;
 
 /**
  * @author Sara Mucci
@@ -13,6 +17,9 @@ import java.util.ArrayList;
  */
 public class GetPossibleClouds {
     MessageHandler messageHandler;
+    Boolean stop = false;
+    ArrayList<Cloud> clouds;
+    Game game;
 
     /**
      * Class constructor
@@ -22,11 +29,29 @@ public class GetPossibleClouds {
         this.messageHandler = messageHandler;
     }
 
-    public ArrayList<Cloud> handle() throws TimeHasEndedException, ClientDisconnectedException {
-        ArrayList<Message> messages = new ArrayList<Message>();
-        int topicId = this.messageHandler.getNewUniqueTopicID();
-        this.messageHandler.read(10000);
-        ArrayList<Cloud> clouds = ; //serve metodo per ottenere le cloud dai messaggi della read
+    /**
+     * Method that handles the messages to get the available clouds
+     * @return the arraylist of possible clouds
+     * @throws TimeHasEndedException launched when the available time for the response has ended
+     * @throws ClientDisconnectedException launched if the client disconnects from the game
+     * @throws MalformedMessageException launched if the message isn't created the correct way
+     */
+    public ArrayList<Cloud> handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+        while (!stop) {
+            this.messageHandler.read(PLAYER_MOVE.getTiming());
+            String string = this.messageHandler.getMessagePayloadFromStream(CLOUD.getFragment());
+            if (string.equals("stop")) {
+                stop = true;
+            }
+            else {
+                int result = Integer.parseInt(string);
+                for (Cloud cloud: game.getClouds()) {
+                    if (result == cloud.getId()) {
+                        clouds.add(cloud);
+                    }
+                }
+            }
+        }
         return clouds;
     }
 }

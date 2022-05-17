@@ -10,7 +10,6 @@ import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.view.asset.game.*;
-
 import java.util.ArrayList;
 
 /**
@@ -32,7 +31,7 @@ public class NetworkHandler implements Network {
 
     @Override
     public void sendInfo(Player player, Game game) throws MalformedMessageException {
-        SendInfo func = new SendInfo( player, game, messageHandler);
+        SendInfo func = new SendInfo(player, game, messageHandler);
         func.handle();
     }
 
@@ -43,43 +42,43 @@ public class NetworkHandler implements Network {
     }
 
     @Override
-    public GamePhase getPhase() {
+    public String getPhase() throws TimeHasEndedException, ClientDisconnectedException {
         GetPhase func = new GetPhase(messageHandler);
         return func.handle();
     }
 
     @Override
-    public ArrayList<AssistantCard> getPossibleCards() throws TimeHasEndedException, ClientDisconnectedException {
+    public ArrayList<AssistantCard> getPossibleCards() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
         GetPossibleCards func = new GetPossibleCards(messageHandler);
         return func.handle();
     }
 
     @Override
-    public void sendCard(AssistantCard card) throws FlowErrorException, MalformedMessageException {
+    public void sendCard(AssistantCard card) throws FlowErrorException, MalformedMessageException, TimeHasEndedException {
         SendCard func = new SendCard(card, messageHandler);
         func.handle();
     }
 
     @Override
-    public void sendColor(PawnColor color) {
+    public void sendColor(PawnColor color) throws FlowErrorException, MalformedMessageException, TimeHasEndedException {
         SendStudentColor func = new SendStudentColor(color, messageHandler);
         func.handle();
     }
 
     @Override
-    public void sendLocation(int location) {
+    public void sendLocation(int location) throws FlowErrorException, MalformedMessageException, TimeHasEndedException {
         SendStudentLocation func = new SendStudentLocation(location, messageHandler);
         func.handle();
     }
 
     @Override
-    public ArrayList<Island> getPossibleIslands() throws TimeHasEndedException, ClientDisconnectedException {
+    public ArrayList<Island> getPossibleIslands() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
         GetPossibleIslands func = new GetPossibleIslands(messageHandler);
         return func.handle();
     }
 
     @Override
-    public void sendIsland(Island island) {
+    public void sendIsland(Island island) throws FlowErrorException, MalformedMessageException, TimeHasEndedException {
         SendIsland func = new SendIsland(island, messageHandler);
         func.handle();
     }
@@ -91,13 +90,13 @@ public class NetworkHandler implements Network {
     }
 
     @Override
-    public ArrayList<Cloud> getPossibleClouds() throws TimeHasEndedException, ClientDisconnectedException {
+    public ArrayList<Cloud> getPossibleClouds() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
         GetPossibleClouds func = new GetPossibleClouds(messageHandler);
         return func.handle();
     }
 
     @Override
-    public void sendCloud(Cloud cloud) throws FlowErrorException, MalformedMessageException {
+    public void sendCloud(Cloud cloud) throws FlowErrorException, MalformedMessageException, TimeHasEndedException {
         SendCloud func = new SendCloud(cloud, messageHandler);
         func.handle();
     }
@@ -127,7 +126,7 @@ public class NetworkHandler implements Network {
     }
 
     @Override
-    public Island getMotherNaturePlace() {
+    public Island getMotherNaturePlace() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetMotherNaturePlace func = new GetMotherNaturePlace(messageHandler);
         return func.handle();
     }

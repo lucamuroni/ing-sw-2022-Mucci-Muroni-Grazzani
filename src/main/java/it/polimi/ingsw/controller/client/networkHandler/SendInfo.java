@@ -5,7 +5,7 @@ import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
-import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.view.asset.game.Game;
 import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
 

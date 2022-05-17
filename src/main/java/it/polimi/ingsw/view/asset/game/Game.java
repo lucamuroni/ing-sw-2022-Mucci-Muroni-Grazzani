@@ -1,10 +1,11 @@
 package it.polimi.ingsw.view.asset.game;
 
 import java.util.ArrayList;
+import it.polimi.ingsw.view.asset.game.Island;
 
 public class Game {
     private ArrayList<Gamer> gamers;
-    private ArrayList<it.polimi.ingsw.model.Island> islands;
+    private ArrayList<Island> islands;
     private ArrayList<Cloud> clouds;
     //TODO: confrontarsi con Grazza per capire se va bene MN in questo modo oppure è necessario creare una classe
     //      apposta perché serve alla cli/gui
@@ -18,12 +19,12 @@ public class Game {
 
     public Game(Gamer gamer) {
         this.gamers = new ArrayList<>();
-        this.islands = new ArrayList<it.polimi.ingsw.model.Island>();
+        this.islands = new ArrayList<>();
         this.clouds = new ArrayList<>();
         this.self = gamer;
     }
 
-    public void updateGame(ArrayList<Gamer> gamers, ArrayList<it.polimi.ingsw.model.Island> islands, ArrayList<Cloud> clouds, Island motherNaturePosition) {
+    public void updateGame(ArrayList<Gamer> gamers, ArrayList<Island> islands, ArrayList<Cloud> clouds, Island motherNaturePosition) {
         this.gamers.addAll(gamers);
         this.islands.addAll(islands);
         this.clouds.addAll(clouds);
@@ -38,7 +39,7 @@ public class Game {
         return gamers;
     }
 
-    public ArrayList<it.polimi.ingsw.model.Island> getIslands() {
+    public ArrayList<Island> getIslands() {
         return islands;
     }
 

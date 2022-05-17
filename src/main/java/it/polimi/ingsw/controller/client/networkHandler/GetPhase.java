@@ -1,9 +1,9 @@
 package it.polimi.ingsw.controller.client.networkHandler;
 
-import it.polimi.ingsw.controller.client.game.GamePhase;
-import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
-import java.util.ArrayList;
+import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
+import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
+import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
 
 /**
  * @author Sara Mucci
@@ -20,9 +20,15 @@ public class GetPhase {
         this.messageHandler = messageHandler;
     }
 
-    public GamePhase handle() {
-        ArrayList<Message> messages = new ArrayList<Message>();
-        int topicId = this.messageHandler.getNewUniqueTopicID();
-
+    /**
+     * MEthod that handles the messages to get the new phase
+     * @return the new phase
+     * @throws TimeHasEndedException launched when the available time for the response has ended
+     * @throws ClientDisconnectedException launched if the client disconnects from the game
+     */
+    public String handle() throws TimeHasEndedException, ClientDisconnectedException {
+        this.messageHandler.read(PLAYER_MOVE.getTiming());
+        String string = this.messageHandler.getMessagePayloadFromStream(PHASE.getFragment());
+        return string;
     }
 }

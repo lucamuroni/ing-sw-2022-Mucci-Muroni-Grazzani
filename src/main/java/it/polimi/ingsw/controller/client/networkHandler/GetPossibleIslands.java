@@ -1,12 +1,14 @@
 package it.polimi.ingsw.controller.client.networkHandler;
 
-import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
+import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
-import it.polimi.ingsw.model.Cloud;
-import it.polimi.ingsw.model.Island;
+import it.polimi.ingsw.view.asset.game.Game;
+import it.polimi.ingsw.view.asset.game.Island;
 import java.util.ArrayList;
+import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.ISLAND_ID;
 
 /**
  * @author Sara Mucci
@@ -14,6 +16,9 @@ import java.util.ArrayList;
  */
 public class GetPossibleIslands {
     MessageHandler messageHandler;
+    Boolean stop = false;
+    ArrayList<Island> islands;
+    Game game;
 
     /**
      * Class constructor
@@ -23,11 +28,29 @@ public class GetPossibleIslands {
         this.messageHandler = messageHandler;
     }
 
-    public ArrayList<Island> handle() throws TimeHasEndedException, ClientDisconnectedException {
-        ArrayList<Message> messages = new ArrayList<Message>();
-        int topicId = this.messageHandler.getNewUniqueTopicID();
-        this.messageHandler.read(10000);
-        ArrayList<Island> islands = ; //metodo per ottenere le cloud dalla read
+    /**
+     * Method that handles the messages to get the possible islands
+     * @return the arraylist of possible islands
+     * @throws TimeHasEndedException launched when the available time for the response has ended
+     * @throws ClientDisconnectedException launched if the client disconnects from the game
+     * @throws MalformedMessageException launched if the message isn't created the correct way
+     */
+    public ArrayList<Island> handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+        while (!stop) {
+            this.messageHandler.read(PLAYER_MOVE.getTiming());
+            String string = this.messageHandler.getMessagePayloadFromStream(ISLAND_ID.getFragment());
+            if (string.equals("stop")) {
+                stop = true;
+            }
+            else {
+                int result = Integer.parseInt(string);
+                for (Island island: game.getIslands()) {
+                    if (result == island.getId()) {
+                        islands.add(island);
+                    }
+                }
+            }
+        }
         return islands;
     }
 }
