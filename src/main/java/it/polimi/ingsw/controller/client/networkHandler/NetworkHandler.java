@@ -1,6 +1,5 @@
 package it.polimi.ingsw.controller.client.networkHandler;
 
-import it.polimi.ingsw.controller.client.game.GamePhase;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;

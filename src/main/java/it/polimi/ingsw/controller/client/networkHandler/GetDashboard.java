@@ -1,8 +1,12 @@
 package it.polimi.ingsw.controller.client.networkHandler;
 
-import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
-import java.util.ArrayList;
+import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
+import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
+import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
+import it.polimi.ingsw.view.asset.game.DashBoard;
+import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OWNER;
 
 /**
  * @author Sara Mucci
@@ -10,13 +14,17 @@ import java.util.ArrayList;
  */
 public class GetDashboard {
     MessageHandler messageHandler;
+    Boolean stop = false;
 
     public GetDashboard(MessageHandler messageHandler) {
         this.messageHandler = messageHandler;
     }
 
-    public void handle() {
-        ArrayList<Message> messages = new ArrayList<Message>();
-        int topicId = this.messageHandler.getNewUniqueTopicID();
+    public DashBoard handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+        while (!stop) {
+            this.messageHandler.read(PLAYER_MOVE.getTiming());
+            String string = this.messageHandler.getMessagePayloadFromStream(OWNER.getFragment());
+
+        }
     }
 }

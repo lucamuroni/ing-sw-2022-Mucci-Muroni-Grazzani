@@ -40,15 +40,15 @@ public class GetMotherNaturePlace {
             String string = this.messageHandler.getMessagePayloadFromStream(ISLAND_ID.getFragment());
             if (string.equals("stop")) {
                 stop = true;
-            }
-            else {
+            } else {
                 for (Island island : game.getIslands()) {
                     if (game.getMotherNaturePosition().equals(island)) {
-                        return island;
+                        MNIsland = island;
                     }
                 }
             }
         }
+        return MNIsland;
     }
 }
 
