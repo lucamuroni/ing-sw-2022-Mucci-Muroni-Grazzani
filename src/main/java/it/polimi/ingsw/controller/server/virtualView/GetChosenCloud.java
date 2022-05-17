@@ -9,6 +9,7 @@ import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.Cloud;
 import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.MessageFragment.CLOUD;
+import static it.polimi.ingsw.controller.networking.MessageFragment.STOP;
 
 public class GetChosenCloud {
     ArrayList<Cloud> clouds;
@@ -22,7 +23,11 @@ public class GetChosenCloud {
         for (Cloud cloud: clouds) {
             Message message = new Message(CLOUD.getFragment(), cloud.getID(), topicId);
             this.messageHandler.write(message);
-            this.messageHandler.writeOutAndWait(ConnectionTimings.PLAYER_MOVE.getTiming());
+        }
+        this.messageHandler.write(new Message(STOP.getFragment(), "", topicId));
+        this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
+        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
+            throw new MalformedMessageException();
         }
         String cloudID;
         Cloud result = null;

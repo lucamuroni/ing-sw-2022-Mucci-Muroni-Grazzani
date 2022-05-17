@@ -20,13 +20,11 @@ public class GetMovedStudentColor {
     }
 
     public PawnColor handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
-        messages.add(new Message(STUDENT_COLOR.getFragment(), "", topicId));
-        this.messageHandler.write(messages);
-        messages.clear();
-        messages.addAll(this.messageHandler.writeOutAndWait(ConnectionTimings.PLAYER_MOVE.getTiming()));
-        String studentColor = this.messageHandler.getMessagePayloadFromStream(STUDENT_COLOR.getFragment(), messages);
+        Message message = new Message(STUDENT_COLOR.getFragment(), "", topicId);
+        this.messageHandler.write(message);
+        this.messageHandler.writeOutAndWait(ConnectionTimings.PLAYER_MOVE.getTiming());
+        String studentColor = this.messageHandler.getMessagePayloadFromStream(STUDENT_COLOR.getFragment());
         PawnColor result = null;
         for (PawnColor color : PawnColor.values()) {
             //TODO: Controllare con Grazza: non sono sicuro che il controllo sia corretto

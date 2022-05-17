@@ -21,6 +21,7 @@ public enum MessageFragment {
     OK("ok"),
     OWNER("Owner"),
     PLAYER_NAME("PlayerName"),
+    STOP("Stop"),
     STUDENT_COLOR("studentColor"),
     STUDENT_LOCATION("studentLocation"),
     TOWER_COLOR("towerColor"),

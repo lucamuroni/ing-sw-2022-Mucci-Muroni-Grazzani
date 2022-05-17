@@ -11,6 +11,7 @@ import it.polimi.ingsw.model.AssistantCard;
 import java.util.ArrayList;
 
 import static it.polimi.ingsw.controller.networking.MessageFragment.ASSISTANT_CARD;
+import static it.polimi.ingsw.controller.networking.MessageFragment.STOP;
 
 class GetChosenAssistantCard {
     ArrayList<AssistantCard> cards;
@@ -22,13 +23,15 @@ class GetChosenAssistantCard {
     }
 
     public AssistantCard handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        //Message messages = new Message();
         int topicId = this.messageHandler.getNewUniqueTopicID();
         for (AssistantCard card : this.cards){
             Message message = new Message(ASSISTANT_CARD.getFragment(), card.getName(), topicId);
             this.messageHandler.write(message);
-            this.messageHandler.writeOutAndWait(ConnectionTimings.PLAYER_MOVE.getTiming());
-
+        }
+        this.messageHandler.write(new Message(STOP.getFragment(), "", topicId));
+        this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
+        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
+            throw new MalformedMessageException();
         }
         String cardName;
         AssistantCard result = null;
