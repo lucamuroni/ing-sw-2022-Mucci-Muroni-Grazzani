@@ -39,18 +39,15 @@ public class ConquerIslandPhase implements GamePhase{
      */
     @Override
     public void handle() {
-        try {
-            this.view.phaseChanghe("ActionPhase1");
-        } catch () {}
         TowerColor color = this.conquerIsland();
         ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
         for (Player pl : players) {
             this.view.setCurrentPlayer(pl);
             try {
                 try {
-                    this.view.sendTowerColor(color);
+                    this.view.updateIslandStatus(this.game.getMotherNature().getPlace());
                 } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
-                    this.view.sendTowerColor(color);
+                    this.view.updateIslandStatus(this.game.getMotherNature().getPlace());
                 }
             } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
                 this.controller.handlePlayerError(pl);

@@ -41,9 +41,6 @@ public class MotherNaturePhase implements GamePhase{
     @Override
     public void handle() {
         try {
-            this.view.phaseChanghe("ActionPhase1");
-        } catch () {}
-        try {
             this.moveMotherNature(this.controller.getPlayer(this.game.getCurrentPlayer()));
             ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
             players.remove(this.controller.getPlayer(this.game.getCurrentPlayer()));
@@ -61,18 +58,14 @@ public class MotherNaturePhase implements GamePhase{
             }
         } catch (ModelErrorException e) {
             this.controller.shutdown();
-            e.printStackTrace();
-        } catch (GenericErrorException e) {
-            e.printStackTrace();
         }
     }
 
     /**
      * This method handles the movement of MN and is called in handle()
      * @param player represents the currentPlayer that is playing
-     * @throws GenericErrorException when the message from the client is malformed twice or the player disconnects from the game
      */
-    private void moveMotherNature(Player player) throws GenericErrorException {
+    private void moveMotherNature(Player player) {
         this.view.setCurrentPlayer(player);
         Island place = null;
         ArrayList<Island> possibleChoices = this.game.getMotherNatureDestination();
@@ -86,7 +79,6 @@ public class MotherNaturePhase implements GamePhase{
             }
         } catch (MalformedMessageException | ClientDisconnectedException e) {
             this.controller.handlePlayerError(player);
-            throw new GenericErrorException();
         } catch (TimeHasEndedException e) {
             place = this.getRandomIsland(possibleChoices);
         }
