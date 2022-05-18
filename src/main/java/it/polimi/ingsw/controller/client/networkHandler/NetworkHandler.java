@@ -109,21 +109,21 @@ public class NetworkHandler implements Network {
     }
 
     @Override
-    public Cloud getCloudStatus() {
+    public void getCloudStatus() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetCloudStatus func = new GetCloudStatus(messageHandler);
-        return func.handle();
+        func.handle();
     }
 
     @Override
-    public DashBoard getDashboard() {
+    public void getDashboard() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetDashboard func = new GetDashboard(messageHandler);
-        return func.handle();
+        func.handle();
     }
 
     @Override
-    public Island getIslandStatus() {
+    public void getIslandStatus() {
         GetIslandStatus func = new GetIslandStatus(messageHandler);
-        return func.handle();
+        func.handle();
     }
 
     @Override

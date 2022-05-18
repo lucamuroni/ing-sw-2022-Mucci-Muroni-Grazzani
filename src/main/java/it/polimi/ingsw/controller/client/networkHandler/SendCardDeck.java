@@ -28,12 +28,8 @@ public class SendCardDeck {
 
     public void handle() throws MalformedMessageException {
         ArrayList<Message> messages = new ArrayList<Message>();
-        int topicId = this.messageHandler.getMessagesUniqueTopic(); //TODO: è giusto prendere il topicId del messaggio che manda il server?
+        int topicId = this.messageHandler.getMessagesUniqueTopic();
         messages.add(new Message(ASSISTANT_CARD_DECK.getFragment(), assistantCardDeck.name(), topicId));
         this.messageHandler.write(messages);
-        messages.clear();
-        this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTimind());
-        this.messageHandler.assertOnEquals(OK.getFragment(), ASSISTANT_CARD_DECK.getFragment());
-        //TODO: nel messaggio del server non si deve inviare un messaggio OK per conferma della ricezione?
     }
 }

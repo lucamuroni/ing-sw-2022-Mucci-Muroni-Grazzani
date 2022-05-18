@@ -61,6 +61,7 @@ public class GetCloudStatus {
                             }
                             cloud.update(redStudents);
                         }
+                        this.messageHandler.read(PLAYER_MOVE.getTiming());
                         int colorBlue = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_BLUE.getFragment()));
                         if (colorBlue == 0) {
                             cloud.update();
@@ -73,6 +74,7 @@ public class GetCloudStatus {
                             }
                             cloud.update(blueStudents);
                         }
+                        this.messageHandler.read(PLAYER_MOVE.getTiming());
                         int colorYellow = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_YELLOW.getFragment()));
                         if (colorYellow == 0) {
                             cloud.update();
@@ -85,6 +87,7 @@ public class GetCloudStatus {
                             }
                             cloud.update(yellowStudents);
                         }
+                        this.messageHandler.read(PLAYER_MOVE.getTiming());
                         int colorGreen = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_GREEN.getFragment()));
                         if (colorGreen == 0) {
                             cloud.update();
@@ -97,6 +100,7 @@ public class GetCloudStatus {
                             }
                             cloud.update(greenStudents);
                         }
+                        this.messageHandler.read(PLAYER_MOVE.getTiming());
                         int colorPink = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_PINK.getFragment()));
                         if (colorPink == 0) {
                             cloud.update();

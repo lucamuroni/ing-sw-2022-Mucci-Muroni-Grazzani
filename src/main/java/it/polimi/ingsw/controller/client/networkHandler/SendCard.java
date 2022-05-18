@@ -37,12 +37,8 @@ public class SendCard {
      */
     public void handle() throws MalformedMessageException, FlowErrorException, TimeHasEndedException {
         ArrayList<Message> messages = new ArrayList<Message>();
-        int topicId = this.messageHandler.getMessagesUniqueTopic(); //TODO: è giusto prendere il topicId del messaggio che manda il server?
+        int topicId = this.messageHandler.getMessagesUniqueTopic();
         messages.add(new Message(ASSISTANT_CARD.getFragment(), card.getName(), topicId));
         this.messageHandler.write(messages);
-        messages.clear();
-        this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
-        this.messageHandler.assertOnEquals(OK.getFragment(), ASSISTANT_CARD.getFragment());
-        //TODO: nel server non si deve aggiungere un messaggio OK per confermare la ricezione?
     }
 }

@@ -49,11 +49,11 @@ public interface Network {
 
     public ArrayList<Player> getWinner();
 
-    public Cloud getCloudStatus();
+    public void getCloudStatus() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
-    public DashBoard getDashboard();
+    public void getDashboard() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
-    public Island getIslandStatus();
+    public void getIslandStatus();
 
     public Island getMotherNaturePlace() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 

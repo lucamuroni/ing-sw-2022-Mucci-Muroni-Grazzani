@@ -32,13 +32,10 @@ public class SendInfo {
 
     public void handle() throws MalformedMessageException {
         ArrayList<Message> messages = new ArrayList<Message>();
-        int topicId = this.messageHandler.getNewUniqueTopicID();
+        int topicId = this.messageHandler.getMessagesUniqueTopic();
         messages.add(new Message(PLAYER.getFragment(), this.player, topicId));
         messages.add(new Message(GAME.getFragment(), this.game, topicId));
         this.messageHandler.write(messages);
-        messages.clear();
-        this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTimings());
-        this.messageHandler.assertOnEquals(OK.getFragment(), INFO.getFragment());
     }
 }
 //TODO: da ricontrollare

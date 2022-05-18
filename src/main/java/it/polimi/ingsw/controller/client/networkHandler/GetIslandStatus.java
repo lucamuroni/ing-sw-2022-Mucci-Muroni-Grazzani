@@ -17,7 +17,8 @@ public class GetIslandStatus {
 
     public void handle() {
         ArrayList<Message> messages = new ArrayList<Message>();
-        int topicId = this.messageHandler.getNewUniqueTopicID();
+        int topicId = this.messageHandler.getMessagesUniqueTopic();
+
     }
 }
 //TODO: da fare
