@@ -42,7 +42,6 @@ class UpdateMotherNaturePlace {
      * @throws FlowErrorException launched when the client sends an unexpected response
      */
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
-        //ArrayList<Message> messages = new ArrayList<>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
         Integer id = valueOf(island.getId());
         Message message = new Message(MN_LOCATION.getFragment(), id.toString(), topicId);
