@@ -42,13 +42,15 @@ class UpdateMotherNaturePlace {
      * @throws FlowErrorException launched when the client sends an unexpected response
      */
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
-        ArrayList<Message> messages = new ArrayList<>();
+        //ArrayList<Message> messages = new ArrayList<>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
         Integer id = valueOf(island.getId());
-        messages.add(new Message(MN_LOCATION.getFragment(), id.toString(), topicId));
-        this.messageHandler.write(messages);
-        messages.clear();
-        this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
+        Message message = new Message(MN_LOCATION.getFragment(), id.toString(), topicId);
+        this.messageHandler.write(message);
+        this.messageHandler.read(ConnectionTimings.RESPONSE.getTiming());
+        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
+            throw new MalformedMessageException();
+        }
         this.messageHandler.assertOnEquals(OK.getFragment(), MN_LOCATION.getFragment());
     }
 }
