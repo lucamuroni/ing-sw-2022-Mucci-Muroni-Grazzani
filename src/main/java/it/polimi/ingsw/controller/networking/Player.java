@@ -1,7 +1,7 @@
 package it.polimi.ingsw.controller.networking;
 
 
-import it.polimi.ingsw.controller.networking.exceptions.ModelErrorException;
+import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.model.gamer.Gamer;
 
 import java.util.ArrayList;
