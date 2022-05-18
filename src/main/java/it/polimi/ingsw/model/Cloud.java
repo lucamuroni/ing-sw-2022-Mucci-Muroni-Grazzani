@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 /**
  * @author Sara Mucci
+ * @author Davide Grazzani
  * Class that implements a colud.
  */
 
@@ -44,13 +45,26 @@ public class Cloud {
     }
 
     /**
+     * Method used for knowing if a Cloud is empty of not
      * @return true if the cloud is empty.
      */
     public boolean isEmpty() {
         return (students.isEmpty());
     }
 
+    /**
+     * Getter method
+     * @return the unique id of this Cloud
+     */
     public Integer getID(){
         return this.id;
+    }
+
+    /**
+     * Getter method
+     * @return a copy of the student that are present on this Cloud
+     */
+    public ArrayList<Student> getStudents(){
+        return new ArrayList<Student>(this.students);
     }
 }
