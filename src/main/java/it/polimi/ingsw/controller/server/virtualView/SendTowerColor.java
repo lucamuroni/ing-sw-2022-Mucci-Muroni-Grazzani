@@ -39,7 +39,7 @@ public class SendTowerColor {
      */
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
-        Message message = new Message(TOWER_COLOR.getFragment(), color.getColor(), topicId);
+        Message message = new Message(TOWER_COLOR.getFragment(), color.toString(), topicId);
         this.messageHandler.write(message);
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
         this.messageHandler.assertOnEquals(OK.getFragment(), TOWER_COLOR.getFragment());

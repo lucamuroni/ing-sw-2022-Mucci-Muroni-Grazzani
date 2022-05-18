@@ -293,4 +293,11 @@ public class Game {
     public void setTurnNumber() {
         this.turnNumber++;
     }
+
+    public ArrayList<Gamer> checkWinner() {
+        
+    }
+
+    public ArrayList<Professor> getProfessorsByGamer(Gamer gamer) {
+    }
 }
