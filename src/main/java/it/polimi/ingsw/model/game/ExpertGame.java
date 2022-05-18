@@ -12,6 +12,7 @@ import java.util.Random;
  * @author Luca Muroni
  * Class that represents an Expert Game
  */
+// TODO : come giocare le carte esperto
 public class ExpertGame extends Game {
     private int coinBank;
     private ArrayList<ExpertGamer> expertGamers;

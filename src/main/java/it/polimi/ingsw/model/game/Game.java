@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
  * @author Davide Grazzani
  * @author Sara Mucci
  */
+
+// TODO : da sistemare checkislandowner, da creare method per stabilire la vittoria
 public class Game {
     final MotherNature motherNature;
     private final ArrayList<Cloud> clouds;
