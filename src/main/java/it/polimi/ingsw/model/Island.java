@@ -15,16 +15,18 @@ public class Island{
     private int numTowers;
     private ArrayList<Student> students;
     private Optional<Gamer> owner;
+    private final int id;
 
     /**
-     * Builder of the class
-     * Initiate the number of towers, the array of Students and the owner of
-     * the island(s)
+     * Builder of the class.
+     * Initiate the number of towers, the array of Students and the owner of the island(s)
+     * @param id is the unique id (1 to 12) given to a determinate island
      */
-    public Island(){
+    public Island(int id){
         this.numTowers = 0;
         this.students = new ArrayList<Student>();
         this.owner = Optional.empty();
+        this.id = id;
     }
 
     /**
@@ -96,5 +98,9 @@ public class Island{
      */
     public void addTower(){
         this.numTowers += 1;
+    }
+
+    public Integer getId(){
+        return this.id;
     }
 }
