@@ -63,6 +63,7 @@ public class PlanningPhase implements GamePhase{
         ArrayList<AssistantCard> alreadyPlayedCards = new ArrayList<>();
         for(Player player : this.controller.getPlayers()){
             try {
+                this.game.setCurrentPlayer(player.getGamer(this.game.getGamers()));
                 AssistantCard card = this.getChoseAssistantCard(player,alreadyPlayedCards);
                 alreadyPlayedCards.add(card);
             } catch (ModelErrorException e) {
@@ -97,12 +98,7 @@ public class PlanningPhase implements GamePhase{
      */
     private AssistantCard getChoseAssistantCard(Player player, ArrayList<AssistantCard> alreadyPlayedCards) throws ModelErrorException {
         this.view.setCurrentPlayer(player);
-        Gamer currentPlayer = null;
-        try {
-            currentPlayer = player.getGamer(this.game.getGamers());
-        } catch (ModelErrorException e) {
-            this.controller.shutdown();
-        }
+        Gamer currentPlayer = this.game.getCurrentPlayer();
         AssistantCard result = null;
         ArrayList<AssistantCard> cardsOfPlayer = new ArrayList<>(currentPlayer.getDeck().getCardList());
         if(alreadyPlayedCards.size()>=1){

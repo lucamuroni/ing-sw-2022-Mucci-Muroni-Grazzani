@@ -52,7 +52,7 @@ public class ActionPhase1 implements GamePhase{
     @Override
     public void handle() {
         try {
-            this.view.phaseChanghe("ActionPhase1");
+            this.view.  phaseChanghe("ActionPhase1");
         } catch () {}
         try {
             //this.updateCurrentPlayer();
