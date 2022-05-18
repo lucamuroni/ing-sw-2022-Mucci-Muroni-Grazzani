@@ -52,8 +52,16 @@ public class ActionPhase1 implements GamePhase{
     @Override
     public void handle() {
         try {
-            this.view.  phaseChanghe("ActionPhase1");
-        } catch () {}
+            this.view.sendNewPhase(/* Manca la classe PhaseName */);
+        } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e) {
+            this.view.sendNewPhase(/* Manca la classe PhaseName */);
+        } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
+            try {
+                this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()));
+            } catch (ModelErrorException i) {
+                this.controller.shutdown();
+            }
+        }
         try {
             //this.updateCurrentPlayer();
             for (int cont = 0; cont < this.numOfMovements; cont++) {
@@ -76,20 +84,17 @@ public class ActionPhase1 implements GamePhase{
         } catch (ModelErrorException e) {
             this.controller.shutdown();
             e.printStackTrace();
-        } catch (GenericErrorException e) {
-            e.printStackTrace();
         }
     }
 
     /**
      * This method handles the movement of the student choose by the player and is called in handle()
      * @param player represents the currentPlayer that is playing
-     * @throws GenericErrorException when the message from the client is malformed twice or the player disconnects from the game
      */
-    private void moveStudentToLocation(Player player) throws GenericErrorException {
+    private void moveStudentToLocation(Player player) {
         this.view.setCurrentPlayer(player);
-        int place;
-        PawnColor color;
+        int place = 0;
+        PawnColor color = null;
         try{
             try{
                 color = this.view.getMovedStudentColor();
@@ -103,7 +108,6 @@ public class ActionPhase1 implements GamePhase{
             }
         }catch (MalformedMessageException | ClientDisconnectedException e){
             this.controller.handlePlayerError(player);
-            throw new GenericErrorException();
         }catch (TimeHasEndedException e){
             color = this.randomColorPicker();
             place = this.randomPlacePicker();
@@ -115,7 +119,8 @@ public class ActionPhase1 implements GamePhase{
             try {
                 this.game.changeProfessorOwner(stud.getColor());
             }catch (Exception e) {
-                e.printStackTrace();
+                //e.printStackTrace();
+                this.controller.shutdown();
             }
         }
         else {
