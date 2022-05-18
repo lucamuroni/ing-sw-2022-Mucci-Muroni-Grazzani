@@ -113,9 +113,9 @@ public class GameSetup implements GamePhase{
         this.view.setCurrentPlayer(player);
         try{
             try{
-                this.view.updateDashboards(this.game.getGamers());
+                this.view.updateDashboards(this.game.getGamers(), this.game);
             }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
-                this.view.updateDashboards(this.game.getGamers());
+                this.view.updateDashboards(this.game.getGamers(), this.game);
             }
         }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
             this.controller.handlePlayerError(player);

@@ -97,8 +97,8 @@ public class VirtualViewHandler implements View {
      * @throws FlowErrorException launched when the client sends an unexpected response
      */
     @Override
-    public void updateDashboards(ArrayList<Gamer> gamers) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
-        UpdateDashboards func = new UpdateDashboards(gamers, messageHandler);
+    public void updateDashboards(ArrayList<Gamer> gamers, Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
+        UpdateDashboards func = new UpdateDashboards(gamers, game, messageHandler);
         func.handle();
     }
 

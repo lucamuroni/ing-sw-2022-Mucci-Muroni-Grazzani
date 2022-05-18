@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
+import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Professor;
@@ -29,7 +30,7 @@ public class UpdateDashboards {
      * @param gamers represents the players whose dashboards have to be updated
      * @param messageHandler represents the messageHandler used for the message
      */
-    public UpdateDashboards(ArrayList<Gamer> gamers, MessageHandler messageHandler){
+    public UpdateDashboards(ArrayList<Gamer> gamers, Game game, MessageHandler messageHandler){
         this.gamers = gamers;
         this.messageHandler = messageHandler;
         //this.game = game;

@@ -53,7 +53,7 @@ public class ActionPhase3 implements GamePhase{
                     try {
                         this.view.updateCloudsStatus(this.game.getClouds());
                     } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
-                        this.view.updateDashboards(this.game.getGamers());
+                        this.view.updateDashboards(this.game.getGamers(), this.game);
                     }
                 } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
                     this.controller.handlePlayerError(pl);
