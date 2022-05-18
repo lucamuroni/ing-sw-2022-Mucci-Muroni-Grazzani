@@ -44,35 +44,35 @@ public class UpdateIslandStatus {
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
-        Integer token = null;
+        Integer token;
         if (this.island.getOwner().isPresent()){
-            token = valueOf(this.island.getOwner().get().getToken());
+            token = this.island.getOwner().get().getToken();
         }
         else {
-            //TODO: Controllare con Grazza: se non esiste l'owner dell'isola, allora si invia come token di default "0"
-            token = valueOf(0);
+
+            token = 0;
         }
         messages.add(new Message(OWNER.getFragment(), token.toString(), topicId));
-        Integer num = valueOf(this.island.getNumTowers());
+        Integer num = this.island.getNumTowers();
         messages.add(new Message(NUM_TOWERS.getFragment(), num.toString(), topicId));
         //Non ritengo necessario anche l'invio di motherNature perchè tanto viene mossa solo in una fase ed esiste un messaggio a lei dedicato
         int numStud;
         Integer result = null;
         ArrayList<Student> students = island.getStudents();
         numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.RED)).count());
-        result = valueOf(numStud);
+        result = numStud;
         messages.add(new Message(PAWN_RED.getFragment(), result.toString(), topicId));
         numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.BLUE)).count());
-        result = valueOf(numStud);
+        result = numStud;
         messages.add(new Message(PAWN_BLUE.getFragment(), result.toString(), topicId));
         numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.YELLOW)).count());
-        result = valueOf(numStud);
+        result = numStud;
         messages.add(new Message(PAWN_YELLOW.getFragment(), result.toString(), topicId));
         numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.GREEN)).count());
-        result = valueOf(numStud);
+        result = numStud;
         messages.add(new Message(PAWN_GREEN.getFragment(), result.toString(), topicId));
         numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.PINK)).count());
-        result = valueOf(numStud);
+        result = numStud;
         messages.add(new Message(PAWN_PINK.getFragment(), result.toString(), topicId));
         this.messageHandler.write(messages);
         messages.clear();

@@ -44,8 +44,7 @@ public class GetMovedStudentColor {
         String studentColor = this.messageHandler.getMessagePayloadFromStream(STUDENT_COLOR.getFragment());
         PawnColor result = null;
         for (PawnColor color : PawnColor.values()) {
-            //TODO: Controllare con Grazza: non sono sicuro che il controllo sia corretto
-            if (color.name().equals(studentColor))
+            if (color.toString().equals(studentColor))
                 result = color;
         }
         return result;

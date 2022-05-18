@@ -38,7 +38,7 @@ public class SendNewPhase {
      */
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
-        Message message = new Message(PHASE.getFragment(), phase.name(), topicId);
+        Message message = new Message(PHASE.getFragment(), phase.toString(), topicId);
         this.messageHandler.write(message);
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
         this.messageHandler.assertOnEquals(OK.getFragment(), PHASE.getFragment());
