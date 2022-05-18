@@ -11,12 +11,15 @@ import java.util.ArrayList;
 
 public class Cloud {
     private ArrayList<Student> students;
+    private final int id;
 
     /**
      * Class constructor
+     * @param id is the unique id given to a Cloud
      */
-    public Cloud() {
+    public Cloud(int id) {
         this.students = new ArrayList<Student>();
+        this.id = id;
     }
 
     /**
@@ -45,5 +48,9 @@ public class Cloud {
      */
     public boolean isEmpty() {
         return (students.isEmpty());
+    }
+
+    public Integer getID(){
+        return this.id;
     }
 }

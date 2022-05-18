@@ -39,7 +39,7 @@ public class GetChosenCloud {
     public Cloud handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
         for (Cloud cloud: clouds) {
-            Message message = new Message(CLOUD.getFragment(), cloud.getID(), topicId);
+            Message message = new Message(CLOUD.getFragment(), cloud.getID().toString(), topicId);
             this.messageHandler.write(message);
         }
         this.messageHandler.write(new Message(STOP.getFragment(), "", topicId));
