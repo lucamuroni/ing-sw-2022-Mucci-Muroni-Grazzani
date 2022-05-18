@@ -22,6 +22,7 @@ import static java.lang.Integer.valueOf;
  */
 public class UpdateDashboards {
     ArrayList<Gamer> gamers;
+    Game game;
     MessageHandler messageHandler;
     //Game game;
 
@@ -33,7 +34,7 @@ public class UpdateDashboards {
     public UpdateDashboards(ArrayList<Gamer> gamers, Game game, MessageHandler messageHandler){
         this.gamers = gamers;
         this.messageHandler = messageHandler;
-        //this.game = game;
+        this.game = game;
     }
 
     /**
