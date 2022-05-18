@@ -61,6 +61,7 @@ public class PlanningPhase implements GamePhase{
             this.updateCloudsStatus(player);
         }
         ArrayList<AssistantCard> alreadyPlayedCards = new ArrayList<>();
+        //TODO: aggiungere ordinamento array di player dentro il GameController
         for(Player player : this.controller.getPlayers()){
             try {
                 this.game.setCurrentPlayer(player.getGamer(this.game.getGamers()));
@@ -69,6 +70,11 @@ public class PlanningPhase implements GamePhase{
             } catch (ModelErrorException e) {
                 this.controller.shutdown();
             }
+        }
+        try {
+            this.game.setCurrentPlayer(this.controller.getPlayers().get(0).getGamer(this.game.getGamers()));
+        } catch (ModelErrorException e) {
+            this.controller.shutdown();
         }
     }
 
