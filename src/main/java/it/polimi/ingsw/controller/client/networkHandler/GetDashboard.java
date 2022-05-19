@@ -26,10 +26,20 @@ public class GetDashboard {
     int numTowers;
     ArrayList<PawnColor> professors;
 
+    /**
+     * Class constructor
+     * @param messageHandler represents the messageHandler used for the message
+     */
     public GetDashboard(MessageHandler messageHandler) {
         this.messageHandler = messageHandler;
     }
 
+    /**
+     * Method that handles the update of the dashboards in the view
+     * @throws TimeHasEndedException launched when the available time for the response has ended
+     * @throws ClientDisconnectedException launched if the client disconnects from the game
+     * @throws MalformedMessageException launched if the message isn't created in the correct way
+     */
     public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
         ArrayList<Message> messages = new ArrayList<Message>();
         while (!stop) {

@@ -77,7 +77,6 @@ public class MessageHandler {
      * @throws TimeHasEndedException if the client does not respond in time
      * @throws ClientDisconnectedException if the client disconnects
      */
-    //TODO :javadoc
     public void writeOutAndWait(int milliSeconds) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
         int topicID = (int)this.encoder.get(this.topKeyWord);
         writeOut();

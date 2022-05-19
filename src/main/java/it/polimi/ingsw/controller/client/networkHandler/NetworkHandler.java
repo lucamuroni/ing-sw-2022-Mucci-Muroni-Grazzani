@@ -121,7 +121,7 @@ public class NetworkHandler implements Network {
     }
 
     @Override
-    public void getIslandStatus() {
+    public void getIslandStatus() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetIslandStatus func = new GetIslandStatus(messageHandler);
         func.handle();
     }
