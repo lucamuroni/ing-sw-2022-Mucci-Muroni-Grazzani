@@ -72,11 +72,11 @@ public class InfluenceCalculator {
         return this.island.getInfluenceByColor(copy.stream().map(x->x.getColor()).collect(Collectors.toCollection(ArrayList::new)));
     }
 
-    private void setTowerInclusion(boolean inclusion){
+    public void setTowerInclusion(boolean inclusion){
         this.areTowersConsidered = inclusion;
     }
 
-    private void addColorExclusion(ArrayList<PawnColor> colors){
+    public void addColorExclusion(ArrayList<PawnColor> colors){
         this.notIncludedPawnColor.clear();
         this.notIncludedPawnColor.addAll(colors);
     }
