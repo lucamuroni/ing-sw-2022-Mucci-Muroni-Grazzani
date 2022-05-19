@@ -3,7 +3,7 @@ package it.polimi.ingsw.controller.server.game.gameController;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.Server;
-import it.polimi.ingsw.controller.server.game.AssistantCardDeckFigures;
+import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.controller.server.game.GamePhase;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.controller.server.virtualView.VirtualViewHandler;

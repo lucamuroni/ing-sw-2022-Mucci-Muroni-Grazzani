@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.server.game;
+package it.polimi.ingsw.controller.networking;
 
 public enum AssistantCardDeckFigures {
     WITCH("witch"),

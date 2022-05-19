@@ -255,7 +255,7 @@ public class Game {
     public void setTurnNumber() {
         this.turnNumber++;
     }
-
+    //TODO : finire la funzione checkWinner
     public ArrayList<Gamer> checkWinner() {
         ArrayList<Gamer> winners = new ArrayList<Gamer>();
         for(Gamer gamer : this.gamers){
@@ -263,7 +263,7 @@ public class Game {
                 winners.add(gamer);
             }
         }
-
+        return winners;
     }
 
     public ArrayList<Professor> getProfessorsByGamer(Gamer gamer) {

@@ -7,16 +7,15 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
-import it.polimi.ingsw.controller.server.game.AssistantCardDeckFigures;
+import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.model.AssistantCard;
-import it.polimi.ingsw.model.AssistantCardDeck;
 import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.TowerColor;
-import org.hamcrest.core.Is;
+
 import java.util.ArrayList;
 
 /**
