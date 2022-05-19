@@ -46,9 +46,9 @@ public class PlanningPhase implements GamePhase{
     public void handle (){
         try {
             try{
-                this.view.sendNewPhase(Phase.END_GAME_PHASE);
+                this.view.sendNewPhase(Phase.PLANNINGPHASE);
             }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
-                this.view.sendNewPhase(Phase.END_GAME_PHASE);
+                this.view.sendNewPhase(Phase.PLANNINGPHASE);
             }
         }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
             try {
