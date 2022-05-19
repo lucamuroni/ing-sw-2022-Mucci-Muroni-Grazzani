@@ -54,6 +54,26 @@ public class Game {
         this.turnNumber = 0;
     }
 
+    Game(int playersNumber) {
+        this.gamers = null;
+        this.clouds = new ArrayList<Cloud>();
+        for(int i=0; i<playersNumber; i++){
+            this.clouds.add(new Cloud(i+1));
+        }
+        this.professors = new ArrayList<Professor>();
+        for (PawnColor color : PawnColor.values()){
+            professors.add(new Professor(color));
+        }
+        this.islands = new ArrayList<Island>();
+        for(int numIslands=0; numIslands<12;numIslands++){
+            this.islands.add(new Island(numIslands+1));
+        }
+        Random random = new Random();
+        this.motherNature = new MotherNature(this.islands.get(random.nextInt(this.islands.size())));
+        this.bag = new Bag();
+        this.turnNumber = 0;
+    }
+
     /**
      * Method used to initiate the order of players
      */

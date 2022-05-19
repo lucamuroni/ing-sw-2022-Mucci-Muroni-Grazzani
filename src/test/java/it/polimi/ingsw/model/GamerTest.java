@@ -18,7 +18,7 @@ class GamerTest {
         Bag bag = new Bag();
         ArrayList<Student> students = new ArrayList<Student>(bag.pullStudents(1));
         gamer.initGamer(students, 6);
-        Cloud cloud = new Cloud();
+        Cloud cloud = new Cloud(1);
         ArrayList<Student> students1 = new ArrayList<Student>(bag.pullStudents(3));
         cloud.pushStudents(students1);
         gamer.selectCloud(cloud);

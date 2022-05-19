@@ -23,7 +23,7 @@ class GameTest{
         students.addAll(game.getBag().pullStudents(4));
         assertFalse(students.isEmpty());
         assertEquals(4, students.size());
-        Cloud cloud = new Cloud();
+        Cloud cloud = new Cloud(1);
         game.fillCloud(students, cloud);
         ArrayList<Student> s = new ArrayList<Student>(cloud.pullStudent());
         assertFalse(s.isEmpty());
