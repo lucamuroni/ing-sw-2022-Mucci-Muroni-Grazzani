@@ -13,8 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InfluenceCalculatorTest {
     Island island = new Island(2);
-    ArrayList<Gamer> gamers;
-    ArrayList<Professor> professors;
+    ArrayList<Gamer> gamers = new ArrayList<>();
+    ArrayList<Professor> professors = new ArrayList<>();
     Gamer gamer1 = new Gamer(111,"bufu");
     Gamer gamer2 = new Gamer(111,"babbo");
     Professor prof1 = new Professor(PawnColor.BLUE);
