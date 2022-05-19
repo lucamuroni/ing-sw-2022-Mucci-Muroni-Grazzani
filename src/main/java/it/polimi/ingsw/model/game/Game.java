@@ -34,8 +34,10 @@ public class Game {
     public Game (ArrayList<Gamer> gamers){
         this.gamers = new ArrayList<>(gamers);
         this.clouds = new ArrayList<Cloud>();
+        int counter = 1;
         for(Gamer gamer : this.gamers){
-            this.clouds.add(new Cloud());
+            this.clouds.add(new Cloud(counter));
+            counter++;
         }
         this.professors = new ArrayList<Professor>();
         for (PawnColor color : PawnColor.values()){
@@ -43,32 +45,12 @@ public class Game {
         }
         this.islands = new ArrayList<Island>();
         for(int numIslands=0; numIslands<12;numIslands++){
-            this.islands.add(new Island());
+            this.islands.add(new Island(numIslands+1));
         }
         Random random = new Random();
         this.motherNature = new MotherNature(this.islands.get(random.nextInt(this.islands.size())));
         this.bag = new Bag();
         initiatePlayersOrder();
-        this.turnNumber = 0;
-    }
-
-    protected Game(int playersNumber) {
-        this.gamers = null;
-        this.clouds = new ArrayList<Cloud>();
-        for(int i=0; i<playersNumber; i++){
-            this.clouds.add(new Cloud());
-        }
-        this.professors = new ArrayList<Professor>();
-        for (PawnColor color : PawnColor.values()){
-            professors.add(new Professor(color));
-        }
-        this.islands = new ArrayList<Island>();
-        for(int numIslands=0; numIslands<12;numIslands++){
-            this.islands.add(new Island());
-        }
-        Random random = new Random();
-        this.motherNature = new MotherNature(this.islands.get(random.nextInt(this.islands.size())));
-        this.bag = new Bag();
         this.turnNumber = 0;
     }
 
