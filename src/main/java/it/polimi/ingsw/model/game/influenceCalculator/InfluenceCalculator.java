@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.game.influenceCalculator;
 
 import it.polimi.ingsw.model.Island;
-import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Professor;
@@ -28,10 +27,10 @@ public class InfluenceCalculator {
         this.island = island;
         this.areTowersConsidered = true;
         this.notIncludedPawnColor.clear();
-        return this.calculus();
+        return this.checkIslandOwner();
     }
 
-    private ArrayList<Professor> getProfessorsOwnedByPlayer(Gamer gamer){
+    public ArrayList<Professor> getProfessorsOwnedByPlayer(Gamer gamer){
         ArrayList<Professor> result = new ArrayList<Professor>();
         for(Professor prof : this.professors){
             if(prof.getOwner().isPresent()){
@@ -43,22 +42,22 @@ public class InfluenceCalculator {
         return result;
     }
 
-    private int checkOldOwnerScore(){
+    private int getOldOwnerScore(){
         if(!island.getOwner().isPresent()){
             return 0;
         }
-        int result = score(this.getProfessorsOwnedByPlayer(island.getOwner().get()));
+        int result = scoreCalculator(this.getProfessorsOwnedByPlayer(island.getOwner().get()));
         if(areTowersConsidered){
             return result+this.island.getNumTowers();
         }
         return result;
     }
 
-    private int checkPlayerScore(Gamer gamer){
-        return score(this.getProfessorsOwnedByPlayer(gamer));
+    private int getPlayerScore(Gamer gamer){
+        return scoreCalculator(this.getProfessorsOwnedByPlayer(gamer));
     }
 
-    private int score(ArrayList<Professor> professors){
+    private int scoreCalculator(ArrayList<Professor> professors){
         ArrayList<Professor> copy = new ArrayList<Professor>(professors);
         if(!notIncludedPawnColor.isEmpty()){
             for(PawnColor color : this.notIncludedPawnColor){
@@ -81,10 +80,10 @@ public class InfluenceCalculator {
         this.notIncludedPawnColor.addAll(colors);
     }
 
-    private Optional<Gamer> calculus(){
+    private Optional<Gamer> checkIslandOwner(){
         Optional<Gamer> result = Optional.empty();;
         ArrayList<Gamer> gamersToCheck;
-        int oldOwnerScore = this.checkOldOwnerScore();
+        int oldOwnerScore = this.getOldOwnerScore();
         if(oldOwnerScore!=0){
             result = this.island.getOwner();
             gamersToCheck = new ArrayList<Gamer>(this.gamers);
@@ -93,8 +92,8 @@ public class InfluenceCalculator {
             gamersToCheck = this.gamers;
         }
         for(Gamer gamer : gamersToCheck){
-            if(checkPlayerScore(gamer)>oldOwnerScore){
-                oldOwnerScore = checkPlayerScore(gamer);
+            if(getPlayerScore(gamer)>oldOwnerScore){
+                oldOwnerScore = getPlayerScore(gamer);
                 result = Optional.of(gamer);
             }
         }

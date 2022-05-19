@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Bag;
 import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.MotherNature;
+import it.polimi.ingsw.model.game.influenceCalculator.InfluenceCalculator;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.*;
 import java.util.*;
@@ -128,7 +129,7 @@ public class Game {
      * @param color is the color of the Professor, the owner of which will be changed
      */
     public Gamer changeProfessorOwner (PawnColor color) throws Exception {
-        Optional<Gamer> oldOwner= this.professors.stream().filter(x->x.getColor().equals(color)).map(x->x.getOwner()).findFirst().orElse(null);
+        Optional<Gamer> oldOwner= this.professors.stream().filter(x->x.getColor().equals(color)).map(x->x.getOwner()).findFirst().orElse(Optional.empty());
         if(oldOwner==null){
             throw new Exception();
         }
@@ -154,29 +155,9 @@ public class Game {
      * @return the owner of the Island
      */
     public Optional<Gamer> checkIslandOwner (Island islandToCheck){
-        Gamer newOwner;
-        int maxInfluence;
-        if(islandToCheck.getOwner().isPresent()){
-           newOwner = islandToCheck.getOwner().get();
-           maxInfluence = islandToCheck.getInfluenceByColor(this.professors.stream().filter(x -> x.getOwner().equals(islandToCheck.getOwner())).map(x -> x.getColor()).collect(Collectors.toCollection(ArrayList::new))) + islandToCheck.getNumTowers();
-        }else {
-            newOwner = null;
-            maxInfluence = 0;
-        }
-        for(Gamer gamer : this.gamers){
-            //ArrayList<PawnColor> colors = this.professors.stream().filter(x -> x.getOwner().get().equals(gamer)).map(x -> x.getColor()).collect(Collectors.toCollection(ArrayList::new));
-            int gamerInfluence = 0;
-            gamerInfluence += islandToCheck.getInfluenceByColor(this.professors.stream().filter(x -> x.getOwner().get().equals(gamer)).map(x -> x.getColor()).collect(Collectors.toCollection(ArrayList::new)));
-            if(islandToCheck.getOwner().isPresent() && islandToCheck.getOwner().get().equals(gamer)){
-                gamerInfluence += islandToCheck.getNumTowers();
-            }
-            if(gamerInfluence > maxInfluence){
-                newOwner = gamer;
-                maxInfluence = gamerInfluence;
-            }
-        }
-        islandToCheck.setOwner(newOwner);
-        return Optional.of(newOwner);
+        InfluenceCalculator influenceCalculator = new InfluenceCalculator(this.gamers,this.professors);
+        return influenceCalculator.execute(islandToCheck);
+
     }
     /**
      * This method is called when the currentPlayer moves MotherNature
@@ -276,9 +257,17 @@ public class Game {
     }
 
     public ArrayList<Gamer> checkWinner() {
-        
+        ArrayList<Gamer> winners = new ArrayList<Gamer>();
+        for(Gamer gamer : this.gamers){
+            if(gamer.getDashboard().getNumTowers()==0){
+                winners.add(gamer);
+            }
+        }
+
     }
 
     public ArrayList<Professor> getProfessorsByGamer(Gamer gamer) {
+        InfluenceCalculator influenceCalculator = new InfluenceCalculator(this.gamers,this.professors);
+        return influenceCalculator.getProfessorsOwnedByPlayer(gamer);
     }
 }
