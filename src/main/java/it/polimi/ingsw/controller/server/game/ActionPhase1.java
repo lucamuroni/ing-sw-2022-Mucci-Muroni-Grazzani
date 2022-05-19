@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.server.game;
 
+import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
@@ -52,10 +53,12 @@ public class ActionPhase1 implements GamePhase{
     @Override
     public void handle() {
         try {
-            this.view.sendNewPhase(/* Manca la classe PhaseName */);
-        } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e) {
-            this.view.sendNewPhase(/* Manca la classe PhaseName */);
-        } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
+            try{
+                this.view.sendNewPhase(Phase.ACTION_PHASE_1);
+            }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                this.view.sendNewPhase(Phase.ACTION_PHASE_1);
+            }
+        }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
             try {
                 this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()));
             } catch (ModelErrorException i) {
