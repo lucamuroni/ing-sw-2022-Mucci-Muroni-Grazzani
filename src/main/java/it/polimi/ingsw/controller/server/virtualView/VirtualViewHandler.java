@@ -63,7 +63,7 @@ public class VirtualViewHandler implements View {
     @Override
     public void updateIslandStatus(ArrayList<Island> islands) throws MalformedMessageException, FlowErrorException, TimeHasEndedException, ClientDisconnectedException {
         for(Island island : islands){
-            updateIslandStatus(island);
+            this.updateIslandStatus(island);
         }
     }
 
