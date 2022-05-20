@@ -49,8 +49,8 @@ public class UpdateDashboards {
         int topicId = this.messageHandler.getNewUniqueTopicID();
         int numStud;
         int prof;
-        Integer result = null;
-        Integer profs = null;
+        Integer result;
+        Integer profs;
         for (Gamer gamer : this.gamers) {
             Integer token = valueOf(gamer.getToken());
             messages.add(new Message(OWNER.getFragment(), token.toString(), topicId));

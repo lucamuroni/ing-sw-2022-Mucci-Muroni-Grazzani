@@ -42,7 +42,7 @@ public class UpdateCloudsStatus {
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         ArrayList<Message> messages = new ArrayList<Message>();
         int numStud;
-        Integer result = null;
+        Integer result;
         int topicId = this.messageHandler.getNewUniqueTopicID();
         for (Cloud cloud : this.clouds) {
             Integer token = valueOf(cloud.getID());
