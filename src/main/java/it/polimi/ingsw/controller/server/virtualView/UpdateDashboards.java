@@ -110,11 +110,14 @@ public class UpdateDashboards {
             prof = Math.toIntExact(professors.stream().filter(x -> x.getColor().equals(PawnColor.PINK)).count());
             profs = valueOf(prof);
             messages.add(new Message(PAWN_PINK.getFragment(), profs.toString(), topicId));
-            messages.add(new Message(STOP.getFragment(), "", topicId));
         }
+        messages.add(new Message(STOP.getFragment(), "", topicId));
         this.messageHandler.write(messages);
         messages.clear();
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
+        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
+            throw new MalformedMessageException();
+        }
         this.messageHandler.assertOnEquals(OK.getFragment(), DASHBOARD.getFragment());
     }
 }
