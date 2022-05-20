@@ -44,7 +44,7 @@ public class GetChosenAssistantCard {
             }
         }
         int topicId = this.messageHandler.getMessagesUniqueTopic();
-        messages.add(new Message(OK.getFragment(), "", topicId));
+        messages.add(new Message(ASSISTANT_CARD.getFragment(), OK.getFragment(), topicId));
         this.messageHandler.write(messages);
         return assistantCardToGet;
     }
