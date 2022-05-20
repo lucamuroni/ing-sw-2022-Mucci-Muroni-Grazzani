@@ -281,8 +281,10 @@ public class Game {
         for(Gamer gamer : this.gamers){
             if(gamer.getDashboard().getNumTowers()==0){
                 winners.add(gamer);
+                return winners;
             }
         }
+        
         return winners;
     }
 

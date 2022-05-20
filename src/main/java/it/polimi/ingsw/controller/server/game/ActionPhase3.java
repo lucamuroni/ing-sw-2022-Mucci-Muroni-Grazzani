@@ -126,6 +126,19 @@ public class ActionPhase3 implements GamePhase{
      */
     @Override
     public GamePhase next() {
+        boolean mustEndGame = false;
+        if(this.game.getBag().isEmpty()){
+            mustEndGame = true;
+        }else{
+            for(Gamer gamer : this.game.getGamers()){
+                if(gamer.getDeck().getCardList().isEmpty()){
+                    mustEndGame = true;
+                }
+            }
+        }
+        if(mustEndGame){
+            return new VictoryPhase(this.game,this.controller);
+        }
         if(this.game.getTurnNumber()%this.game.getGamers().size()==0){
             this.game.updatePlayersOrder();
             this.controller.updatePlayersOrder();

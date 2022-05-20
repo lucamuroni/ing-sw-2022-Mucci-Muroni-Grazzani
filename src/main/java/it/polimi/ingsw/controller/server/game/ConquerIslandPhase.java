@@ -61,6 +61,19 @@ public class ConquerIslandPhase implements GamePhase{
      */
     @Override
     public GamePhase next() {
-        return new VictoryPhase(this.game, this.controller);
+        boolean thereIsAWinner = false;
+        if(this.game.getIslands().size()<=3){
+            thereIsAWinner = true;
+        }else{
+            for(Gamer gamer :this.game.getGamers()){
+                if(gamer.getDashboard().getNumTowers()==0){
+                    thereIsAWinner = true;
+                }
+            }
+        }
+        if(thereIsAWinner){
+            return new VictoryPhase(this.game, this.controller);
+        }
+        return new ActionPhase3(this.game,this.controller);
     }
 }

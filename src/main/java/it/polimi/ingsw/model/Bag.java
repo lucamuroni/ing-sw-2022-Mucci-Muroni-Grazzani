@@ -44,4 +44,8 @@ public class Bag {
     public void pushStudent(Student student){
         this.students.add(student);
     }
+
+    public boolean isEmpty() {
+        return this.students.isEmpty();
+    }
 }
