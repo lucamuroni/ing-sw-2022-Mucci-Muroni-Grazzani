@@ -2,11 +2,12 @@ package it.polimi.ingsw.controller.client.game;
 
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.client.networkHandler.Network;
+import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Game;
 
 public class Idle implements GamePhase{
-    private PhaseName name = PhaseName.IDLE;
+    private Phase phase;
     private Network network;
     private ClientController controller;
     private ViewHandler view;
@@ -23,7 +24,7 @@ public class Idle implements GamePhase{
     @Override
     public void handle() {
         try {
-            phase = this.network.getPhase();
+
         } catch () {
 
         }

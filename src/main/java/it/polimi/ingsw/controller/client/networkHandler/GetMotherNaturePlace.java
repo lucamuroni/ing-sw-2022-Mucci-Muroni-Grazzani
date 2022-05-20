@@ -11,8 +11,7 @@ import it.polimi.ingsw.view.asset.game.Island;
 import java.util.ArrayList;
 
 import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.ISLAND_ID;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
  * @author Sara Mucci
@@ -41,21 +40,16 @@ public class GetMotherNaturePlace {
      */
     public Island handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
         ArrayList<Message> messages = new ArrayList<Message>();
-        while (!stop) {
-            this.messageHandler.read(PLAYER_MOVE.getTiming());
-            String string = this.messageHandler.getMessagePayloadFromStream(ISLAND_ID.getFragment());
-            if (string.equals("stop")) {
-                stop = true;
-            } else {
-                for (Island island : game.getIslands()) {
-                    if (game.getMotherNaturePosition().equals(island)) {
+        this.messageHandler.read(PLAYER_MOVE.getTiming());
+        int result = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(MN_LOCATION.getFragment()));
+        Island MNIsland = null;
+        for (Island island : game.getIslands()) {
+            if (island.getId() == result) {
                         MNIsland = island;
-                    }
-                }
             }
         }
-        int topicId = this.messageHandler.getMessagesUniquePaylod();
-        messages.add(new Message(OK.getFragment(), "", topicId));
+        int topicId = this.messageHandler.getMessagesUniqueTopic();
+        messages.add(new Message(MN_LOCATION.getFragment(), OK.getFragment(), topicId));
         this.messageHandler.write(messages);
         return MNIsland;
     }

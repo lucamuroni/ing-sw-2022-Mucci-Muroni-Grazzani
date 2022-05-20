@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.client.networkHandler;
 
 import it.polimi.ingsw.controller.client.game.GamePhase;
+import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
@@ -27,7 +28,7 @@ public interface Network {
 
     public void getLobbyStatus();
 
-    public String getPhase() throws TimeHasEndedException, ClientDisconnectedException;
+    public Phase getPhase() throws TimeHasEndedException, ClientDisconnectedException;
 
     public ArrayList<AssistantCard> getPossibleCards() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
 
