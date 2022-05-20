@@ -12,6 +12,7 @@ import it.polimi.ingsw.view.asset.game.Game;
 import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.PAWN_RED;
 
 /**
  * @author Sara Mucci

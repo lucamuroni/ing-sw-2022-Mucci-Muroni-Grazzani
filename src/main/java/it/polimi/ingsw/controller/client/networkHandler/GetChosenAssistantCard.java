@@ -43,7 +43,7 @@ public class GetChosenAssistantCard {
                 assistantCardToGet = assistantCard;
             }
         }
-        int topicId = this.messageHandler.getMessagesUniquePaylod();
+        int topicId = this.messageHandler.getMessagesUniqueTopic();
         messages.add(new Message(OK.getFragment(), "", topicId));
         this.messageHandler.write(messages);
         return assistantCardToGet;
