@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Professor;
 import it.polimi.ingsw.model.pawn.Student;
+import it.polimi.ingsw.model.pawn.TowerColor;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -15,8 +16,8 @@ class InfluenceCalculatorTest {
     Island island = new Island(2);
     ArrayList<Gamer> gamers;
     ArrayList<Professor> professors;
-    Gamer gamer1 = new Gamer(111,"bufu");
-    Gamer gamer2 = new Gamer(111,"babbo");
+    Gamer gamer1 = new Gamer(111,"bufu", TowerColor.GREY);
+    Gamer gamer2 = new Gamer(111,"babbo",TowerColor.GREY);
     Professor prof1 = new Professor(PawnColor.BLUE);
     Professor prof2 = new Professor(PawnColor.YELLOW);
     Professor prof3 = new Professor(PawnColor.PINK);

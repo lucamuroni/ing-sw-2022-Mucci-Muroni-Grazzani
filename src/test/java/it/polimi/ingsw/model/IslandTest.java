@@ -4,6 +4,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
+import it.polimi.ingsw.model.pawn.TowerColor;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ class IslandTest {
     @Test
     void setOwner() {
         Island isola = new Island(1);
-        Gamer giocatore = new Gamer(123,"luca");
+        Gamer giocatore = new Gamer(123,"luca", TowerColor.GREY);
         Optional<Gamer> gamer = Optional.of(giocatore);
         Optional<Gamer> gamerEmpty = Optional.empty();
         assertEquals(gamerEmpty,isola.getOwner());

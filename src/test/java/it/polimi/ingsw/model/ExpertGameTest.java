@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.debug.CharacterCard;
 import it.polimi.ingsw.model.game.ExpertGame;
 import it.polimi.ingsw.model.gamer.ExpertGamer;
+import it.polimi.ingsw.model.pawn.TowerColor;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,8 +34,8 @@ class ExpertGameTest {
 
     @Test
     void getExpertGamers() {
-        ExpertGamer gamer1 = new ExpertGamer(123, "nome1");
-        ExpertGamer gamer2 = new ExpertGamer(456, "nome2");
+        ExpertGamer gamer1 = new ExpertGamer(123, "nome1", TowerColor.GREY);
+        ExpertGamer gamer2 = new ExpertGamer(456, "nome2",TowerColor.GREY);
         ArrayList<ExpertGamer> gamers = new ArrayList<ExpertGamer>();
         assertTrue(gamers.isEmpty());
         gamers.add(gamer1);
@@ -45,7 +46,7 @@ class ExpertGameTest {
 
     @Test
     void getCurrentPlayer() {
-        ExpertGamer gamer = new ExpertGamer(123, "nome");
+        ExpertGamer gamer = new ExpertGamer(123, "nome",TowerColor.GREY);
         ArrayList<ExpertGamer> gamers = new ArrayList<ExpertGamer>();
         assertTrue(gamers.isEmpty());
         gamers.add(gamer);
