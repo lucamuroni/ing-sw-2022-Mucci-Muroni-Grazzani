@@ -12,15 +12,29 @@ public class Server {
     private boolean isEveryThingOK = true;
 
     public Server(int portNumber){
-        try {
-            this.serverSocket = new ServerSocket(portNumber);
-        } catch (IOException e) {
-            System.out.println("Could not instantiate a new ServerSocket ; Exiting");
-            e.printStackTrace();
+        int errors = 0;
+        int errorThreshold = 5;
+        while(errors<errorThreshold && launchServerSocket(portNumber)){
+            synchronized (this){
+                try{
+                    this.wait(2000);
+                }catch (InterruptedException e){}finally {
+                    errors++;
+                }
+            }
         }
         this.clientReception = new ClientReception(this.serverSocket);
         this.run();
+    }
 
+    private boolean launchServerSocket(int portNumber){
+        try{
+            this.serverSocket = new ServerSocket(portNumber);
+            return false;
+        }catch (IOException e){
+            System.out.println("Could not instantiate a new ServerSocket ; Attempting again in 2 seconds");
+            return true;
+        }
     }
 
     private void run(){
@@ -34,12 +48,12 @@ public class Server {
             while(isEveryThingOK){
                 Lobby lobbyToStart = null;
                 boolean lobbyAlreadyChosen = false;
-                synchronized (this.clientReception.lobbiesLock){
+                synchronized (this.clientReception.getLobbies()){
                     while (this.clientReception.getLobbies().isEmpty() || this.numOfInstances<maxNumOfInstances){
                         try {
-                            this.clientReception.lobbiesLock.wait();
+                            this.clientReception.getLobbies().wait();
                         } catch (InterruptedException e) {
-                            System.out.println("Could not wait for scannig of lobbyes");
+                            System.out.println("Could not wait for scanning of lobbies");
                             e.printStackTrace();
                         }
                     }

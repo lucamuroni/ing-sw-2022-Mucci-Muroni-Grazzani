@@ -42,6 +42,9 @@ public class SendNewPhase {
         Message message = new Message(PHASE.getFragment(), phase.toString(), topicId);
         this.messageHandler.write(message);
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
+        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
+            throw new MalformedMessageException();
+        }
         this.messageHandler.assertOnEquals(OK.getFragment(), PHASE.getFragment());
     }
 }

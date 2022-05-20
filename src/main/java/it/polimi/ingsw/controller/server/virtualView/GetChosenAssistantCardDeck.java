@@ -38,7 +38,6 @@ public class GetChosenAssistantCardDeck {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      */
     public AssistantCardDeckFigures handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        //ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
         for (AssistantCardDeckFigures assistantCardDeckFigures: this.decks) {
             Message message = new Message(ASSISTANT_CARD_DECK.getFragment(), assistantCardDeckFigures.name(), topicId);

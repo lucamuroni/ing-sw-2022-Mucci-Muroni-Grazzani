@@ -8,8 +8,8 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.Island;
 import java.util.ArrayList;
-import static it.polimi.ingsw.controller.networking.MessageFragment.ISLAND_ID;
-import static it.polimi.ingsw.controller.networking.MessageFragment.STOP;
+
+import static it.polimi.ingsw.controller.networking.MessageFragment.*;
 
 /**
  * @author Luca Muroni
@@ -39,7 +39,7 @@ public class GetMNLocation {
     public Island handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
         for (Island island : this.islands) {
-            Message message = new Message(ISLAND_ID.getFragment(), island.getId().toString(), topicId);
+            Message message = new Message(MN_LOCATION.getFragment(), island.getId().toString(), topicId);
             this.messageHandler.write(message);
         }
         this.messageHandler.write(new Message(STOP.getFragment(), "", topicId));
@@ -47,7 +47,7 @@ public class GetMNLocation {
         if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
             throw new MalformedMessageException();
         }
-        int islandId = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(ISLAND_ID.getFragment()));
+        int islandId = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(MN_LOCATION.getFragment()));
         Island result = null;
         for (Island island : this.islands) {
             if (island.getId().equals(islandId)) {
