@@ -37,7 +37,7 @@ public class GetWinner {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
-    public ArrayList<Player> handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+    public ArrayList<Gamer> handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
         ArrayList<Message> messages = new ArrayList<Message>();
         while (!stop) {
             this.messageHandler.read(PLAYER_MOVE.getTiming());
@@ -48,7 +48,6 @@ public class GetWinner {
             else {
                 for (Gamer gamer : game.getGamers()) {
                     if (string.equals(gamer.getUsername())) {
-                        //TODO: esiste un metodo per settare il vincitore?
                         winners.add(gamer);
                     }
                 }
@@ -57,5 +56,6 @@ public class GetWinner {
         int topicId = this.messageHandler.getMessagesUniqueTopic();
         messages.add(new Message(OK.getFragment(), "", topicId));
         this.messageHandler.write(messages);
+        return winners;
     }
 }

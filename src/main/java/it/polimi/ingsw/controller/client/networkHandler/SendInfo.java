@@ -4,14 +4,13 @@ import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
 import it.polimi.ingsw.view.asset.game.Game;
 import java.util.ArrayList;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
 
 /**
  * @author Sara Mucci
  * Class that implements the mssage to send to the server the infos about the player and the game
+ * This class is used at the beginning of the connection phase
  */
 public class SendInfo {
     Player player;
