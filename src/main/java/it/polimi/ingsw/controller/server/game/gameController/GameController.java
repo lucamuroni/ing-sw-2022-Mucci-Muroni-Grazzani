@@ -14,7 +14,6 @@ import it.polimi.ingsw.model.pawn.TowerColor;
 
 import java.util.ArrayList;
 
-//TODO :creare classe ExpertGameController
 public class GameController extends Thread{
     private final Server server;
     private ArrayList<Player> players;
@@ -59,7 +58,6 @@ public class GameController extends Thread{
             this.gamePhase.handle();
         }
     }
-    //TODO : fare una funzione che dai gamers del model si ordina l'array di players
 
     public View getView(){
         return this.view;
@@ -89,17 +87,27 @@ public class GameController extends Thread{
         this.view.haltOnError();
         player.getMessageHandler().shutDown();
         this.players.remove(player);
+        this.shutdown();
     }
 
     public Player getPlayer(Gamer currentPlayer) throws ModelErrorException {
         for(Player player : this.players){
-            ArrayList<Gamer> gamers = new ArrayList<Gamer>();
-            gamers.add(currentPlayer);
-            try{
-                player.getGamer(gamers);
+            if(currentPlayer.getToken() == player.getToken() && currentPlayer.getUsername().equals(player.getUsername())){
                 return player;
-            }catch(ModelErrorException e){}
+            }
         }
         throw new ModelErrorException();
+    }
+
+    public void updatePlayersOrder(){
+        ArrayList<Player> cp = new ArrayList<>(this.players);
+        this.players.clear();
+        for(Gamer gamer : this.game.getGamers()){
+            try {
+                this.players.add(this.getPlayer(gamer));
+            } catch (ModelErrorException e) {
+                this.shutdown();
+            }
+        }
     }
 }
