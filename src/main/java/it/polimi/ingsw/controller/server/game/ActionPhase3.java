@@ -22,7 +22,6 @@ import java.util.Random;
 public class ActionPhase3 implements GamePhase{
     private final Game game;
     private final GameController controller;
-    private Gamer currentPlayer;
     private final View view;
 
     /**
@@ -33,7 +32,6 @@ public class ActionPhase3 implements GamePhase{
     public ActionPhase3(Game game, GameController controller){
         this.game = game;
         this.controller = controller;
-        this.currentPlayer = this.game.getCurrentPlayer();
         this.view = this.controller.getView();
     }
 
@@ -64,10 +62,8 @@ public class ActionPhase3 implements GamePhase{
         } catch (ModelErrorException e) {
             this.controller.shutdown();
             e.printStackTrace();
-            return;
         } catch (GenericErrorException e) {
             e.printStackTrace();
-            return;
         }
     }
 
@@ -79,8 +75,8 @@ public class ActionPhase3 implements GamePhase{
      */
     private void choseCloud(Player player) throws GenericErrorException, ModelErrorException {
         this.view.setCurrentPlayer(player);
-        Cloud chosenCloud = null;
-        ArrayList<Cloud> possibleChoices = new ArrayList<Cloud>();
+        Cloud chosenCloud;
+        ArrayList<Cloud> possibleChoices = new ArrayList<>();
         for (Cloud cloud : this.game.getClouds()) {
             if (!cloud.isEmpty()) {
                 possibleChoices.add(cloud);

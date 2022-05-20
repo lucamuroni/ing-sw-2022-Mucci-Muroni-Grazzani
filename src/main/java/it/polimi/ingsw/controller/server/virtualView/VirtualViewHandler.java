@@ -12,6 +12,7 @@ import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
+import it.polimi.ingsw.model.pawn.TowerColor;
 import org.hamcrest.core.Is;
 
 import java.util.ArrayList;
@@ -93,7 +94,7 @@ public class VirtualViewHandler implements View {
     }
     @Override
     public Cloud getChosenCloud(ArrayList<Cloud> clouds) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        GetChosenCloud func = new GetChosenCloud(ArrayList<Cloud> clouds);  //TODO: rivedere errore
+        GetChosenCloud func = new GetChosenCloud(clouds, messageHandler);  //TODO: rivedere errore
         Cloud result = func.handle();
         return result;
     }
