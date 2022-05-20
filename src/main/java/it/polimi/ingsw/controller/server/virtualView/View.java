@@ -86,6 +86,17 @@ public interface View{
     public void updateDashboards(ArrayList<Gamer> gamers, Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException;
 
     /**
+     * Method that handles the messages to update the status of the dashboards
+     * @param gamer represents the player
+     * @throws MalformedMessageException launched if the message isn't created the correct way
+     * @throws TimeHasEndedException launched when the available time for the response ends
+     * @throws ClientDisconnectedException launched if the client disconnects
+     * @throws FlowErrorException launched when the client sends an unexpected response
+     */
+    public void updateDashboards(Gamer gamer, Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException;
+
+
+    /**
      * Methos that handles the messages to update the mother nature location
      * @param island represents the new mother nature location
      * @throws MalformedMessageException launched if the message isn't created the correct way
