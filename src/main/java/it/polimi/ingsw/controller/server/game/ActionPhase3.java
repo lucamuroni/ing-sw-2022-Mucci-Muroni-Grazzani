@@ -126,6 +126,13 @@ public class ActionPhase3 implements GamePhase{
      */
     @Override
     public GamePhase next() {
-        return new PlanningPhase(this.game, this.controller);
+        if(this.game.getTurnNumber()%this.game.getGamers().size()==0){
+            this.game.updatePlayersOrder();
+            this.controller.updatePlayersOrder();
+            return new PlanningPhase(this.game, this.controller);
+        }else{
+            this.game.setCurrentPlayer(this.game.getGamers().get((this.game.getTurnNumber()%this.game.getGamers().size())-1));
+            return new ActionPhase1(this.game,this.controller);
+        }
     }
 }

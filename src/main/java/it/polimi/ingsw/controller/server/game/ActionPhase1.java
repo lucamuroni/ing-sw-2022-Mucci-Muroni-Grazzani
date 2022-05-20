@@ -52,6 +52,7 @@ public class ActionPhase1 implements GamePhase{
      */
     @Override
     public void handle() {
+        this.game.setTurnNumber();
         try {
             try{
                 this.view.sendNewPhase(Phase.ACTION_PHASE_1);

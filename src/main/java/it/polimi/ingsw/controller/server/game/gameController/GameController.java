@@ -90,8 +90,8 @@ public class GameController extends Thread{
         this.shutdown();
     }
 
-    public Player getPlayer(Gamer currentPlayer) throws ModelErrorException {
-        for(Player player : this.players){
+    public Player getPlayer(Gamer currentPlayer, ArrayList<Player> players) throws ModelErrorException {
+        for(Player player : players){
             if(currentPlayer.getToken() == player.getToken() && currentPlayer.getUsername().equals(player.getUsername())){
                 return player;
             }
@@ -99,12 +99,16 @@ public class GameController extends Thread{
         throw new ModelErrorException();
     }
 
+    public Player getPlayer(Gamer currentPlayer) throws ModelErrorException {
+        return this.getPlayer(currentPlayer,this.players);
+    }
+
     public void updatePlayersOrder(){
         ArrayList<Player> cp = new ArrayList<>(this.players);
         this.players.clear();
         for(Gamer gamer : this.game.getGamers()){
             try {
-                this.players.add(this.getPlayer(gamer));
+                this.players.add(this.getPlayer(gamer,cp));
             } catch (ModelErrorException e) {
                 this.shutdown();
             }
