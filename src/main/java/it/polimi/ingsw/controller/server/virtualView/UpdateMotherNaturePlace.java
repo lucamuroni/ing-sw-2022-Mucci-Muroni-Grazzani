@@ -8,7 +8,6 @@ import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.Island;
-
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.MN_LOCATION;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
 import static java.lang.Integer.valueOf;

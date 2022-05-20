@@ -11,7 +11,6 @@ import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
 import java.util.ArrayList;
-
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 
