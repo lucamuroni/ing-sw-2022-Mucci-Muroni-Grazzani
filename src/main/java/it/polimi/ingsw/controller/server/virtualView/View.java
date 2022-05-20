@@ -52,6 +52,16 @@ public interface View{
 
     /**
      * Method that handles the messages to update the clouds status
+     * @param cloud the cloud to update
+     * @throws FlowErrorException launched when the client sends an unexpected response
+     * @throws MalformedMessageException launched if the message isn't created the correct way
+     * @throws TimeHasEndedException launched when the available time for the response ends
+     * @throws ClientDisconnectedException launched if the client disconnects
+     */
+    public void updateCloudsStatus(Cloud cloud) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+
+    /**
+     * Method that handles the messages to update the clouds status
      * @param clouds the clouds to update
      * @throws FlowErrorException launched when the client sends an unexpected response
      * @throws MalformedMessageException launched if the message isn't created the correct way

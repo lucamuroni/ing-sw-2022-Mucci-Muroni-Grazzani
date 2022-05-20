@@ -216,7 +216,22 @@ public class VirtualViewHandler implements View {
      */
     @Override
     public void updateCloudsStatus(ArrayList<Cloud> clouds) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        UpdateCloudsStatus func = new UpdateCloudsStatus(clouds, messageHandler);
+        for (Cloud cloud : clouds) {
+            this.updateCloudsStatus(cloud);
+        }
+    }
+
+    /**
+     * Method that handles the messages to update the clouds status
+     * @param cloud the cloud to update
+     * @throws FlowErrorException launched when the client sends an unexpected response
+     * @throws MalformedMessageException launched if the message isn't created the correct way
+     * @throws TimeHasEndedException launched when the available time for the response ends
+     * @throws ClientDisconnectedException launched if the client disconnects
+     */
+    @Override
+    public void updateCloudsStatus(Cloud cloud) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        UpdateCloudsStatus func = new UpdateCloudsStatus(cloud, messageHandler);
         func.handle();
     }
 
