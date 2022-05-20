@@ -48,7 +48,6 @@ public class GetIslandStatus {
                 if (result == island.getId()) {
                     this.messageHandler.read(PLAYER_MOVE.getTiming());
                     int owner = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(OWNER.getFragment()));
-                    //TODO: settare owner
                     this.messageHandler.read(PLAYER_MOVE.getTiming());
                     numTowers = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(NUM_TOWERS.getFragment()));
                     this.messageHandler.read(PLAYER_MOVE.getTiming());
@@ -101,7 +100,7 @@ public class GetIslandStatus {
                             students.add(pinkStudent);
                         }
                     }
-                    island.updateIsland(students, numTowers, owner.getId());    //TODO: creare metodo che prenda il colore a partire dall'id del giocatore
+                    island.updateIsland(students, numTowers, owner.getColor());    //TODO: creare metodo che prenda il colore a partire dall'id del giocatore
                 }
             }
         }
