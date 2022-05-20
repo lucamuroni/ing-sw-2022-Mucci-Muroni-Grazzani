@@ -1,8 +1,8 @@
 package it.polimi.ingsw.controller.server.game;
 
+import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.*;
-import it.polimi.ingsw.controller.server.game.exceptions.GenericErrorException;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
@@ -45,8 +45,18 @@ public class PlanningPhase implements GamePhase{
      */
     public void handle (){
         try {
-            this.view.phaseChanghe("ActionPhase1");
-        } catch () {}
+            try{
+                this.view.sendNewPhase(Phase.PLANNINGPHASE);
+            }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                this.view.sendNewPhase(Phase.PLANNINGPHASE);
+            }
+        }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
+            try {
+                this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()));
+            } catch (ModelErrorException i) {
+                this.controller.shutdown();
+            }
+        }
         for(Cloud cloud : this.game.getClouds()){
             this.game.fillCloud(this.game.getBag().pullStudents(this.numStudents), cloud);
         }
@@ -54,17 +64,20 @@ public class PlanningPhase implements GamePhase{
             this.updateCloudsStatus(player);
         }
         ArrayList<AssistantCard> alreadyPlayedCards = new ArrayList<>();
+        //TODO: aggiungere ordinamento array di player dentro il GameController
         for(Player player : this.controller.getPlayers()){
             try {
+                this.game.setCurrentPlayer(player.getGamer(this.game.getGamers()));
                 AssistantCard card = this.getChoseAssistantCard(player,alreadyPlayedCards);
                 alreadyPlayedCards.add(card);
             } catch (ModelErrorException e) {
                 this.controller.shutdown();
-                e.printStackTrace();
-                return;
-            } catch (GenericErrorException e) {
-                e.printStackTrace();
             }
+        }
+        try {
+            this.game.setCurrentPlayer(this.controller.getPlayers().get(0).getGamer(this.game.getGamers()));
+        } catch (ModelErrorException e) {
+            this.controller.shutdown();
         }
     }
 
@@ -91,14 +104,12 @@ public class PlanningPhase implements GamePhase{
      * @param alreadyPlayedCards are all the cards played till this moment
      * @return the card chosen by the player
      * @throws ModelErrorException
-     * @throws GenericErrorException when the message from the client is malformed twice or the player disconnects from the game
      */
-    private AssistantCard getChoseAssistantCard(Player player,ArrayList<AssistantCard> alreadyPlayedCards) throws ModelErrorException, GenericErrorException {
+    private AssistantCard getChoseAssistantCard(Player player, ArrayList<AssistantCard> alreadyPlayedCards) throws ModelErrorException {
         this.view.setCurrentPlayer(player);
-        ArrayList<AssistantCard> cardsOfPlayer;
-        Gamer currentPlayer = player.getGamer(this.game.getGamers());
-        AssistantCard result;
-        cardsOfPlayer = new ArrayList<>(currentPlayer.getDeck().getCardList());
+        Gamer currentPlayer = this.game.getCurrentPlayer();
+        AssistantCard result = null;
+        ArrayList<AssistantCard> cardsOfPlayer = new ArrayList<>(currentPlayer.getDeck().getCardList());
         if(alreadyPlayedCards.size()>=1){
             for(AssistantCard cardAlreadySelected: alreadyPlayedCards){
                 cardsOfPlayer.remove(cardAlreadySelected);
@@ -114,14 +125,22 @@ public class PlanningPhase implements GamePhase{
             }
         }catch (MalformedMessageException | ClientDisconnectedException e){
             this.controller.handlePlayerError(player);
-            throw new GenericErrorException();
         }catch (TimeHasEndedException e){
             result = this.getRandomAssistantCard(cardsOfPlayer);
         }
         ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
         players.remove(player);
         for (int i = 0; i<players.size(); i++) {
-            this.view.sendChosenAssistantCard(result, player.getToken());
+            this.view.setCurrentPlayer(players.get(i));
+            try {
+                try {
+                    this.view.sendChosenAssistantCard(result, player.getToken());
+                } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e) {
+                    this.view.sendChosenAssistantCard(result, player.getToken());
+                }
+            } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
+                this.controller.handlePlayerError(player);
+            }
         }
         currentPlayer.getDeck().setPastSelection();
         currentPlayer.getDeck().setCurrentSelection(result);

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.server.game;
 
+import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
@@ -41,8 +42,18 @@ public class ActionPhase3 implements GamePhase{
     @Override
     public void handle() {
         try {
-            this.view.phaseChanghe("ActionPhase1");
-        } catch () {}
+            try{
+                this.view.sendNewPhase(Phase.ACTION_PHASE_3);
+            }catch(MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                this.view.sendNewPhase(Phase.ACTION_PHASE_3);
+            }
+        }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
+            try {
+                this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()));
+            } catch (ModelErrorException i) {
+                this.controller.shutdown();
+            }
+        }
         try {
             this.choseCloud(this.controller.getPlayer(this.game.getCurrentPlayer()));
             ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
@@ -52,8 +63,10 @@ public class ActionPhase3 implements GamePhase{
                 try {
                     try {
                         this.view.updateCloudsStatus(this.game.getClouds());
+                        this.view.updateDashboards(this.game.getGamers(), this.game);
                     } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
-                        this.view.updateDashboards(this.game.getGamers());
+                        this.view.updateCloudsStatus(this.game.getClouds());
+                        this.view.updateDashboards(this.game.getGamers(), this.game);
                     }
                 } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
                     this.controller.handlePlayerError(pl);
@@ -62,20 +75,17 @@ public class ActionPhase3 implements GamePhase{
         } catch (ModelErrorException e) {
             this.controller.shutdown();
             e.printStackTrace();
-        } catch (GenericErrorException e) {
-            e.printStackTrace();
         }
     }
 
     /**
      * This method handles the pull of the cloud chosen by the player, and it is called in handle()
-     * @param player representd the currentPlayer
-     * @throws GenericErrorException when the message from the client is malformed twice or the player doesn't reply in time
+     * @param player represents the currentPlayer
      * @throws ModelErrorException
      */
-    private void choseCloud(Player player) throws GenericErrorException, ModelErrorException {
+    private void choseCloud(Player player) throws ModelErrorException {
         this.view.setCurrentPlayer(player);
-        Cloud chosenCloud;
+        Cloud chosenCloud = null;
         ArrayList<Cloud> possibleChoices = new ArrayList<>();
         for (Cloud cloud : this.game.getClouds()) {
             if (!cloud.isEmpty()) {
@@ -92,12 +102,11 @@ public class ActionPhase3 implements GamePhase{
             }
         } catch (MalformedMessageException | ClientDisconnectedException e) {
             this.controller.handlePlayerError(player);
-            throw new GenericErrorException();
         } catch (TimeHasEndedException e) {
             chosenCloud = this.getRandomCloud(possibleChoices);
         }
-        Gamer gamer = player.getGamer(this.game.getGamers());
-        gamer.getDashboard().addStudentsWaitingRoom(chosenCloud.pullStudent());
+        Gamer currentPlayer = this.game.getCurrentPlayer();
+        currentPlayer.getDashboard().addStudentsWaitingRoom(chosenCloud.pullStudent());
     }
 
     /**

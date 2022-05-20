@@ -1,36 +1,32 @@
 package it.polimi.ingsw.controller.server.virtualView;
 
-import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
+import it.polimi.ingsw.controller.networking.ConnectionTimings;
 import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
+import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
-import it.polimi.ingsw.model.Island;
-
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.MN_LOCATION;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
-import static java.lang.Integer.valueOf;
-
-//TODO : classe che gestisce l'aggiornamento della posizione di madre natura
+import java.util.ArrayList;
+import static it.polimi.ingsw.controller.networking.MessageFragment.OK;
+import static it.polimi.ingsw.controller.networking.MessageFragment.PHASE;
 
 /**
- * @author Davide Grazzani
- * @author Luca Muroni
- * Class that implements the message to update the mother nature location
+ * @author Sara Mucci
+ * Class that implements the message to send the new phase to the current player
  */
-class UpdateMotherNaturePlace {
-    Island island;
+public class SendNewPhase {
     MessageHandler messageHandler;
+    Phase phase;
 
     /**
      * Class constructor
-     * @param island represents the new mother nature location
+     * @param phase represents the phase to send
      * @param messageHandler represents the messageHandler used for the message
      */
-    public UpdateMotherNaturePlace(Island island, MessageHandler messageHandler){
-        this.island = island;
+    public SendNewPhase(Phase phase, MessageHandler messageHandler) {
+        this.phase = phase;
         this.messageHandler = messageHandler;
     }
 
@@ -43,13 +39,9 @@ class UpdateMotherNaturePlace {
      */
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
-        Integer id = valueOf(island.getId());
-        Message message = new Message(MN_LOCATION.getFragment(), id.toString(), topicId);
+        Message message = new Message(PHASE.getFragment(), phase.toString(), topicId);
         this.messageHandler.write(message);
-        this.messageHandler.read(ConnectionTimings.RESPONSE.getTiming());
-        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
-            throw new MalformedMessageException();
-        }
-        this.messageHandler.assertOnEquals(OK.getFragment(), MN_LOCATION.getFragment());
+        this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
+        this.messageHandler.assertOnEquals(OK.getFragment(), PHASE.getFragment());
     }
 }

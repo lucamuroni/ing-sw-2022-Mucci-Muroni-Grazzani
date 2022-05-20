@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
+import it.polimi.ingsw.model.pawn.TowerColor;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -14,8 +15,8 @@ class GameTest{
     @Test
     void fillCloud(){
         ArrayList<Gamer> gamers = new ArrayList<Gamer>();
-        Gamer gamer1 = new Gamer(123, "nome1");
-        Gamer gamer2 = new Gamer(456, "nome2");
+        Gamer gamer1 = new Gamer(123, "nome1", TowerColor.BLACK);
+        Gamer gamer2 = new Gamer(456, "nome2",TowerColor.GREY);
         gamers.add(gamer1);
         gamers.add(gamer2);
         Game game = new Game(gamers);
@@ -23,7 +24,7 @@ class GameTest{
         students.addAll(game.getBag().pullStudents(4));
         assertFalse(students.isEmpty());
         assertEquals(4, students.size());
-        Cloud cloud = new Cloud();
+        Cloud cloud = new Cloud(1);
         game.fillCloud(students, cloud);
         ArrayList<Student> s = new ArrayList<Student>(cloud.pullStudent());
         assertFalse(s.isEmpty());
@@ -34,8 +35,8 @@ class GameTest{
     @Test
     void initIsland() {
         ArrayList<Gamer> gamers = new ArrayList<Gamer>();
-        Gamer gamer1 = new Gamer(123, "nome1");
-        Gamer gamer2 = new Gamer(456, "nome2");
+        Gamer gamer1 = new Gamer(123, "nome1",TowerColor.WHITE);
+        Gamer gamer2 = new Gamer(456, "nome2",TowerColor.BLACK);
         gamers.add(gamer1);
         gamers.add(gamer2);
         Game game = new Game(gamers);
@@ -62,8 +63,8 @@ class GameTest{
     @Test
     void moveMotherNature() {
         ArrayList<Gamer> gamers = new ArrayList<Gamer>();
-        Gamer gamer1 = new Gamer(123, "nome1");
-        Gamer gamer2 = new Gamer(456, "nome2");
+        Gamer gamer1 = new Gamer(123, "nome1",TowerColor.WHITE);
+        Gamer gamer2 = new Gamer(456, "nome2",TowerColor.WHITE);
         gamers.add(gamer1);
         gamers.add(gamer2);
         Game game = new Game(gamers);
@@ -78,7 +79,7 @@ class GameTest{
     @Test
     void getMotherNatureDestination() {
         ArrayList<Gamer> gamers = new ArrayList<Gamer>();
-        Gamer gamer1 = new Gamer(123, "nome1");
+        Gamer gamer1 = new Gamer(123, "nome1",TowerColor.BLACK);
         ArrayList<Student> students = new ArrayList<Student>();
         assertTrue(students.isEmpty());
         gamer1.initGamer(students, 7);

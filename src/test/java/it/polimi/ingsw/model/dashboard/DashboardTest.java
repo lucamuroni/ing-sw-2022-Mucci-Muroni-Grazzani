@@ -29,7 +29,7 @@ class DashboardTest {
     @Test
     void addStudentsWaitingRoom() {
         Bag borsa = new Bag();
-        Cloud cloud = new Cloud();
+        Cloud cloud = new Cloud(1);
         ArrayList<Student> s = new ArrayList<Student>();
         assertTrue(s.isEmpty());
         ArrayList<Student> studentsToAddCloud = new ArrayList<Student>();
@@ -95,7 +95,7 @@ class DashboardTest {
     void testMoveStudent() {
         ArrayList<Student> students = new ArrayList<Student>();
         assertTrue(students.isEmpty());
-        Island island = new Island();
+        Island island = new Island(1);
         Student student1 = new Student(PawnColor.BLUE);
         Student student2 = new Student(PawnColor.RED);
         students.add(student1);

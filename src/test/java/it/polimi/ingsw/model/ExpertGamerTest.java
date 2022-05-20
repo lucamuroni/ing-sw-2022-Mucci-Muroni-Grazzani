@@ -31,7 +31,7 @@ class ExpertGamerTest {
         Bag bag = new Bag();
         ArrayList<Student> students = new ArrayList<Student>(bag.pullStudents(1));
         expertGamer.initGamer(students, 6);
-        Cloud cloud = new Cloud();
+        Cloud cloud = new Cloud(1);
         ArrayList<Student> students1 = new ArrayList<Student>(bag.pullStudents(3));
         cloud.pushStudents(students1);
         expertGamer.selectCloud(cloud);

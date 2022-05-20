@@ -13,18 +13,20 @@ import java.util.Optional;
  */
 public class Island{
     private int numTowers;
-    private ArrayList<Student> students;
+    private final ArrayList<Student> students;
     private Optional<Gamer> owner;
+    private int id;
 
     /**
-     * Builder of the class
-     * Initiate the number of towers, the array of Students and the owner of
-     * the island(s)
+     * Builder of the class.
+     * Initiate the number of towers, the array of Students and the owner of the island(s)
+     * @param id is the unique id (1 to 12) given to a determinate island
      */
-    public Island(){
+    public Island(int id){
         this.numTowers = 0;
         this.students = new ArrayList<Student>();
         this.owner = Optional.empty();
+        this.id = id;
     }
 
     /**
@@ -41,6 +43,7 @@ public class Island{
      * @param island represent the island that is going to be merged
      */
     public void mergeIsland(Island island){
+        this.id += island.getId();
         this.numTowers += island.getNumTowers();
         this.students.addAll(island.getStudents());
     }
@@ -96,5 +99,9 @@ public class Island{
      */
     public void addTower(){
         this.numTowers += 1;
+    }
+
+    public Integer getId(){
+        return this.id;
     }
 }

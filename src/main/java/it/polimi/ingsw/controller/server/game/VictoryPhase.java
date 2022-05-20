@@ -1,10 +1,12 @@
 package it.polimi.ingsw.controller.server.game;
 
+import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
+import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.model.game.Game;
@@ -38,6 +40,19 @@ public class VictoryPhase implements GamePhase{
         ArrayList<Gamer> winners = new ArrayList<>();
         winners.addAll(this.game.checkWinner());
         if (!winners.isEmpty()) {
+            try {
+                try{
+                    this.view.sendNewPhase(Phase.END_GAME_PHASE);
+                }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                    this.view.sendNewPhase(Phase.END_GAME_PHASE);
+                }
+            }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
+                try {
+                    this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()));
+                } catch (ModelErrorException i) {
+                    this.controller.shutdown();
+                }
+            }
             ArrayList<String> names = new ArrayList<>();
             for (Gamer gamer : winners) {
                 names.add(gamer.getUsername());
@@ -54,9 +69,6 @@ public class VictoryPhase implements GamePhase{
                     this.controller.handlePlayerError(player);
                 }
             }
-        }
-        else {
-            //this.next();
         }
     }
 

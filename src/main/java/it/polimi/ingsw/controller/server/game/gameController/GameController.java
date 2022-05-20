@@ -3,12 +3,13 @@ package it.polimi.ingsw.controller.server.game.gameController;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.Server;
-import it.polimi.ingsw.controller.server.game.AssistantCardDeckFigures;
+import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.controller.server.game.GamePhase;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.controller.server.virtualView.VirtualViewHandler;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
+import it.polimi.ingsw.model.pawn.TowerColor;
 
 import java.util.ArrayList;
 
@@ -35,10 +36,15 @@ public class GameController extends Thread{
     }
 
     private ArrayList<Gamer> createGamers(ArrayList<Player> players){
+        ArrayList<TowerColor> colors = new ArrayList<TowerColor>();
+        for(TowerColor color : TowerColor.values()){
+            colors.add(color);
+        }
         ArrayList<Gamer> gamers = new ArrayList<Gamer>();
         for(Player player : players){
-            Gamer gamer = new Gamer(player.getToken(), player.getUsername());
+            Gamer gamer = new Gamer(player.getToken(), player.getUsername(), colors.get(0));
             gamers.add(gamer);
+            colors.remove(0);
         }
         return gamers;
     }
@@ -76,11 +82,6 @@ public class GameController extends Thread{
         this.view.setCurrentPlayer(player);
         this.view.haltOnError();
         player.getMessageHandler().shutDown();
-        try {
-            player.getGamer(this.game.getGamers()).setActivity(false);
-        } catch (ModelErrorException e) {
-            System.out.println("Could not find gamer in model");
-        }
         this.players.remove(player);
     }
 

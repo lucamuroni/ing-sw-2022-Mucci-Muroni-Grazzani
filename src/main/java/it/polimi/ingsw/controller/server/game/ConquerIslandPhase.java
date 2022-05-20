@@ -39,36 +39,20 @@ public class ConquerIslandPhase implements GamePhase{
      */
     @Override
     public void handle() {
-        try {
-            this.view.phaseChanghe("ActionPhase1");
-        } catch () {}
-        TowerColor color = this.conquerIsland();
+        this.game.checkIslandOwner(this.game.getMotherNature().getPlace());
         ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
         for (Player pl : players) {
             this.view.setCurrentPlayer(pl);
             try {
                 try {
-                    this.view.sendTowerColor(color);
+                    this.view.updateIslandStatus(this.game.getMotherNature().getPlace());
                 } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
-                    this.view.sendTowerColor(color);
+                    this.view.updateIslandStatus(this.game.getMotherNature().getPlace());
                 }
             } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
                 this.controller.handlePlayerError(pl);
             }
         }
-    }
-
-    /**
-     * Method called by handle() that calculates the new owner of the island on which MotherNature is
-     * @return the color of the towers of the new owner
-     */
-    private TowerColor conquerIsland() {
-        Optional<Gamer> conqueror = this.game.checkIslandOwner();
-        if (conqueror.isPresent()) {
-            Gamer gamer = conqueror.get();
-            return gamer.getTowerColor();
-        }
-        return null;
     }
 
     /**

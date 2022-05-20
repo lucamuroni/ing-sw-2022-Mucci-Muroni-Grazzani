@@ -11,27 +11,46 @@ import it.polimi.ingsw.model.Island;
 import java.util.ArrayList;
 
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.ISLAND_ID;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.STOP;
 
+
+/**
+ * @author Luca Muroni
+ * Class that implements the message to get the current mother nature position
+ */
 public class GetMNLocation {
-    private ArrayList<Island> islands;
-    private MessageHandler messageHandler;
+    ArrayList<Island> islands;
+    MessageHandler messageHandler;
 
+    /**
+     * Class constructor
+     * @param islands represents the available islands
+     * @param messageHandler represents the messageHandler used for the message
+     */
     public GetMNLocation(ArrayList<Island> islands, MessageHandler messageHandler) {
         this.islands = islands;
         this.messageHandler = messageHandler;
     }
 
+    /**
+     * Method that handles the message exchange
+     * @return the chosen island
+     * @throws MalformedMessageException launched if the message isn't created in the correct way
+     * @throws TimeHasEndedException launched when the available time for the response has ended
+     * @throws ClientDisconnectedException launched if the client disconnects from the game
+     */
     public Island handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
         for (Island island : this.islands) {
-            messages.add(new Message(ISLAND_ID.getFragment(), island.getId().toString(), topicId));
+            Message message = new Message(ISLAND_ID.getFragment(), island.getId().toString(), topicId);
+            this.messageHandler.write(message);
         }
-        this.messageHandler.write(messages);
-        messages.clear();
-        //TODO: modificare
-        messages.addAll(this.messageHandler.writeOutAndWait(ConnectionTimings.PLAYER_MOVE.getTiming()));
-        int islandId = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(ISLAND_ID.getFragment(), messages));
+        this.messageHandler.write(new Message(STOP.getFragment(), "", topicId));
+        this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
+        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
+            throw new MalformedMessageException();
+        }
+        int islandId = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(ISLAND_ID.getFragment()));
         Island result = null;
         for (Island island : this.islands) {
             if (island.getId().equals(islandId)) {

@@ -1,36 +1,35 @@
 package it.polimi.ingsw.controller.server.virtualView;
 
-import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
+import it.polimi.ingsw.controller.networking.ConnectionTimings;
 import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
-import it.polimi.ingsw.model.Island;
-
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.MN_LOCATION;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
-import static java.lang.Integer.valueOf;
-
-//TODO : classe che gestisce l'aggiornamento della posizione di madre natura
+import it.polimi.ingsw.model.AssistantCard;
+import java.util.ArrayList;
+import static it.polimi.ingsw.controller.networking.MessageFragment.ASSISTANT_CARD;
+import static it.polimi.ingsw.controller.networking.MessageFragment.OK;
 
 /**
- * @author Davide Grazzani
- * @author Luca Muroni
- * Class that implements the message to update the mother nature location
+ * @author Sara Mucci
+ * Class that implements the message to send to a player the assistant card the current player choses
  */
-class UpdateMotherNaturePlace {
-    Island island;
+public class SendChosenAssistantCard {
+    AssistantCard card;
+    Integer token;
     MessageHandler messageHandler;
 
     /**
      * Class constructor
-     * @param island represents the new mother nature location
+     * @param card represents the chosen assistant card
+     * @param token represents the token associated to the current player
      * @param messageHandler represents the messageHandler used for the message
      */
-    public UpdateMotherNaturePlace(Island island, MessageHandler messageHandler){
-        this.island = island;
+    public SendChosenAssistantCard(AssistantCard card, Integer token, MessageHandler messageHandler) {
+        this.card = card;
+        this.token = token;
         this.messageHandler = messageHandler;
     }
 
@@ -43,13 +42,9 @@ class UpdateMotherNaturePlace {
      */
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
-        Integer id = valueOf(island.getId());
-        Message message = new Message(MN_LOCATION.getFragment(), id.toString(), topicId);
+        Message message = new Message(ASSISTANT_CARD.getFragment(), this.card.getName(), topicId);
         this.messageHandler.write(message);
-        this.messageHandler.read(ConnectionTimings.RESPONSE.getTiming());
-        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
-            throw new MalformedMessageException();
-        }
-        this.messageHandler.assertOnEquals(OK.getFragment(), MN_LOCATION.getFragment());
+        this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
+        this.messageHandler.assertOnEquals(OK.getFragment(), ASSISTANT_CARD.getFragment());
     }
 }
