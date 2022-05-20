@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.asset.game;
 
-import it.polimi.ingsw.controller.networking.messageParts.TowerColor;
 import it.polimi.ingsw.model.pawn.Student;
+import it.polimi.ingsw.model.pawn.TowerColor;
 
 import java.util.ArrayList;
 

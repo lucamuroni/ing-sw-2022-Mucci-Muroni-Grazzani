@@ -1,8 +1,8 @@
 package it.polimi.ingsw.view.asset.game;
 
-import it.polimi.ingsw.controller.server.game.AssistantCardDeckFigures;
+import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.model.AssistantCard;
-import it.polimi.ingsw.model.AssistantCardDeck;
+import it.polimi.ingsw.model.pawn.TowerColor;
 
 import java.util.ArrayList;
 
@@ -16,6 +16,7 @@ public class Gamer {
     private AssistantCard currentSelection;
     private AssistantCardDeckFigures figure;
     private DashBoard dashBoard;
+    private TowerColor color;
 
     /**
      * Constructor of the class
@@ -54,6 +55,10 @@ public class Gamer {
         this.currentSelection = card;
     }
 
+    public void updateColor(TowerColor color) {
+        this.color = color;
+    }
+
     public DashBoard getDashBoard() {
         return this.dashBoard;
     }
@@ -76,5 +81,9 @@ public class Gamer {
 
     public AssistantCardDeckFigures getFigure() {
         return figure;
+    }
+
+    public TowerColor getColor() {
+        return color;
     }
 }
