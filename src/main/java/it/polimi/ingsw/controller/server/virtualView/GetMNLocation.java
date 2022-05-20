@@ -7,12 +7,9 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.Island;
-
-import java.util.ArrayList;
-
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.MN_LOCATION;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.STOP;
-
+import java.util.ArrayList;
 
 /**
  * @author Luca Muroni
