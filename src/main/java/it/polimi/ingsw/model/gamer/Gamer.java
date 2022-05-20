@@ -5,19 +5,21 @@ import it.polimi.ingsw.model.Cloud;
 
 import it.polimi.ingsw.model.dashboard.Dashboard;
 import it.polimi.ingsw.model.pawn.Student;
+import it.polimi.ingsw.model.pawn.TowerColor;
+
 import java.util.ArrayList;
 
 /**
  * @author Luca Muroni
+ * @author Davide Grazzani
  * Class that represent a gamer in a non-expert game
  */
 
 public class Gamer{
-    protected final int token;
-    protected final String username;
-    protected boolean activity;
+    final int token;
+    final String username;
     protected AssistantCardDeck deck;
-    //private TowerColor playerColor;
+    private final TowerColor playerColor;
     private Dashboard dashboard;
 
     /**
@@ -25,10 +27,10 @@ public class Gamer{
      * @param token represent the unique number associated with a player
      * @param username represent the name choosen by the player that will be displayed
      */
-    public Gamer(int token, String username/*, Stream input*/) {
+    public Gamer(int token, String username, TowerColor towerColor) {
         this.token = token;
         this.username = username;
-        activity = true;
+        this.playerColor = towerColor;
     }
 
     /**
@@ -84,20 +86,5 @@ public class Gamer{
         return dashboard;
     }
 
-    /**
-     * Method that is called to verify if the player is still connected
-     * @return a boolean: true if player is still connected
-     */
-    public boolean isActive() {
-        return activity;
-    }
-
-    /**
-     * Setter method
-     * @param activity represents the status of the player: if he is connected it is true
-     */
-    public void setActivity(boolean activity) {
-        this.activity = activity;
-    }
 
 }
