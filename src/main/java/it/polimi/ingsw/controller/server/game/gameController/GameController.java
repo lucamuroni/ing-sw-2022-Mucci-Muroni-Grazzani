@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.server.game.gameController;
 
 import it.polimi.ingsw.controller.networking.Player;
+import it.polimi.ingsw.controller.server.game.GameSetup;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.Server;
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
@@ -51,7 +52,12 @@ public class GameController extends Thread{
 
     @Override
     public void run() {
-
+        this.gamePhase = new GameSetup(this,this.game);
+        this.gamePhase.handle();
+        while (this.isOK){
+            this.gamePhase = this.gamePhase.next();
+            this.gamePhase.handle();
+        }
     }
     //TODO : fare una funzione che dai gamers del model si ordina l'array di players
 

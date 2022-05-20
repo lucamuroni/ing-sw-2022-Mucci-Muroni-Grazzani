@@ -40,7 +40,7 @@ public class SendWinner {
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
         for (String string : this.usernames) {
-            Message message = new Message(WINNER.getFragment(), usernames.toString(), topicId);
+            Message message = new Message(WINNER.getFragment(), string, topicId);
             this.messageHandler.write(message);
         }
         this.messageHandler.write(new Message(STOP.getFragment(), "", topicId));

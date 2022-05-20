@@ -50,8 +50,8 @@ public class UpdateDashboards {
         int topicId = this.messageHandler.getNewUniqueTopicID();
         int numStud;
         int prof;
-        Integer result = null;
-        Integer profs = null;
+        Integer result;
+        Integer profs;
         for (Gamer gamer : this.gamers) {
             Integer token = valueOf(gamer.getToken());
             messages.add(new Message(OWNER.getFragment(), token.toString(), topicId));
@@ -112,9 +112,13 @@ public class UpdateDashboards {
             profs = valueOf(prof);
             messages.add(new Message(PAWN_PINK.getFragment(), profs.toString(), topicId));
         }
+        messages.add(new Message(STOP.getFragment(), "", topicId));
         this.messageHandler.write(messages);
         messages.clear();
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
+        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
+            throw new MalformedMessageException();
+        }
         this.messageHandler.assertOnEquals(OK.getFragment(), DASHBOARD.getFragment());
     }
 }

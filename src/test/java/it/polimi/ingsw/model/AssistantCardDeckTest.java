@@ -28,6 +28,7 @@ class AssistantCardDeckTest {
     @Test
     void getPastSelection() {
         deck.setCurrentSelection(deck.getCardList().get(0));
+        deck.setPastSelection();
         deck.setCurrentSelection(deck.getCardList().get(1));
         assertEquals(1, deck.getPastSelection().getTurnValue());
         assertEquals(1, deck.getPastSelection().getMovement());

@@ -19,7 +19,7 @@ public class InfluenceCalculator {
     public InfluenceCalculator(ArrayList<Gamer> gamers,ArrayList<Professor> professors){
         this.gamers = gamers;
         this.professors = professors;
-        this.notIncludedPawnColor = null;
+        this.notIncludedPawnColor = new ArrayList<PawnColor>();
         this.areTowersConsidered = true;
     }
 

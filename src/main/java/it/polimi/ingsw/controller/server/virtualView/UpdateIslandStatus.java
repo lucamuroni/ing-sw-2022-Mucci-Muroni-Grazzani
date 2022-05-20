@@ -44,6 +44,8 @@ public class UpdateIslandStatus {
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
+        Integer val = valueOf(island.getId());
+        messages.add(new Message(ISLAND_ID.getFragment(), val.toString(), topicId));
         Integer token;
         if (this.island.getOwner().isPresent()){
             token = this.island.getOwner().get().getToken();
@@ -77,6 +79,9 @@ public class UpdateIslandStatus {
         this.messageHandler.write(messages);
         messages.clear();
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
+        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
+            throw new MalformedMessageException();
+        }
         this.messageHandler.assertOnEquals(OK.getFragment(), ISLAND.getFragment());
     }
 }
