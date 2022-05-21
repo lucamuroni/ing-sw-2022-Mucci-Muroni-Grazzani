@@ -47,7 +47,7 @@ public class ActionPhase1 implements GamePhase{
     }
 
     /**
-     *This is the main method that handles this phase
+     *This is the main method that handles the ActionPhase1
      */
     @Override
     public void handle() {
@@ -90,7 +90,7 @@ public class ActionPhase1 implements GamePhase{
     }
 
     /**
-     * This method handles the movement of the student choose by the player and is called in handle()
+     * This method handles the movement of the student chosen by the player, and it is called in handle()
      * @param player represents the currentPlayer that is playing
      */
     private void moveStudentToLocation(Player player) {
@@ -115,6 +115,11 @@ public class ActionPhase1 implements GamePhase{
         modelHandler(place,color);
     }
 
+    /**
+     * This method modifies the model moving the student to the correct place
+     * @param place is the location where the student must be moved to
+     * @param color is the color of the student
+     */
     private void modelHandler(int place, PawnColor color){
         Student stud = this.game.getCurrentPlayer().getDashboard().getWaitingRoom().stream().filter(x -> x.getColor().equals(color)).findFirst().get();
         if (place == 0) {
@@ -132,7 +137,7 @@ public class ActionPhase1 implements GamePhase{
     }
 
     /**
-     * Method called by moveStudentToLocation() when the player doesn't reply in time and that chooses a random color
+     * Method called by moveStudentToLocation() when the player doesn't reply in time. It chooses a random color
      * for the student moved
      * @return a random color
      */
@@ -145,7 +150,7 @@ public class ActionPhase1 implements GamePhase{
     /**
      * Method called by moveStudentToLocation() that picks a random place when the player doesn't reply in time
      * for the student moved
-     * @return a random place
+     * @return a random place (it is a number between 0 and 12: 0 = hall, 1-12 = island)
      */
     private int randomPlacePicker() {
         Random random = new Random();
