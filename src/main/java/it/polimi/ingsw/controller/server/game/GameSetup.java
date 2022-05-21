@@ -66,6 +66,7 @@ public class GameSetup implements GamePhase{
                 System.out.println("Error founded in model : shutting down this game");
                 this.controller.shutdown();
             }
+            this.updateTowerColor(player);
             this.updateDashboards(player);
         }
         for(Player player : this.controller.getPlayers()){
@@ -139,6 +140,21 @@ public class GameSetup implements GamePhase{
             }
         }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
             this.controller.handlePlayerError(player);
+        }
+    }
+
+    private void updateTowerColor(Player player) {
+        this.view.setCurrentPlayer(player);
+        try {
+            try {
+                this.view.sendTowerColor(player.getGamer(this.game.getGamers()).getTowerColor());
+            } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e) {
+                this.view.sendTowerColor(player.getGamer(this.game.getGamers()).getTowerColor());
+            }
+        } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
+            this.controller.handlePlayerError(player);
+        } catch (ModelErrorException e) {
+            this.controller.shutdown();
         }
     }
 

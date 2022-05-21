@@ -22,7 +22,7 @@ public class GetChosenCloud {
     /**
      * Class constructor
      * @param clouds represents the available clouds
-     * @param messageHandler represents the messageHandles used for the message
+     * @param messageHandler represents the messageHandler used for the message
      */
     public GetChosenCloud(ArrayList<Cloud> clouds, MessageHandler messageHandler) {
         this.clouds = clouds;
