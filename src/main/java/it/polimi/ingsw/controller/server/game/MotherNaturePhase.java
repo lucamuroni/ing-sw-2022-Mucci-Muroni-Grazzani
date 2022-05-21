@@ -36,7 +36,7 @@ public class MotherNaturePhase implements GamePhase{
     }
 
     /**
-     * this is the main method that handles this phase
+     * This is the main method that handles the MotherNaturePhase
      */
     @Override
     public void handle() {
@@ -62,7 +62,7 @@ public class MotherNaturePhase implements GamePhase{
     }
 
     /**
-     * This method handles the movement of MN and is called in handle()
+     * This method handles the movement of MN, and it is called in handle()
      * @param player represents the currentPlayer that is playing
      */
     private void moveMotherNature(Player player) {
@@ -85,7 +85,7 @@ public class MotherNaturePhase implements GamePhase{
     }
 
     /**
-     * Method called by moveMotherNature() that picks a random island when the player doesn't reply in time
+     * This method is called by moveMotherNature() and it picks a random island when the player doesn't reply in time
      * @param choices is the ArrayList of possible islands to choose from
      * @return a random island
      */
