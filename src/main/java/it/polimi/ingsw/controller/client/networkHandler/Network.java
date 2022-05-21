@@ -52,7 +52,7 @@ public interface Network {
 
     public void getDashboard() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
-    public void getIslandStatus() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+    public void getIslandStatus(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
     public Island getMotherNaturePlace() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 

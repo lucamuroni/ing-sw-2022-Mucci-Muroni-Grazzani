@@ -20,18 +20,18 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
  */
 public class GetIslandStatus {
     MessageHandler messageHandler;
-    Boolean stop = false;
     Game game;
     int numTowers;
     ArrayList<Student> students;
 
     /**
      * Class constructor
-     *
      * @param messageHandler represents the messageHandler used for the message
      */
-    public GetIslandStatus(MessageHandler messageHandler) {
+    public GetIslandStatus(MessageHandler messageHandler, Game game) {
         this.messageHandler = messageHandler;
+        this.game = game;
+        this.students = new ArrayList<>();
     }
 
     /**
