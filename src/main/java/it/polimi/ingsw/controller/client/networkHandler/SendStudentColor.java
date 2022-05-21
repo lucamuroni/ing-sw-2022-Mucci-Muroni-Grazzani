@@ -37,7 +37,7 @@ public class SendStudentColor {
      * @throws TimeHasEndedException launched when the available time for the response has ended
      */
     public void handle() throws MalformedMessageException, FlowErrorException, TimeHasEndedException, ClientDisconnectedException {
-        int topicId = this.messageHandler.getMessagesUniqueTopic();
+        int topicId = this.messageHandler.getNewUniqueTopicID();
         Message message = new Message(STUDENT_COLOR.getFragment(), color.toString(), topicId);
         this.messageHandler.write(message);
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());

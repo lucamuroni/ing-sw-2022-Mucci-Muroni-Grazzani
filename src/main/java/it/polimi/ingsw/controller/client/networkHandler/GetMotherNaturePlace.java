@@ -38,7 +38,6 @@ public class GetMotherNaturePlace {
      * @throws MalformedMessageException launched if the message isn't created the correct way
      */
     public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
-        ArrayList<Message> messages = new ArrayList<Message>();
         this.messageHandler.read(PLAYER_MOVE.getTiming());
         int result = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(MN_LOCATION.getFragment()));
         Island MNIsland = null;
@@ -48,8 +47,8 @@ public class GetMotherNaturePlace {
             }
         }
         int topicId = this.messageHandler.getMessagesUniqueTopic();
-        messages.add(new Message(MN_LOCATION.getFragment(), OK.getFragment(), topicId));
-        this.messageHandler.write(messages);
+        Message message = new Message(MN_LOCATION.getFragment(), OK.getFragment(), topicId);
+        this.messageHandler.write(message);
         this.messageHandler.writeOut();
         game.setMotherNaturePosition(MNIsland);
     }

@@ -36,7 +36,6 @@ public class GetPhase {
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
     public Phase handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
-        ArrayList<Message> messages = new ArrayList<Message>();
         this.messageHandler.read(PLAYER_MOVE.getTiming());
         String result = this.messageHandler.getMessagePayloadFromStream(PHASE.getFragment());
         Phase phase = null;
@@ -46,8 +45,8 @@ public class GetPhase {
             }
         }
         int topicId = this.messageHandler.getMessagesUniqueTopic();
-        messages.add(new Message(PHASE.getFragment(), OK.getFragment(), topicId));
-        this.messageHandler.write(messages);
+        Message message = new Message(PHASE.getFragment(), OK.getFragment(), topicId);
+        this.messageHandler.write(message);
         this.messageHandler.writeOut();
         return phase;
     }

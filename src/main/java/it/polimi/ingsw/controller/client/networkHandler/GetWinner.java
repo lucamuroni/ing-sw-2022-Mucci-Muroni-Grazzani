@@ -39,8 +39,7 @@ public class GetWinner {
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
     public ArrayList<Gamer> handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
-        ArrayList<Message> messages = new ArrayList<Message>();
-        int num = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(NUM.getFragment()));
+        int num = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAYLOAD_SIZE.getFragment()));
         for (int i = 0; i<num; i++) {
             this.messageHandler.read(PLAYER_MOVE.getTiming());
             String string = this.messageHandler.getMessagePayloadFromStream(WINNER.getFragment());
@@ -51,8 +50,8 @@ public class GetWinner {
             }
         }
         int topicId = this.messageHandler.getMessagesUniqueTopic();
-        messages.add(new Message(WINNER.getFragment(), OK.getFragment(), topicId));
-        this.messageHandler.write(messages);
+        Message message = new Message(WINNER.getFragment(), OK.getFragment(), topicId);
+        this.messageHandler.write(message);
         this.messageHandler.writeOut();
         return winners;
     }

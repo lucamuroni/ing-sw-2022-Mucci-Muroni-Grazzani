@@ -36,7 +36,7 @@ public class SendStudentLocation {
      * @throws TimeHasEndedException launched when the available time for the response has ended
      */
     public void handle() throws MalformedMessageException, FlowErrorException, TimeHasEndedException, ClientDisconnectedException {
-        int topicId = this.messageHandler.getMessagesUniqueTopic();
+        int topicId = this.messageHandler.getNewUniqueTopicID();
         Message message = new Message(STUDENT_LOCATION.getFragment(), Integer.toString(location), topicId);
         this.messageHandler.write(message);
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
