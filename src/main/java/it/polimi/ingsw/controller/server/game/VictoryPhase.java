@@ -37,8 +37,7 @@ public class VictoryPhase implements GamePhase{
      * This is the main and only method that handles this phase
      */
     public void handle() {
-        ArrayList<Gamer> winners = new ArrayList<>();
-        winners.addAll(this.game.checkWinner());
+        ArrayList<Gamer> winners = new ArrayList<>(this.game.checkWinner());
         if (!winners.isEmpty()) {
             try {
                 try{
