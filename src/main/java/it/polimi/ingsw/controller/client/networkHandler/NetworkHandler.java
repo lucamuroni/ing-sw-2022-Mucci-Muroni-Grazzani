@@ -127,8 +127,8 @@ public class NetworkHandler implements Network {
     }
 
     @Override
-    public Island getMotherNaturePlace() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        GetMotherNaturePlace func = new GetMotherNaturePlace(messageHandler);
+    public Island getMotherNaturePlace(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        GetMotherNaturePlace func = new GetMotherNaturePlace(messageHandler, game);
         return func.handle();
     }
 

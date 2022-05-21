@@ -19,7 +19,6 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
  */
 public class GetMotherNaturePlace {
     MessageHandler messageHandler;
-    Boolean stop = false;
     Island MNIsland;
     Game game;
 
@@ -27,8 +26,9 @@ public class GetMotherNaturePlace {
      * Class constructor
      * @param messageHandler represents the messageHandler used for the message
      */
-    public GetMotherNaturePlace(MessageHandler messageHandler) {
+    public GetMotherNaturePlace(MessageHandler messageHandler, Game game) {
         this.messageHandler = messageHandler;
+        this.game = game;
     }
 
     /**
