@@ -29,7 +29,6 @@ public class ActionPhase1 implements GamePhase{
     private final int numOfMovements;
     private final View view;
 
-    //TODO :ricodarsi di aggiornare il currentPlayer in gameCOntroller
 
     /**
      * Constructor of the class
@@ -67,7 +66,6 @@ public class ActionPhase1 implements GamePhase{
             }
         }
         try {
-            //this.updateCurrentPlayer();
             for (int cont = 0; cont < this.numOfMovements; cont++) {
                 this.moveStudentToLocation(this.controller.getPlayer(this.game.getCurrentPlayer()));
                 ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
@@ -106,24 +104,24 @@ public class ActionPhase1 implements GamePhase{
             }catch (MalformedMessageException e){
                 color = this.view.getMovedStudentColor();
                 place = this.view.getMovedStudentLocation();
-            }catch (TimeHasEndedException e){
-                color = this.randomColorPicker();
-                place = this.randomPlacePicker();
             }
         }catch (MalformedMessageException | ClientDisconnectedException e){
             this.controller.handlePlayerError(player);
         }catch (TimeHasEndedException e){
             color = this.randomColorPicker();
             place = this.randomPlacePicker();
+            modelHandler(place,color);
         }
-        PawnColor finalColor = color;
-        Student stud = this.game.getCurrentPlayer().getDashboard().getWaitingRoom().stream().filter(x -> x.getColor().equals(finalColor)).findFirst().get();
+        modelHandler(place,color);
+    }
+
+    private void modelHandler(int place, PawnColor color){
+        Student stud = this.game.getCurrentPlayer().getDashboard().getWaitingRoom().stream().filter(x -> x.getColor().equals(color)).findFirst().get();
         if (place == 0) {
             this.game.getCurrentPlayer().getDashboard().moveStudent(stud);
             try {
                 this.game.changeProfessorOwner(stud.getColor());
             }catch (Exception e) {
-                //e.printStackTrace();
                 this.controller.shutdown();
             }
         }
