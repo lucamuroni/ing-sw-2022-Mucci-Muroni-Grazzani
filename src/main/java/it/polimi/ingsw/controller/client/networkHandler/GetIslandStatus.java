@@ -49,7 +49,7 @@ public class GetIslandStatus {
                 island = isl;
             }
         }
-        //this.messageHandler.read(PLAYER_MOVE.getTiming());
+        //Prendo owner dell'isola
         int owner = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(OWNER.getFragment()));
         Gamer gamer = null;
         for (Gamer gm : game.getGamers()) {
@@ -57,9 +57,8 @@ public class GetIslandStatus {
                 gamer = gm;
             }
         }
-        //this.messageHandler.read(PLAYER_MOVE.getTiming());
         numTowers = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(NUM_TOWERS.getFragment()));
-        //this.messageHandler.read(PLAYER_MOVE.getTiming());
+        //Prendo gli Student
         int colorRed = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_RED.getFragment()));
         if (colorRed > 0) {
             for (int i = 0; i < colorRed; i++) {
@@ -67,7 +66,6 @@ public class GetIslandStatus {
                 students.add(redStudent);
             }
         }
-        //this.messageHandler.read(PLAYER_MOVE.getTiming());
         int colorBlue = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_BLUE.getFragment()));
         if (colorBlue > 0) {
             for (int i = 0; i < colorBlue; i++) {
@@ -75,7 +73,6 @@ public class GetIslandStatus {
                 students.add(blueStudent);
             }
         }
-        //this.messageHandler.read(PLAYER_MOVE.getTiming());
         int colorYellow = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_YELLOW.getFragment()));
         if (colorYellow > 0) {
             for (int i = 0; i < colorYellow; i++) {
@@ -83,7 +80,6 @@ public class GetIslandStatus {
                 students.add(yellowStudent);
             }
         }
-        //this.messageHandler.read(PLAYER_MOVE.getTiming());
         int colorGreen = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_GREEN.getFragment()));
         if (colorGreen > 0) {
             for (int i = 0; i < colorGreen; i++) {
@@ -91,7 +87,6 @@ public class GetIslandStatus {
                 students.add(greenStudent);
             }
         }
-        //this.messageHandler.read(PLAYER_MOVE.getTiming());
         int colorPink = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_PINK.getFragment()));
         if (colorPink > 0) {
             for (int i = 0; i < colorPink; i++) {
@@ -103,6 +98,8 @@ public class GetIslandStatus {
         Message message = new Message(ISLAND.getFragment(), OK.getFragment(), topicId);
         this.messageHandler.write(message);
         this.messageHandler.writeOut();
+        assert island != null;
+        assert gamer != null;
         island.updateIsland(students, numTowers, gamer.getColor());
     }
 }

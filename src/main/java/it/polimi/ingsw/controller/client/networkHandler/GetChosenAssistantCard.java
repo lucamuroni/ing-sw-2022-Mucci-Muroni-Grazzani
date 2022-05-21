@@ -46,7 +46,6 @@ public class GetChosenAssistantCard {
                 owner = gamer;
             }
         }
-        //this.messageHandler.read(PLAYER_MOVE.getTiming());
         String name = this.messageHandler.getMessagePayloadFromStream(ASSISTANT_CARD.getFragment());
         for (AssistantCard assistantCard: AssistantCard.values()) {
             if (name.equals(assistantCard.getName())) {
@@ -57,6 +56,7 @@ public class GetChosenAssistantCard {
         Message message = new Message(ASSISTANT_CARD.getFragment(), OK.getFragment(), topicId);
         this.messageHandler.write(message);
         this.messageHandler.writeOut();
+        assert owner != null;
         owner.updateCurrentSelection(assistantCardToGet);
     }
 }

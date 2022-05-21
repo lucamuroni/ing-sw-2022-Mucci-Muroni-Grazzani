@@ -93,6 +93,7 @@ public class GetCloudStatus {
         Message message = new Message(CLOUD.getFragment(), OK.getFragment(), topicId);
         this.messageHandler.write(message);
         this.messageHandler.writeOut();
+        assert cloud != null;
         cloud.update(students);
     }
 }

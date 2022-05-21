@@ -43,6 +43,7 @@ public class GetChosenAssistantCardDeck {
         Message message = new Message(ASSISTANT_CARD_DECK.getFragment(), OK.getFragment(), topicId);
         this.messageHandler.write(message);
         this.messageHandler.writeOut();
+        assert owner != null;
         owner.updateFigure(deck);
     }
 }

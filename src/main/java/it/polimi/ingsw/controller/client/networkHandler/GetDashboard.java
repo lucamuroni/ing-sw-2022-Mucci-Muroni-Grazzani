@@ -51,10 +51,8 @@ public class GetDashboard {
                 gamer = gm;
             }
         }
-        //this.messageHandler.read(PLAYER_MOVE.getTiming());
         numTowers = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(NUM_TOWERS.getFragment()));
         //Prendo studenti WaitingRoom
-        //this.messageHandler.read(PLAYER_MOVE.getTiming());
         int waitingRed = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(WAITING_PAWN_RED.getFragment()));
          if (waitingRed > 0) {
              for (int i = 0; i < waitingRed; i++) {
@@ -62,7 +60,6 @@ public class GetDashboard {
                  studentsWaitingRoom.add(redStudent);
              }
          }
-         //this.messageHandler.read(PLAYER_MOVE.getTiming());
          int waitingBlue = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(WAITING_PAWN_BLUE.getFragment()));
          if (waitingBlue > 0) {
              for (int i = 0; i < waitingBlue; i++) {
@@ -70,7 +67,6 @@ public class GetDashboard {
                  studentsWaitingRoom.add(blueStudent);
              }
          }
-         //this.messageHandler.read(PLAYER_MOVE.getTiming());
          int waitingYellow = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(WAITING_PAWN_YELLOW.getFragment()));
          if (waitingYellow > 0) {
              for (int i = 0; i < waitingYellow; i++) {
@@ -78,7 +74,6 @@ public class GetDashboard {
                  studentsWaitingRoom.add(yellowStudent);
              }
          }
-         //this.messageHandler.read(PLAYER_MOVE.getTiming());
          int waitingGreen = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(WAITING_PAWN_GREEN.getFragment()));
          if (waitingGreen > 0) {
              for (int i = 0; i < waitingGreen; i++) {
@@ -86,7 +81,6 @@ public class GetDashboard {
                  studentsWaitingRoom.add(greenStudent);
              }
          }
-         //this.messageHandler.read(PLAYER_MOVE.getTiming());
          int waitingPink = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(WAITING_PAWN_PINK.getFragment()));
          if (waitingPink > 0) {
              for (int i = 0; i < waitingPink; i++) {
@@ -95,7 +89,6 @@ public class GetDashboard {
              }
          }
          //Prendo studenti Hall
-         //this.messageHandler.read(PLAYER_MOVE.getTiming());
          int hallRed = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(HALL_PAWN_RED.getFragment()));
          if (hallRed > 0) {
              for (int i = 0; i < hallRed; i++) {
@@ -103,7 +96,6 @@ public class GetDashboard {
                  studentsHall.add(redStudent);
              }
          }
-         //this.messageHandler.read(PLAYER_MOVE.getTiming());
          int hallBlue = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(HALL_PAWN_BLUE.getFragment()));
          if (hallBlue > 0) {
              for (int i = 0; i < hallBlue; i++) {
@@ -111,7 +103,6 @@ public class GetDashboard {
                  studentsHall.add(blueStudent);
              }
          }
-         //this.messageHandler.read(PLAYER_MOVE.getTiming());
          int hallYellow = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(HALL_PAWN_YELLOW.getFragment()));
          if (hallYellow > 0) {
              for (int i = 0; i < hallYellow; i++) {
@@ -119,7 +110,6 @@ public class GetDashboard {
                  studentsHall.add(yellowStudent);
              }
          }
-         //this.messageHandler.read(PLAYER_MOVE.getTiming());
          int hallGreen = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(HALL_PAWN_GREEN.getFragment()));
          if (hallGreen > 0) {
              for (int i = 0; i < hallGreen; i++) {
@@ -127,7 +117,6 @@ public class GetDashboard {
                  studentsHall.add(greenStudent);
              }
          }
-         //this.messageHandler.read(PLAYER_MOVE.getTiming());
          int hallPink = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(HALL_PAWN_PINK.getFragment()));
          if (hallPink > 0) {
              for (int i = 0; i < hallPink; i++) {
@@ -136,27 +125,22 @@ public class GetDashboard {
              }
          }
          //Prendo i Professor
-         //this.messageHandler.read(PLAYER_MOVE.getTiming());
          int profRed = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_RED.getFragment()));
          if (profRed == 1) {
              professors.add(PawnColor.RED);
          }
-         //this.messageHandler.read(PLAYER_MOVE.getTiming());
          int profBlue = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_BLUE.getFragment()));
          if (profBlue == 1) {
              professors.add(PawnColor.BLUE);
          }
-         //this.messageHandler.read(PLAYER_MOVE.getTiming());
          int profYellow = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_YELLOW.getFragment()));
          if (profYellow == 1) {
              professors.add(PawnColor.YELLOW);
          }
-         //this.messageHandler.read(PLAYER_MOVE.getTiming());
          int profGreen = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_GREEN.getFragment()));
          if (profGreen == 1) {
              professors.add(PawnColor.GREEN);
          }
-         //this.messageHandler.read(PLAYER_MOVE.getTiming());
          int profPink = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_PINK.getFragment()));
          if (profPink == 1) {
              professors.add(PawnColor.PINK);
@@ -165,6 +149,7 @@ public class GetDashboard {
          Message message = new Message(DASHBOARD.getFragment(), OK.getFragment(), topicId);
          this.messageHandler.write(message);
          this.messageHandler.writeOut();
+        assert gamer != null;
         gamer.getDashBoard().updateDashBoard(numTowers, studentsWaitingRoom, studentsHall, professors);
     }
 }

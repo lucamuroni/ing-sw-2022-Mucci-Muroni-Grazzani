@@ -39,6 +39,7 @@ public class GetWinner {
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
     public ArrayList<Gamer> handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+        this.messageHandler.read(PLAYER_MOVE.getTiming());
         int num = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAYLOAD_SIZE.getFragment()));
         for (int i = 0; i<num; i++) {
             this.messageHandler.read(PLAYER_MOVE.getTiming());

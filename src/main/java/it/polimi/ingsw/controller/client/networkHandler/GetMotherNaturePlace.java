@@ -43,7 +43,7 @@ public class GetMotherNaturePlace {
         Island MNIsland = null;
         for (Island island : game.getIslands()) {
             if (island.getId() == result) {
-                        MNIsland = island;
+                MNIsland = island;
             }
         }
         int topicId = this.messageHandler.getMessagesUniqueTopic();
