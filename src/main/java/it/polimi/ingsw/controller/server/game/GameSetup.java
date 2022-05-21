@@ -159,9 +159,9 @@ public class GameSetup implements GamePhase{
         this.view.setCurrentPlayer(player);
         try{
             try{
-                this.view.sendChosenAssistantCardDeck(figure, currentPlayer.getToken());
+                this.view.sendChosenAssistantCardDeck(figure, currentPlayer.getToken(), currentPlayer);
             }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
-                this.view.sendChosenAssistantCardDeck(figure, currentPlayer.getToken());
+                this.view.sendChosenAssistantCardDeck(figure, currentPlayer.getToken(), currentPlayer);
             }
         }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
             this.controller.handlePlayerError(player);

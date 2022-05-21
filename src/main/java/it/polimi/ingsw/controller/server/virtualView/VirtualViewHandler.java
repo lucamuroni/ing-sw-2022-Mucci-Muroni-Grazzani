@@ -260,8 +260,8 @@ public class VirtualViewHandler implements View {
      * @throws ClientDisconnectedException launched if the client disconnects
      */
     @Override
-    public void sendChosenAssistantCard(AssistantCard card, Integer token) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        SendChosenAssistantCard func = new SendChosenAssistantCard(card, token, messageHandler);
+    public void sendChosenAssistantCard(AssistantCard card, Integer token, Gamer gamer) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        SendChosenAssistantCard func = new SendChosenAssistantCard(card, token, messageHandler, gamer);
         func.handle();
     }
 
@@ -269,14 +269,15 @@ public class VirtualViewHandler implements View {
      * Method that handles the messages to send the assistant card deck chosen by the current player
      * @param deck represents the chosen deck
      * @param token represents the token associated to the current player
+     * @param gamer represents the currentGamer
      * @throws FlowErrorException launched when the client sends an unexpected response
      * @throws MalformedMessageException launched if the message isn't created the correct way
      * @throws TimeHasEndedException launched when the available time for the response ends
      * @throws ClientDisconnectedException launched if the client disconnects
      */
     @Override
-    public void sendChosenAssistantCardDeck(AssistantCardDeckFigures deck, Integer token) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        SendChosenAssistantCardDeck func = new SendChosenAssistantCardDeck(deck, token, messageHandler);
+    public void sendChosenAssistantCardDeck(AssistantCardDeckFigures deck, Integer token, Gamer gamer) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        SendChosenAssistantCardDeck func = new SendChosenAssistantCardDeck(deck, token, messageHandler, gamer);
         func.handle();
     }
 
