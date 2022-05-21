@@ -165,7 +165,7 @@ public class GetDashboard {
          gamer.getDashBoard().updateDashBoard(numTowers, studentsWaitingRoom, studentsHall, professors);
          int topicId = this.messageHandler.getMessagesUniqueTopic();
          messages.add(new Message(DASHBOARD.getFragment(), OK.getFragment(), topicId));
-        this.messageHandler.write(messages);
-        this.messageHandler.writeOut();
+         this.messageHandler.write(messages);
+         this.messageHandler.writeOut();
     }
 }

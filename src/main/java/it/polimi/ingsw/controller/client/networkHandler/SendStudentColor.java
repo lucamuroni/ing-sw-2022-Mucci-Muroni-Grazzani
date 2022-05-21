@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller.client.networkHandler;
 
 import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
+import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
@@ -35,11 +36,14 @@ public class SendStudentColor {
      * @throws FlowErrorException launched when the client sends an unexpected response
      * @throws TimeHasEndedException launched when the available time for the response has ended
      */
-    public void handle() throws MalformedMessageException, FlowErrorException, TimeHasEndedException {
-        ArrayList<Message> messages = new ArrayList<Message>();
+    public void handle() throws MalformedMessageException, FlowErrorException, TimeHasEndedException, ClientDisconnectedException {
         int topicId = this.messageHandler.getMessagesUniqueTopic();
         Message message = new Message(STUDENT_COLOR.getFragment(), color.toString(), topicId);
         this.messageHandler.write(message);
-        this.messageHandler.writeOut();
+        this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
+        if(!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
+            throw  new MalformedMessageException();
+        }
+        this.messageHandler.assertOnEquals(OK.getFragment(), STUDENT_COLOR.getFragment());
     }
 }

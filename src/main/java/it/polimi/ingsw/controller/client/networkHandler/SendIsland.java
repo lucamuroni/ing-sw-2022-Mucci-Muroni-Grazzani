@@ -8,8 +8,8 @@ import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
 import it.polimi.ingsw.view.asset.game.Island;
 import java.util.ArrayList;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.ISLAND_ID;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
+
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
  * @author Sara Mucci
@@ -37,7 +37,7 @@ public class SendIsland {
      */
     public void handle() throws MalformedMessageException, FlowErrorException, TimeHasEndedException {
         int topicId = this.messageHandler.getMessagesUniqueTopic();
-        Message message = new Message(ISLAND_ID.getFragment(), Integer.toString(island.getId()), topicId);
+        Message message = new Message(MN_LOCATION.getFragment(), Integer.toString(island.getId()), topicId);
         this.messageHandler.write(message);
         this.messageHandler.writeOut();
     }
