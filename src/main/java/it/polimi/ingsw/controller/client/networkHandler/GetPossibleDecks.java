@@ -15,7 +15,6 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
  */
 public class GetPossibleDecks {
     MessageHandler messageHandler;
-    Boolean stop = false;
     ArrayList<AssistantCardDeckFigures> decks;
 
     /**
@@ -24,6 +23,7 @@ public class GetPossibleDecks {
      */
     public GetPossibleDecks(MessageHandler messageHandler) {
         this.messageHandler = messageHandler;
+        this.decks = new ArrayList<>();
     }
 
     /**
@@ -34,17 +34,14 @@ public class GetPossibleDecks {
      * @throws MalformedMessageException launched if the message isn't created the correct way
      */
     public ArrayList<AssistantCardDeckFigures> handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
-        while (!stop) {
+        this.messageHandler.read(PLAYER_MOVE.getTiming());
+        int num = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(NUM.getFragment()));
+        for (int i = 0; i<num; i++) {
             this.messageHandler.read(PLAYER_MOVE.getTiming());
             String string = this.messageHandler.getMessagePayloadFromStream(ASSISTANT_CARD_DECK.getFragment());
-            if (string.equals("stop")) {
-                stop = true;
-            }
-            else {
-                for (AssistantCardDeckFigures assistantCardDeck: AssistantCardDeckFigures.values()) {
-                    if (string.equals(assistantCardDeck.name())) {
-                        decks.add(assistantCardDeck);
-                    }
+            for (AssistantCardDeckFigures assistantCardDeck: AssistantCardDeckFigures.values()) {
+                if (string.equals(assistantCardDeck.name())) {
+                    decks.add(assistantCardDeck);
                 }
             }
         }

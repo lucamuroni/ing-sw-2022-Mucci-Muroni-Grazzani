@@ -18,7 +18,6 @@ import it.polimi.ingsw.view.asset.game.Game;
  */
 public class GetPossibleClouds {
     MessageHandler messageHandler;
-    Boolean stop = false;
     ArrayList<Cloud> clouds;
     Game game;
 
