@@ -35,7 +35,7 @@ public class ConquerIslandPhase implements GamePhase{
     }
 
     /**
-     * This is the main method that handles this phase
+     * This is the main method that handles the ConquerIslandPhase
      */
     @Override
     public void handle() {
