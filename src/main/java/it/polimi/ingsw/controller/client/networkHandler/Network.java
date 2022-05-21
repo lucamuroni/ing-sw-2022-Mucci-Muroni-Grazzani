@@ -22,29 +22,17 @@ public interface Network {
 
     public void getConnection();
 
-    public void sendInfo(Player player, Game game) throws MalformedMessageException;
-
     public void getLobbyStatus();
 
     public Phase getPhase() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
 
-    public ArrayList<AssistantCard> getPossibleCards() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
+    public void getPossibleCards(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
 
-    public void sendCard(AssistantCard card) throws FlowErrorException, MalformedMessageException, TimeHasEndedException;
-
-    public void sendColor(PawnColor color) throws FlowErrorException, MalformedMessageException, TimeHasEndedException;
-
-    public void sendLocation(int location) throws FlowErrorException, MalformedMessageException, TimeHasEndedException;
-
-    public ArrayList<Island> getPossibleIslands() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
-
-    public void sendIsland(Island island) throws FlowErrorException, MalformedMessageException, TimeHasEndedException;
+    public ArrayList<Island> getPossibleIslands(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
 
     public Player getNewOwner();
 
     public ArrayList<Cloud> getPossibleClouds(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
-
-    public void sendCloud(Cloud cloud) throws FlowErrorException, MalformedMessageException, TimeHasEndedException;
 
     public ArrayList<Gamer> getWinner() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
 
@@ -54,12 +42,23 @@ public interface Network {
 
     public void getIslandStatus(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
-    public Island getMotherNaturePlace(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+    public void getMotherNaturePlace(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
-    public AssistantCard getChosenAssistantCard() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
-
-    public void sendAssistantCardDeck(AssistantCardDeckFigures assistantCardDeck) throws MalformedMessageException;
+    public void getChosenAssistantCard(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
     public ArrayList<AssistantCardDeckFigures> getPossibleDecks() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
+    public void sendInfo(Player player, Game game) throws MalformedMessageException;
+
+    public void sendCard(AssistantCard card) throws FlowErrorException, MalformedMessageException, TimeHasEndedException;
+
+    public void sendColor(PawnColor color) throws FlowErrorException, MalformedMessageException, TimeHasEndedException;
+
+    public void sendLocation(int location) throws FlowErrorException, MalformedMessageException, TimeHasEndedException;
+
+    public void sendIsland(Island island) throws FlowErrorException, MalformedMessageException, TimeHasEndedException;
+
+    public void sendCloud(Cloud cloud) throws FlowErrorException, MalformedMessageException, TimeHasEndedException;
+
+    public void sendAssistantCardDeck(AssistantCardDeckFigures assistantCardDeck) throws MalformedMessageException;
 }

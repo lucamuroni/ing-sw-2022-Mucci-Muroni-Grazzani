@@ -23,9 +23,7 @@ public class MotherNaturePhase implements GamePhase{
     @Override
     public void handle() {
         try {
-            Island island = this.view.chooseIsland(this.network.getPossibleIslands());
-            this.game.setMotherNaturePosition(island);
-            this.network.sendIsland(island);
+
         } catch () {
 
         }

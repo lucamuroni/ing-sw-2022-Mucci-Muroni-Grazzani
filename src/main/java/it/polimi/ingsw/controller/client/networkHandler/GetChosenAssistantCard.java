@@ -6,10 +6,12 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.AssistantCard;
+import it.polimi.ingsw.view.asset.game.Game;
+import it.polimi.ingsw.view.asset.game.Gamer;
+
 import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.ASSISTANT_CARD;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
  * @author Sara Mucci
@@ -18,24 +20,33 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
 public class GetChosenAssistantCard {
     MessageHandler messageHandler;
     AssistantCard assistantCardToGet;
+    Game game;
 
     /**
      * Class constructor
      * @param messageHandler represents the messageHandler used for the message
      */
-    public GetChosenAssistantCard(MessageHandler messageHandler) {
+    public GetChosenAssistantCard(MessageHandler messageHandler, Game game) {
         this.messageHandler = messageHandler;
+        this.game = game;
     }
 
     /**
      * Method that handles the messages to get the chosen assistant card
-     * @return the chosen assistant card
      * @throws TimeHasEndedException launched when the available time for the response has ended
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
-    public AssistantCard handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+    public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
         ArrayList<Message> messages = new ArrayList<Message>();
+        this.messageHandler.read(PLAYER_MOVE.getTiming());
+        int id = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(OWNER.getFragment()));
+        Gamer owner = null;
+        for (Gamer gamer : game.getGamers()) {
+            if (gamer.getId() == id) {
+                owner = gamer;
+            }
+        }
         this.messageHandler.read(PLAYER_MOVE.getTiming());
         String name = this.messageHandler.getMessagePayloadFromStream(ASSISTANT_CARD.getFragment());
         for (AssistantCard assistantCard: AssistantCard.values()) {
@@ -47,6 +58,6 @@ public class GetChosenAssistantCard {
         messages.add(new Message(ASSISTANT_CARD.getFragment(), OK.getFragment(), topicId));
         this.messageHandler.write(messages);
         this.messageHandler.writeOut();
-        return assistantCardToGet;
+        owner.updateCurrentSelection(assistantCardToGet);
     }
 }

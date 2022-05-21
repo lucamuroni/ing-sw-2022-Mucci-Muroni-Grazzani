@@ -5,6 +5,8 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.AssistantCard;
+import it.polimi.ingsw.view.asset.game.Game;
+
 import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.ASSISTANT_CARD;
@@ -16,13 +18,15 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
 public class GetPossibleCards {
     MessageHandler messageHandler;
     ArrayList<AssistantCard> cards;
+    private Game game;
 
     /**
      * Class constructor
      * @param messageHandler represents the messageHandler used for the message
      */
-    public GetPossibleCards(MessageHandler messageHandler) {
+    public GetPossibleCards(MessageHandler messageHandler, Game game) {
         this.messageHandler = messageHandler;
+        this.game = game;
         this.cards = new ArrayList<>();
     }
 
@@ -33,7 +37,7 @@ public class GetPossibleCards {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created the correct way
      */
-    public ArrayList<AssistantCard> handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+    public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
         this.messageHandler.read(PLAYER_MOVE.getTiming());
         int num = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAYLOAD_SIZE.getFragment()));
         for (int i = 0; i<num; i++) {
@@ -45,6 +49,6 @@ public class GetPossibleCards {
                 }
             }
         }
-        return cards;
+        game.getSelf().updateCards(cards);
     }
 }

@@ -23,10 +23,7 @@ public class PlanningPhase implements GamePhase {
     @Override
     public void handle() {
         try {
-            this.game.getSelf().updateCards(this.network.getPossibleCards());
-            AssistantCard choice = this.view.selectCard(this.game.getSelf().getCards());
-            this.game.getSelf().updateCurrentSelection(choice);
-            this.network.sendCard(choice);
+
         } catch ()
     }
 

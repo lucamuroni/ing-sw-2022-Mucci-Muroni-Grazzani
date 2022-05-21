@@ -24,15 +24,10 @@ public class NetworkHandler implements Network {
     public Player getCurrentPlayer() {
 
     }
+
     @Override
     public void getConnection() {
         GetConnection func = new GetConnection();
-        func.handle();
-    }
-
-    @Override
-    public void sendInfo(Player player, Game game) throws MalformedMessageException {
-        SendInfo func = new SendInfo(player, game, messageHandler);
         func.handle();
     }
 
@@ -49,39 +44,15 @@ public class NetworkHandler implements Network {
     }
 
     @Override
-    public ArrayList<AssistantCard> getPossibleCards() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
-        GetPossibleCards func = new GetPossibleCards(messageHandler);
+    public void getPossibleCards(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+        GetPossibleCards func = new GetPossibleCards(messageHandler, game);
+        func.handle();
+    }
+
+    @Override
+    public ArrayList<Island> getPossibleIslands(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+        GetPossibleIslands func = new GetPossibleIslands(messageHandler, game);
         return func.handle();
-    }
-
-    @Override
-    public void sendCard(AssistantCard card) throws FlowErrorException, MalformedMessageException, TimeHasEndedException {
-        SendCard func = new SendCard(card, messageHandler);
-        func.handle();
-    }
-
-    @Override
-    public void sendColor(PawnColor color) throws FlowErrorException, MalformedMessageException, TimeHasEndedException {
-        SendStudentColor func = new SendStudentColor(color, messageHandler);
-        func.handle();
-    }
-
-    @Override
-    public void sendLocation(int location) throws FlowErrorException, MalformedMessageException, TimeHasEndedException {
-        SendStudentLocation func = new SendStudentLocation(location, messageHandler);
-        func.handle();
-    }
-
-    @Override
-    public ArrayList<Island> getPossibleIslands() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
-        GetPossibleIslands func = new GetPossibleIslands(messageHandler);
-        return func.handle();
-    }
-
-    @Override
-    public void sendIsland(Island island) throws FlowErrorException, MalformedMessageException, TimeHasEndedException {
-        SendIsland func = new SendIsland(island, messageHandler);
-        func.handle();
     }
 
     @Override
@@ -94,12 +65,6 @@ public class NetworkHandler implements Network {
     public ArrayList<Cloud> getPossibleClouds(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
         GetPossibleClouds func = new GetPossibleClouds(messageHandler, game);
         return func.handle();
-    }
-
-    @Override
-    public void sendCloud(Cloud cloud) throws FlowErrorException, MalformedMessageException, TimeHasEndedException {
-        SendCloud func = new SendCloud(cloud, messageHandler);
-        func.handle();
     }
 
     @Override
@@ -127,20 +92,14 @@ public class NetworkHandler implements Network {
     }
 
     @Override
-    public Island getMotherNaturePlace(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+    public void getMotherNaturePlace(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetMotherNaturePlace func = new GetMotherNaturePlace(messageHandler, game);
-        return func.handle();
+        func.handle();
     }
 
     @Override
-    public AssistantCard getChosenAssistantCard() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        GetChosenAssistantCard func = new GetChosenAssistantCard(messageHandler);
-        return func.handle();
-    }
-
-    @Override
-    public void sendAssistantCardDeck(AssistantCardDeckFigures assistantCardDeck) throws MalformedMessageException {
-        SendCardDeck func = new SendCardDeck(assistantCardDeck, messageHandler);
+    public void getChosenAssistantCard(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        GetChosenAssistantCard func = new GetChosenAssistantCard(messageHandler, game);
         func.handle();
     }
 
@@ -148,5 +107,47 @@ public class NetworkHandler implements Network {
     public ArrayList<AssistantCardDeckFigures> getPossibleDecks() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetPossibleDecks func = new GetPossibleDecks(messageHandler);
         return func.handle();
+    }
+
+    @Override
+    public void sendInfo(Player player, Game game) throws MalformedMessageException {
+        SendInfo func = new SendInfo(player, game, messageHandler);
+        func.handle();
+    }
+
+    @Override
+    public void sendCard(AssistantCard card) throws FlowErrorException, MalformedMessageException, TimeHasEndedException {
+        SendCard func = new SendCard(card, messageHandler);
+        func.handle();
+    }
+
+    @Override
+    public void sendColor(PawnColor color) throws FlowErrorException, MalformedMessageException, TimeHasEndedException {
+        SendStudentColor func = new SendStudentColor(color, messageHandler);
+        func.handle();
+    }
+
+    @Override
+    public void sendLocation(int location) throws FlowErrorException, MalformedMessageException, TimeHasEndedException {
+        SendStudentLocation func = new SendStudentLocation(location, messageHandler);
+        func.handle();
+    }
+
+    @Override
+    public void sendIsland(Island island) throws FlowErrorException, MalformedMessageException, TimeHasEndedException {
+        SendIsland func = new SendIsland(island, messageHandler);
+        func.handle();
+    }
+
+    @Override
+    public void sendCloud(Cloud cloud) throws FlowErrorException, MalformedMessageException, TimeHasEndedException {
+        SendCloud func = new SendCloud(cloud, messageHandler);
+        func.handle();
+    }
+
+    @Override
+    public void sendAssistantCardDeck(AssistantCardDeckFigures assistantCardDeck) throws MalformedMessageException {
+        SendCardDeck func = new SendCardDeck(assistantCardDeck, messageHandler);
+        func.handle();
     }
 }

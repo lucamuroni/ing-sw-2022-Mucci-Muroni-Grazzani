@@ -33,12 +33,11 @@ public class GetMotherNaturePlace {
 
     /**
      * Method that handles the messages to get the mother nature position
-     * @return the mother nature location
      * @throws TimeHasEndedException launched when the available time for the response has ended
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created the correct way
      */
-    public Island handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+    public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
         ArrayList<Message> messages = new ArrayList<Message>();
         this.messageHandler.read(PLAYER_MOVE.getTiming());
         int result = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(MN_LOCATION.getFragment()));
@@ -52,7 +51,7 @@ public class GetMotherNaturePlace {
         messages.add(new Message(MN_LOCATION.getFragment(), OK.getFragment(), topicId));
         this.messageHandler.write(messages);
         this.messageHandler.writeOut();
-        return MNIsland;
+        game.setMotherNaturePosition(MNIsland);
     }
 }
 
