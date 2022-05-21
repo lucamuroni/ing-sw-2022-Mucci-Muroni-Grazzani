@@ -34,19 +34,25 @@ public class Menù {
         int menùIndex = 0;
         int counter;
         String header = "# ";
-        for(counter =0; counter<this.context.length();counter++){
-            if (counter == (menùLength-(header.length()+2+padding.length()))){
-                System.out.print("   #");
-                System.out.print("\n");
+        if(!this.context.equals("")){
+            for(counter =0; counter<this.context.length();counter++){
+                if (counter == (menùLength-(header.length()+2+padding.length()))){
+                    System.out.print("   #");
+                    System.out.print("\n");
+                }
+                System.out.print(this.context.toCharArray()[counter]);
             }
-            System.out.print(this.context.toCharArray()[counter]);
+            counter = counter%this.menùLength;
+            while (counter<this.menùLength-(header.length()+2+padding.length())){
+                System.out.print(" ");
+            }
+            System.out.print("   #");
+            System.out.print("\n");
+            for(int i = 0;i<this.menùLength;i++){
+                System.out.print("#");
+            }
+            System.out.print("\n");
         }
-        counter = counter%this.menùLength;
-        while (counter<this.menùLength-(header.length()+2+padding.length())){
-            System.out.print(" ");
-        }
-        System.out.print("   #");
-        System.out.print("\n");
         for(String option : options){
             menùIndex ++;
             header = "# "+menùIndex+")"+padding;
@@ -79,5 +85,15 @@ public class Menù {
 
     public void setContext(String s){
         this.context = s;
+    }
+
+    public void clear(){
+        this.options.clear();
+    }
+
+    public void addOptions(ArrayList<String> options){
+        for(String option : options){
+            this.addOption(option);
+        }
     }
 }

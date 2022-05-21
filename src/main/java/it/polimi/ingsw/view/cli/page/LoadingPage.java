@@ -49,6 +49,11 @@ public class LoadingPage implements Page {
         this.isKilled = true;
     }
 
+    @Override
+    public boolean readyToProcede() {
+
+    }
+
     private synchronized boolean isAlive(){
         return  !this.isKilled;
     }
