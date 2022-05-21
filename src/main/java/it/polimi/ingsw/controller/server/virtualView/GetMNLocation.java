@@ -39,7 +39,7 @@ public class GetMNLocation {
     public Island handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
         for (Island island : this.islands) {
-            Message message = new Message(MN_LOCATION.getFragment(), island.getId().toString(), topicId);
+            Message message = new Message(ISLAND_ID.getFragment(), island.getId().toString(), topicId);
             this.messageHandler.write(message);
         }
         this.messageHandler.write(new Message(STOP.getFragment(), "", topicId));

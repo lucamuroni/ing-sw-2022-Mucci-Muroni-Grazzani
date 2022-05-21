@@ -13,6 +13,7 @@ import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.TowerColor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GameController extends Thread{
     private final Server server;
@@ -30,9 +31,7 @@ public class GameController extends Thread{
         this.view = new VirtualViewHandler();
         this.isOK = true;
         this.cardDesks = new ArrayList<AssistantCardDeckFigures>();
-        for(AssistantCardDeckFigures figure : AssistantCardDeckFigures.values()){
-            this.cardDesks.add(figure);
-        }
+        this.cardDesks.addAll(Arrays.asList(AssistantCardDeckFigures.values()));
     }
 
     private ArrayList<Gamer> createGamers(ArrayList<Player> players){

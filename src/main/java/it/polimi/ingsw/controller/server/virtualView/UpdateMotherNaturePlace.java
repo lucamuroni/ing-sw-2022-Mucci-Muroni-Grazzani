@@ -43,7 +43,7 @@ class UpdateMotherNaturePlace {
      */
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
-        Integer id = valueOf(island.getId());
+        Integer id = island.getId();
         Message message = new Message(MN_LOCATION.getFragment(), id.toString(), topicId);
         this.messageHandler.write(message);
         this.messageHandler.read(ConnectionTimings.RESPONSE.getTiming());
