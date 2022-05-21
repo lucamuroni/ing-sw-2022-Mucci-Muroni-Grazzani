@@ -19,7 +19,6 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
  */
 public class GetDashboard {
     MessageHandler messageHandler;
-    Boolean stop = false;
     Game game;
     ArrayList<Student> studentsWaitingRoom;
     ArrayList<Student> studentsHall;

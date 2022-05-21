@@ -20,7 +20,6 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
 public class GetCloudStatus {
     MessageHandler messageHandler;
     ArrayList<Student> students;
-    Boolean stop = false;
     Game game;
 
     /**
