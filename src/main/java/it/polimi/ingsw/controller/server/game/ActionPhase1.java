@@ -137,7 +137,7 @@ public class ActionPhase1 implements GamePhase{
     }
 
     /**
-     * Method called by moveStudentToLocation() when the player doesn't reply in time. It chooses a random color
+     * This method is called by moveStudentToLocation() when the player doesn't reply in time. It chooses a random color
      * for the student moved
      * @return a random color
      */
@@ -148,7 +148,7 @@ public class ActionPhase1 implements GamePhase{
     }
 
     /**
-     * Method called by moveStudentToLocation() that picks a random place when the player doesn't reply in time
+     * This method is called by moveStudentToLocation() when the player doesn't reply in time. It chooses a random place
      * for the student moved
      * @return a random place (it is a number between 0 and 12: 0 = hall, 1-12 = island)
      */
