@@ -24,6 +24,7 @@ public class GetPossibleCards {
      */
     public GetPossibleCards(MessageHandler messageHandler) {
         this.messageHandler = messageHandler;
+        this.cards = new ArrayList<>();
     }
 
     /**
@@ -34,17 +35,14 @@ public class GetPossibleCards {
      * @throws MalformedMessageException launched if the message isn't created the correct way
      */
     public ArrayList<AssistantCard> handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
-        while (!stop) {
+        this.messageHandler.read(PLAYER_MOVE.getTiming());
+        int num = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(NUM.getFragment()));
+        for (int i = 0; i<num; i++) {
             this.messageHandler.read(PLAYER_MOVE.getTiming());
             String string = this.messageHandler.getMessagePayloadFromStream(ASSISTANT_CARD.getFragment());
-            if (string.equals("stop")) {
-                stop = true;
-            }
-            else {
-                for (AssistantCard assistantCard: AssistantCard.values()) {
-                    if (string.equals(assistantCard.getName())) {
-                        cards.add(assistantCard);
-                    }
+            for (AssistantCard assistantCard: AssistantCard.values()) {
+                if (string.equals(assistantCard.getName())) {
+                    cards.add(assistantCard);
                 }
             }
         }

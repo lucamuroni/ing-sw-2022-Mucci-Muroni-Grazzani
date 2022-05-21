@@ -43,6 +43,7 @@ public class GetPossibleClouds {
         this.messageHandler.read(PLAYER_MOVE.getTiming());
         int num = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(NUM.getFragment()));
         for (int i = 0; i<num; i++) {
+            this.messageHandler.read(PLAYER_MOVE.getTiming());
             int result = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(CLOUD_ID.getFragment()));
             for (Cloud cloud: game.getClouds()) {
                 if (result == cloud.getId()) {
