@@ -51,9 +51,8 @@ class GetChosenAssistantCard {
         if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
             throw new MalformedMessageException();
         }
-        String cardName;
         AssistantCard result = null;
-        cardName = this.messageHandler.getMessagePayloadFromStream(ASSISTANT_CARD.getFragment());
+        String cardName = this.messageHandler.getMessagePayloadFromStream(ASSISTANT_CARD.getFragment());
         for (AssistantCard card : this.cards) {
             if (card.getName().equals(cardName))
                 result = card;

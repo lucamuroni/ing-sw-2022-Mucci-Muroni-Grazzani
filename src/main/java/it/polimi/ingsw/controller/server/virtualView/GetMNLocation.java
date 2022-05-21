@@ -38,21 +38,24 @@ public class GetMNLocation {
      */
     public Island handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
+        int size = this.islands.size();
+        Message message = new Message(PAYLOAD_SIZE.getFragment(), String.valueOf(size),topicId);
+        this.messageHandler.write(message);
+        this.messageHandler.writeOut();
         for (Island island : this.islands) {
-            Message message = new Message(ISLAND_ID.getFragment(), island.getId().toString(), topicId);
+            message = new Message(ISLAND_ID.getFragment(), island.getId().toString(), topicId);
             this.messageHandler.write(message);
+            this.messageHandler.writeOut();
         }
-        this.messageHandler.write(new Message(STOP.getFragment(), "", topicId));
         this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
         if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
             throw new MalformedMessageException();
         }
-        int islandId = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(MN_LOCATION.getFragment()));
         Island result = null;
+        int islandId = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(MN_LOCATION.getFragment()));
         for (Island island : this.islands) {
-            if (island.getId().equals(islandId)) {
+            if (island.getId() == islandId)
                 result = island;
-            }
         }
         return result;
     }
