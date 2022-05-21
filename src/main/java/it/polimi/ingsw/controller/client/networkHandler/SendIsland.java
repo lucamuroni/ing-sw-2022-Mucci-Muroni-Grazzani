@@ -22,7 +22,7 @@ public class SendIsland {
     /**
      * Class constructor
      * @param island represents the new mother nature's location
-     * @param messageHandler represents the messageHandler used for the messageù
+     * @param messageHandler represents the messageHandler used for the message
      */
     public SendIsland(Island island, MessageHandler messageHandler) {
         this.island = island;
