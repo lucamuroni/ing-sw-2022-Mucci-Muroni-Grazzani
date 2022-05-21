@@ -41,21 +41,21 @@ public class UpdateCloudsStatus {
      */
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         ArrayList<Message> messages = new ArrayList<Message>();
-        Integer numStud;
+        int numStud;
         int topicId = this.messageHandler.getNewUniqueTopicID();
-        Integer token = valueOf(cloud.getID());
+        Integer token = cloud.getID();
         messages.add(new Message(CLOUD_ID.getFragment(), token.toString(), topicId));
         ArrayList<Student> students = cloud.getStudents();
         numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.RED)).count());
-        messages.add(new Message(PAWN_RED.getFragment(), numStud.toString(), topicId));
+        messages.add(new Message(PAWN_RED.getFragment(), Integer.toString(numStud), topicId));
         numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.BLUE)).count());
-        messages.add(new Message(PAWN_BLUE.getFragment(), numStud.toString(), topicId));
+        messages.add(new Message(PAWN_BLUE.getFragment(), Integer.toString(numStud), topicId));
         numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.YELLOW)).count());
-        messages.add(new Message(PAWN_YELLOW.getFragment(), numStud.toString(), topicId));
+        messages.add(new Message(PAWN_YELLOW.getFragment(), Integer.toString(numStud), topicId));
         numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.GREEN)).count());
-        messages.add(new Message(PAWN_GREEN.getFragment(), numStud.toString(), topicId));
+        messages.add(new Message(PAWN_GREEN.getFragment(), Integer.toString(numStud), topicId));
         numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.PINK)).count());
-        messages.add(new Message(PAWN_PINK.getFragment(), numStud.toString(), topicId));
+        messages.add(new Message(PAWN_PINK.getFragment(), Integer.toString(numStud), topicId));
         this.messageHandler.write(messages);
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
         if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
