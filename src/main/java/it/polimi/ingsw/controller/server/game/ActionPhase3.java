@@ -37,7 +37,7 @@ public class ActionPhase3 implements GamePhase{
     }
 
     /**
-     * This is the main method that handles this phase
+     * This is the main method that handles the ActionPhase3
      */
     @Override
     public void handle() {
@@ -81,9 +81,8 @@ public class ActionPhase3 implements GamePhase{
     /**
      * This method handles the pull of the cloud chosen by the player, and it is called in handle()
      * @param player represents the currentPlayer
-     * @throws ModelErrorException
      */
-    private void choseCloud(Player player) throws ModelErrorException {
+    private void choseCloud(Player player) {
         this.view.setCurrentPlayer(player);
         Gamer currentPlayer = this.game.getCurrentPlayer();
         Cloud chosenCloud = null;
@@ -109,7 +108,7 @@ public class ActionPhase3 implements GamePhase{
     }
 
     /**
-     * Method called by chooseCloud() that picks a random cloud when the player doesn't reply in time
+     * This method is called by chooseCloud() and it picks a random cloud when the player doesn't reply in time
      * @param clouds is the ArrayList of possible choices
      * @return a random cloud
      */
