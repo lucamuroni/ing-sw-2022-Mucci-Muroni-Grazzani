@@ -12,6 +12,7 @@ import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 //TODO :creare classe ExpertGameController
 public class GameController extends Thread{
@@ -30,9 +31,7 @@ public class GameController extends Thread{
         this.view = new VirtualViewHandler();
         this.isOK = true;
         this.cardDesks = new ArrayList<AssistantCardDeckFigures>();
-        for(AssistantCardDeckFigures figure : AssistantCardDeckFigures.values()){
-            this.cardDesks.add(figure);
-        }
+        this.cardDesks.addAll(Arrays.asList(AssistantCardDeckFigures.values()));
     }
 
     private ArrayList<Gamer> createGamers(ArrayList<Player> players){
