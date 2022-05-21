@@ -57,7 +57,7 @@ public class UpdateCloudsStatus {
         numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.PINK)).count());
         messages.add(new Message(PAWN_PINK.getFragment(), numStud.toString(), topicId));
         this.messageHandler.write(messages);
-        this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
+        this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
         if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
             throw new MalformedMessageException();
         }

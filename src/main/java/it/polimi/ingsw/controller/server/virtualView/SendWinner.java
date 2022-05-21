@@ -39,12 +39,16 @@ public class SendWinner {
      */
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
+        int size = this.usernames.size();
+        Message message = new Message(PAYLOAD_SIZE.getFragment(), String.valueOf(size),topicId);
+        this.messageHandler.write(message);
+        this.messageHandler.writeOut();
         for (String string : this.usernames) {
-            Message message = new Message(WINNER.getFragment(), string, topicId);
+            message = new Message(WINNER.getFragment(), string, topicId);
             this.messageHandler.write(message);
+            this.messageHandler.writeOut();
         }
-        this.messageHandler.write(new Message(STOP.getFragment(), "", topicId));
-        this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
+        this.messageHandler.read(ConnectionTimings.RESPONSE.getTiming());
         if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
             throw new MalformedMessageException();
         }

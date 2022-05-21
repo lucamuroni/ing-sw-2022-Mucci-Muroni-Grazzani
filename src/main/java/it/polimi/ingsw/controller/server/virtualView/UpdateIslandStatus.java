@@ -71,7 +71,6 @@ public class UpdateIslandStatus {
         numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.PINK)).count());
         messages.add(new Message(PAWN_PINK.getFragment(), numStud.toString(), topicId));
         this.messageHandler.write(messages);
-        messages.clear();
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
         if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
             throw new MalformedMessageException();
