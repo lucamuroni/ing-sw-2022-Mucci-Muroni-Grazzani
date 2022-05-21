@@ -85,6 +85,7 @@ public class ActionPhase3 implements GamePhase{
      */
     private void choseCloud(Player player) throws ModelErrorException {
         this.view.setCurrentPlayer(player);
+        Gamer currentPlayer = this.game.getCurrentPlayer();
         Cloud chosenCloud = null;
         ArrayList<Cloud> possibleChoices = new ArrayList<>();
         for (Cloud cloud : this.game.getClouds()) {
@@ -97,15 +98,13 @@ public class ActionPhase3 implements GamePhase{
                 chosenCloud = this.view.getChosenCloud(possibleChoices);
             } catch (MalformedMessageException e) {
                 chosenCloud = this.view.getChosenCloud(possibleChoices);
-            } catch (TimeHasEndedException e) {
-                chosenCloud = this.getRandomCloud(possibleChoices);
             }
         } catch (MalformedMessageException | ClientDisconnectedException e) {
             this.controller.handlePlayerError(player);
         } catch (TimeHasEndedException e) {
             chosenCloud = this.getRandomCloud(possibleChoices);
+            currentPlayer.getDashboard().addStudentsWaitingRoom(chosenCloud.pullStudent());
         }
-        Gamer currentPlayer = this.game.getCurrentPlayer();
         currentPlayer.getDashboard().addStudentsWaitingRoom(chosenCloud.pullStudent());
     }
 
