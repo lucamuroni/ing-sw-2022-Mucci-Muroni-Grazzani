@@ -19,6 +19,7 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
  */
 public class GetCloudStatus {
     MessageHandler messageHandler;
+    ArrayList<Student> students;
     Boolean stop = false;
     Game game;
 
@@ -26,8 +27,10 @@ public class GetCloudStatus {
      * Class constructor
      * @param messageHandler represents the messageHandler used for the message
      */
-    public GetCloudStatus(MessageHandler messageHandler) {
+    public GetCloudStatus(MessageHandler messageHandler, Game game) {
         this.messageHandler = messageHandler;
+        this.game = game;
+        this.students = new ArrayList<>();
     }
 
     /**
@@ -49,69 +52,45 @@ public class GetCloudStatus {
         }
         this.messageHandler.read(PLAYER_MOVE.getTiming());
         int colorRed = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_RED.getFragment()));
-        if (colorRed == 0) {
-            cloud.update();
-        }
-        else if(colorRed > 0) {
-            ArrayList<Student> redStudents = new ArrayList<>();
+        if(colorRed > 0) {
             for (int i = 0; i < colorRed; i++) {
                 Student redStudent = new Student(PawnColor.RED);
-                redStudents.add(redStudent);
+                students.add(redStudent);
             }
-            cloud.update(redStudents);
         }
         this.messageHandler.read(PLAYER_MOVE.getTiming());
         int colorBlue = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_BLUE.getFragment()));
-        if (colorBlue == 0) {
-            cloud.update();
-        }
-        else if (colorBlue > 0) {
-            ArrayList<Student> blueStudents = new ArrayList<>();
+        if (colorBlue > 0) {
             for(int i = 0; i < colorBlue; i++) {
                 Student blueStudent = new Student(PawnColor.BLUE);
-                blueStudents.add(blueStudent);
+                students.add(blueStudent);
             }
-            cloud.update(blueStudents);
         }
         this.messageHandler.read(PLAYER_MOVE.getTiming());
         int colorYellow = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_YELLOW.getFragment()));
-        if (colorYellow == 0) {
-            cloud.update();
-        }
-        else if(colorYellow > 0) {
-            ArrayList<Student> yellowStudents = new ArrayList<>();
+        if(colorYellow > 0) {
             for(int i = 0; i < colorYellow; i++) {
                 Student blueStudent = new Student(PawnColor.YELLOW);
-                yellowStudents.add(blueStudent);
+                students.add(blueStudent);
             }
-            cloud.update(yellowStudents);
         }
         this.messageHandler.read(PLAYER_MOVE.getTiming());
         int colorGreen = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_GREEN.getFragment()));
-        if (colorGreen == 0) {
-            cloud.update();
-        }
-        else if(colorGreen > 0) {
-            ArrayList<Student> greenStudents = new ArrayList<>();
+        if(colorGreen > 0) {
             for(int i = 0; i < colorGreen; i++) {
                 Student greenStudent = new Student(PawnColor.GREEN);
-                greenStudents.add(greenStudent);
+                students.add(greenStudent);
             }
-            cloud.update(greenStudents);
         }
         this.messageHandler.read(PLAYER_MOVE.getTiming());
         int colorPink = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_PINK.getFragment()));
-        if (colorPink == 0) {
-            cloud.update();
-        }
-        else if(colorPink > 0) {
-            ArrayList<Student> pinkStudents = new ArrayList<Student>();
+        if(colorPink > 0) {
             for(int i = 0; i < colorPink; i++) {
                 Student pinkStudent = new Student(PawnColor.PINK);
-                pinkStudents.add(pinkStudent);
+                students.add(pinkStudent);
             }
-            cloud.update(pinkStudents);
         }
+        cloud.update(students);
         int topicId = this.messageHandler.getMessagesUniqueTopic();
         messages.add(new Message(CLOUD.getFragment(), OK.getFragment(), topicId));
         this.messageHandler.write(messages);

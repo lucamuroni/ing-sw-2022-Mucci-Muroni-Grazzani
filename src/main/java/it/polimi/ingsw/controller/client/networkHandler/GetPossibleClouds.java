@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import it.polimi.ingsw.view.asset.game.Cloud;
 import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CLOUD;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CLOUD_ID;
+
 import it.polimi.ingsw.view.asset.game.Game;
 
 /**
@@ -24,8 +26,10 @@ public class GetPossibleClouds {
      * Class constructor
      * @param messageHandler represents the messageHandler used for the message
      */
-    public GetPossibleClouds(MessageHandler messageHandler) {
+    public GetPossibleClouds(MessageHandler messageHandler, Game game) {
         this.messageHandler = messageHandler;
+        this.game = game;
+        this.clouds = new ArrayList<>();
     }
 
     /**
@@ -36,21 +40,16 @@ public class GetPossibleClouds {
      * @throws MalformedMessageException launched if the message isn't created the correct way
      */
     public ArrayList<Cloud> handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
-        while (!stop) {
-            this.messageHandler.read(PLAYER_MOVE.getTiming());
-            String string = this.messageHandler.getMessagePayloadFromStream(CLOUD.getFragment());
-            if (string.equals("stop")) {
-                stop = true;
-            }
-            else {
-                int result = Integer.parseInt(string);
-                for (Cloud cloud: game.getClouds()) {
-                    if (result == cloud.getId()) {
+        this.messageHandler.read(PLAYER_MOVE.getTiming());
+        int result = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(CLOUD_ID.getFragment()));
+        //TODO: il metodo non può ricevere più di una nuvola alla volta dato che il server non può inviare più messaggi con lo stesso header
+            for (Cloud cloud: game.getClouds()) {
+                if (result == cloud.getId()) {
                         clouds.add(cloud);
                     }
                 }
-            }
-        }
+
+
         return clouds;
     }
 }

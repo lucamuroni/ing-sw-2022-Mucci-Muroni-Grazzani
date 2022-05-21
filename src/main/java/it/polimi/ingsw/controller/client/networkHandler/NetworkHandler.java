@@ -1,14 +1,14 @@
 package it.polimi.ingsw.controller.client.networkHandler;
 
+import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.controller.networking.MessageHandler;
+import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
-import it.polimi.ingsw.controller.server.game.AssistantCardDeckFigures;
 import it.polimi.ingsw.model.AssistantCard;
-import it.polimi.ingsw.model.AssistantCardDeck;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.view.asset.game.*;
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class NetworkHandler implements Network {
     }
 
     @Override
-    public String getPhase() throws TimeHasEndedException, ClientDisconnectedException {
+    public Phase getPhase() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
         GetPhase func = new GetPhase(messageHandler);
         return func.handle();
     }
@@ -91,8 +91,8 @@ public class NetworkHandler implements Network {
     }
 
     @Override
-    public ArrayList<Cloud> getPossibleClouds() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
-        GetPossibleClouds func = new GetPossibleClouds(messageHandler);
+    public ArrayList<Cloud> getPossibleClouds(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+        GetPossibleClouds func = new GetPossibleClouds(messageHandler, game);
         return func.handle();
     }
 
@@ -103,14 +103,14 @@ public class NetworkHandler implements Network {
     }
 
     @Override
-    public ArrayList<Player> getWinner(){
+    public ArrayList<Gamer> getWinner() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException{
         GetWinner func = new GetWinner(messageHandler);
         return func.handle();
     }
 
     @Override
-    public void getCloudStatus() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        GetCloudStatus func = new GetCloudStatus(messageHandler);
+    public void getCloudStatus(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        GetCloudStatus func = new GetCloudStatus(messageHandler, game);
         func.handle();
     }
 

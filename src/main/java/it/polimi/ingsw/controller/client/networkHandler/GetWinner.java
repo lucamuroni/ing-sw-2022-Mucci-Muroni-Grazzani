@@ -11,6 +11,7 @@ import it.polimi.ingsw.view.asset.game.Gamer;
 import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.WINNER;
 
 /**
  * @author Sara Mucci

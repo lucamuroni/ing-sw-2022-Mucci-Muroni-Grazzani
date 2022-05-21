@@ -1,11 +1,12 @@
 package it.polimi.ingsw.controller.client.networkHandler;
 
+import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
-import it.polimi.ingsw.controller.server.game.AssistantCardDeckFigures;
 import java.util.ArrayList;
+
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.ASSISTANT_CARD_DECK;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
 
 /**

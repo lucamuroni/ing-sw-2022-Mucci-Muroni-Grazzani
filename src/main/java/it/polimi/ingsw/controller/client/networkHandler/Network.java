@@ -1,15 +1,13 @@
 package it.polimi.ingsw.controller.client.networkHandler;
 
-import it.polimi.ingsw.controller.client.game.GamePhase;
+import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
-import it.polimi.ingsw.controller.server.game.AssistantCardDeckFigures;
 import it.polimi.ingsw.model.AssistantCard;
-import it.polimi.ingsw.model.AssistantCardDeck;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.view.asset.game.*;
 
@@ -28,7 +26,7 @@ public interface Network {
 
     public void getLobbyStatus();
 
-    public Phase getPhase() throws TimeHasEndedException, ClientDisconnectedException;
+    public Phase getPhase() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
 
     public ArrayList<AssistantCard> getPossibleCards() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
 
@@ -44,13 +42,13 @@ public interface Network {
 
     public Player getNewOwner();
 
-    public ArrayList<Cloud> getPossibleClouds() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
+    public ArrayList<Cloud> getPossibleClouds(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
 
     public void sendCloud(Cloud cloud) throws FlowErrorException, MalformedMessageException, TimeHasEndedException;
 
-    public ArrayList<Player> getWinner();
+    public ArrayList<Gamer> getWinner() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
 
-    public void getCloudStatus() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+    public void getCloudStatus(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
     public void getDashboard() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 

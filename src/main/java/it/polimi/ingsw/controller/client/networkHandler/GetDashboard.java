@@ -45,10 +45,8 @@ public class GetDashboard {
      */
     public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
         ArrayList<Message> messages = new ArrayList<Message>();
-
         this.messageHandler.read(PLAYER_MOVE.getTiming());
-        String string = this.messageHandler.getMessagePayloadFromStream(OWNER.getFragment());
-        int result = Integer.parseInt(string);
+        int result = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(OWNER.getFragment()));
         Gamer gamer = null;
         for (Gamer gm : game.getGamers()) {
             if (gm.getId() == result) {
