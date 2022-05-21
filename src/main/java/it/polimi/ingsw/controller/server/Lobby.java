@@ -40,6 +40,7 @@ public class Lobby {
     // TODO : fare partire i controller
     public void startGame(Server server){
         Thread t = new Thread(()->{
+            System.out.println("A new game is about to start");
             if(this.type==GameType.NORMAL){
                 GameController gameController = new GameController(server,this.players);
             }else{

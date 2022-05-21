@@ -42,6 +42,7 @@ class ClientReception extends Thread{
             System.out.println("Could not close Server Socket");
             e.printStackTrace();
         }
+        System.out.println("Connection closed");
     }
 
     private void playerHandShake(Player player){
