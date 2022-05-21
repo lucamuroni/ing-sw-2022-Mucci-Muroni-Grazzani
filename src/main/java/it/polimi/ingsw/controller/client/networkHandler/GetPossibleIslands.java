@@ -16,7 +16,6 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
  */
 public class GetPossibleIslands {
     MessageHandler messageHandler;
-    Boolean stop = false;
     ArrayList<Island> islands;
     Game game;
 
@@ -24,8 +23,10 @@ public class GetPossibleIslands {
      * Class constructor
      * @param messageHandler represents the messageHandler used for the message
      */
-    public GetPossibleIslands(MessageHandler messageHandler) {
+    public GetPossibleIslands(MessageHandler messageHandler, Game game) {
         this.messageHandler = messageHandler;
+        this.game = game;
+        this.islands = new ArrayList<>();
     }
 
     /**
@@ -36,18 +37,14 @@ public class GetPossibleIslands {
      * @throws MalformedMessageException launched if the message isn't created the correct way
      */
     public ArrayList<Island> handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
-        while (!stop) {
+        this.messageHandler.read(PLAYER_MOVE.getTiming());
+        int num = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAYLOAD_SIZE.getFragment()));
+        for (int i = 0; i<num; i++) {
             this.messageHandler.read(PLAYER_MOVE.getTiming());
-            String string = this.messageHandler.getMessagePayloadFromStream(ISLAND_ID.getFragment());
-            if (string.equals("stop")) {
-                stop = true;
-            }
-            else {
-                int result = Integer.parseInt(string);
-                for (Island island: game.getIslands()) {
-                    if (result == island.getId()) {
-                        islands.add(island);
-                    }
+            int result = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(ISLAND_ID.getFragment()));
+            for (Island island: game.getIslands()) {
+                if (result == island.getId()) {
+                    islands.add(island);
                 }
             }
         }

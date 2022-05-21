@@ -93,5 +93,6 @@ public class GetCloudStatus {
         int topicId = this.messageHandler.getMessagesUniqueTopic();
         messages.add(new Message(CLOUD.getFragment(), OK.getFragment(), topicId));
         this.messageHandler.write(messages);
+        this.messageHandler.writeOut();
     }
 }

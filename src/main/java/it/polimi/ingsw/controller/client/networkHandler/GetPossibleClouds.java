@@ -40,7 +40,7 @@ public class GetPossibleClouds {
      */
     public ArrayList<Cloud> handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
         this.messageHandler.read(PLAYER_MOVE.getTiming());
-        int num = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(NUM.getFragment()));
+        int num = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAYLOAD_SIZE.getFragment()));
         for (int i = 0; i<num; i++) {
             this.messageHandler.read(PLAYER_MOVE.getTiming());
             int result = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(CLOUD_ID.getFragment()));
@@ -51,6 +51,5 @@ public class GetPossibleClouds {
             }
         }
         return clouds;
-        //TODO: il metodo non può ricevere più di una nuvola alla volta dato che il server non può inviare più messaggi con lo stesso header
     }
 }

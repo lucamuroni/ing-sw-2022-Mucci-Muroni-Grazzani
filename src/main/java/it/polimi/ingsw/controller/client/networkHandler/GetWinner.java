@@ -19,7 +19,6 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
  */
 public class GetWinner {
     MessageHandler messageHandler;
-    Boolean stop = false;
     Game game;
     ArrayList<Gamer> winners;
 
@@ -29,6 +28,7 @@ public class GetWinner {
      */
     public GetWinner(MessageHandler messageHandler)  {
         this.messageHandler = messageHandler;
+        this.winners = new ArrayList<>();
     }
 
     /**
@@ -40,23 +40,20 @@ public class GetWinner {
      */
     public ArrayList<Gamer> handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
         ArrayList<Message> messages = new ArrayList<Message>();
-        while (!stop) {
+        int num = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(NUM.getFragment()));
+        for (int i = 0; i<num; i++) {
             this.messageHandler.read(PLAYER_MOVE.getTiming());
             String string = this.messageHandler.getMessagePayloadFromStream(WINNER.getFragment());
-            if (string.equals("stop")) {
-                stop = true;
-            }
-            else {
-                for (Gamer gamer : game.getGamers()) {
-                    if (string.equals(gamer.getUsername())) {
-                        winners.add(gamer);
-                    }
+            for (Gamer gamer : game.getGamers()) {
+                if (string.equals(gamer.getUsername())) {
+                    winners.add(gamer);
                 }
             }
         }
         int topicId = this.messageHandler.getMessagesUniqueTopic();
-        messages.add(new Message(OK.getFragment(), "", topicId));
+        messages.add(new Message(WINNER.getFragment(), OK.getFragment(), topicId));
         this.messageHandler.write(messages);
+        this.messageHandler.writeOut();
         return winners;
     }
 }

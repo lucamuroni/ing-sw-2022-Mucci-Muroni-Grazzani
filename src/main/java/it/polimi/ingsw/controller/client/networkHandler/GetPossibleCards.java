@@ -15,7 +15,6 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
  */
 public class GetPossibleCards {
     MessageHandler messageHandler;
-    Boolean stop = false;
     ArrayList<AssistantCard> cards;
 
     /**
@@ -36,7 +35,7 @@ public class GetPossibleCards {
      */
     public ArrayList<AssistantCard> handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
         this.messageHandler.read(PLAYER_MOVE.getTiming());
-        int num = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(NUM.getFragment()));
+        int num = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAYLOAD_SIZE.getFragment()));
         for (int i = 0; i<num; i++) {
             this.messageHandler.read(PLAYER_MOVE.getTiming());
             String string = this.messageHandler.getMessagePayloadFromStream(ASSISTANT_CARD.getFragment());

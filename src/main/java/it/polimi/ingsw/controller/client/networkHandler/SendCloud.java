@@ -36,9 +36,9 @@ public class SendCloud {
      * @throws TimeHasEndedException launched when the available time for the response has ended
      */
     public void handle() throws MalformedMessageException, FlowErrorException, TimeHasEndedException {
-        ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getMessagesUniqueTopic();
-        messages.add(new Message(CLOUD.getFragment(), Integer.toString(cloud.getId()), topicId));
-        this.messageHandler.write(messages);
+        Message message = new Message(CLOUD.getFragment(), Integer.toString(cloud.getId()), topicId);
+        this.messageHandler.write(message);
+        this.messageHandler.writeOut();
     }
 }

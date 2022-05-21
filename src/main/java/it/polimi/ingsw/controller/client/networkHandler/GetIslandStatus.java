@@ -104,5 +104,6 @@ public class GetIslandStatus {
         int topicId = this.messageHandler.getMessagesUniqueTopic();
         messages.add(new Message(ISLAND.getFragment(), OK.getFragment(), topicId));
         this.messageHandler.write(messages);
+        this.messageHandler.writeOut();
     }
 }

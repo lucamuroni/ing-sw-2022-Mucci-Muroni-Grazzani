@@ -36,9 +36,9 @@ public class SendIsland {
      * @throws TimeHasEndedException launched when the available time for the response has ended
      */
     public void handle() throws MalformedMessageException, FlowErrorException, TimeHasEndedException {
-        ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getMessagesUniqueTopic();
-        messages.add(new Message(ISLAND_ID.getFragment(), Integer.toString(island.getId()), topicId));
-        this.messageHandler.write(messages);
+        Message message = new Message(ISLAND_ID.getFragment(), Integer.toString(island.getId()), topicId);
+        this.messageHandler.write(message);
+        this.messageHandler.writeOut();
     }
 }

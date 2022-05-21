@@ -48,6 +48,7 @@ public class GetPhase {
         int topicId = this.messageHandler.getMessagesUniqueTopic();
         messages.add(new Message(PHASE.getFragment(), OK.getFragment(), topicId));
         this.messageHandler.write(messages);
+        this.messageHandler.writeOut();
         return phase;
     }
 }

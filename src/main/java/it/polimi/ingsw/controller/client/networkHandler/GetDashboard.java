@@ -166,5 +166,6 @@ public class GetDashboard {
          int topicId = this.messageHandler.getMessagesUniqueTopic();
          messages.add(new Message(DASHBOARD.getFragment(), OK.getFragment(), topicId));
         this.messageHandler.write(messages);
+        this.messageHandler.writeOut();
     }
 }

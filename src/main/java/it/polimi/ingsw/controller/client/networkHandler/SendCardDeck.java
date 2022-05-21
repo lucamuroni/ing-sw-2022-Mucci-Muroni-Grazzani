@@ -28,9 +28,9 @@ public class SendCardDeck {
     }
 
     public void handle() throws MalformedMessageException {
-        ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getMessagesUniqueTopic();
-        messages.add(new Message(ASSISTANT_CARD_DECK.getFragment(), assistantCardDeck.name(), topicId));
-        this.messageHandler.write(messages);
+        Message message = new Message(ASSISTANT_CARD_DECK.getFragment(), assistantCardDeck.name(), topicId);
+        this.messageHandler.write(message);
+        this.messageHandler.writeOut();
     }
 }

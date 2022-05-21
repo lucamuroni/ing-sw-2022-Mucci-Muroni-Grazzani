@@ -35,6 +35,7 @@ public class SendInfo {
         messages.add(new Message(PLAYER.getFragment(), this.player, topicId));
         messages.add(new Message(GAME.getFragment(), this.game, topicId));
         this.messageHandler.write(messages);
+        this.messageHandler.writeOut();
     }
 }
 //TODO: da ricontrollare

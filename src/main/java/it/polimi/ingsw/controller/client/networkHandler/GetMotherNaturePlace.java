@@ -51,6 +51,7 @@ public class GetMotherNaturePlace {
         int topicId = this.messageHandler.getMessagesUniqueTopic();
         messages.add(new Message(MN_LOCATION.getFragment(), OK.getFragment(), topicId));
         this.messageHandler.write(messages);
+        this.messageHandler.writeOut();
         return MNIsland;
     }
 }
