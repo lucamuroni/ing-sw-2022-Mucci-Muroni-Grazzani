@@ -39,13 +39,13 @@ class GetChosenAssistantCard {
     public AssistantCard handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
         int size = this.cards.size();
+        Message message = new Message(PAYLOAD_SIZE.getFragment(), String.valueOf(size),topicId);
+        this.messageHandler.write(message);
+        this.messageHandler.writeOut();
         for (AssistantCard card : this.cards){
-            Message msg = new Message(PAYLOAD_SIZE.getFragment(), String.valueOf(size),topicId);
-            Message message = new Message(ASSISTANT_CARD.getFragment(), card.getName(), topicId);
-            this.messageHandler.write(msg);
+            message = new Message(ASSISTANT_CARD.getFragment(), card.getName(), topicId);
             this.messageHandler.write(message);
             this.messageHandler.writeOut();
-            size --;
         }
         this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
         if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
