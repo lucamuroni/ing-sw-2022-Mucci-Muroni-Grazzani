@@ -120,33 +120,34 @@ public class PlanningPhase implements GamePhase{
                 result = this.view.getChosenAssistantCard(cardsOfPlayer);
             }catch (MalformedMessageException e){
                 result = this.view.getChosenAssistantCard(cardsOfPlayer);
-            }catch (TimeHasEndedException e){
-                result = this.getRandomAssistantCard(cardsOfPlayer);
             }
         }catch (MalformedMessageException | ClientDisconnectedException e){
             this.controller.handlePlayerError(player);
         }catch (TimeHasEndedException e){
             result = this.getRandomAssistantCard(cardsOfPlayer);
         }
-        ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
-        players.remove(player);
-        for (int i = 0; i<players.size(); i++) {
-            this.view.setCurrentPlayer(players.get(i));
-            try {
-                try {
-                    this.view.sendChosenAssistantCard(result, player.getToken());
-                } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e) {
-                    this.view.sendChosenAssistantCard(result, player.getToken());
-                }
-            } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
-                this.controller.handlePlayerError(player);
-            }
-        }
+        this.sendInfo(player, result);
         currentPlayer.getDeck().setPastSelection();
         currentPlayer.getDeck().setCurrentSelection(result);
         return result;
     }
 
+    private void sendInfo(Player currentPlayer, AssistantCard chosenCard) {
+        ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
+        players.remove(currentPlayer);
+        for (int i = 0; i<players.size(); i++) {
+            this.view.setCurrentPlayer(players.get(i));
+            try {
+                try {
+                    this.view.sendChosenAssistantCard(chosenCard, currentPlayer.getToken());
+                } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e) {
+                    this.view.sendChosenAssistantCard(chosenCard, currentPlayer.getToken());
+                }
+            } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
+                this.controller.handlePlayerError(players.get(i));
+            }
+        }
+    }
     /**
      * Method called by getChoseAssistantCard() that picks a random AssistantCard when the player doesn't reply in time
      * @param cards is the ArrayList of possible choices
