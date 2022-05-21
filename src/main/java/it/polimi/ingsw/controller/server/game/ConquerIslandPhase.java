@@ -39,7 +39,7 @@ public class ConquerIslandPhase implements GamePhase{
      */
     @Override
     public void handle() {
-        this.game.checkIslandOwner(this.game.getMotherNature().getPlace());
+        this.game.checkIslandOwner();
         ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
         for (Player pl : players) {
             this.view.setCurrentPlayer(pl);

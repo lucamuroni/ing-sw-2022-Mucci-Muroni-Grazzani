@@ -74,13 +74,12 @@ public class MotherNaturePhase implements GamePhase{
                 place = this.view.getMNLocation(possibleChoices);
             } catch (MalformedMessageException e) {
                 place = this.view.getMNLocation(possibleChoices);
-            } catch (TimeHasEndedException e) {
-                place = this.getRandomIsland(possibleChoices);
             }
         } catch (MalformedMessageException | ClientDisconnectedException e) {
             this.controller.handlePlayerError(player);
         } catch (TimeHasEndedException e) {
             place = this.getRandomIsland(possibleChoices);
+            this.game.moveMotherNature(place);
         }
         this.game.moveMotherNature(place);
     }
