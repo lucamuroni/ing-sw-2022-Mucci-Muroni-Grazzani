@@ -8,8 +8,8 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.AssistantCard;
 import java.util.ArrayList;
-import static it.polimi.ingsw.controller.networking.MessageFragment.ASSISTANT_CARD;
-import static it.polimi.ingsw.controller.networking.MessageFragment.STOP;
+
+import static it.polimi.ingsw.controller.networking.MessageFragment.*;
 
 /**
  * @author Luca Muroni
@@ -38,11 +38,15 @@ class GetChosenAssistantCard {
      */
     public AssistantCard handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
+        int size = this.cards.size();
         for (AssistantCard card : this.cards){
+            Message msg = new Message(PAYLOAD_SIZE.getFragment(), String.valueOf(size),topicId);
             Message message = new Message(ASSISTANT_CARD.getFragment(), card.getName(), topicId);
+            this.messageHandler.write(msg);
             this.messageHandler.write(message);
+            this.messageHandler.writeOut();
+            size --;
         }
-        this.messageHandler.write(new Message(STOP.getFragment(), "", topicId));
         this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
         if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
             throw new MalformedMessageException();

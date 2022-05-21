@@ -46,7 +46,8 @@ public enum MessageFragment {
     WAITING_PAWN_YELLOW("yellow"),
     WAITING_PAWN_GREEN("green"),
     WAITING_PAWN_PINK("pink"),
-    WINNER("winner");
+    WINNER("winner"),
+    PAYLOAD_SIZE("payload dimension");
 
     private String fragment;
 
