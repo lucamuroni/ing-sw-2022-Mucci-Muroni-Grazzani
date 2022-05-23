@@ -54,10 +54,10 @@ public class GameSetup implements GamePhase{
     public void handle(){
         for(Player player : this.controller.getPlayers()){
             this.updateMotherNaturePlace(player);
+            this.updateIslandStatus(player);
         }
         this.initIslands(this.game);
         for(Player player : this.controller.getPlayers()){
-            this.updateIslandStatus(player);
             try {
                 TowerColor color = this.randomColorPicker();
                 player.getGamer(this.game.getGamers()).setTowerColor(color);
