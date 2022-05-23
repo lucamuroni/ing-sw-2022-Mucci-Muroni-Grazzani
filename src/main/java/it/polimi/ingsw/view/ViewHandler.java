@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.AssistantCard;
+import it.polimi.ingsw.view.asset.game.Cloud;
 import it.polimi.ingsw.view.asset.game.Island;
 import it.polimi.ingsw.model.pawn.Student;
 
@@ -10,6 +11,7 @@ public interface ViewHandler {
     AssistantCard selectCard(ArrayList<AssistantCard> cards);
     Student chooseStudentToMove();
     int choosePlace();
-    Island chooseIsland(ArrayList<it.polimi.ingsw.model.Island> islands);
+    Island chooseIsland(ArrayList<Island> islands);
+    Cloud chooseCloud(ArrayList<Cloud> clouds);
 
 }

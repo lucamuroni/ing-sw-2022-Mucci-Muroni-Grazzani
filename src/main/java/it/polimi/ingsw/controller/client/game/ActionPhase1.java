@@ -7,10 +7,6 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
-import it.polimi.ingsw.view.asset.exception.AssetErrorException;
-import it.polimi.ingsw.view.asset.game.DashBoard;
-import it.polimi.ingsw.view.asset.game.Gamer;
-import it.polimi.ingsw.view.asset.game.Island;
 import it.polimi.ingsw.model.pawn.Student;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Game;
@@ -53,17 +49,16 @@ public class ActionPhase1 implements GamePhase{
             } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e) {
                 this.controller.handleError();
             }
-            for (Gamer gamer : this.game.getGamers()) {
+            try {
                 try {
-                    try {
-                        this.network.getDashboard();
-                    } catch (MalformedMessageException e) {
-                        this.network.getDashboard();
-                    }
-                } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
-                    this.controller.handleError();
+                    this.network.getDashboard();
+                } catch (MalformedMessageException e) {
+                    this.network.getDashboard();
                 }
+            } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+                this.controller.handleError();
             }
+
 
         }
     }
