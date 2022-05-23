@@ -66,6 +66,8 @@ public class GameSetup implements GamePhase{
                 System.out.println("Error founded in model : shutting down this game");
                 this.controller.shutdown();
             }
+        }
+        for (Player player : this.controller.getPlayers()) {
             this.updateTowerColor(player);
             this.updateDashboards(player);
         }
