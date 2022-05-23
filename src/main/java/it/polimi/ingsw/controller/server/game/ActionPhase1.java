@@ -69,14 +69,13 @@ public class ActionPhase1 implements GamePhase{
             for (int cont = 0; cont < this.numOfMovements; cont++) {
                 this.moveStudentToLocation(this.controller.getPlayer(this.game.getCurrentPlayer()));
                 ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
-                players.remove(this.controller.getPlayer(this.game.getCurrentPlayer()));
                 for (Player pl : players) {
                     this.view.setCurrentPlayer(pl);
                     try {
                         try {
-                            this.view.updateDashboards(this.game.getGamers(), this.game);
+                            this.view.updateDashboards(this.game.getCurrentPlayer(), this.game);
                         } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
-                            this.view.updateDashboards(this.game.getGamers(), this.game);
+                            this.view.updateDashboards(this.game.getCurrentPlayer(), this.game);
                         }
                     } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
                         this.controller.handlePlayerError(pl);
