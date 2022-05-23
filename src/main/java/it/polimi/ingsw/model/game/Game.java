@@ -275,7 +275,7 @@ public class Game {
     public void setTurnNumber() {
         this.turnNumber++;
     }
-    //TODO : finire la funzione checkWinner
+    
     public ArrayList<Gamer> checkWinner() {
         ArrayList<Gamer> winners = new ArrayList<Gamer>();
         for(Gamer gamer : this.gamers){
@@ -284,7 +284,29 @@ public class Game {
                 return winners;
             }
         }
-        
+        for(Gamer gamer1 : this.gamers){
+            boolean victorious = true;
+            for(Gamer gamer2 : this.gamers){
+                if(!gamer1.equals(gamer2) && gamer1.getDashboard().getNumTowers()>=gamer2.getDashboard().getNumTowers()){
+                    victorious = false;
+                }
+                if(victorious){
+                    winners.add(gamer1);
+                    return winners;
+                }
+            }
+        }
+        for(Gamer gamer1 : this.gamers){
+            boolean victorious = true;
+            for(Gamer gamer2 : this.gamers){
+                if(!gamer1.equals(gamer2) && this.getProfessorsByGamer(gamer1).size()<this.getProfessorsByGamer(gamer2).size()){
+                    victorious = false;
+                }
+                if(victorious){
+                    winners.add(gamer1);
+                }
+            }
+        }
         return winners;
     }
 
