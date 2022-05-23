@@ -15,7 +15,7 @@ import it.polimi.ingsw.model.gamer.Gamer;
 import java.util.ArrayList;
 
 /**
- * This class represents the winning phase, which is a phase that checks if there is a winner or a tie
+ * This class represents the winning phase, and the GameController goes into this phase only if a winningCondition has been checked
  */
 public class VictoryPhase implements GamePhase{
     private final Game game;
@@ -34,11 +34,10 @@ public class VictoryPhase implements GamePhase{
     }
 
     /**
-     * This is the main and only method that handles this phase
+     * This is the main and only method that handles the VictoryPhase
      */
     public void handle() {
-        ArrayList<Gamer> winners = new ArrayList<>();
-        winners.addAll(this.game.checkWinner());
+        ArrayList<Gamer> winners = new ArrayList<>(this.game.checkWinner());
         if (!winners.isEmpty()) {
             try {
                 try{

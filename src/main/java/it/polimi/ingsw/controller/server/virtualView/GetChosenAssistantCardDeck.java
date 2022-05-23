@@ -8,7 +8,6 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.ASSISTANT_CARD_DECK;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.STOP;
 import java.util.ArrayList;
 
 /**
@@ -38,18 +37,21 @@ public class GetChosenAssistantCardDeck {
      */
     public AssistantCardDeckFigures handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
+        int size = this.decks.size();
+        Message message = new Message(PAYLOAD_SIZE.getFragment(), String.valueOf(size),topicId);
+        this.messageHandler.write(message);
+        this.messageHandler.writeOut();
         for (AssistantCardDeckFigures assistantCardDeckFigures: this.decks) {
-            Message message = new Message(ASSISTANT_CARD_DECK.getFragment(), assistantCardDeckFigures.name(), topicId);
+            message = new Message(ASSISTANT_CARD_DECK.getFragment(), assistantCardDeckFigures.name(), topicId);
             this.messageHandler.write(message);
+            this.messageHandler.writeOut();
         }
-        this.messageHandler.write(new Message(STOP.getFragment(), "", topicId));
         this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
         if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
-            throw  new MalformedMessageException();
+            throw new MalformedMessageException();
         }
-        String deckName;
         AssistantCardDeckFigures result = null;
-        deckName = this.messageHandler.getMessagePayloadFromStream(ASSISTANT_CARD_DECK.getFragment());
+        String deckName = this.messageHandler.getMessagePayloadFromStream(ASSISTANT_CARD_DECK.getFragment());
         for (AssistantCardDeckFigures assistantCardDeckFigures: this.decks) {
             if (assistantCardDeckFigures.name().equals(deckName))
                 result = assistantCardDeckFigures;

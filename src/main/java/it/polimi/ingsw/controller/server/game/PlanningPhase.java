@@ -41,7 +41,7 @@ public class PlanningPhase implements GamePhase{
     }
 
     /**
-     * This main method that handles this phase
+     * This main method that handles the PlanningPhase
      */
     public void handle (){
         try {
@@ -68,7 +68,7 @@ public class PlanningPhase implements GamePhase{
         for(Player player : this.controller.getPlayers()){
             try {
                 this.game.setCurrentPlayer(player.getGamer(this.game.getGamers()));
-                AssistantCard card = this.getChoseAssistantCard(player,alreadyPlayedCards);
+                AssistantCard card = this.getChoseAssistantCard(player, alreadyPlayedCards);
                 alreadyPlayedCards.add(card);
             } catch (ModelErrorException e) {
                 this.controller.shutdown();
@@ -82,7 +82,7 @@ public class PlanningPhase implements GamePhase{
     }
 
     /**
-     * This method is called in handle() to update the dashboards of all the players when the clouds are filled
+     * This method is called in handle() to update the views of all the players when the clouds are filled
      * @param player represents the player whose view will be adjourned
      */
     private void updateCloudsStatus(Player player){
@@ -99,13 +99,12 @@ public class PlanningPhase implements GamePhase{
     }
 
     /**
-     * This method, called by handle(), manages the AssistantCards choose by the players
+     * This method is called by handle() and it asks a player which AssistantCard he wants to play
      * @param player represents the current player
      * @param alreadyPlayedCards are all the cards played till this moment
      * @return the card chosen by the player
-     * @throws ModelErrorException
      */
-    private AssistantCard getChoseAssistantCard(Player player, ArrayList<AssistantCard> alreadyPlayedCards) throws ModelErrorException {
+    private AssistantCard getChoseAssistantCard(Player player, ArrayList<AssistantCard> alreadyPlayedCards){
         this.view.setCurrentPlayer(player);
         Gamer currentPlayer = this.game.getCurrentPlayer();
         AssistantCard result = null;
@@ -120,37 +119,44 @@ public class PlanningPhase implements GamePhase{
                 result = this.view.getChosenAssistantCard(cardsOfPlayer);
             }catch (MalformedMessageException e){
                 result = this.view.getChosenAssistantCard(cardsOfPlayer);
-            }catch (TimeHasEndedException e){
-                result = this.getRandomAssistantCard(cardsOfPlayer);
             }
         }catch (MalformedMessageException | ClientDisconnectedException e){
             this.controller.handlePlayerError(player);
         }catch (TimeHasEndedException e){
             result = this.getRandomAssistantCard(cardsOfPlayer);
         }
-        ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
-        players.remove(player);
-        for (int i = 0; i<players.size(); i++) {
-            this.view.setCurrentPlayer(players.get(i));
-            try {
-                try {
-                    this.view.sendChosenAssistantCard(result, player.getToken());
-                } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e) {
-                    this.view.sendChosenAssistantCard(result, player.getToken());
-                }
-            } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
-                this.controller.handlePlayerError(player);
-            }
-        }
+        this.sendInfo(player, result);
         currentPlayer.getDeck().setPastSelection();
         currentPlayer.getDeck().setCurrentSelection(result);
         return result;
     }
 
     /**
-     * Method called by getChoseAssistantCard() that picks a random AssistantCard when the player doesn't reply in time
+     * This method sends to all the other players the AssistantCard chosen by the currentPlayer
+     * @param currentPlayer is the player playing now
+     * @param chosenCard is the card chosen by the currentPlayer
+     */
+    private void sendInfo(Player currentPlayer, AssistantCard chosenCard) {
+        ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
+        players.remove(currentPlayer);
+        for (int i = 0; i<players.size(); i++) {
+            this.view.setCurrentPlayer(players.get(i));
+            try {
+                try {
+                    this.view.sendChosenAssistantCard(chosenCard, currentPlayer.getToken());
+                } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e) {
+                    this.view.sendChosenAssistantCard(chosenCard, currentPlayer.getToken());
+                }
+            } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
+                this.controller.handlePlayerError(players.get(i));
+            }
+        }
+    }
+
+    /**
+     * This method is called by getChoseAssistantCard() and it picks a random AssistantCard when the player doesn't reply in time
      * @param cards is the ArrayList of possible choices
-     * @return the random AssistantCard chosen
+     * @return a random AssistantCard
      */
     private AssistantCard getRandomAssistantCard(ArrayList<AssistantCard> cards){
         Random random = new Random();

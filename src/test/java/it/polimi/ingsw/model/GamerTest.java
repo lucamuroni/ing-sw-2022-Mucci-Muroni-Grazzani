@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.dashboard.Dashboard;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
+import it.polimi.ingsw.model.pawn.TowerColor;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GamerTest {
-    Gamer gamer = new Gamer(1, "luca");
+    Gamer gamer = new Gamer(1, "luca", TowerColor.GREY);
 
     @Test
     public void selectCloud() {
@@ -76,14 +77,4 @@ class GamerTest {
         assertEquals(dashboard.getWaitingRoom(), gamer.getDashboard().getWaitingRoom());
     }
 
-    @Test
-    void isActive() {
-        assertEquals(true, gamer.isActive());
-    }
-
-    @Test
-    void setActivity() {
-        gamer.setActivity(false);
-        assertEquals(false, gamer.isActive());
-    }
 }

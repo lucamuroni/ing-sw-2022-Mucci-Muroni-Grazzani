@@ -6,7 +6,10 @@ import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.STUDENT_LOCATION;
+import java.util.ArrayList;
+
+import static it.polimi.ingsw.controller.networking.MessageFragment.OK;
+import static it.polimi.ingsw.controller.networking.MessageFragment.STUDENT_LOCATION;
 
 /**
  * @author Luca Muroni
@@ -31,14 +34,12 @@ public class GetMovedStudentLocation {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      */
     public int handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        int topicId = this.messageHandler.getNewUniqueTopicID();
-        Message message = new Message(STUDENT_LOCATION.getFragment(), "", topicId);
-        this.messageHandler.write(message);
-        this.messageHandler.writeOutAndWait(ConnectionTimings.PLAYER_MOVE.getTiming());
-        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
-            throw new MalformedMessageException();
-        }
+        this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
         int result = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(STUDENT_LOCATION.getFragment()));
+        int topicId = this.messageHandler.getMessagesUniqueTopic();
+        Message message = new Message(STUDENT_LOCATION.getFragment(), OK.getFragment(), topicId);
+        this.messageHandler.write(message);
+        this.messageHandler.writeOut();
         return result;
     }
 }

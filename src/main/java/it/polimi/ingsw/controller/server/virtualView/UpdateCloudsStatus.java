@@ -19,16 +19,16 @@ import java.util.ArrayList;
  * Class that implements the message to update che status of the clouds
  */
 public class UpdateCloudsStatus {
-    ArrayList<Cloud> clouds;
+    Cloud cloud;
     MessageHandler messageHandler;
 
     /**
      * Class constructor
-     * @param clouds represents the clouds to update
+     * @param cloud represents the cloud to update
      * @param messageHandler represents the messageHandler used for the message
      */
-    public UpdateCloudsStatus(ArrayList<Cloud> clouds, MessageHandler messageHandler) {
-        this.clouds = clouds;
+    public UpdateCloudsStatus(Cloud cloud, MessageHandler messageHandler) {
+        this.cloud = cloud;
         this.messageHandler = messageHandler;
     }
 
@@ -42,32 +42,22 @@ public class UpdateCloudsStatus {
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         ArrayList<Message> messages = new ArrayList<Message>();
         int numStud;
-        Integer result;
         int topicId = this.messageHandler.getNewUniqueTopicID();
-        for (Cloud cloud : this.clouds) {
-            Integer token = valueOf(cloud.getID());
-            messages.add(new Message(CLOUD_ID.getFragment(), token.toString(), topicId));
-            ArrayList<Student> students = cloud.getStudents();
-            numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.RED)).count());
-            result = valueOf(numStud);
-            messages.add(new Message(PAWN_RED.getFragment(), result.toString(), topicId));
-            numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.BLUE)).count());
-            result = valueOf(numStud);
-            messages.add(new Message(PAWN_BLUE.getFragment(), result.toString(), topicId));
-            numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.YELLOW)).count());
-            result = valueOf(numStud);
-            messages.add(new Message(PAWN_YELLOW.getFragment(), result.toString(), topicId));
-            numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.GREEN)).count());
-            result = valueOf(numStud);
-            messages.add(new Message(PAWN_GREEN.getFragment(), result.toString(), topicId));
-            numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.PINK)).count());
-            result = valueOf(numStud);
-            messages.add(new Message(PAWN_PINK.getFragment(), result.toString(), topicId));
-            this.messageHandler.write(messages);
-            messages.clear();
-        }
-        this.messageHandler.write(new Message(STOP.getFragment(), "", topicId));
-        this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
+        Integer token = cloud.getID();
+        messages.add(new Message(CLOUD_ID.getFragment(), token.toString(), topicId));
+        ArrayList<Student> students = cloud.getStudents();
+        numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.RED)).count());
+        messages.add(new Message(PAWN_RED.getFragment(), Integer.toString(numStud), topicId));
+        numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.BLUE)).count());
+        messages.add(new Message(PAWN_BLUE.getFragment(), Integer.toString(numStud), topicId));
+        numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.YELLOW)).count());
+        messages.add(new Message(PAWN_YELLOW.getFragment(), Integer.toString(numStud), topicId));
+        numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.GREEN)).count());
+        messages.add(new Message(PAWN_GREEN.getFragment(), Integer.toString(numStud), topicId));
+        numStud = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(PawnColor.PINK)).count());
+        messages.add(new Message(PAWN_PINK.getFragment(), Integer.toString(numStud), topicId));
+        this.messageHandler.write(messages);
+        this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
         if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
             throw new MalformedMessageException();
         }

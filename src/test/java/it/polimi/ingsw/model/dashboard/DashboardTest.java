@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
+import it.polimi.ingsw.model.pawn.TowerColor;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ class DashboardTest {
 
     @Test
     void checkInfluence() {
-        Gamer gamer = new Gamer(123, "nome");
+        Gamer gamer = new Gamer(123, "nome", TowerColor.GREY);
         ArrayList<Student> students = new ArrayList<Student>();
         assertTrue(students.isEmpty());
         Student student1 = new Student(PawnColor.BLUE);

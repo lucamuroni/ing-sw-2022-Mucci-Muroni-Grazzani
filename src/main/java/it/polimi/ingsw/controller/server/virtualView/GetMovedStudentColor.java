@@ -7,7 +7,10 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.pawn.PawnColor;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.STUDENT_COLOR;
+import java.util.ArrayList;
+
+import static it.polimi.ingsw.controller.networking.MessageFragment.OK;
+import static it.polimi.ingsw.controller.networking.MessageFragment.STUDENT_COLOR;
 
 /**
  * @author Luca Muroni
@@ -33,19 +36,17 @@ public class GetMovedStudentColor {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      */
     public PawnColor handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        int topicId = this.messageHandler.getNewUniqueTopicID();
-        Message message = new Message(STUDENT_COLOR.getFragment(), "", topicId);
-        this.messageHandler.write(message);
-        this.messageHandler.writeOutAndWait(ConnectionTimings.PLAYER_MOVE.getTiming());
-        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
-            throw  new MalformedMessageException();
-        }
+        this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
         String studentColor = this.messageHandler.getMessagePayloadFromStream(STUDENT_COLOR.getFragment());
         PawnColor result = null;
         for (PawnColor color : PawnColor.values()) {
             if (color.toString().equals(studentColor))
                 result = color;
         }
+        int topicId = this.messageHandler.getMessagesUniqueTopic();
+        Message message = new Message(STUDENT_COLOR.getFragment(), OK.getFragment(), topicId);
+        this.messageHandler.write(message);
+        this.messageHandler.writeOut();
         return result;
     }
 }

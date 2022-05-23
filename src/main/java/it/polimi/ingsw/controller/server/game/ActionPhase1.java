@@ -29,7 +29,6 @@ public class ActionPhase1 implements GamePhase{
     private final int numOfMovements;
     private final View view;
 
-    //TODO :ricodarsi di aggiornare il currentPlayer in gameCOntroller
 
     /**
      * Constructor of the class
@@ -48,10 +47,11 @@ public class ActionPhase1 implements GamePhase{
     }
 
     /**
-     *This is the main method that handles this phase
+     *This is the main method that handles the ActionPhase1
      */
     @Override
     public void handle() {
+        this.game.setTurnNumber();
         try {
             try{
                 this.view.sendNewPhase(Phase.ACTION_PHASE_1);
@@ -66,7 +66,6 @@ public class ActionPhase1 implements GamePhase{
             }
         }
         try {
-            //this.updateCurrentPlayer();
             for (int cont = 0; cont < this.numOfMovements; cont++) {
                 this.moveStudentToLocation(this.controller.getPlayer(this.game.getCurrentPlayer()));
                 ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
@@ -91,7 +90,7 @@ public class ActionPhase1 implements GamePhase{
     }
 
     /**
-     * This method handles the movement of the student choose by the player and is called in handle()
+     * This method handles the movement of the student chosen by the player, and it is called in handle()
      * @param player represents the currentPlayer that is playing
      */
     private void moveStudentToLocation(Player player) {
@@ -105,24 +104,29 @@ public class ActionPhase1 implements GamePhase{
             }catch (MalformedMessageException e){
                 color = this.view.getMovedStudentColor();
                 place = this.view.getMovedStudentLocation();
-            }catch (TimeHasEndedException e){
-                color = this.randomColorPicker();
-                place = this.randomPlacePicker();
             }
         }catch (MalformedMessageException | ClientDisconnectedException e){
             this.controller.handlePlayerError(player);
         }catch (TimeHasEndedException e){
             color = this.randomColorPicker();
             place = this.randomPlacePicker();
+            modelHandler(place,color);
         }
-        PawnColor finalColor = color;
-        Student stud = this.game.getCurrentPlayer().getDashboard().getWaitingRoom().stream().filter(x -> x.getColor().equals(finalColor)).findFirst().get();
+        modelHandler(place,color);
+    }
+
+    /**
+     * This method modifies the model moving the student to the correct place
+     * @param place is the location where the student must be moved to
+     * @param color is the color of the student
+     */
+    private void modelHandler(int place, PawnColor color){
+        Student stud = this.game.getCurrentPlayer().getDashboard().getWaitingRoom().stream().filter(x -> x.getColor().equals(color)).findFirst().get();
         if (place == 0) {
             this.game.getCurrentPlayer().getDashboard().moveStudent(stud);
             try {
                 this.game.changeProfessorOwner(stud.getColor());
             }catch (Exception e) {
-                //e.printStackTrace();
                 this.controller.shutdown();
             }
         }
@@ -133,7 +137,7 @@ public class ActionPhase1 implements GamePhase{
     }
 
     /**
-     * Method called by moveStudentToLocation() when the player doesn't reply in time and that chooses a random color
+     * This method is called by moveStudentToLocation() when the player doesn't reply in time. It chooses a random color
      * for the student moved
      * @return a random color
      */
@@ -144,9 +148,9 @@ public class ActionPhase1 implements GamePhase{
     }
 
     /**
-     * Method called by moveStudentToLocation() that picks a random place when the player doesn't reply in time
+     * This method is called by moveStudentToLocation() when the player doesn't reply in time. It chooses a random place
      * for the student moved
-     * @return a random place
+     * @return a random place (it is a number between 0 and 12: 0 = hall, 1-12 = island)
      */
     private int randomPlacePicker() {
         Random random = new Random();

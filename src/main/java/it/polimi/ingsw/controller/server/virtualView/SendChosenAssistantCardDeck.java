@@ -8,8 +8,13 @@ import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.ASSISTANT_CARD_DECK;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
+
+import it.polimi.ingsw.model.gamer.Gamer;
+
+import java.util.ArrayList;
+
+import static it.polimi.ingsw.controller.networking.MessageFragment.*;
+
 
 /**
  * @author Sara Mucci
@@ -19,17 +24,20 @@ public class SendChosenAssistantCardDeck {
     AssistantCardDeckFigures deck;
     Integer token;
     MessageHandler messageHandler;
+    Gamer gamer;
 
     /**
      * Class constructor
      * @param deck represents the chosen deck
      * @param token represents the token associated to the current player
      * @param messageHandler represents the messageHandles used for the message
+     * @param gamer represents the currentGamer
      */
-    public SendChosenAssistantCardDeck(AssistantCardDeckFigures deck, Integer token, MessageHandler messageHandler) {
+    public SendChosenAssistantCardDeck(AssistantCardDeckFigures deck, Integer token, MessageHandler messageHandler, Gamer gamer) {
         this.deck = deck;
         this.messageHandler = messageHandler;
         this.token = token;
+        this.gamer = gamer;
     }
 
     /**
@@ -41,8 +49,10 @@ public class SendChosenAssistantCardDeck {
      */
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
-        Message message = new Message(ASSISTANT_CARD_DECK.getFragment(), this.deck.name(), topicId);
-        this.messageHandler.write(message);
+        ArrayList<Message> messages = new ArrayList<>();
+        messages.add(new Message(OWNER.getFragment(), String.valueOf(this.gamer.getToken()), topicId));
+        messages.add(new Message(ASSISTANT_CARD_DECK.getFragment(), this.deck.name(), topicId));
+        this.messageHandler.write(messages);
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
         if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
             throw new MalformedMessageException();

@@ -37,7 +37,7 @@ public class ActionPhase3 implements GamePhase{
     }
 
     /**
-     * This is the main method that handles this phase
+     * This is the main method that handles the ActionPhase3
      */
     @Override
     public void handle() {
@@ -81,10 +81,10 @@ public class ActionPhase3 implements GamePhase{
     /**
      * This method handles the pull of the cloud chosen by the player, and it is called in handle()
      * @param player represents the currentPlayer
-     * @throws ModelErrorException
      */
-    private void choseCloud(Player player) throws ModelErrorException {
+    private void choseCloud(Player player) {
         this.view.setCurrentPlayer(player);
+        Gamer currentPlayer = this.game.getCurrentPlayer();
         Cloud chosenCloud = null;
         ArrayList<Cloud> possibleChoices = new ArrayList<>();
         for (Cloud cloud : this.game.getClouds()) {
@@ -97,20 +97,18 @@ public class ActionPhase3 implements GamePhase{
                 chosenCloud = this.view.getChosenCloud(possibleChoices);
             } catch (MalformedMessageException e) {
                 chosenCloud = this.view.getChosenCloud(possibleChoices);
-            } catch (TimeHasEndedException e) {
-                chosenCloud = this.getRandomCloud(possibleChoices);
             }
         } catch (MalformedMessageException | ClientDisconnectedException e) {
             this.controller.handlePlayerError(player);
         } catch (TimeHasEndedException e) {
             chosenCloud = this.getRandomCloud(possibleChoices);
+            currentPlayer.getDashboard().addStudentsWaitingRoom(chosenCloud.pullStudent());
         }
-        Gamer currentPlayer = this.game.getCurrentPlayer();
         currentPlayer.getDashboard().addStudentsWaitingRoom(chosenCloud.pullStudent());
     }
 
     /**
-     * Method called by chooseCloud() that picks a random cloud when the player doesn't reply in time
+     * This method is called by chooseCloud() and it picks a random cloud when the player doesn't reply in time
      * @param clouds is the ArrayList of possible choices
      * @return a random cloud
      */
@@ -126,6 +124,26 @@ public class ActionPhase3 implements GamePhase{
      */
     @Override
     public GamePhase next() {
-        return new PlanningPhase(this.game, this.controller);
+        boolean mustEndGame = false;
+        if(this.game.getBag().isEmpty()){
+            mustEndGame = true;
+        }else{
+            for(Gamer gamer : this.game.getGamers()){
+                if(gamer.getDeck().getCardList().isEmpty()){
+                    mustEndGame = true;
+                }
+            }
+        }
+        if(mustEndGame){
+            return new VictoryPhase(this.game,this.controller);
+        }
+        if(this.game.getTurnNumber()%this.game.getGamers().size()==0){
+            this.game.updatePlayersOrder();
+            this.controller.updatePlayersOrder();
+            return new PlanningPhase(this.game, this.controller);
+        }else{
+            this.game.setCurrentPlayer(this.game.getGamers().get((this.game.getTurnNumber()%this.game.getGamers().size())-1));
+            return new ActionPhase1(this.game,this.controller);
+        }
     }
 }

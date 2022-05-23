@@ -13,8 +13,8 @@ import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.TowerColor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
-//TODO :creare classe ExpertGameController
 public class GameController extends Thread{
     private final Server server;
     private ArrayList<Player> players;
@@ -31,9 +31,7 @@ public class GameController extends Thread{
         this.view = new VirtualViewHandler();
         this.isOK = true;
         this.cardDesks = new ArrayList<AssistantCardDeckFigures>();
-        for(AssistantCardDeckFigures figure : AssistantCardDeckFigures.values()){
-            this.cardDesks.add(figure);
-        }
+        this.cardDesks.addAll(Arrays.asList(AssistantCardDeckFigures.values()));
     }
 
     private ArrayList<Gamer> createGamers(ArrayList<Player> players){
@@ -59,7 +57,6 @@ public class GameController extends Thread{
             this.gamePhase.handle();
         }
     }
-    //TODO : fare una funzione che dai gamers del model si ordina l'array di players
 
     public View getView(){
         return this.view;
@@ -89,17 +86,31 @@ public class GameController extends Thread{
         this.view.haltOnError();
         player.getMessageHandler().shutDown();
         this.players.remove(player);
+        this.shutdown();
+    }
+
+    public Player getPlayer(Gamer currentPlayer, ArrayList<Player> players) throws ModelErrorException {
+        for(Player player : players){
+            if(currentPlayer.getToken() == player.getToken() && currentPlayer.getUsername().equals(player.getUsername())){
+                return player;
+            }
+        }
+        throw new ModelErrorException();
     }
 
     public Player getPlayer(Gamer currentPlayer) throws ModelErrorException {
-        for(Player player : this.players){
-            ArrayList<Gamer> gamers = new ArrayList<Gamer>();
-            gamers.add(currentPlayer);
-            try{
-                player.getGamer(gamers);
-                return player;
-            }catch(ModelErrorException e){}
+        return this.getPlayer(currentPlayer,this.players);
+    }
+
+    public void updatePlayersOrder(){
+        ArrayList<Player> cp = new ArrayList<>(this.players);
+        this.players.clear();
+        for(Gamer gamer : this.game.getGamers()){
+            try {
+                this.players.add(this.getPlayer(gamer,cp));
+            } catch (ModelErrorException e) {
+                this.shutdown();
+            }
         }
-        throw new ModelErrorException();
     }
 }

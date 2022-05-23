@@ -36,7 +36,7 @@ public class MotherNaturePhase implements GamePhase{
     }
 
     /**
-     * this is the main method that handles this phase
+     * This is the main method that handles the MotherNaturePhase
      */
     @Override
     public void handle() {
@@ -62,7 +62,7 @@ public class MotherNaturePhase implements GamePhase{
     }
 
     /**
-     * This method handles the movement of MN and is called in handle()
+     * This method handles the movement of MN, and it is called in handle()
      * @param player represents the currentPlayer that is playing
      */
     private void moveMotherNature(Player player) {
@@ -74,19 +74,18 @@ public class MotherNaturePhase implements GamePhase{
                 place = this.view.getMNLocation(possibleChoices);
             } catch (MalformedMessageException e) {
                 place = this.view.getMNLocation(possibleChoices);
-            } catch (TimeHasEndedException e) {
-                place = this.getRandomIsland(possibleChoices);
             }
         } catch (MalformedMessageException | ClientDisconnectedException e) {
             this.controller.handlePlayerError(player);
         } catch (TimeHasEndedException e) {
             place = this.getRandomIsland(possibleChoices);
+            this.game.moveMotherNature(place);
         }
         this.game.moveMotherNature(place);
     }
 
     /**
-     * Method called by moveMotherNature() that picks a random island when the player doesn't reply in time
+     * This method is called by moveMotherNature() and it picks a random island when the player doesn't reply in time
      * @param choices is the ArrayList of possible islands to choose from
      * @return a random island
      */
