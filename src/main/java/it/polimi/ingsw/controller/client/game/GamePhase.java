@@ -5,5 +5,5 @@ import it.polimi.ingsw.controller.networking.Phase;
 public interface GamePhase {
     public void handle();
     public GamePhase next();
-    public Phase getNamePhase();
+    public Phase getPhase();
 }

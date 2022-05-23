@@ -42,7 +42,7 @@ public class Idle implements GamePhase{
     }
 
     @Override
-    public Phase getNamePhase() {
+    public Phase getPhase() {
         return name;
     }
 

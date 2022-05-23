@@ -11,7 +11,7 @@ public class MotherNaturePhase implements GamePhase{
     private final Network network;
     private final ViewHandler view;
     private final ClientController controller;
-    private final PhaseName name = PhaseName.MOTHERNATURE_PHASE;
+    private final Phase name = Phase.MOTHERNATURE_PHASE;
 
     public MotherNaturePhase(Game game, ClientController controller, ViewHandler view) {
         this.game = game;
@@ -35,7 +35,7 @@ public class MotherNaturePhase implements GamePhase{
     }
 
     @Override
-    public Phase getNamePhase() {
+    public Phase getPhase() {
         return name;
     }
 }

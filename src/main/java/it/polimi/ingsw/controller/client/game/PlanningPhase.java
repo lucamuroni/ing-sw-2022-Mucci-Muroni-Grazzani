@@ -36,63 +36,53 @@ public class PlanningPhase implements GamePhase {
         try {
             try {
                 this.network.getPossibleCards(this.game);
-            } catch (MalformedMessageException | TimeHasEndedException e) {
+            } catch (MalformedMessageException e) {
                 this.network.getPossibleCards(this.game);
             }
         } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
-            //TODO: metodo per gestire errore
+            this.controller.handleError();
         }
-        AssistantCard chosenCard;
-        //TODO: qui lascio già i try in modo tale da poter gestire la view
-        try {
-            try {
-                chosenCard = this.view.selectCard(this.game.getSelf().getCards());
-            } catch () {
-                chosenCard = this.view.selectCard(this.game.getSelf().getCards());
-            }
-        } catch () {
-
-        }
-
+        AssistantCard chosenCard = this.view.selectCard(this.game.getSelf().getCards());
         try {
             try {
                 this.network.sendCard(chosenCard);
-            } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
+            } catch (MalformedMessageException e) {
                 this.network.sendCard(chosenCard);
             }
-        } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException | ClientDisconnectedException e) {
-            //TODO: metodo per gestire errore
+        } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
+            this.controller.handleError();
         }
     }
 
+    //Metodo che si userà in Idle
+    /*
     public void updateCard() {
         try {
             try {
                 this.network.getChosenAssistantCard(this.game);
-            } catch (MalformedMessageException | TimeHasEndedException e) {
+            } catch (MalformedMessageException  e) {
                 this.network.getChosenAssistantCard(this.game);
             }
         } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
-            //TODO: metodo per gestire errore
+            this.controller.handleError();
         }
-    }
+    }*/
 
-    public void updateClouds() {
-
+    private void updateClouds() {
+        try {
             try {
-                try {
-                    this.network.getCloudStatus(this.game);
-                } catch (MalformedMessageException | TimeHasEndedException e) {
-                    this.network.getCloudStatus(this.game);
-                }
-            } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
-                //TODO: metodo per gestire errore
+                this.network.getCloudStatus(this.game);
+            } catch (MalformedMessageException | TimeHasEndedException e) {
+                this.network.getCloudStatus(this.game);
             }
+        } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+            this.controller.handleError();
+        }
 
     }
 
     @Override
-    public Phase getNamePhase() {
+    public Phase getPhase() {
         return name;
     }
 

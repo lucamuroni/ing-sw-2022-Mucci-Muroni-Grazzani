@@ -72,7 +72,7 @@ public class ActionPhase1 implements GamePhase{
     }
 
     @Override
-    public Phase getNamePhase() {
+    public Phase getPhase() {
         return name;
     }
 }
