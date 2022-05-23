@@ -2,12 +2,16 @@ package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.networking.GameType;
+import it.polimi.ingsw.model.AssistantCard;
+import it.polimi.ingsw.model.pawn.Student;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.Page;
+import it.polimi.ingsw.view.asset.game.Island;
 import it.polimi.ingsw.view.cli.page.LoadingPage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Cli implements ViewHandler {
     private final Game game;
@@ -59,6 +63,25 @@ public class Cli implements ViewHandler {
             this.currentPage = page;
             this.pageHasChanged = true;
         }
+    }
 
+    @Override
+    public AssistantCard selectCard(ArrayList<AssistantCard> cards) {
+        return null;
+    }
+
+    @Override
+    public Student chooseStudentToMove() {
+        return null;
+    }
+
+    @Override
+    public String choosePlace() {
+        return null;
+    }
+
+    @Override
+    public Island chooseIsland(ArrayList<it.polimi.ingsw.model.Island> islands) {
+        return null;
     }
 }

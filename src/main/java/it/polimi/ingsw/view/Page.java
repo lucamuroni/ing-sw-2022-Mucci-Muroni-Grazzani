@@ -2,6 +2,6 @@ package it.polimi.ingsw.view;
 
 public interface Page {
     public void handle();
-    public void kill();
-    public boolean readyToProcede();
+    public boolean isProcessReady();
+    public void setClearance(boolean clearance);
 }

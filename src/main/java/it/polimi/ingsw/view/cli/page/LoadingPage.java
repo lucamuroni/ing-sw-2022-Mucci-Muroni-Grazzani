@@ -10,12 +10,12 @@ import java.io.IOException;
 public class LoadingPage implements Page {
     private final LoadingBar loadingBar;
     private final Cli cli;
-    private boolean isKilled;
+    private boolean clearance;
 
     public LoadingPage(Cli cli){
         this.cli = cli;
         this.loadingBar = new LoadingBar(15);
-        this.isKilled = false;
+        this.clearance = false;
     }
 
     public void draw() {
@@ -38,23 +38,24 @@ public class LoadingPage implements Page {
     @Override
     public void handle() {
         Thread t = new Thread(()->{
-            while(this.isAlive()){
+            while(!this.getClearance()){
                 this.draw();
             }
         });
         t.start();
     }
 
-    public synchronized void kill(){
-        this.isKilled = true;
+    @Override
+    public synchronized boolean isProcessReady() {
+        return true;
     }
 
     @Override
-    public boolean readyToProcede() {
-
+    public synchronized void setClearance(boolean clearance) {
+        this.clearance = clearance;
     }
 
-    private synchronized boolean isAlive(){
-        return  !this.isKilled;
+    private synchronized boolean getClearance(){
+        return  this.clearance;
     }
 }

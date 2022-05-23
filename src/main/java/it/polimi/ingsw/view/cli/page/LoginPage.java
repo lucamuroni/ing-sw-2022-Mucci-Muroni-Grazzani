@@ -14,6 +14,7 @@ public class LoginPage implements Page {
     private Menù menù;
     private Scanner scanner;
     private boolean readyToProcede = false;
+    private boolean clearance = false;
 
     public LoginPage(Cli cli){
         this.cli = cli;
@@ -79,29 +80,40 @@ public class LoginPage implements Page {
             }
             cli.clearConsole();
             LoadingBar loadingBar = new LoadingBar(80);
-            // TODO aggiungere metodo di clearance per continuare l'esecuzione e gestire metodo di readyto procede e rimuovere kill()
             this.readyToProcede = true;
-            while (doNotProcede){
+            while (!this.getClearance()){
                 System.out.println("Please wait unit we reach the server");
                 loadingBar.print();
+                this.cli.clearConsole();
             }
-
+            System.out.println(AnsiColor.GREEN+"Lobby has been founded"+AnsiColor.RESET);
+            loadingBar = new LoadingBar(80);
+            while (!this.getClearance()){
+                System.out.println("Please wait unit the game stars");
+                loadingBar.print();
+                this.cli.clearConsole();
+            }
         });
         t.start();
     }
 
-    @Override
-    public void kill() {
-
-    }
 
     @Override
-    public boolean readyToProcede() {
+    public synchronized boolean isProcessReady() {
         if(!this.readyToProcede){
             return false;
         }else {
             this.readyToProcede = false;
             return true;
         }
+    }
+
+    @Override
+    public synchronized void setClearance(boolean clearance) {
+        this.clearance = clearance;
+    }
+
+    private synchronized boolean getClearance(){
+        return this.clearance;
     }
 }
