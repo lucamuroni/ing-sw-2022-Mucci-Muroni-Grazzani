@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public interface ViewHandler {
     AssistantCard selectCard(ArrayList<AssistantCard> cards);
     Student chooseStudentToMove();
-    String choosePlace();
+    int choosePlace();
     Island chooseIsland(ArrayList<it.polimi.ingsw.model.Island> islands);
 
 }
