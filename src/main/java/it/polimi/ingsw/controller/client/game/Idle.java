@@ -3,16 +3,18 @@ package it.polimi.ingsw.controller.client.game;
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.client.networkHandler.Network;
 import it.polimi.ingsw.controller.networking.Phase;
+import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
+import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
+import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Game;
 
 public class Idle implements GamePhase{
-    private Phase phase;
+    private Phase name;
     private Network network;
     private ClientController controller;
     private ViewHandler view;
     private Game game;
-    private GamePhase phase;
 
     public Idle(Game game, ClientController controller, ViewHandler view) {
         this.game = game;
@@ -24,9 +26,13 @@ public class Idle implements GamePhase{
     @Override
     public void handle() {
         try {
-
-        } catch () {
-
+            try {
+                this.network.getPhase();
+            } catch (MalformedMessageException | TimeHasEndedException e) {
+                this.network.getPhase();
+            }
+        } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+            //TODO: bisogna aggiungere metodo per gestire errore come nel server
         }
 
     }
@@ -36,7 +42,7 @@ public class Idle implements GamePhase{
     }
 
     @Override
-    public PhaseName getNamePhase() {
+    public Phase getNamePhase() {
         return name;
     }
 

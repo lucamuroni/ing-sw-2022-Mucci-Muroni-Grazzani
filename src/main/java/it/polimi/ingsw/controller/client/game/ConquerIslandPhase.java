@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller.client.game;
 
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.client.networkHandler.Network;
+import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Game;
 
@@ -30,7 +31,7 @@ public class ConquerIslandPhase implements GamePhase{
     }
 
     @Override
-    public PhaseName getNamePhase() {
+    public Phase getNamePhase() {
         return name;
     }
 }

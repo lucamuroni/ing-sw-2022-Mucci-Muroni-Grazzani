@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller.client.game;
 
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.client.networkHandler.Network;
+import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.DashBoard;
 import it.polimi.ingsw.view.asset.game.Gamer;
@@ -71,7 +72,7 @@ public class ActionPhase1 implements GamePhase{
     }
 
     @Override
-    public PhaseName getNamePhase() {
+    public Phase getNamePhase() {
         return name;
     }
 }

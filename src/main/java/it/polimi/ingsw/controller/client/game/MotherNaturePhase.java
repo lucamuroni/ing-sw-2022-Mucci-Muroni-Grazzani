@@ -2,9 +2,9 @@ package it.polimi.ingsw.controller.client.game;
 
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.client.networkHandler.Network;
+import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Game;
-import it.polimi.ingsw.view.asset.game.Island;
 
 public class MotherNaturePhase implements GamePhase{
     private final Game game;
@@ -35,7 +35,7 @@ public class MotherNaturePhase implements GamePhase{
     }
 
     @Override
-    public PhaseName getNamePhase() {
+    public Phase getNamePhase() {
         return name;
     }
 }
