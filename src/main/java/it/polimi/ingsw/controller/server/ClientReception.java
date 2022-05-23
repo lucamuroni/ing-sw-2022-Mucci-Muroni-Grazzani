@@ -15,9 +15,8 @@ import java.util.Random;
 
 class ClientReception extends Thread{
     private final ServerSocket serverSocket;
-    private ArrayList<Lobby> lobbies;
+    private final ArrayList<Lobby> lobbies;
     private boolean isON;
-    final Object lobbiesLock = new Object();
 
     public ClientReception(ServerSocket socket){
         this.serverSocket = socket;
@@ -92,7 +91,7 @@ class ClientReception extends Thread{
         int number = random.nextInt((int) Math.pow(2,29),(int) Math.pow(2,30));
         return number;
     }
-    //TODO: se il giocatore non risponde bene al messaggio eliminarlo dalla partita e successivamente far partire la partita se è tutto ok
+
     private void insertPlayerIntoLobby(String gameType,String lobbySize, Player player) throws MalformedMessageException {
         GameType type;
         Integer numOfPlayers;
@@ -108,7 +107,7 @@ class ClientReception extends Thread{
         }else{
             throw new MalformedMessageException("payload GameType not in a valid format");
         }
-        synchronized (this.lobbiesLock){
+        synchronized (this.lobbies){
             if(this.lobbies.isEmpty()){
                 Lobby lobby = new Lobby(type,numOfPlayers,player);
                 lobbies.add(lobby);
@@ -133,9 +132,9 @@ class ClientReception extends Thread{
             player.getMessageHandler().write(messages);
             player.getMessageHandler().writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming());
             player.getMessageHandler().assertOnEquals(MessageFragment.OK.getFragment(), MessageFragment.GREETINGS.getFragment());
-            this.lobbiesLock.notifyAll();
+            this.lobbies.notifyAll();
         }catch (TimeHasEndedException | ClientDisconnectedException | MalformedMessageException | FlowErrorException e){
-            synchronized (this.lobbiesLock){
+            synchronized (this.lobbies){
                 for(Lobby lobby : this.lobbies){
                     if(lobby.contains(player)){
                         lobby.removePlayer(player);
@@ -147,7 +146,7 @@ class ClientReception extends Thread{
     }
 
     public ArrayList<Lobby> getLobbies(){
-        synchronized (this.lobbiesLock){
+        synchronized (this.lobbies){
             return this.lobbies;
         }
     }

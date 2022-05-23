@@ -7,7 +7,8 @@ package it.polimi.ingsw.controller.networking.messageParts;
 public enum ConnectionTimings {
     CONNECTION_STARTUP(40000),
     PLAYER_MOVE(30000),
-    INFINITE(600000);
+    INFINITE(600000),
+    RESPONSE(10000);
 
     private int timeToRespond;
 

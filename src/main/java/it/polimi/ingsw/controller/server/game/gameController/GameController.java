@@ -1,18 +1,20 @@
 package it.polimi.ingsw.controller.server.game.gameController;
 
 import it.polimi.ingsw.controller.networking.Player;
+import it.polimi.ingsw.controller.server.game.GameSetup;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.Server;
-import it.polimi.ingsw.controller.server.game.AssistantCardDeckFigures;
+import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.controller.server.game.GamePhase;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.controller.server.virtualView.VirtualViewHandler;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
+import it.polimi.ingsw.model.pawn.TowerColor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
-//TODO :creare classe ExpertGameController
 public class GameController extends Thread{
     private final Server server;
     private ArrayList<Player> players;
@@ -29,25 +31,32 @@ public class GameController extends Thread{
         this.view = new VirtualViewHandler();
         this.isOK = true;
         this.cardDesks = new ArrayList<AssistantCardDeckFigures>();
-        for(AssistantCardDeckFigures figure : AssistantCardDeckFigures.values()){
-            this.cardDesks.add(figure);
-        }
+        this.cardDesks.addAll(Arrays.asList(AssistantCardDeckFigures.values()));
     }
 
     private ArrayList<Gamer> createGamers(ArrayList<Player> players){
+        ArrayList<TowerColor> colors = new ArrayList<TowerColor>();
+        for(TowerColor color : TowerColor.values()){
+            colors.add(color);
+        }
         ArrayList<Gamer> gamers = new ArrayList<Gamer>();
         for(Player player : players){
-            Gamer gamer = new Gamer(player.getToken(), player.getUsername());
+            Gamer gamer = new Gamer(player.getToken(), player.getUsername(), colors.get(0));
             gamers.add(gamer);
+            colors.remove(0);
         }
         return gamers;
     }
 
     @Override
     public void run() {
-
+        this.gamePhase = new GameSetup(this,this.game);
+        this.gamePhase.handle();
+        while (this.isOK){
+            this.gamePhase = this.gamePhase.next();
+            this.gamePhase.handle();
+        }
     }
-    //TODO : fare una funzione che dai gamers del model si ordina l'array di players
 
     public View getView(){
         return this.view;
@@ -76,23 +85,32 @@ public class GameController extends Thread{
         this.view.setCurrentPlayer(player);
         this.view.haltOnError();
         player.getMessageHandler().shutDown();
-        try {
-            player.getGamer(this.game.getGamers()).setActivity(false);
-        } catch (ModelErrorException e) {
-            System.out.println("Could not find gamer in model");
-        }
         this.players.remove(player);
+        this.shutdown();
+    }
+
+    public Player getPlayer(Gamer currentPlayer, ArrayList<Player> players) throws ModelErrorException {
+        for(Player player : players){
+            if(currentPlayer.getToken() == player.getToken() && currentPlayer.getUsername().equals(player.getUsername())){
+                return player;
+            }
+        }
+        throw new ModelErrorException();
     }
 
     public Player getPlayer(Gamer currentPlayer) throws ModelErrorException {
-        for(Player player : this.players){
-            ArrayList<Gamer> gamers = new ArrayList<Gamer>();
-            gamers.add(currentPlayer);
-            try{
-                player.getGamer(gamers);
-                return player;
-            }catch(ModelErrorException e){}
+        return this.getPlayer(currentPlayer,this.players);
+    }
+
+    public void updatePlayersOrder(){
+        ArrayList<Player> cp = new ArrayList<>(this.players);
+        this.players.clear();
+        for(Gamer gamer : this.game.getGamers()){
+            try {
+                this.players.add(this.getPlayer(gamer,cp));
+            } catch (ModelErrorException e) {
+                this.shutdown();
+            }
         }
-        throw new ModelErrorException();
     }
 }

@@ -5,12 +5,11 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
-import it.polimi.ingsw.controller.server.game.exceptions.GenericErrorException;
-import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
+import it.polimi.ingsw.model.pawn.TowerColor;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -22,7 +21,6 @@ import java.util.Optional;
 public class ConquerIslandPhase implements GamePhase{
     private final Game game;
     private final GameController controller;
-    private Gamer currentPlayer;
     private final View view;
 
     /**
@@ -33,27 +31,23 @@ public class ConquerIslandPhase implements GamePhase{
     public ConquerIslandPhase(Game game, GameController controller){
         this.game = game;
         this.controller = controller;
-        this.currentPlayer = this.game.getCurrentPlayer();
         this.view = this.controller.getView();
     }
 
     /**
-     * This is the main method that handles this phase
+     * This is the main method that handles the ConquerIslandPhase
      */
     @Override
     public void handle() {
-        try {
-            this.view.phaseChanghe("ActionPhase1");
-        } catch () {}
-        TowerColor color = this.conquerIsland();
+        this.game.checkIslandOwner();
         ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
         for (Player pl : players) {
             this.view.setCurrentPlayer(pl);
             try {
                 try {
-                    this.view.sendTowerColor(color);
+                    this.view.updateIslandStatus(this.game.getMotherNature().getPlace());
                 } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
-                    this.view.sendTowerColor(color);
+                    this.view.updateIslandStatus(this.game.getMotherNature().getPlace());
                 }
             } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
                 this.controller.handlePlayerError(pl);
@@ -62,24 +56,24 @@ public class ConquerIslandPhase implements GamePhase{
     }
 
     /**
-     * Method called by handle() that calculates the new owner of the island on which MotherNature is
-     * @return the color of the towers of the new owner
-     */
-    private TowerColor conquerIsland() {
-        Optional<Gamer> conqueror = this.game.checkIslandOwner();
-        if (conqueror.isPresent()) {
-            Gamer gamer = conqueror.get();
-            return gamer.getTowerColor();
-        }
-        return null;
-    }
-
-    /**
      * This method changes the phase to the next one
      * @return the next GamePhase
      */
     @Override
     public GamePhase next() {
-        return new ActionPhase3(this.game, this.controller);
+        boolean thereIsAWinner = false;
+        if(this.game.getIslands().size()<=3){
+            thereIsAWinner = true;
+        }else{
+            for(Gamer gamer :this.game.getGamers()){
+                if(gamer.getDashboard().getNumTowers()==0){
+                    thereIsAWinner = true;
+                }
+            }
+        }
+        if(thereIsAWinner){
+            return new VictoryPhase(this.game, this.controller);
+        }
+        return new ActionPhase3(this.game,this.controller);
     }
 }

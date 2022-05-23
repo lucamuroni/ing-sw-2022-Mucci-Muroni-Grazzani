@@ -4,6 +4,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
+import it.polimi.ingsw.model.pawn.TowerColor;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ class IslandTest {
     void addStudents() {
         Bag borsa = new Bag();
         ArrayList<Student> students = new ArrayList<Student>();
-        Island island = new Island();
+        Island island = new Island(1);
         students.addAll(borsa.pullStudents(10));
         for(Student s : students){
             island.addStudents(s);
@@ -27,8 +28,8 @@ class IslandTest {
 
     @Test
     void mergeIsland() {
-        Island isolaDaEliminare = new Island();
-        Island mainIsola = new Island();
+        Island isolaDaEliminare = new Island(1);
+        Island mainIsola = new Island(2);
         Bag borsa = new Bag();
         ArrayList<Student> studenti= new ArrayList<Student>();
         isolaDaEliminare.addTower();
@@ -50,15 +51,15 @@ class IslandTest {
 
     @Test
     void getNumTowers() {
-        Island isola = new Island();
+        Island isola = new Island(1);
         assertEquals(0,isola.getNumTowers());
 
     }
 
     @Test
     void setOwner() {
-        Island isola = new Island();
-        Gamer giocatore = new Gamer(123,"luca");
+        Island isola = new Island(1);
+        Gamer giocatore = new Gamer(123,"luca", TowerColor.GREY);
         Optional<Gamer> gamer = Optional.of(giocatore);
         Optional<Gamer> gamerEmpty = Optional.empty();
         assertEquals(gamerEmpty,isola.getOwner());
@@ -78,7 +79,7 @@ class IslandTest {
         Student s8 = new Student(PawnColor.PINK);
         Student s9 = new Student(PawnColor.PINK);
         Student s0 = new Student(PawnColor.PINK);
-        Island isola = new Island();
+        Island isola = new Island(1);
         isola.addStudents(s1);
         isola.addStudents(s2);
         isola.addStudents(s3);
@@ -112,14 +113,14 @@ class IslandTest {
 
     @Test
     void getOwner() {
-        Island isola = new Island();
+        Island isola = new Island(1);
         Optional<Gamer> gamer = Optional.empty();
         assertEquals(gamer,isola.getOwner());
     }
 
     @Test
     void addTower() {
-        Island isola = new Island();
+        Island isola = new Island(1);
         assertEquals(0,isola.getNumTowers());
         int i;
         for(i=0;i<4;i++){

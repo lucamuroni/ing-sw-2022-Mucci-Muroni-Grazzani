@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.server.game;
 
+import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
@@ -9,10 +10,8 @@ import it.polimi.ingsw.controller.server.game.exceptions.GenericErrorException;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
-import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.game.Game;
-import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
 
@@ -24,14 +23,12 @@ import java.util.Random;
  * from his waitingRoom to an island or his hall
  */
 public class ActionPhase1 implements GamePhase{
+    //TODO: Bisogna risolvere questo problema: se il game è in modalità esperta, non si possono gestire le monete
     private final Game game;
     private final GameController controller;
-    private Gamer currentPlayer;
     private final int numOfMovements;
     private final View view;
-    //private Player player = null;
 
-    //TODO :ricodarsi di aggiornare il currentPlayer in gameCOntroller
 
     /**
      * Constructor of the class
@@ -41,7 +38,6 @@ public class ActionPhase1 implements GamePhase{
     public ActionPhase1(Game game, GameController controller){
         this.game = game;
         this.controller = controller;
-        this.currentPlayer = this.game.getCurrentPlayer();
         if(this.game.getGamers().size() == 2){
             this.numOfMovements = 3;
         }else {
@@ -51,15 +47,25 @@ public class ActionPhase1 implements GamePhase{
     }
 
     /**
-     *This is the main method that handles this phase
+     *This is the main method that handles the ActionPhase1
      */
     @Override
     public void handle() {
+        this.game.setTurnNumber();
         try {
-            this.view.phaseChanghe("ActionPhase1");
-        } catch () {}
+            try{
+                this.view.sendNewPhase(Phase.ACTION_PHASE_1);
+            }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                this.view.sendNewPhase(Phase.ACTION_PHASE_1);
+            }
+        }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
+            try {
+                this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()));
+            } catch (ModelErrorException i) {
+                this.controller.shutdown();
+            }
+        }
         try {
-            //this.updateCurrentPlayer();
             for (int cont = 0; cont < this.numOfMovements; cont++) {
                 this.moveStudentToLocation(this.controller.getPlayer(this.game.getCurrentPlayer()));
                 ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
@@ -68,9 +74,9 @@ public class ActionPhase1 implements GamePhase{
                     this.view.setCurrentPlayer(pl);
                     try {
                         try {
-                            this.view.updateDashboards(this.game.getGamers());
+                            this.view.updateDashboards(this.game.getGamers(), this.game);
                         } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
-                            this.view.updateDashboards(this.game.getGamers());
+                            this.view.updateDashboards(this.game.getGamers(), this.game);
                         }
                     } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
                         this.controller.handlePlayerError(pl);
@@ -80,19 +86,14 @@ public class ActionPhase1 implements GamePhase{
         } catch (ModelErrorException e) {
             this.controller.shutdown();
             e.printStackTrace();
-            return;
-        } catch (GenericErrorException e) {
-            e.printStackTrace();
-            return;
         }
     }
 
     /**
-     * This method handles the movement of the student choose by the player and is called in handle()
+     * This method handles the movement of the student chosen by the player, and it is called in handle()
      * @param player represents the currentPlayer that is playing
-     * @throws GenericErrorException when the message from the client is malformed twice or the player disconnects from the game
      */
-    private void moveStudentToLocation(Player player) throws GenericErrorException {
+    private void moveStudentToLocation(Player player) {
         this.view.setCurrentPlayer(player);
         int place = 0;
         PawnColor color = null;
@@ -103,25 +104,30 @@ public class ActionPhase1 implements GamePhase{
             }catch (MalformedMessageException e){
                 color = this.view.getMovedStudentColor();
                 place = this.view.getMovedStudentLocation();
-            }catch (TimeHasEndedException e){
-                color = this.randomColorPicker();
-                place = this.randomPlacePicker();
             }
         }catch (MalformedMessageException | ClientDisconnectedException e){
             this.controller.handlePlayerError(player);
-            throw new GenericErrorException();
         }catch (TimeHasEndedException e){
             color = this.randomColorPicker();
             place = this.randomPlacePicker();
+            modelHandler(place,color);
         }
-        PawnColor finalColor = color;
-        Student stud = this.game.getCurrentPlayer().getDashboard().getWaitingRoom().stream().filter(x -> x.getColor().equals(finalColor)).findFirst().get();
+        modelHandler(place,color);
+    }
+
+    /**
+     * This method modifies the model moving the student to the correct place
+     * @param place is the location where the student must be moved to
+     * @param color is the color of the student
+     */
+    private void modelHandler(int place, PawnColor color){
+        Student stud = this.game.getCurrentPlayer().getDashboard().getWaitingRoom().stream().filter(x -> x.getColor().equals(color)).findFirst().get();
         if (place == 0) {
             this.game.getCurrentPlayer().getDashboard().moveStudent(stud);
             try {
                 this.game.changeProfessorOwner(stud.getColor());
             }catch (Exception e) {
-                e.printStackTrace();
+                this.controller.shutdown();
             }
         }
         else {
@@ -130,19 +136,8 @@ public class ActionPhase1 implements GamePhase{
         }
     }
 
-    //TODO: metodo inutile
     /**
-     * This method is called in handle() to adjourn the currentPlayer
-     * @throws ModelErrorException
-     */
-    private void updateCurrentPlayer() throws ModelErrorException {
-        this.currentPlayer = this.game.getCurrentPlayer();
-        this.player = this.controller.getPlayer(this.currentPlayer);
-        this.view.setCurrentPlayer(this.player);
-    }
-
-    /**
-     * Method called by moveStudentToLocation() when the player doesn't reply in time and that chooses a random color
+     * This method is called by moveStudentToLocation() when the player doesn't reply in time. It chooses a random color
      * for the student moved
      * @return a random color
      */
@@ -153,14 +148,13 @@ public class ActionPhase1 implements GamePhase{
     }
 
     /**
-     * Method called by moveStudentToLocation() that picks a random place when the player doesn't reply in time
+     * This method is called by moveStudentToLocation() when the player doesn't reply in time. It chooses a random place
      * for the student moved
-     * @return a random place
+     * @return a random place (it is a number between 0 and 12: 0 = hall, 1-12 = island)
      */
     private int randomPlacePicker() {
         Random random = new Random();
-        int rand = random.nextInt(0, this.game.getIslands().size());
-        return rand;
+        return random.nextInt(0, this.game.getIslands().size());
     }
 
     /**

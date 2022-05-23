@@ -4,14 +4,13 @@ import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
-import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.view.asset.game.Game;
 import java.util.ArrayList;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
 
 /**
  * @author Sara Mucci
  * Class that implements the mssage to send to the server the infos about the player and the game
+ * This class is used at the beginning of the connection phase
  */
 public class SendInfo {
     Player player;
@@ -32,12 +31,11 @@ public class SendInfo {
 
     public void handle() throws MalformedMessageException {
         ArrayList<Message> messages = new ArrayList<Message>();
-        int topicId = this.messageHandler.getNewUniqueTopicID();
+        int topicId = this.messageHandler.getMessagesUniqueTopic();
         messages.add(new Message(PLAYER.getFragment(), this.player, topicId));
         messages.add(new Message(GAME.getFragment(), this.game, topicId));
         this.messageHandler.write(messages);
-        messages.clear();
-        this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTimings());
-        this.messageHandler.assertOnEquals(OK.getFragment(), INFO.getFragment());
+        this.messageHandler.writeOut();
     }
 }
+//TODO: da ricontrollare

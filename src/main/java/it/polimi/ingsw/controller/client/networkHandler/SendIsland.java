@@ -2,8 +2,14 @@ package it.polimi.ingsw.controller.client.networkHandler;
 
 import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
-import it.polimi.ingsw.model.Island;
+import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
+import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
+import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
+import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
+import it.polimi.ingsw.view.asset.game.Island;
 import java.util.ArrayList;
+
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
  * @author Sara Mucci
@@ -23,8 +29,16 @@ public class SendIsland {
         this.messageHandler = messageHandler;
     }
 
-    public void handle() {
-        ArrayList<Message> messages = new ArrayList<Message>();
-        int topicId = this.messageHandler.getNewUniqueTopicID();
+    /**
+     * Method that handles the messages to send the chosen island
+     * @throws MalformedMessageException launched if the message isn't created the correct way
+     * @throws FlowErrorException launched when the client sends an unexpected response
+     * @throws TimeHasEndedException launched when the available time for the response has ended
+     */
+    public void handle() throws MalformedMessageException, FlowErrorException, TimeHasEndedException {
+        int topicId = this.messageHandler.getMessagesUniqueTopic();
+        Message message = new Message(MN_LOCATION.getFragment(), Integer.toString(island.getId()), topicId);
+        this.messageHandler.write(message);
+        this.messageHandler.writeOut();
     }
 }

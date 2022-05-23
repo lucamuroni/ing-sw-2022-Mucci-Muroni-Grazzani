@@ -7,35 +7,55 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.Island;
-
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.MN_LOCATION;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.STOP;
 import java.util.ArrayList;
 
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.ISLAND_ID;
-
+/**
+ * @author Luca Muroni
+ * Class that implements the message to get the current mother nature position
+ */
 public class GetMNLocation {
-    private ArrayList<Island> islands;
-    private MessageHandler messageHandler;
+    ArrayList<Island> islands;
+    MessageHandler messageHandler;
 
+    /**
+     * Class constructor
+     * @param islands represents the available islands
+     * @param messageHandler represents the messageHandler used for the message
+     */
     public GetMNLocation(ArrayList<Island> islands, MessageHandler messageHandler) {
         this.islands = islands;
         this.messageHandler = messageHandler;
     }
 
+    /**
+     * Method that handles the message exchange
+     * @return the chosen island
+     * @throws MalformedMessageException launched if the message isn't created in the correct way
+     * @throws TimeHasEndedException launched when the available time for the response has ended
+     * @throws ClientDisconnectedException launched if the client disconnects from the game
+     */
     public Island handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        ArrayList<Message> messages = new ArrayList<Message>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
+        int size = this.islands.size();
+        Message message = new Message(PAYLOAD_SIZE.getFragment(), String.valueOf(size),topicId);
+        this.messageHandler.write(message);
+        this.messageHandler.writeOut();
         for (Island island : this.islands) {
-            messages.add(new Message(ISLAND_ID.getFragment(), island.getId().toString(), topicId));
+            message = new Message(ISLAND_ID.getFragment(), island.getId().toString(), topicId);
+            this.messageHandler.write(message);
+            this.messageHandler.writeOut();
         }
-        this.messageHandler.write(messages);
-        messages.clear();
-        messages.addAll(this.messageHandler.writeOutAndWait(ConnectionTimings.PLAYER_MOVE.getTiming()));
-        int islandId = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(ISLAND_ID.getFragment(), messages));
+        this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
+        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
+            throw new MalformedMessageException();
+        }
         Island result = null;
+        int islandId = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(MN_LOCATION.getFragment()));
         for (Island island : this.islands) {
-            if (island.getId().equals(islandId)) {
+            if (island.getId() == islandId)
                 result = island;
-            }
         }
         return result;
     }

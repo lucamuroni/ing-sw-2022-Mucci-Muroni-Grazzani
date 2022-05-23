@@ -8,6 +8,7 @@ import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
+import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
@@ -22,6 +23,7 @@ public class MessageHandler {
     private final static String topKeyWord = "topicUniqueID";
     private final ConnectionHandler connectionHandler;
     private ArrayList<Message> incomingMessages;
+    private int lastTopicRead;
 
     /**
      * Class Builder
@@ -30,6 +32,7 @@ public class MessageHandler {
     public MessageHandler(Socket socket){
         connectionHandler = new ConnectionHandler(socket);
         incomingMessages = new ArrayList<Message>();
+        this.lastTopicRead = 0;
     }
 
     /**
@@ -40,13 +43,16 @@ public class MessageHandler {
      * @throws MalformedMessageException if another message is present and differs by TopicID
      */
     public void write(Message msg) throws MalformedMessageException{
-        if(this.encoder.equals(null)){
+        if(this.encoder==null){
             this.encoder = new JSONObject();
             this.encoder.put(this.topKeyWord,msg.getUniqueTopicID());
         }else{
             if(msg.getUniqueTopicID() != (int)this.encoder.get(this.topKeyWord)){
-                throw new MalformedMessageException("Message already present, please writeOut() it before writing a new one");
+                throw new MalformedMessageException("A message is already present, please writeOut() it before writing a new one");
             }
+        }
+        if(this.encoder.containsKey(msg.getHeader())){
+            throw new MalformedMessageException("A message fragment with this key is already present");
         }
         this.encoder.put(msg.getHeader(),msg.getPayload());
     }
@@ -66,7 +72,7 @@ public class MessageHandler {
      * Method used to flush a message (created with write method) through the sockets.
      */
     public void writeOut(){
-        this.connectionHandler.setOutputMessage(this.encoder.toJSONString());
+        this.connectionHandler.setOutputMessage(this.encoder.toString());
         this.encoder = null;
     }
 
@@ -77,7 +83,6 @@ public class MessageHandler {
      * @throws TimeHasEndedException if the client does not respond in time
      * @throws ClientDisconnectedException if the client disconnects
      */
-    //TODO :javadoc
     public void writeOutAndWait(int milliSeconds) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
         int topicID = (int)this.encoder.get(this.topKeyWord);
         writeOut();
@@ -101,10 +106,10 @@ public class MessageHandler {
         /* Object messagesParsed = JSONValue.parse(messages);
         this.decoder = (JSONObject) messagesParsed; */
         decoder = (JSONObject) JSONValue.parse(messages);
-        uniqueID = (int)decoder.get(this.topKeyWord);
+        uniqueID = (int)((Long)decoder.get(this.topKeyWord)).intValue();
         Set<String> keySet = decoder.keySet();
         for(String key : keySet){
-            Message m = new Message(key,(String) decoder.get(key),uniqueID);
+            Message m = new Message(key,String.valueOf( decoder.get(key)),uniqueID);
             this.incomingMessages.add(m);
         }
     }
@@ -112,7 +117,7 @@ public class MessageHandler {
     /**
      * Method used for creating a stable connection between client and server
      */
-    public void startConnection(){
+    public void startConnection() throws IOException {
         this.connectionHandler.start();
     }
 
@@ -149,6 +154,7 @@ public class MessageHandler {
     public String getMessagePayloadFromStream(String key) throws MalformedMessageException {
         for(Message msg : this.incomingMessages){
             if(msg.getHeader().equals(key)){
+                updateLastTopic(msg);
                 this.incomingMessages.remove(msg);
                 return msg.getPayload();
             }
@@ -169,5 +175,12 @@ public class MessageHandler {
         }
     }
 
+    public int getMessagesUniqueTopic(){
+        return this.lastTopicRead;
+    }
+
+    private void updateLastTopic(Message message){
+        this.lastTopicRead = this.incomingMessages.get(this.incomingMessages.indexOf(message)).getUniqueTopicID();
+    }
 
 }

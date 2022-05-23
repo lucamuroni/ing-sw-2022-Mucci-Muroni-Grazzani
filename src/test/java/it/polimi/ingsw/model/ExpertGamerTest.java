@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.dashboard.ExpertDashboard;
 import it.polimi.ingsw.model.gamer.ExpertGamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
+import it.polimi.ingsw.model.pawn.TowerColor;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ExpertGamerTest {
-    ExpertGamer expertGamer = new ExpertGamer(123, "luca");
+    ExpertGamer expertGamer = new ExpertGamer(123, "luca", TowerColor.GREY);
 
     @Test
     void initGamer() {
@@ -31,7 +32,7 @@ class ExpertGamerTest {
         Bag bag = new Bag();
         ArrayList<Student> students = new ArrayList<Student>(bag.pullStudents(1));
         expertGamer.initGamer(students, 6);
-        Cloud cloud = new Cloud();
+        Cloud cloud = new Cloud(1);
         ArrayList<Student> students1 = new ArrayList<Student>(bag.pullStudents(3));
         cloud.pushStudents(students1);
         expertGamer.selectCloud(cloud);

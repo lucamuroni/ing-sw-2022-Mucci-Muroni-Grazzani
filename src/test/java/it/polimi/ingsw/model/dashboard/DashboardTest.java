@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
+import it.polimi.ingsw.model.pawn.TowerColor;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ class DashboardTest {
     @Test
     void addStudentsWaitingRoom() {
         Bag borsa = new Bag();
-        Cloud cloud = new Cloud();
+        Cloud cloud = new Cloud(1);
         ArrayList<Student> s = new ArrayList<Student>();
         assertTrue(s.isEmpty());
         ArrayList<Student> studentsToAddCloud = new ArrayList<Student>();
@@ -57,7 +58,7 @@ class DashboardTest {
 
     @Test
     void checkInfluence() {
-        Gamer gamer = new Gamer(123, "nome");
+        Gamer gamer = new Gamer(123, "nome", TowerColor.GREY);
         ArrayList<Student> students = new ArrayList<Student>();
         assertTrue(students.isEmpty());
         Student student1 = new Student(PawnColor.BLUE);
@@ -95,7 +96,7 @@ class DashboardTest {
     void testMoveStudent() {
         ArrayList<Student> students = new ArrayList<Student>();
         assertTrue(students.isEmpty());
-        Island island = new Island();
+        Island island = new Island(1);
         Student student1 = new Student(PawnColor.BLUE);
         Student student2 = new Student(PawnColor.RED);
         students.add(student1);

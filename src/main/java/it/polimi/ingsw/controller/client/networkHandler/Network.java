@@ -1,8 +1,14 @@
 package it.polimi.ingsw.controller.client.networkHandler;
 
+import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
+import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.Player;
+import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
+import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
+import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.AssistantCard;
+import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.view.asset.game.*;
 
 import java.util.ArrayList;
@@ -16,37 +22,43 @@ public interface Network {
 
     public void getConnection();
 
-    public void sendInfo(Player player, Game game) throws MalformedMessageException;
-
     public void getLobbyStatus();
 
-    public Phase getPhase(Phase phase);
+    public Phase getPhase() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
 
-    public ArrayList<AssistantCard> getPossibleCards();
+    public void getPossibleCards(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
 
-    public void sendCard(AssistantCard card);
-
-    public void sendColor(PawnColor color);
-
-    public void sendLocation(int location);
-
-    public ArrayList<Island> getPossibleIslands();
-
-    public void sendIsland(Island island);
+    public ArrayList<Island> getPossibleIslands(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
 
     public Player getNewOwner();
 
-    public ArrayList<Cloud> getPossibleClouds();
+    public ArrayList<Cloud> getPossibleClouds(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
 
-    public void sendCloud(Cloud cloud);
+    public ArrayList<Gamer> getWinner() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
 
-    public ArrayList<Player> getWinner();
+    public void getCloudStatus(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
-    public Cloud getCloudStatus();
+    public void getDashboard() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
-    public DashBoard getDashboard();
+    public void getIslandStatus(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
-    public Island getIslandStatus();
+    public void getMotherNaturePlace(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
-    public Island getMotherNaturePlace();
+    public void getChosenAssistantCard(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+
+    public ArrayList<AssistantCardDeckFigures> getPossibleDecks() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+
+    public void sendInfo(Player player, Game game) throws MalformedMessageException;
+
+    public void sendCard(AssistantCard card) throws FlowErrorException, MalformedMessageException, TimeHasEndedException;
+
+    public void sendColor(PawnColor color) throws FlowErrorException, MalformedMessageException, TimeHasEndedException;
+
+    public void sendLocation(int location) throws FlowErrorException, MalformedMessageException, TimeHasEndedException;
+
+    public void sendIsland(Island island) throws FlowErrorException, MalformedMessageException, TimeHasEndedException;
+
+    public void sendCloud(Cloud cloud) throws FlowErrorException, MalformedMessageException, TimeHasEndedException;
+
+    public void sendAssistantCardDeck(AssistantCardDeckFigures assistantCardDeck) throws MalformedMessageException;
 }

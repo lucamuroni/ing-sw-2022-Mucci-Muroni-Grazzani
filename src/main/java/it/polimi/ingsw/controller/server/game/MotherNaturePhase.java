@@ -11,7 +11,6 @@ import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.game.Game;
-import it.polimi.ingsw.model.gamer.Gamer;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -23,7 +22,6 @@ import java.util.Random;
 public class MotherNaturePhase implements GamePhase{
     private final Game game;
     private final GameController controller;
-    private Gamer currentPlayer;
     private final View view;
 
     /**
@@ -34,18 +32,14 @@ public class MotherNaturePhase implements GamePhase{
     public MotherNaturePhase(Game game, GameController controller){
         this.game = game;
         this.controller = controller;
-        this.currentPlayer = this.game.getCurrentPlayer();
         this.view = this.controller.getView();
     }
 
     /**
-     * this is the main method that handles this phase
+     * This is the main method that handles the MotherNaturePhase
      */
     @Override
     public void handle() {
-        try {
-            this.view.phaseChanghe("ActionPhase1");
-        } catch () {}
         try {
             this.moveMotherNature(this.controller.getPlayer(this.game.getCurrentPlayer()));
             ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
@@ -64,20 +58,14 @@ public class MotherNaturePhase implements GamePhase{
             }
         } catch (ModelErrorException e) {
             this.controller.shutdown();
-            e.printStackTrace();
-            return;
-        } catch (GenericErrorException e) {
-            e.printStackTrace();
-            return;
         }
     }
 
     /**
-     * This method handles the movement of MN and is called in handle()
+     * This method handles the movement of MN, and it is called in handle()
      * @param player represents the currentPlayer that is playing
-     * @throws GenericErrorException when the message from the client is malformed twice or the player disconnects from the game
      */
-    private void moveMotherNature(Player player) throws GenericErrorException {
+    private void moveMotherNature(Player player) {
         this.view.setCurrentPlayer(player);
         Island place = null;
         ArrayList<Island> possibleChoices = this.game.getMotherNatureDestination();
@@ -86,20 +74,18 @@ public class MotherNaturePhase implements GamePhase{
                 place = this.view.getMNLocation(possibleChoices);
             } catch (MalformedMessageException e) {
                 place = this.view.getMNLocation(possibleChoices);
-            } catch (TimeHasEndedException e) {
-                place = this.getRandomIsland(possibleChoices);
             }
         } catch (MalformedMessageException | ClientDisconnectedException e) {
             this.controller.handlePlayerError(player);
-            throw new GenericErrorException();
         } catch (TimeHasEndedException e) {
             place = this.getRandomIsland(possibleChoices);
+            this.game.moveMotherNature(place);
         }
         this.game.moveMotherNature(place);
     }
 
     /**
-     * Method called by moveMotherNature() that picks a random island when the player doesn't reply in time
+     * This method is called by moveMotherNature() and it picks a random island when the player doesn't reply in time
      * @param choices is the ArrayList of possible islands to choose from
      * @return a random island
      */

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.server.game;
 
+import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
@@ -22,7 +23,6 @@ import java.util.Random;
 public class ActionPhase3 implements GamePhase{
     private final Game game;
     private final GameController controller;
-    private Gamer currentPlayer;
     private final View view;
 
     /**
@@ -33,18 +33,27 @@ public class ActionPhase3 implements GamePhase{
     public ActionPhase3(Game game, GameController controller){
         this.game = game;
         this.controller = controller;
-        this.currentPlayer = this.game.getCurrentPlayer();
         this.view = this.controller.getView();
     }
 
     /**
-     * This is the main method that handles this phase
+     * This is the main method that handles the ActionPhase3
      */
     @Override
     public void handle() {
         try {
-            this.view.phaseChanghe("ActionPhase1");
-        } catch () {}
+            try{
+                this.view.sendNewPhase(Phase.ACTION_PHASE_3);
+            }catch(MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                this.view.sendNewPhase(Phase.ACTION_PHASE_3);
+            }
+        }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
+            try {
+                this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()));
+            } catch (ModelErrorException i) {
+                this.controller.shutdown();
+            }
+        }
         try {
             this.choseCloud(this.controller.getPlayer(this.game.getCurrentPlayer()));
             ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
@@ -54,8 +63,10 @@ public class ActionPhase3 implements GamePhase{
                 try {
                     try {
                         this.view.updateCloudsStatus(this.game.getClouds());
+                        this.view.updateDashboards(this.game.getGamers(), this.game);
                     } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
-                        this.view.updateDashboards(this.game.getGamers());
+                        this.view.updateCloudsStatus(this.game.getClouds());
+                        this.view.updateDashboards(this.game.getGamers(), this.game);
                     }
                 } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
                     this.controller.handlePlayerError(pl);
@@ -64,23 +75,18 @@ public class ActionPhase3 implements GamePhase{
         } catch (ModelErrorException e) {
             this.controller.shutdown();
             e.printStackTrace();
-            return;
-        } catch (GenericErrorException e) {
-            e.printStackTrace();
-            return;
         }
     }
 
     /**
      * This method handles the pull of the cloud chosen by the player, and it is called in handle()
-     * @param player representd the currentPlayer
-     * @throws GenericErrorException when the message from the client is malformed twice or the player doesn't reply in time
-     * @throws ModelErrorException
+     * @param player represents the currentPlayer
      */
-    private void choseCloud(Player player) throws GenericErrorException, ModelErrorException {
+    private void choseCloud(Player player) {
         this.view.setCurrentPlayer(player);
+        Gamer currentPlayer = this.game.getCurrentPlayer();
         Cloud chosenCloud = null;
-        ArrayList<Cloud> possibleChoices = new ArrayList<Cloud>();
+        ArrayList<Cloud> possibleChoices = new ArrayList<>();
         for (Cloud cloud : this.game.getClouds()) {
             if (!cloud.isEmpty()) {
                 possibleChoices.add(cloud);
@@ -91,21 +97,18 @@ public class ActionPhase3 implements GamePhase{
                 chosenCloud = this.view.getChosenCloud(possibleChoices);
             } catch (MalformedMessageException e) {
                 chosenCloud = this.view.getChosenCloud(possibleChoices);
-            } catch (TimeHasEndedException e) {
-                chosenCloud = this.getRandomCloud(possibleChoices);
             }
         } catch (MalformedMessageException | ClientDisconnectedException e) {
             this.controller.handlePlayerError(player);
-            throw new GenericErrorException();
         } catch (TimeHasEndedException e) {
             chosenCloud = this.getRandomCloud(possibleChoices);
+            currentPlayer.getDashboard().addStudentsWaitingRoom(chosenCloud.pullStudent());
         }
-        Gamer gamer = player.getGamer(this.game.getGamers());
-        gamer.getDashboard().addStudentsWaitingRoom(chosenCloud.pullStudent());
+        currentPlayer.getDashboard().addStudentsWaitingRoom(chosenCloud.pullStudent());
     }
 
     /**
-     * Method called by chooseCloud() that picks a random cloud when the player doesn't reply in time
+     * This method is called by chooseCloud() and it picks a random cloud when the player doesn't reply in time
      * @param clouds is the ArrayList of possible choices
      * @return a random cloud
      */
@@ -121,6 +124,26 @@ public class ActionPhase3 implements GamePhase{
      */
     @Override
     public GamePhase next() {
-        return new PlanningPhase(this.game, this.controller);
+        boolean mustEndGame = false;
+        if(this.game.getBag().isEmpty()){
+            mustEndGame = true;
+        }else{
+            for(Gamer gamer : this.game.getGamers()){
+                if(gamer.getDeck().getCardList().isEmpty()){
+                    mustEndGame = true;
+                }
+            }
+        }
+        if(mustEndGame){
+            return new VictoryPhase(this.game,this.controller);
+        }
+        if(this.game.getTurnNumber()%this.game.getGamers().size()==0){
+            this.game.updatePlayersOrder();
+            this.controller.updatePlayersOrder();
+            return new PlanningPhase(this.game, this.controller);
+        }else{
+            this.game.setCurrentPlayer(this.game.getGamers().get((this.game.getTurnNumber()%this.game.getGamers().size())-1));
+            return new ActionPhase1(this.game,this.controller);
+        }
     }
 }

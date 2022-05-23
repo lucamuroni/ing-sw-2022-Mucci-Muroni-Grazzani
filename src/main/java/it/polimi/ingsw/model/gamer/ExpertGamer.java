@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.AssistantCardDeck;
 import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.dashboard.ExpertDashboard;
 import it.polimi.ingsw.model.pawn.Student;
+import it.polimi.ingsw.model.pawn.TowerColor;
 
 import java.util.ArrayList;
 
@@ -19,8 +20,8 @@ public class ExpertGamer extends Gamer {
      * @param token represent the unique number associate with a player
      * @param username represent the name choose by the player that will be displayed
      */
-    public ExpertGamer(int token, String username) {
-        super(token, username);
+    public ExpertGamer(int token, String username, TowerColor color) {
+        super(token, username, color);
     }
 
     /**

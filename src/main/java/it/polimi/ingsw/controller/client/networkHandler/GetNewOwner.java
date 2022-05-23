@@ -1,9 +1,7 @@
 package it.polimi.ingsw.controller.client.networkHandler;
 
-import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.Player;
-import java.util.ArrayList;
 
 /**
  * @author Sara Mucci
@@ -22,7 +20,7 @@ public class GetNewOwner {
     }
 
     public Player handle() {
-        ArrayList<Message> messages = new ArrayList<Message>();
-        int topicId = this.messageHandler.getNewUniqueTopicID();
+
     }
 }
+//TODO: da fare

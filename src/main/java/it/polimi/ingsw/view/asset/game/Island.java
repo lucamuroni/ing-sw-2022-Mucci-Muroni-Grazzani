@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.asset.game;
 
-import it.polimi.ingsw.controller.networking.messageParts.TowerColor;
 import it.polimi.ingsw.model.pawn.Student;
+import it.polimi.ingsw.model.pawn.TowerColor;
 
 import java.util.ArrayList;
 
@@ -42,5 +42,21 @@ public class Island {
      */
     public void addStudent(Student student) {
         this.students.add(student);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public ArrayList<Student> getStudents() {
+        return students;
+    }
+
+    public int getNumTowers() {
+        return numTowers;
+    }
+
+    public TowerColor getTowersColor() {
+        return towersColor;
     }
 }
