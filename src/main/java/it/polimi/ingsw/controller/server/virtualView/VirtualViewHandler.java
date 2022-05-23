@@ -133,6 +133,20 @@ public class VirtualViewHandler implements View {
     }
 
     /**
+     * Method that handles the messages to send the assistant card chosen by the current player
+     * @param card represents the chosen card
+     * @param token represents the token associated to the current player
+     * @throws FlowErrorException launched when the client sends an unexpected response
+     * @throws MalformedMessageException launched if the message isn't created the correct way
+     * @throws TimeHasEndedException launched when the available time for the response ends
+     * @throws ClientDisconnectedException launched if the client disconnects
+     */
+    @Override
+    public void sendChosenAssistantCard(AssistantCard card, Integer token) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        SendChosenAssistantCard func = new SendChosenAssistantCard(card, token, messageHandler);
+    }
+
+    /**
      *Method that handles the messages to get the color of the student the current player moves
      * @return the color of the moved student
      * @throws MalformedMessageException launched if the message isn't created the correct way
@@ -247,21 +261,6 @@ public class VirtualViewHandler implements View {
     @Override
     public void updateCloudsStatus(Cloud cloud) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         UpdateCloudsStatus func = new UpdateCloudsStatus(cloud, messageHandler);
-        func.handle();
-    }
-
-    /**
-     * Method that handles the messages to send the assistant card chosen by the current player
-     * @param card represents the chosen card
-     * @param token represents the token associated to the current player
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws TimeHasEndedException launched when the available time for the response ends
-     * @throws ClientDisconnectedException launched if the client disconnects
-     */
-    @Override
-    public void sendChosenAssistantCard(AssistantCard card, Integer token, Gamer gamer) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        SendChosenAssistantCard func = new SendChosenAssistantCard(card, token, messageHandler, gamer);
         func.handle();
     }
 
