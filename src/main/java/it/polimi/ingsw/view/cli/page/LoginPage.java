@@ -66,6 +66,7 @@ public class LoginPage implements Page {
             menù.clear();
             menù.addOptions(opt);
             menù.setContext("Do you wish to join or partecipate ?");
+            menù.print();
             doNotProcede = true;
             while (doNotProcede){
                 choice = scanner.nextInt();

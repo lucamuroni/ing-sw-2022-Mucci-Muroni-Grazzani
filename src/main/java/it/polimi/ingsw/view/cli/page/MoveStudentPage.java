@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.cli.page;
 
-import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.cli.AnsiColor;
 import it.polimi.ingsw.view.cli.Menù;
@@ -8,25 +7,23 @@ import it.polimi.ingsw.view.cli.Menù;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class SelectAssistantCardPage implements Page {
-    private ArrayList<AssistantCard> cards;
+public class MoveStudentPage implements Page {
     private boolean clearance = false;
     private boolean isProcessReady = false;
     private Scanner scanner;
 
-    public SelectAssistantCardPage(ArrayList<AssistantCard> cards){
-        this.cards = new ArrayList<AssistantCard>(cards);
-        scanner = new Scanner(System.in);
+    public MoveStudentPage(){
+        this.scanner = new Scanner(System.in);
     }
-
     @Override
-    public void handle() {
+    public void handle() throws UndoException {
         ArrayList<String> options = new ArrayList<String>();
-        for(AssistantCard card : this.cards){
-            options.add(card.getName()+" ("+card.getTurnValue()+", "+card.getMovement()+")");
-        }
-        Menù menù = new Menù(options);
-        menù.setContext("Please select a card ");
+        options.add("Hall");
+        options.add("Island");
+        options.add("Back");
+        Menù menù= new Menù(options);
+        menù.setContext("Where do you want to move your player?");
+        menù.print();
         boolean doNotProcede = true;
         int choice = 0;
         while (doNotProcede){
@@ -35,12 +32,16 @@ public class SelectAssistantCardPage implements Page {
                 System.out.println(AnsiColor.RED+"No choice with that number");
                 System.out.println("Retry"+AnsiColor.RESET);
                 menù.print();
+            } else if(choice == 3){
+                throw new UndoException();
             }else {
-                // TODO log choice to the asset
                 doNotProcede = false;
-                synchronized (this){
-                    this.isProcessReady = true;
-                }
+            }
+        }
+        if(choice==2){
+            doNotProcede = true;
+            while(doNotProcede){
+                // TODO : select an island and populate it
             }
         }
     }
