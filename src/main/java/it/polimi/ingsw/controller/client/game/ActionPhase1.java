@@ -58,8 +58,6 @@ public class ActionPhase1 implements GamePhase{
             } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
                 this.controller.handleError();
             }
-
-
         }
     }
 
