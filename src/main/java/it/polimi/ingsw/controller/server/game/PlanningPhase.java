@@ -14,6 +14,8 @@ import it.polimi.ingsw.model.gamer.Gamer;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static it.polimi.ingsw.controller.networking.MessageFragment.CONTEXT_PLANNING;
+
 /**
  * This class implements the first phase of the game, which is the planning phase, where all the players choose
  * an AssistantCard to be played
@@ -44,19 +46,24 @@ public class PlanningPhase implements GamePhase{
      * This main method that handles the PlanningPhase
      */
     public void handle (){
-        try {
-            try{
-                this.view.sendNewPhase(Phase.PLANNINGPHASE);
-            }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
-                this.view.sendNewPhase(Phase.PLANNINGPHASE);
-            }
-        }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
+        for (Player player : this.controller.getPlayers())
+        {
+            this.view.setCurrentPlayer(player);
             try {
-                this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()));
-            } catch (ModelErrorException i) {
-                this.controller.shutdown();
+                try{
+                    this.view.sendNewPhase(Phase.PLANNINGPHASE);
+                }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                    this.view.sendNewPhase(Phase.PLANNINGPHASE);
+                }
+            }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
+                try {
+                    this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()));
+                } catch (ModelErrorException i) {
+                    this.controller.shutdown();
+                }
             }
         }
+
         for(Cloud cloud : this.game.getClouds()){
             this.game.fillCloud(this.game.getBag().pullStudents(this.numStudents), cloud);
         }
@@ -143,8 +150,10 @@ public class PlanningPhase implements GamePhase{
             this.view.setCurrentPlayer(players.get(i));
             try {
                 try {
+                    this.view.sendContext(CONTEXT_PLANNING.getFragment());
                     this.view.sendChosenAssistantCard(chosenCard, currentPlayer.getToken());
                 } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e) {
+                    this.view.sendContext(CONTEXT_PLANNING.getFragment());
                     this.view.sendChosenAssistantCard(chosenCard, currentPlayer.getToken());
                 }
             } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {

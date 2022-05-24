@@ -14,6 +14,8 @@ import it.polimi.ingsw.model.pawn.TowerColor;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import static it.polimi.ingsw.controller.networking.MessageFragment.CONTEXT_ACTION3;
+
 /**
  * This class implements the second part of the third phase of the game, which is the ActionPhase2, and in particular this part
  * handles the conquest of an island
@@ -45,8 +47,10 @@ public class ConquerIslandPhase implements GamePhase{
             this.view.setCurrentPlayer(pl);
             try {
                 try {
+                    this.view.sendContext(CONTEXT_ACTION3.getFragment());
                     this.view.updateIslandStatus(this.game.getMotherNature().getPlace());
                 } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
+                    this.view.sendContext(CONTEXT_ACTION3.getFragment());
                     this.view.updateIslandStatus(this.game.getMotherNature().getPlace());
                 }
             } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){

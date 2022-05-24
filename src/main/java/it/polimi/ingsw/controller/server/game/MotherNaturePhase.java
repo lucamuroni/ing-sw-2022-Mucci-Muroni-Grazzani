@@ -15,6 +15,8 @@ import it.polimi.ingsw.model.game.Game;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static it.polimi.ingsw.controller.networking.MessageFragment.CONTEXT_MOTHER;
+
 /**
  * This class implements the first part of the third phase of the game, which is the ActionPhase2, and in particular this part
  * handles the movement of MotherNature
@@ -48,8 +50,10 @@ public class MotherNaturePhase implements GamePhase{
                 this.view.setCurrentPlayer(pl);
                 try {
                     try {
+                        this.view.sendContext(CONTEXT_MOTHER.getFragment());
                         this.view.updateMotherNaturePlace(this.game.getMotherNature().getPlace());
                     } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
+                        this.view.sendContext(CONTEXT_MOTHER.getFragment());
                         this.view.updateMotherNaturePlace(this.game.getMotherNature().getPlace());
                     }
                 } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){

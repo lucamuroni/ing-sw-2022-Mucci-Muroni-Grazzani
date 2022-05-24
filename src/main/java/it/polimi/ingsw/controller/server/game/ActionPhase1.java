@@ -18,6 +18,9 @@ import it.polimi.ingsw.model.pawn.Student;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static it.polimi.ingsw.controller.networking.MessageFragment.CONTEXT_ACTION1;
+import static it.polimi.ingsw.controller.networking.MessageFragment.CONTEXT_PLANNING;
+
 /**
  * This class implements the second phase of the game, which is the ActionPhase1, where the current player moves 3/4 students
  * from his waitingRoom to an island or his hall
@@ -53,6 +56,11 @@ public class ActionPhase1 implements GamePhase{
     public void handle() {
         this.game.setTurnNumber();
         try {
+            this.view.setCurrentPlayer(this.controller.getPlayer(this.game.getCurrentPlayer()));
+        } catch (ModelErrorException e) {
+            this.controller.shutdown();
+        }
+        try {
             try{
                 this.view.sendNewPhase(Phase.ACTION_PHASE_1);
             }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
@@ -68,13 +76,26 @@ public class ActionPhase1 implements GamePhase{
         try {
             for (int cont = 0; cont < this.numOfMovements; cont++) {
                 this.moveStudentToLocation(this.controller.getPlayer(this.game.getCurrentPlayer()));
+                this.view.setCurrentPlayer(this.controller.getPlayer(this.game.getCurrentPlayer()));
+                try {
+                    try {
+                        this.view.updateDashboards(this.game.getCurrentPlayer(), this.game);
+                    } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
+                        this.view.updateDashboards(this.game.getCurrentPlayer(), this.game);
+                    }
+                } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
+                    this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()));
+                }
                 ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
+                players.remove(this.controller.getPlayer(this.game.getCurrentPlayer()));
                 for (Player pl : players) {
                     this.view.setCurrentPlayer(pl);
                     try {
                         try {
+                            this.view.sendContext(CONTEXT_ACTION1.getFragment());
                             this.view.updateDashboards(this.game.getCurrentPlayer(), this.game);
                         } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
+                            this.view.sendContext(CONTEXT_ACTION1.getFragment());
                             this.view.updateDashboards(this.game.getCurrentPlayer(), this.game);
                         }
                     } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
