@@ -39,7 +39,7 @@ public class Idle implements GamePhase{
         }
 
         switch (context) {
-            case 
+            case
 
         }
 
