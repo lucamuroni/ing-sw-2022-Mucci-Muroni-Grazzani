@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.dashboard;
 
 import it.polimi.ingsw.model.pawn.Student;
-
 import java.util.ArrayList;
 
 /**

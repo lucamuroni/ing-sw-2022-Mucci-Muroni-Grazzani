@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.debug.CharacterCard;
 import it.polimi.ingsw.model.debug.CharacterCardDeck;
 import it.polimi.ingsw.model.gamer.ExpertGamer;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -105,10 +104,17 @@ public class ExpertGame extends Game {
         return gameCards;
     }
 
+    /**
+     * Method that sets the variable moreSteps to true
+     */
     public void setMoreSteps() {
         this.moreSteps = true;
     }
 
+    /**
+     * Method that returns the mother nature destination in case it can perform more steps due to a character card played
+     * @return the mother nature destination
+     */
     @Override
     public ArrayList<Island> getMotherNatureDestination() {
         ArrayList<Island> result = new ArrayList<Island>(super.getMotherNatureDestination());

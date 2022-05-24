@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
-
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -20,7 +19,7 @@ public class Island{
     /**
      * Builder of the class.
      * Initiate the number of towers, the array of Students and the owner of the island(s)
-     * @param id is the unique id (1 to 12) given to a determinate island
+     * @param id is the unique id (1 to 12) given to an island
      */
     public Island(int id){
         this.numTowers = 0;
@@ -30,7 +29,7 @@ public class Island{
     }
 
     /**
-     * Method for adding Students to the Island
+     * Method to add Students to the Island
      * @param student the student to be added
      */
     public void addStudents(Student student){
@@ -38,8 +37,7 @@ public class Island{
     }
 
     /**
-     * Method for merging 2 different islands (or group of islands) whose owner
-     * is shared
+     * Method to merge 2 different islands (or group of islands) whose owner is shared
      * @param island represent the island that is going to be merged
      */
     public void mergeIsland(Island island){
@@ -65,7 +63,7 @@ public class Island{
     }
 
     /**
-     * Method for setting the owner of the island(s)
+     * Method to set the owner of the island(s)
      * @param gamer is the gamer that will own the island
      */
     public void setOwner(Gamer gamer){
@@ -73,10 +71,8 @@ public class Island{
     }
 
     /**
-     * Method for calculating the influence of a player given the ArrayList of colors
-     * taken from the list of professors that the gamer itself owns.
-     * This method would not calculate additional influence points given from the presence
-     * of towers
+     * Method to calculate the influence of a player given the ArrayList of colors taken from the list of professors that the gamer itself owns.
+     * This method would not calculate additional influence points given from the presence of towers
      * @param colors represents the colors on which you want to calculate the influence
      * @return an int that represent the influence of the gamer but without considering towers additional influence points
      */
@@ -101,6 +97,10 @@ public class Island{
         this.numTowers += 1;
     }
 
+    /**
+     * Method to get the id associated to the island
+     * @return the associated id
+     */
     public Integer getId(){
         return this.id;
     }
