@@ -29,15 +29,6 @@ public class VirtualViewHandler implements View {
     MessageHandler messageHandler;
 
     /**
-     * Method that handles the messages to set a new current player
-     * @param player represents the new current player
-     */
-    @Override
-    public void setCurrentPlayer(Player player) {
-        this.messageHandler = player.getMessageHandler();
-    }
-
-    /**
      * Methos that handles the messages to update the mother nature location
      * @param island represents the new mother nature location
      * @throws MalformedMessageException launched if the message isn't created the correct way
@@ -81,11 +72,32 @@ public class VirtualViewHandler implements View {
     }
 
     /**
-     *
+     * Method that handles the messages to update the clouds status
+     * @param clouds the clouds to update
+     * @throws FlowErrorException launched when the client sends an unexpected response
+     * @throws MalformedMessageException launched if the message isn't created the correct way
+     * @throws TimeHasEndedException launched when the available time for the response ends
+     * @throws ClientDisconnectedException launched if the client disconnects
      */
     @Override
-    public void haltOnError() {
+    public void updateCloudsStatus(ArrayList<Cloud> clouds) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        for (Cloud cloud : clouds) {
+            this.updateCloudsStatus(cloud);
+        }
+    }
 
+    /**
+     * Method that handles the messages to update the clouds status
+     * @param cloud the cloud to update
+     * @throws FlowErrorException launched when the client sends an unexpected response
+     * @throws MalformedMessageException launched if the message isn't created the correct way
+     * @throws TimeHasEndedException launched when the available time for the response ends
+     * @throws ClientDisconnectedException launched if the client disconnects
+     */
+    @Override
+    public void updateCloudsStatus(Cloud cloud) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        UpdateCloudsStatus func = new UpdateCloudsStatus(cloud, messageHandler);
+        func.handle();
     }
 
     /**
@@ -130,20 +142,6 @@ public class VirtualViewHandler implements View {
         GetChosenAssistantCard func = new GetChosenAssistantCard(cardsList, messageHandler);
         AssistantCard result = func.handle();
         return result;
-    }
-
-    /**
-     * Method that handles the messages to send the assistant card chosen by the current player
-     * @param card represents the chosen card
-     * @param token represents the token associated to the current player
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws TimeHasEndedException launched when the available time for the response ends
-     * @throws ClientDisconnectedException launched if the client disconnects
-     */
-    @Override
-    public void sendChosenAssistantCard(AssistantCard card, Integer token) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        SendChosenAssistantCard func = new SendChosenAssistantCard(card, token, messageHandler);
     }
 
     /**
@@ -192,20 +190,6 @@ public class VirtualViewHandler implements View {
     }
 
     /**
-     * Method that handles the messages to send the color of the current player
-     * @param color represents the current player's color
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws TimeHasEndedException launched when the available time for the response ends
-     * @throws ClientDisconnectedException launched if the client disconnects
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     */
-    @Override
-    public void sendTowerColor(TowerColor color) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException{
-        SendTowerColor func = new SendTowerColor(color, messageHandler);
-        func.handle();
-    }
-
-    /**
      * Method that handles the messages to get the cloud chosen by the current player
      * @param clouds represents the available islands
      * @return the chosen island
@@ -233,35 +217,6 @@ public class VirtualViewHandler implements View {
         GetChosenAssistantCardDeck func = new GetChosenAssistantCardDeck(cardDeck, messageHandler);
         AssistantCardDeckFigures result = func.handle();
         return result;
-    }
-
-    /**
-     * Method that handles the messages to update the clouds status
-     * @param clouds the clouds to update
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws TimeHasEndedException launched when the available time for the response ends
-     * @throws ClientDisconnectedException launched if the client disconnects
-     */
-    @Override
-    public void updateCloudsStatus(ArrayList<Cloud> clouds) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        for (Cloud cloud : clouds) {
-            this.updateCloudsStatus(cloud);
-        }
-    }
-
-    /**
-     * Method that handles the messages to update the clouds status
-     * @param cloud the cloud to update
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws TimeHasEndedException launched when the available time for the response ends
-     * @throws ClientDisconnectedException launched if the client disconnects
-     */
-    @Override
-    public void updateCloudsStatus(Cloud cloud) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        UpdateCloudsStatus func = new UpdateCloudsStatus(cloud, messageHandler);
-        func.handle();
     }
 
     /**
@@ -306,6 +261,57 @@ public class VirtualViewHandler implements View {
     public void sendWinner(ArrayList<String> names) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         SendWinner func = new SendWinner(names, messageHandler);
         func.handle();
+    }
+
+
+    /**
+     * Method that handles the messages to send the assistant card chosen by the current player
+     * @param card represents the chosen card
+     * @param token represents the token associated to the current player
+     * @throws FlowErrorException launched when the client sends an unexpected response
+     * @throws MalformedMessageException launched if the message isn't created the correct way
+     * @throws TimeHasEndedException launched when the available time for the response ends
+     * @throws ClientDisconnectedException launched if the client disconnects
+     */
+    @Override
+    public void sendChosenAssistantCard(AssistantCard card, Integer token) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        SendChosenAssistantCard func = new SendChosenAssistantCard(card, token, messageHandler);
+    }
+
+    /**
+     * Method that handles the messages to send the color of the current player
+     * @param color represents the current player's color
+     * @throws MalformedMessageException launched if the message isn't created the correct way
+     * @throws TimeHasEndedException launched when the available time for the response ends
+     * @throws ClientDisconnectedException launched if the client disconnects
+     * @throws FlowErrorException launched when the client sends an unexpected response
+     */
+    @Override
+    public void sendTowerColor(TowerColor color) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException{
+        SendTowerColor func = new SendTowerColor(color, messageHandler);
+        func.handle();
+    }
+
+    public void sendContext(String context) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        SendContext func = new SendContext(context, messageHandler);
+        func.handle();
+    }
+
+    /**
+     * Method that handles the messages to set a new current player
+     * @param player represents the new current player
+     */
+    @Override
+    public void setCurrentPlayer(Player player) {
+        this.messageHandler = player.getMessageHandler();
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void haltOnError() {
+
     }
 }
 
