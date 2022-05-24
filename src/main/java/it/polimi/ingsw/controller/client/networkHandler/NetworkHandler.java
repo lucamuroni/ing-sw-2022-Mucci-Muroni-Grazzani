@@ -20,6 +20,10 @@ import java.util.ArrayList;
 public class NetworkHandler implements Network {
     MessageHandler messageHandler;
 
+    public NetworkHandler(MessageHandler messageHandler){
+        this.messageHandler = messageHandler;
+    }
+
     @Override
     public Player getCurrentPlayer() {
 
