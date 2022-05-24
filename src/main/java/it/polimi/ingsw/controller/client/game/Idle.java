@@ -32,9 +32,10 @@ public class Idle implements GamePhase{
                 this.network.getPhase();
             }
         } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
-            //TODO: bisogna aggiungere metodo per gestire errore come nel server
+            this.controller.handleError();
         }
-
+        //TODO: Idle sarà un case-switch: ogni volta si legger con una read() un messaggio getContext() (nello switch), il quale dice in che fase si trova
+        //      il giocatore corrente, poi con un'altra read legge le informazioni che deve ricevere
     }
 
     private void update() {

@@ -52,8 +52,10 @@ public class ActionPhase1 implements GamePhase{
             try {
                 try {
                     this.network.getDashboard();
+                    //TODO: pezzo che modifica la view
                 } catch (MalformedMessageException e) {
                     this.network.getDashboard();
+                    //TODO: pezzo che modifica la view
                 }
             } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
                 this.controller.handleError();
