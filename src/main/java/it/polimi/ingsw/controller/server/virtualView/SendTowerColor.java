@@ -8,7 +8,6 @@ import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.pawn.TowerColor;
-import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.MessageFragment.OK;
 import static it.polimi.ingsw.controller.networking.MessageFragment.TOWER_COLOR;
 

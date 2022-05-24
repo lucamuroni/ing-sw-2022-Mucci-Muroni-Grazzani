@@ -9,11 +9,9 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.pawn.PawnColor;
-import it.polimi.ingsw.model.pawn.Professor;
 import it.polimi.ingsw.model.pawn.Student;
 import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.MessageFragment.*;
-import static java.lang.Integer.valueOf;
 
 /**
  * @author Luca Muroni

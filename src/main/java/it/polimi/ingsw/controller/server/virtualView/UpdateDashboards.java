@@ -14,7 +14,6 @@ import it.polimi.ingsw.model.pawn.Professor;
 import it.polimi.ingsw.model.pawn.Student;
 import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.MessageFragment.*;
-import static java.lang.Integer.valueOf;
 
 /**
  * @author LucaMuroni
@@ -24,7 +23,6 @@ public class UpdateDashboards {
     Gamer gamer;
     Game game;
     MessageHandler messageHandler;
-    //Game game;
 
     /**
      * Class constructor

@@ -8,12 +8,8 @@ import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.Island;
-import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.MessageFragment.MN_LOCATION;
 import static it.polimi.ingsw.controller.networking.MessageFragment.OK;
-import static java.lang.Integer.valueOf;
-
-//TODO : classe che gestisce l'aggiornamento della posizione di madre natura
 
 /**
  * @author Davide Grazzani
