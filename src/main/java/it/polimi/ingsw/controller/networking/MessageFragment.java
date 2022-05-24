@@ -12,6 +12,7 @@ public enum MessageFragment {
     CLOUD("cloud"),
     CLOUD_ID("cloud_id"),
     CONTEXT("context"),
+    CONTEXT_CLOUD("fillCloud"),
     CONTEXT_PLANNING("planning"),
     CONTEXT_ACTION1("action1"),
     CONTEXT_MOTHER("motherNature"),
