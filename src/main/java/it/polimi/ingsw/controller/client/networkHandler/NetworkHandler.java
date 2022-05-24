@@ -188,6 +188,11 @@ public class NetworkHandler implements Network {
         func.handle();
     }
 
+    public void getChosenAssistantCardDeck(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException{
+        GetChosenAssistantCardDeck func = new GetChosenAssistantCardDeck(messageHandler, game);
+        func.handle();
+    }
+
     /**
      * Method that returns the arraylist with the possible decks to choose from
      * @return the available decks

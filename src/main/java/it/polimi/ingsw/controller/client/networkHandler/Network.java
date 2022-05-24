@@ -127,6 +127,8 @@ public interface Network {
      */
     void getChosenAssistantCard(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
+    void getChosenAssistantCardDeck(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+
     /**
      * Method that returns the arraylist with the possible decks to choose from
      * @return the available decks

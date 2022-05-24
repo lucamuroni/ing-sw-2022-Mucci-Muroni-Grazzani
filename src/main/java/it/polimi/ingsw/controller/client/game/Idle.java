@@ -43,7 +43,7 @@ public class Idle implements GamePhase{
         }
 
         switch (context) {
-            case CONTEXT_PLANNING:
+            case CONTEXT_CARD:
                 try {
                     try {
                         this.network.getChosenAssistantCard(this.game);
@@ -55,6 +55,16 @@ public class Idle implements GamePhase{
                 }
                 //this.view.updateFigure();
                 break;
+            case CONTEXT_FIGURE:
+                try {
+                    try {
+                        this.network.getChosenAssistantCardDeck(this.game);
+                    } catch (MalformedMessageException e) {
+                        this.network.getChosenAssistantCardDeck(this.game);
+                    }
+                } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+                    this.controller.handleError();
+                }
             case CONTEXT_ISLAND:
                 try {
                     try {
@@ -87,6 +97,18 @@ public class Idle implements GamePhase{
                 } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
                     this.controller.handleError();
                 }
+                break;
+            case CONTEXT_MOTHER:
+                try {
+                    try {
+                        this.network.getMotherNaturePlace(this.game);
+                    } catch (MalformedMessageException e) {
+                        this.network.getMotherNaturePlace(this.game);
+                    }
+                } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+                    this.controller.handleError();
+                }
+                break;
         }
 
 

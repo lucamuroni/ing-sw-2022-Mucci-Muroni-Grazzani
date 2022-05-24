@@ -33,6 +33,6 @@ public class ClientController {
     }
 
     public void handleError() {
-        
+
     }
 }
