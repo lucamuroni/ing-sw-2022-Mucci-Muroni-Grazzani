@@ -46,7 +46,7 @@ class ClientReception extends Thread{
         }
         System.out.println("Connection closed");
     }
-
+    //TODO :sistemare la funzione per renderla catch safe
     private void playerHandShake(Player player){
         Thread t = new Thread(() -> {
             int uniqueMsgID = player.getMessageHandler().getNewUniqueTopicID();
