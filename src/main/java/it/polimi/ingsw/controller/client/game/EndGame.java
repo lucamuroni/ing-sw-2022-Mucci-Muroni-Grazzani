@@ -58,8 +58,4 @@ public class EndGame implements GamePhase{
         return null;
     }
 
-    @Override
-    public Phase getPhase() {
-        return null;
-    }
 }

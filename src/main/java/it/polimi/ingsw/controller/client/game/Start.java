@@ -13,7 +13,7 @@ import it.polimi.ingsw.view.asset.game.Gamer;
 
 import java.util.ArrayList;
 
-public class Start extends GamePhase {
+public class Start implements GamePhase {
     private final Game game;
     private final ViewHandler view;
     private final Network network;
@@ -96,8 +96,4 @@ public class Start extends GamePhase {
         return null;
     }
 
-    @Override
-    public Phase getPhase() {
-        return null;
-    }
 }
