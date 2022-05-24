@@ -65,6 +65,7 @@ public class Idle implements GamePhase{
                 } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
                     this.controller.handleError();
                 }
+                break;
             case CONTEXT_ISLAND:
                 try {
                     try {
@@ -109,20 +110,18 @@ public class Idle implements GamePhase{
                     this.controller.handleError();
                 }
                 break;
+            case CONTEXT_PHASE:
+                try {
+                    try {
+                        this.network.getPhase();
+                    } catch (MalformedMessageException | TimeHasEndedException e) {
+                        this.network.getPhase();
+                    }
+                } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+                    this.controller.handleError();
+                }
+                break;
         }
-
-
-        try {
-            try {
-                this.network.getPhase();
-            } catch (MalformedMessageException | TimeHasEndedException e) {
-                this.network.getPhase();
-            }
-        } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
-            this.controller.handleError();
-        }
-        //TODO: Idle sarà un case-switch: ogni volta si legger con una read() un messaggio getContext() (nello switch), il quale dice in che fase si trova
-        //      il giocatore corrente, poi con un'altra read legge le informazioni che deve ricevere
     }
 
     private void update() {
