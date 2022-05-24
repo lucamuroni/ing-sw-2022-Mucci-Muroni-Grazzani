@@ -59,8 +59,6 @@ public class GameSetup implements GamePhase{
         this.initIslands(this.game);
         for(Player player : this.controller.getPlayers()){
             try {
-                TowerColor color = this.randomColorPicker();
-                player.getGamer(this.game.getGamers()).setTowerColor(color);
                 player.getGamer(this.game.getGamers()).initGamer(this.game.getBag().pullStudents(this.numStudents),this.numTowers);
             } catch (ModelErrorException e) {
                 System.out.println("Error founded in model : shutting down this game");
@@ -232,17 +230,6 @@ public class GameSetup implements GamePhase{
         return AssistantCardDeckFigures.values()[rand];
     }
 
-    /**
-     * This method is called by handle() and it picks a random TowerColor for a player
-     * @return a random color
-     */
-    private TowerColor randomColorPicker() {
-        Random random = new Random();
-        int rand = random.nextInt(0, this.colors.size());
-        TowerColor result = this.colors.get(rand);
-        this.colors.remove(rand);
-        return result;
-    }
 
     /**
      * This method changes the phase to the next one

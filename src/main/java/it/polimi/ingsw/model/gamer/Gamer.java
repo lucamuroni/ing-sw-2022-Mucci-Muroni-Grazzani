@@ -87,4 +87,7 @@ public class Gamer{
     }
 
 
+    public TowerColor getTowerColor() {
+        return this.playerColor;
+    }
 }
