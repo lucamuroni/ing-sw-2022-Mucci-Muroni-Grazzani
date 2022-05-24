@@ -12,10 +12,8 @@ import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Cloud;
 import it.polimi.ingsw.view.asset.game.Game;
 
-import java.lang.reflect.Array;
-
 public class PlanningPhase implements GamePhase {
-    private final Phase name = Phase.PLANNINGPHASE;
+    private final Phase name = Phase.PLANNING_PHASE;
     private final Game game;
     private final ViewHandler view;
     private final Network network;

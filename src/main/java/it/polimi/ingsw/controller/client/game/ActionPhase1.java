@@ -14,7 +14,7 @@ import it.polimi.ingsw.view.asset.game.Game;
 import java.nio.charset.MalformedInputException;
 
 public class ActionPhase1 implements GamePhase{
-    private final PhaseName name = PhaseName.PLANNING_PHASE;
+    private final Phase name = Phase.PLANNING_PHASE;
     private final Game game;
     private final ViewHandler view;
     private final Network network;
