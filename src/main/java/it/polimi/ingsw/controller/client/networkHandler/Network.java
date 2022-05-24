@@ -23,6 +23,8 @@ public interface Network {
 
     void getLobbyStatus();
 
+    String getContext() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+
     /**
      * Method that returns the new current phase
      * @return the current phase

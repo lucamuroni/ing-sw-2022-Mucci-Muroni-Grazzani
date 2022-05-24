@@ -13,8 +13,10 @@ public class Idle implements GamePhase{
     private Phase name;
     private Network network;
     private ClientController controller;
+    p
     private ViewHandler view;
     private Game game;
+    private String context;
 
     public Idle(Game game, ClientController controller, ViewHandler view) {
         this.game = game;
@@ -25,6 +27,23 @@ public class Idle implements GamePhase{
 
     @Override
     public void handle() {
+        String context;
+        try {
+            try {
+                context = this.network.getContext();
+            } catch (MalformedMessageException e) {
+                context = this.network.getContext();
+            }
+        } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+            this.controller.handleError();
+        }
+
+        switch (context) {
+            case 
+
+        }
+
+
         try {
             try {
                 this.network.getPhase();

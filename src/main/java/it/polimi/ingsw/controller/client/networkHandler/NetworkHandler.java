@@ -43,6 +43,12 @@ public class NetworkHandler implements Network {
 
     }
 
+    public String getContext() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        GetContext func = new GetContext(messageHandler);
+        String context = func.handle();
+        return context;
+    }
+
     /**
      * Method that returns the new current phase
      * @return the current phase
