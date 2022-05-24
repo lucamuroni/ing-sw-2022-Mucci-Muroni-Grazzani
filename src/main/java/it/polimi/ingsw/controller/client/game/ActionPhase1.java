@@ -45,8 +45,11 @@ public class ActionPhase1 implements GamePhase{
                 } catch (MalformedMessageException e) {
                     this.network.sendColor(stud.getColor());
                     this.network.sendLocation(location);
+                } catch (ClientDisconnectedException e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e) {
+            } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException |
+                     ClientDisconnectedException e) {
                 this.controller.handleError();
             }
             try {

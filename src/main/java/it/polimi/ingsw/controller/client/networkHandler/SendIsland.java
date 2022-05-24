@@ -10,7 +10,7 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
 
 /**
  * @author Sara Mucci
- * Class that implements the message to send the new mother nature's location
+ * Class that implements the message to send the mother nature's new  location
  */
 public class SendIsland {
     Island island;
