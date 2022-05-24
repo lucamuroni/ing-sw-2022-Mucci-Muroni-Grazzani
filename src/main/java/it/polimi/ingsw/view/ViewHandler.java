@@ -17,4 +17,7 @@ public interface ViewHandler {
 
     AssistantCardDeckFigures chooseFigure(ArrayList<AssistantCardDeckFigures> figures);
 
+    void displayLoginPage();
+
+    void getPlayerInfo();
 }

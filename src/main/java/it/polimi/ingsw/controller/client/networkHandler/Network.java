@@ -192,4 +192,6 @@ public interface Network {
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
     void sendAssistantCardDeck(AssistantCardDeckFigures assistantCardDeck) throws MalformedMessageException;
+
+    void broadcastPlayerInfo();
 }
