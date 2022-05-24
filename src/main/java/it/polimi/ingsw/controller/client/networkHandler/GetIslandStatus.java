@@ -27,6 +27,7 @@ public class GetIslandStatus {
     /**
      * Class constructor
      * @param messageHandler represents the messageHandler used for the message
+     * @param game represents the current game
      */
     public GetIslandStatus(MessageHandler messageHandler, Game game) {
         this.messageHandler = messageHandler;

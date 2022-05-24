@@ -68,8 +68,8 @@ public class NetworkHandler implements Network {
     }
 
     @Override
-    public ArrayList<Gamer> getWinner() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException{
-        GetWinner func = new GetWinner(messageHandler);
+    public ArrayList<Gamer> getWinner(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException{
+        GetWinner func = new GetWinner(messageHandler, game);
         return func.handle();
     }
 
@@ -80,8 +80,8 @@ public class NetworkHandler implements Network {
     }
 
     @Override
-    public void getDashboard() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        GetDashboard func = new GetDashboard(messageHandler);
+    public void getDashboard(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        GetDashboard func = new GetDashboard(messageHandler, game);
         func.handle();
     }
 

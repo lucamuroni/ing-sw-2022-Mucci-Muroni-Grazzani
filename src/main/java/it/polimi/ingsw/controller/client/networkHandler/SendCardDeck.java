@@ -4,10 +4,7 @@ import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import java.util.ArrayList;
-
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.ASSISTANT_CARD_DECK;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
 
 /**
  * @author Sara Mucci
@@ -27,6 +24,10 @@ public class SendCardDeck {
         this.assistantCardDeck = assistantCardDeck;
     }
 
+    /**
+     * Method that handles the messages to send the chosen deck
+     * @throws MalformedMessageException launched if the message isn't created in the correct way
+     */
     public void handle() throws MalformedMessageException {
         int topicId = this.messageHandler.getMessagesUniqueTopic();
         Message message = new Message(ASSISTANT_CARD_DECK.getFragment(), assistantCardDeck.name(), topicId);

@@ -8,7 +8,6 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
 import it.polimi.ingsw.model.pawn.PawnColor;
-import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.STUDENT_COLOR;
 

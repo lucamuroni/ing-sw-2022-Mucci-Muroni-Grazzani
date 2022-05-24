@@ -7,9 +7,8 @@ import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import java.util.ArrayList;
 import it.polimi.ingsw.view.asset.game.Cloud;
 import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CLOUD;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CLOUD_ID;
-
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.PAYLOAD_SIZE;
 import it.polimi.ingsw.view.asset.game.Game;
 
 /**
@@ -24,6 +23,7 @@ public class GetPossibleClouds {
     /**
      * Class constructor
      * @param messageHandler represents the messageHandler used for the message
+     * @param game represents the current game
      */
     public GetPossibleClouds(MessageHandler messageHandler, Game game) {
         this.messageHandler = messageHandler;

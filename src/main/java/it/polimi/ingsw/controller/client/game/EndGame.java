@@ -30,9 +30,9 @@ public class EndGame implements GamePhase{
         ArrayList<Gamer> winner = new ArrayList<>();
         try {
             try {
-                winner.addAll(this.network.getWinner());
+                winner.addAll(this.network.getWinner(game));
             } catch (MalformedMessageException e) {
-                winner.addAll(this.network.getWinner());
+                winner.addAll(this.network.getWinner(game));
             }
         } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
             this.controller.handleError();

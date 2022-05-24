@@ -5,11 +5,8 @@ import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
-import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
 import it.polimi.ingsw.model.AssistantCard;
-import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.ASSISTANT_CARD;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
 
 /**
  * @author Sara Mucci
@@ -19,10 +16,10 @@ public class SendCard {
     AssistantCard card;
     MessageHandler messageHandler;
 
-
     /**
      * Class constructor
      * @param messageHandler represents the messageHandler used for the message
+     * @param card represents the chosen card to send
      */
     public SendCard(AssistantCard card, MessageHandler messageHandler) {
         this.card = card;

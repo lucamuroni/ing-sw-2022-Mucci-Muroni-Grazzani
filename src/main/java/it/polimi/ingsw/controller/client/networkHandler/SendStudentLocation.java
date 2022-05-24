@@ -7,7 +7,6 @@ import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
-import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.STUDENT_LOCATION;
 
@@ -21,7 +20,7 @@ public class SendStudentLocation {
 
     /**
      * Class constructor
-     * @param location represents the new student's location
+     * @param location represents the student's new location
      * @param messageHandler represents the messageHandles used for the message
      */
     public SendStudentLocation(int location, MessageHandler messageHandler) {
@@ -30,7 +29,7 @@ public class SendStudentLocation {
     }
 
     /**
-     * Method that handles the messages to send the location of the moved student
+     * Method that handles the messages to send the new location of the moved student
      * @throws MalformedMessageException launched if the message isn't created the correct way
      * @throws FlowErrorException launched when the client sends an unexpected response
      * @throws TimeHasEndedException launched when the available time for the response has ended

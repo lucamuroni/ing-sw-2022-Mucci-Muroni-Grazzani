@@ -34,11 +34,11 @@ public interface Network {
 
     public ArrayList<Cloud> getPossibleClouds(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
 
-    public ArrayList<Gamer> getWinner() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
+    public ArrayList<Gamer> getWinner(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
 
     public void getCloudStatus(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
-    public void getDashboard() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+    public void getDashboard(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
     public void getIslandStatus(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 

@@ -7,9 +7,6 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Island;
-
-import java.util.ArrayList;
-
 import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
@@ -25,6 +22,7 @@ public class GetMotherNaturePlace {
     /**
      * Class constructor
      * @param messageHandler represents the messageHandler used for the message
+     * @param game represents the current game
      */
     public GetMotherNaturePlace(MessageHandler messageHandler, Game game) {
         this.messageHandler = messageHandler;

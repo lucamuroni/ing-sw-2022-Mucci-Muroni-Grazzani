@@ -29,6 +29,7 @@ public enum MessageFragment {
     NUM_TOWERS("numTowers"),
     OK("ok"),
     OWNER("Owner"),
+    PAYLOAD_SIZE("payload dimension"),
     PAWN_RED("red"),
     PAWN_BLUE("blue"),
     PAWN_YELLOW("yellow"),
@@ -46,8 +47,7 @@ public enum MessageFragment {
     WAITING_PAWN_YELLOW("yellow"),
     WAITING_PAWN_GREEN("green"),
     WAITING_PAWN_PINK("pink"),
-    WINNER("winner"),
-    PAYLOAD_SIZE("payload dimension");
+    WINNER("winner");
 
     private String fragment;
 

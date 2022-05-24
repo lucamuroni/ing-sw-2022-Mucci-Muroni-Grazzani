@@ -25,6 +25,7 @@ public class GetCloudStatus {
     /**
      * Class constructor
      * @param messageHandler represents the messageHandler used for the message
+     * @param game represents the current game
      */
     public GetCloudStatus(MessageHandler messageHandler, Game game) {
         this.messageHandler = messageHandler;
@@ -33,13 +34,12 @@ public class GetCloudStatus {
     }
 
     /**
-     * Method that handles the messages to update the clouds status
+     * Method that handles the messages to update the clouds' status
      * @throws TimeHasEndedException launched when the available time for the response has ended
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
     public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
-        //ArrayList<Message> messages = new ArrayList<Message>();
         this.messageHandler.read(PLAYER_MOVE.getTiming());
         String id = this.messageHandler.getMessagePayloadFromStream(CLOUD_ID.getFragment());
         int result = Integer.parseInt(id);
@@ -49,7 +49,6 @@ public class GetCloudStatus {
                 cloud = cl;
             }
         }
-        //this.messageHandler.read(PLAYER_MOVE.getTiming());
         int colorRed = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_RED.getFragment()));
         if(colorRed > 0) {
             for (int i = 0; i < colorRed; i++) {
@@ -57,7 +56,6 @@ public class GetCloudStatus {
                 students.add(redStudent);
             }
         }
-        //this.messageHandler.read(PLAYER_MOVE.getTiming());
         int colorBlue = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_BLUE.getFragment()));
         if (colorBlue > 0) {
             for(int i = 0; i < colorBlue; i++) {
@@ -65,7 +63,6 @@ public class GetCloudStatus {
                 students.add(blueStudent);
             }
         }
-        //this.messageHandler.read(PLAYER_MOVE.getTiming());
         int colorYellow = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_YELLOW.getFragment()));
         if(colorYellow > 0) {
             for(int i = 0; i < colorYellow; i++) {
@@ -73,7 +70,6 @@ public class GetCloudStatus {
                 students.add(blueStudent);
             }
         }
-        //this.messageHandler.read(PLAYER_MOVE.getTiming());
         int colorGreen = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_GREEN.getFragment()));
         if(colorGreen > 0) {
             for(int i = 0; i < colorGreen; i++) {
@@ -81,7 +77,6 @@ public class GetCloudStatus {
                 students.add(greenStudent);
             }
         }
-        //this.messageHandler.read(PLAYER_MOVE.getTiming());
         int colorPink = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_PINK.getFragment()));
         if(colorPink > 0) {
             for(int i = 0; i < colorPink; i++) {

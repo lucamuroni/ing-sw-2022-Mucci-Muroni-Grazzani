@@ -6,10 +6,10 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.view.asset.game.Game;
-
 import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.ASSISTANT_CARD;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.PAYLOAD_SIZE;
 
 /**
  * @author Sara Mucci
@@ -23,6 +23,7 @@ public class GetPossibleCards {
     /**
      * Class constructor
      * @param messageHandler represents the messageHandler used for the message
+     * @param game represents the current game
      */
     public GetPossibleCards(MessageHandler messageHandler, Game game) {
         this.messageHandler = messageHandler;
@@ -32,7 +33,6 @@ public class GetPossibleCards {
 
     /**
      * Method that handles the messages to get the available assistant cards
-     * @return the arraylist of available assistant cards
      * @throws TimeHasEndedException launched when the available time for the response has ended
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created the correct way

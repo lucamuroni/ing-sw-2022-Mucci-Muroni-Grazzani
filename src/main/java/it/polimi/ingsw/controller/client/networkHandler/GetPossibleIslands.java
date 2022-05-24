@@ -9,10 +9,11 @@ import it.polimi.ingsw.view.asset.game.Island;
 import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.ISLAND_ID;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.PAYLOAD_SIZE;
 
 /**
  * @author Sara Mucci
- * Class that implements the message to get the possible islands where mother nature can move
+ * Class that implements the message to get the possible islands on which mother nature can move
  */
 public class GetPossibleIslands {
     MessageHandler messageHandler;
@@ -22,6 +23,7 @@ public class GetPossibleIslands {
     /**
      * Class constructor
      * @param messageHandler represents the messageHandler used for the message
+     * @param game represents the current game
      */
     public GetPossibleIslands(MessageHandler messageHandler, Game game) {
         this.messageHandler = messageHandler;

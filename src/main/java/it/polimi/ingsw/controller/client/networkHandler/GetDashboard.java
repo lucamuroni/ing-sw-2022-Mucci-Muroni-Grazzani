@@ -28,12 +28,14 @@ public class GetDashboard {
     /**
      * Class constructor
      * @param messageHandler represents the messageHandler used for the message
+     * @param game represents the current game
      */
-    public GetDashboard(MessageHandler messageHandler) {
+    public GetDashboard(MessageHandler messageHandler, Game game) {
         this.messageHandler = messageHandler;
         this.studentsWaitingRoom = new ArrayList<>();
         this.professors = new ArrayList<>();
         this.studentsHall = new ArrayList<>();
+        this.game = game;
     }
 
     /**
@@ -149,7 +151,7 @@ public class GetDashboard {
          Message message = new Message(DASHBOARD.getFragment(), OK.getFragment(), topicId);
          this.messageHandler.write(message);
          this.messageHandler.writeOut();
-        assert gamer != null;
-        gamer.getDashBoard().updateDashBoard(numTowers, studentsWaitingRoom, studentsHall, professors);
+         assert gamer != null;
+         gamer.getDashBoard().updateDashBoard(numTowers, studentsWaitingRoom, studentsHall, professors);
     }
 }

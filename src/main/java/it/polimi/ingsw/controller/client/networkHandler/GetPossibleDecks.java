@@ -8,6 +8,7 @@ import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.ASSISTANT_CARD_DECK;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.PAYLOAD_SIZE;
 
 /**
  * @author Sara Mucci
