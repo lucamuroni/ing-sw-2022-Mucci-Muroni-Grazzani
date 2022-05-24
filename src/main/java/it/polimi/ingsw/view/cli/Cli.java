@@ -9,21 +9,20 @@ import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.asset.game.Island;
 import it.polimi.ingsw.view.cli.page.LoadingPage;
+import it.polimi.ingsw.view.cli.page.UndoException;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class Cli implements ViewHandler {
     private final Game game;
-    private final GameType type;
     private final String os;
     private final ClientController controller;
     private boolean pageHasChanged;
     private Page currentPage;
     private final Object pageLock = new Object();
-    public Cli(Game game, GameType type, ClientController controller){
+    public Cli(Game game, ClientController controller){
         this.game = game;
-        this.type = type;
         this.controller = controller;
         this.os = System.getProperty("os.name");
         this.currentPage = new LoadingPage(this);
@@ -36,7 +35,13 @@ public class Cli implements ViewHandler {
             while (this.controller.isRunning()){
                 synchronized (this.pageLock){
                     if(this.pageHasChanged){
-                        currentPage.handle();
+                        try {
+                            currentPage.handle();
+                            this.pageHasChanged = false;
+                        } catch (UndoException e) {
+                            this.pageHasChanged = true;
+                            this.start();
+                        }
                     }
                 }
             }
@@ -58,7 +63,6 @@ public class Cli implements ViewHandler {
 
     public void changePage(Page page){
         synchronized (this.pageLock){
-            this.currentPage.kill();
             this.clearConsole();
             this.currentPage = page;
             this.pageHasChanged = true;
@@ -67,7 +71,7 @@ public class Cli implements ViewHandler {
 
     @Override
     public AssistantCard selectCard(ArrayList<AssistantCard> cards) {
-        return null;
+        this.changePage();
     }
 
     @Override
