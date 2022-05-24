@@ -75,7 +75,7 @@ public class ActionPhase1 implements GamePhase{
         }
         try {
             for (int cont = 0; cont < this.numOfMovements; cont++) {
-                this.moveStudentToLocation(this.controller.getPlayer(this.game.getCurrentPlayer()));
+                int place = this.moveStudentToLocation(this.controller.getPlayer(this.game.getCurrentPlayer()));
                 this.view.setCurrentPlayer(this.controller.getPlayer(this.game.getCurrentPlayer()));
                 try {
                     try {
@@ -93,9 +93,15 @@ public class ActionPhase1 implements GamePhase{
                     try {
                         try {
                             this.view.sendContext(CONTEXT_ACTION1.getFragment());
+                            if (place > 0) {
+                                this.view.updateIslandStatus(this.game.getIslands().get(place-1));
+                            }
                             this.view.updateDashboards(this.game.getCurrentPlayer(), this.game);
                         } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
                             this.view.sendContext(CONTEXT_ACTION1.getFragment());
+                            if (place > 0) {
+                                this.view.updateIslandStatus(this.game.getIslands().get(place-1));
+                            }
                             this.view.updateDashboards(this.game.getCurrentPlayer(), this.game);
                         }
                     } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
@@ -113,7 +119,7 @@ public class ActionPhase1 implements GamePhase{
      * This method handles the movement of the student chosen by the player, and it is called in handle()
      * @param player represents the currentPlayer that is playing
      */
-    private void moveStudentToLocation(Player player) {
+    private int moveStudentToLocation(Player player) {
         this.view.setCurrentPlayer(player);
         int place = 0;
         PawnColor color = null;
@@ -133,6 +139,7 @@ public class ActionPhase1 implements GamePhase{
             modelHandler(place,color);
         }
         modelHandler(place,color);
+        return place;
     }
 
     /**
