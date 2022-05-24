@@ -31,4 +31,8 @@ public class ClientController {
     public Network getNetwork() {
         return this.network;
     }
+
+    public void handleError() {
+        
+    }
 }

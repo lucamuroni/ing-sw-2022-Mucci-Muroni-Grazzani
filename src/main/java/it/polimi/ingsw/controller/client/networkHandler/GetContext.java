@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
 
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CONTEXT;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
 
 public class GetContext {
@@ -18,7 +19,7 @@ public class GetContext {
 
     public String handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
         this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
-        String context = this.messageHandler.getMessagePayloadFromStream(CONTEXT.getFragment);
+        String context = this.messageHandler.getMessagePayloadFromStream(CONTEXT.getFragment());
         int topicId = this.messageHandler.getMessagesUniqueTopic();
         Message message = new Message(CONTEXT.getFragment(), OK.getFragment(), topicId);
         this.messageHandler.write(message);

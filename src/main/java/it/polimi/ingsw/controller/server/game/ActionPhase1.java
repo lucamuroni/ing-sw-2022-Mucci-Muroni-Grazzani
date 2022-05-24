@@ -20,6 +20,7 @@ import java.util.Random;
 
 import static it.polimi.ingsw.controller.networking.MessageFragment.CONTEXT_ACTION1;
 import static it.polimi.ingsw.controller.networking.MessageFragment.CONTEXT_PLANNING;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CONTEXT_ACTION1;
 
 /**
  * This class implements the second phase of the game, which is the ActionPhase1, where the current player moves 3/4 students

@@ -74,4 +74,13 @@ public enum MessageFragment {
     public String getFragment() {
         return fragment;
     }
+
+    public static MessageFragment getEnum(String string) {
+        MessageFragment frag = null;
+        for (MessageFragment fragment : MessageFragment.values()) {
+            if (fragment.getFragment().equals(string))
+                frag = fragment;
+        }
+        return frag;
+    }
 }

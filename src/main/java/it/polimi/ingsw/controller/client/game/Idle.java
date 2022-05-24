@@ -6,8 +6,11 @@ import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
+import it.polimi.ingsw.controller.networking.messageParts.MessageFragment;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Game;
+
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CONTEXT_PLANNING;
 
 public class Idle implements GamePhase{
     private Phase name;
@@ -27,20 +30,63 @@ public class Idle implements GamePhase{
 
     @Override
     public void handle() {
-        String context;
+        this.view.goToIdle();
+        MessageFragment context = null;
         try {
             try {
-                context = this.network.getContext();
+                context = MessageFragment.getEnum(this.network.getContext());
             } catch (MalformedMessageException e) {
-                context = this.network.getContext();
+                context = MessageFragment.getEnum(this.network.getContext());
             }
         } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
             this.controller.handleError();
         }
 
         switch (context) {
-            case
-
+            case CONTEXT_PLANNING:
+                try {
+                    try {
+                        this.network.getChosenAssistantCard(this.game);
+                    } catch (MalformedMessageException e) {
+                        this.network.getChosenAssistantCard(this.game);
+                    }
+                } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+                    this.controller.handleError();
+                }
+                //this.view.updateFigure();
+                break;
+            case CONTEXT_ISLAND:
+                try {
+                    try {
+                        this.network.getIslandStatus(this.game);
+                    } catch (MalformedMessageException e) {
+                        this.network.getIslandStatus(this.game);
+                    }
+                } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+                    this.controller.handleError();
+                }
+                break;
+            case CONTEXT_DASHBOARD:
+                try {
+                    try {
+                        this.network.getDashboard(this.game);
+                    } catch (MalformedMessageException e) {
+                        this.network.getDashboard(this.game);
+                    }
+                } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+                    this.controller.handleError();
+                }
+                break;
+            case CONTEXT_CLOUD:
+                try {
+                    try {
+                        this.network.getCloudStatus(this.game);
+                    } catch (MalformedMessageException e) {
+                        this.network.getCloudStatus(this.game);
+                    }
+                } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+                    this.controller.handleError();
+                }
         }
 
 
