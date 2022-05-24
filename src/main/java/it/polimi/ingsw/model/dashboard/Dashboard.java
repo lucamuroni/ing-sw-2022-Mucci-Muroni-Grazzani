@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.dashboard;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
-
 import java.util.ArrayList;
 
 /**
@@ -82,11 +81,18 @@ public class Dashboard {
         return this.towers;
     }
 
-    //metodo da eliminare una volta terminato il test.
+    /**
+     * Method that returns the waiting room of the current dashboard
+     * @return the waiting room
+     */
     public ArrayList<Student> getWaitingRoom () {
         return this.waitingRoom;
     }
 
+    /**
+     * Method that returns the hall of the current dashboard
+     * @return the hall
+     */
     public ArrayList<Student> getHall(){
         return  this.hall;
     }
