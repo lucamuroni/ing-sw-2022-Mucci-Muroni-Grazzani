@@ -75,7 +75,7 @@ public class Game {
     }
 
     /**
-     * Method used to initiate the order of players
+     * Method used to initiate the order of the players
      */
     private void initiatePlayersOrder(){
         ArrayList<Gamer> players = new ArrayList<>(this.gamers);
@@ -275,6 +275,11 @@ public class Game {
     public void setTurnNumber() {
         this.turnNumber++;
     }
+
+    /**
+     * Method that checks if there is a winner or more winners for the current game
+     * @return the arraylist with the winner/winners (in case of a draw) for the game
+     */
     //TODO : finire la funzione checkWinner
     public ArrayList<Gamer> checkWinner() {
         ArrayList<Gamer> winners = new ArrayList<Gamer>();
@@ -288,6 +293,11 @@ public class Game {
         return winners;
     }
 
+    /**
+     * Method that returns the professor associated to a gamer
+     * @param gamer represents the current gamer
+     * @return the professors owned by the player
+     */
     public ArrayList<Professor> getProfessorsByGamer(Gamer gamer) {
         InfluenceCalculator influenceCalculator = new InfluenceCalculator(this.gamers,this.professors);
         return influenceCalculator.getProfessorsOwnedByPlayer(gamer);

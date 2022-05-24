@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.stream.Collectors;
 
 /**
  * @author Luca Muroni
@@ -17,7 +15,7 @@ public class AssistantCardDeck {
      * Class constructor
      * It is based on a simple pattern: every time are created two cards, the move increments by 1. This is proved by
      * the fact that the values for the cards are (turn, move):
-     *  (1,1), (2,1), (3,2), (4,2), (5,3), (6,3), (7,4), (8,4), (9,5), (10,5)
+     * (1,1), (2,1), (3,2), (4,2), (5,3), (6,3), (7,4), (8,4), (9,5), (10,5)
      */
     public AssistantCardDeck(){
         cardList = new ArrayList<AssistantCard>();

@@ -1,10 +1,7 @@
 package it.polimi.ingsw.model;
 
-
-
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -16,6 +13,9 @@ import java.util.Random;
 public class Bag {
     private ArrayList<Student> students;
 
+    /**
+     * Class constructor
+     */
     public Bag(){
         int numStudentsPerColor = 26;
         this.students = new ArrayList<Student>();
@@ -27,6 +27,11 @@ public class Bag {
         }
     }
 
+    /**
+     * Method that pulls the students from the bag
+     * @param number represents how many students has to be pulled
+     * @return the pulled students
+     */
     public ArrayList<Student> pullStudents(int number){
         ArrayList<Student> results = new ArrayList<Student>(number);
         Random randomIndexGen = new Random();
@@ -41,10 +46,18 @@ public class Bag {
         return results;
     }
 
+    /**
+     * Method that pushes students in the bag
+     * @param student represents the student that has to be pushed
+     */
     public void pushStudent(Student student){
         this.students.add(student);
     }
 
+    /**
+     * Method that checks if the bag is empty
+     * @return true if the bag is empty, false if the bag isn't empty
+     */
     public boolean isEmpty() {
         return this.students.isEmpty();
     }
