@@ -9,6 +9,7 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.pawn.PawnColor;
+import it.polimi.ingsw.model.pawn.TowerColor;
 import it.polimi.ingsw.view.asset.game.*;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public interface Network {
 
     public ArrayList<Island> getPossibleIslands(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
 
-    public Player getNewOwner();
+    public void getNewOwner(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
     public ArrayList<Cloud> getPossibleClouds(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
 
