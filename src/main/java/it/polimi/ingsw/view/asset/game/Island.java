@@ -36,6 +36,10 @@ public class Island {
         this.towersColor = towersColor;
     }
 
+    public void updateOwner(TowerColor towersColor) {
+        this.towersColor = towersColor;
+    }
+
     /**
      * This method add a student on the island on client's move
      * @param student

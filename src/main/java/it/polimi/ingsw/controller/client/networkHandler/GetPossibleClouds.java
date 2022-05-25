@@ -12,6 +12,7 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
 import it.polimi.ingsw.view.asset.game.Game;
 
 /**
+ * @author Luca Muroni
  * @author Sara Mucci
  * Class that implements the message to get the possible clouds
  */

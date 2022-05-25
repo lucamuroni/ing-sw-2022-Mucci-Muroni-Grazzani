@@ -11,6 +11,7 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.STUDENT_LOCATION;
 
 /**
+ * @author Luca Muroni
  * @author Sara Mucci
  * Class that implements the message to send the new location of the moved student
  */

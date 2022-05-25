@@ -13,6 +13,7 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
 
 /**
  * @author Luca Muroni
+ * @author Sara Mucci
  * Class that implements the messages to get the choosen card deck the current player chooses (to update the view)
  */
 public class GetChosenAssistantCardDeck {

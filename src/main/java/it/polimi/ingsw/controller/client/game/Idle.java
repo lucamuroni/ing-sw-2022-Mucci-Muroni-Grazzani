@@ -18,6 +18,7 @@ public class Idle implements GamePhase{
     private final ViewHandler view;
     private final Game game;
     private GamePhase nextPhase;
+    private boolean stop;
 
     public Idle(Game game, ClientController controller, ViewHandler view) {
         this.game = game;
@@ -29,7 +30,8 @@ public class Idle implements GamePhase{
     @Override
     public void handle() {
         this.view.goToIdle();
-        while (true) {
+        this.stop = false;
+        while (!stop) {
             MessageFragment context = null;
             try {
                 try {
@@ -51,7 +53,6 @@ public class Idle implements GamePhase{
                     } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
                         this.controller.handleError();
                     }
-                    //this.view.updateFigure();
                     break;
                 case CONTEXT_FIGURE:
                     try {
@@ -126,7 +127,7 @@ public class Idle implements GamePhase{
                         case ACTION_PHASE_3 -> nextPhase = new ActionPhase3(this.game, this.controller, this.view);
                         case END_GAME_PHASE -> nextPhase = new EndGame(this.game, this.controller, this.view);
                     }
-                    this.next();
+                    this.stop = true;
                     break;
             }
         }

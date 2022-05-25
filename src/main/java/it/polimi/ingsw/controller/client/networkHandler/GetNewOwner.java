@@ -30,7 +30,6 @@ public class GetNewOwner {
 
     /**
      * Method that handles the messages to get the color of the island's new owner
-     * @return
      * @throws TimeHasEndedException
      * @throws ClientDisconnectedException
      * @throws MalformedMessageException
@@ -48,7 +47,7 @@ public class GetNewOwner {
         Message message = new Message(TOWER_COLOR.getFragment(), OK.getFragment(), topicId);
         this.messageHandler.write(message);
         this.messageHandler.writeOut();
-        //this.game.getMotherNaturePosition().
+        this.game.getMotherNaturePosition().updateOwner(color);
     }
 }
 //TODO: serve un metodo o un attributo in island per mostrare il colore della torre sull'isola

@@ -15,6 +15,7 @@ import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimin
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
+ * @author Luca Muroni
  * @author Sara Mucci
  * Class that updates the islands' status in the view
  */

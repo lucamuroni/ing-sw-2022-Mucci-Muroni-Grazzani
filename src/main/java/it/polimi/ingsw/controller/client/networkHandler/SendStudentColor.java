@@ -12,6 +12,7 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.STUDENT_COLOR;
 
 /**
+ * @author Luca Muroni
  * @author Sara Mucci
  * Class that implements the message to send the color of the moved student
  */

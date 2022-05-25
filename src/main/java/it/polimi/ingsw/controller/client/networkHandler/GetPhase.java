@@ -11,6 +11,7 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.PHASE;
 
 /**
+ * @author Luca Muroni
  * @author Sara Mucci
  * Class that imlements the message to get the new phase
  */

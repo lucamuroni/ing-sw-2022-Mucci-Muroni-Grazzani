@@ -12,6 +12,7 @@ import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimin
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
+ * @author Luca Muroni
  * @author Sara Mucci
  * Class that implements the message to get the winner (or winner in case of a tie) for the current game
  */

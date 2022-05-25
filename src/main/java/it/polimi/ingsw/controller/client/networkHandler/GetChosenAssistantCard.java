@@ -12,6 +12,7 @@ import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimin
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
+ * @author Luca Muroni
  * @author Sara Mucci
  * Class that implements the message to get the chosen assistant card the current player chooses (to update the view)
  */

@@ -12,6 +12,7 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.PAYLOAD_SIZE;
 
 /**
+ * @author Luca Muroni
  * @author Sara Mucci
  * Class that implements the message to get the possible assistant cards
  */
