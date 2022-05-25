@@ -43,7 +43,6 @@ public class Island{
      * @param island represent the island that is going to be merged
      */
     public void mergeIsland(Island island){
-        this.id += island.getId();
         this.numTowers += island.getNumTowers();
         this.students.addAll(island.getStudents());
     }
