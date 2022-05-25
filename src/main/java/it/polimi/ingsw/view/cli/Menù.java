@@ -31,56 +31,22 @@ public class Menù {
             System.out.print("#");
         }
         System.out.print("\n");
-        int menùIndex = 0;
-        int counter;
-        String header = "# ";
         if(!this.context.equals("")){
-            for(counter =0; counter<this.context.length();counter++){
-                if (counter == (menùLength-(header.length()+2+padding.length()))){
-                    System.out.print("   #");
-                    System.out.print("\n");
-                }
-                System.out.print(this.context.toCharArray()[counter]);
-            }
-            counter = counter%this.menùLength;
-            while (counter<this.menùLength-(header.length()+2+padding.length())){
-                System.out.print(" ");
-            }
-            System.out.print("   #");
-            System.out.print("\n");
-            for(int i = 0;i<this.menùLength;i++){
+            this.println(this.context,0);
+            for(int i = 0;i<menùLength;i++){
                 System.out.print("#");
             }
             System.out.print("\n");
         }
+        int menùIndex = 0;
         for(String option : options){
             menùIndex ++;
-            header = "# "+menùIndex+")"+padding;
-            System.out.print(header);
-            for(counter =0; counter<option.length();counter++){
-                if (counter == (menùLength-(header.length()+2+padding.length()))){
-                    System.out.print("   #");
-                    System.out.print("\n");
-                }
-                System.out.print(option.toCharArray()[counter]);
-            }
-            counter = counter%this.menùLength;
-            while (counter<this.menùLength-(header.length()+2+padding.length())){
-                System.out.print(" ");
-            }
-            System.out.print("   #");
-            System.out.print("\n");
+            this.println(option,menùIndex);
         }
         for(int i = 0;i<this.menùLength;i++){
             System.out.print("#");
         }
         System.out.print("\n");
-    }
-
-    public static void main(String args[]){
-        ArrayList<String> str = new ArrayList<>();
-        str.add("opt1");
-        str.add("opt2");
     }
 
     public void setContext(String s){
@@ -94,6 +60,31 @@ public class Menù {
     public void addOptions(ArrayList<String> options){
         for(String option : options){
             this.addOption(option);
+        }
+    }
+
+    private void println(String s,int optNumber){
+        String header = "# ";
+        String footer = " #";
+        if(optNumber != 0){
+            header += optNumber+") ";
+        }
+        System.out.print(header);
+        int position = header.length();
+        for(int counter = 0; counter<s.length(); counter++){
+            for(position = header.length();position<(this.menùLength-footer.length());position++){
+                if(counter<s.length()){
+                    System.out.print(s.toCharArray()[counter]);
+                    counter++;
+                }else{
+                    System.out.print(" ");
+                }
+            }
+            header = "# ";
+            System.out.print(footer+"\n");
+            if(counter<s.length()){
+                System.out.print(header);
+            }
         }
     }
 }
