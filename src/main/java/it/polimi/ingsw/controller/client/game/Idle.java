@@ -10,13 +10,10 @@ import it.polimi.ingsw.controller.networking.messageParts.MessageFragment;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Game;
 
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CONTEXT_PLANNING;
-
 public class Idle implements GamePhase{
     private Phase name;
     private Network network;
     private ClientController controller;
-    p
     private ViewHandler view;
     private Game game;
     private String context;
