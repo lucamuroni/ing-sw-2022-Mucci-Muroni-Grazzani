@@ -7,10 +7,7 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.pawn.PawnColor;
-import java.util.ArrayList;
-
-import static it.polimi.ingsw.controller.networking.MessageFragment.OK;
-import static it.polimi.ingsw.controller.networking.MessageFragment.STUDENT_COLOR;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
  * @author Luca Muroni

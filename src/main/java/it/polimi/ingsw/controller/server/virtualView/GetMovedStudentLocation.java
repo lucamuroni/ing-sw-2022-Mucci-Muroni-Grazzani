@@ -6,10 +6,7 @@ import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
-import java.util.ArrayList;
-
-import static it.polimi.ingsw.controller.networking.MessageFragment.OK;
-import static it.polimi.ingsw.controller.networking.MessageFragment.STUDENT_LOCATION;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
  * @author Luca Muroni
