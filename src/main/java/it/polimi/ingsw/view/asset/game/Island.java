@@ -8,11 +8,14 @@ import java.util.ArrayList;
 /**
  * This class represents an Island
  */
+
+// TODO : modifica comportamento torri
 public class Island {
     private final int id;
     private ArrayList<Student> students;
     private int numTowers;
     private TowerColor towersColor;
+    private boolean isMotherNaturePresent;
 
     /**
      * Constructor of the class
@@ -21,6 +24,7 @@ public class Island {
     public Island(int id){
         this.id = id;
         this.numTowers = 0;
+        this.isMotherNaturePresent = false;
     }
 
     /**
@@ -58,5 +62,13 @@ public class Island {
 
     public TowerColor getTowersColor() {
         return towersColor;
+    }
+
+    public boolean isMotherNaturePresent() {
+        return this.isMotherNaturePresent;
+    }
+
+    public void setMotherNaturePresent(boolean motherNaturePresent) {
+        this.isMotherNaturePresent = motherNaturePresent;
     }
 }
