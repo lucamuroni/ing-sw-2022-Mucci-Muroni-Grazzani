@@ -16,6 +16,7 @@ public class Island {
     private int numTowers;
     private TowerColor towersColor;
     private boolean isMotherNaturePresent;
+    private boolean isTowerPresent;
 
     /**
      * Constructor of the class
@@ -25,6 +26,7 @@ public class Island {
         this.id = id;
         this.numTowers = 0;
         this.isMotherNaturePresent = false;
+        this.isTowerPresent = false;
     }
 
     /**
@@ -70,5 +72,13 @@ public class Island {
 
     public void setMotherNaturePresent(boolean motherNaturePresent) {
         this.isMotherNaturePresent = motherNaturePresent;
+    }
+
+    public boolean isTowerPresent() {
+        return isTowerPresent;
+    }
+
+    public void setTowerPresent() {
+        isTowerPresent = true;
     }
 }
