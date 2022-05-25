@@ -51,7 +51,7 @@ public class LoginPage implements Page {
                     menù.print();
                 }else {
                     if (choice == 1) {
-                        //TODO: deve il controller con un metodo, ad esempio createGame
+                        //TODO: deve il controller con un metodo, ad esempio
                         Game game = new Game(player);
                     } else {
                         ExpertGame game = new ExpertGame(player);
