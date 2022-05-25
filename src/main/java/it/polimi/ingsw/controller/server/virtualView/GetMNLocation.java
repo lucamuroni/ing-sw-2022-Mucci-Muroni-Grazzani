@@ -1,15 +1,15 @@
 package it.polimi.ingsw.controller.server.virtualView;
 
-import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
+import it.polimi.ingsw.controller.networking.ConnectionTimings;
 import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.Island;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.MN_LOCATION;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.STOP;
 import java.util.ArrayList;
+
+import static it.polimi.ingsw.controller.networking.MessageFragment.*;
 
 /**
  * @author Luca Muroni
@@ -38,24 +38,21 @@ public class GetMNLocation {
      */
     public Island handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
-        int size = this.islands.size();
-        Message message = new Message(PAYLOAD_SIZE.getFragment(), String.valueOf(size),topicId);
-        this.messageHandler.write(message);
-        this.messageHandler.writeOut();
         for (Island island : this.islands) {
-            message = new Message(ISLAND_ID.getFragment(), island.getId().toString(), topicId);
+            Message message = new Message(ISLAND_ID.getFragment(), island.getId().toString(), topicId);
             this.messageHandler.write(message);
-            this.messageHandler.writeOut();
         }
+        this.messageHandler.write(new Message(STOP.getFragment(), "", topicId));
         this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
         if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
             throw new MalformedMessageException();
         }
-        Island result = null;
         int islandId = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(MN_LOCATION.getFragment()));
+        Island result = null;
         for (Island island : this.islands) {
-            if (island.getId() == islandId)
+            if (island.getId().equals(islandId)) {
                 result = island;
+            }
         }
         return result;
     }

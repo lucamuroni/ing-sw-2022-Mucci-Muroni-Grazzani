@@ -1,6 +1,5 @@
 package it.polimi.ingsw.controller.server;
 
-import it.polimi.ingsw.controller.networking.GameType;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.server.game.gameController.ExpertGameController;
 import it.polimi.ingsw.controller.server.game.gameController.GameController;
@@ -41,6 +40,7 @@ public class Lobby {
     // TODO : fare partire i controller
     public void startGame(Server server){
         Thread t = new Thread(()->{
+            System.out.println("A new game is about to start");
             if(this.type==GameType.NORMAL){
                 GameController gameController = new GameController(server,this.players);
             }else{
