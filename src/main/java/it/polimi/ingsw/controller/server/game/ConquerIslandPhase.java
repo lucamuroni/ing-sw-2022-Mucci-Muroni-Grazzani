@@ -55,6 +55,7 @@ public class ConquerIslandPhase implements GamePhase{
             } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
                 this.controller.handlePlayerError(pl);
             }
+            //TODO: aggiungere dashboard
         }
     }
 

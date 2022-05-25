@@ -50,8 +50,7 @@ public class NetworkHandler implements Network {
 
     public String getContext() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetContext func = new GetContext(messageHandler);
-        String context = func.handle();
-        return context;
+        return func.handle();
     }
 
     /**
@@ -130,7 +129,6 @@ public class NetworkHandler implements Network {
     /**
      * Method that returns the arraylist with the winner (or winners) for the current game
      * @param game represents the current game
-     * @return the winner/winners
      * @throws TimeHasEndedException launched when the available time for the response has ended
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created in the correct way

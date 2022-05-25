@@ -28,7 +28,7 @@ public class Idle implements GamePhase{
 
     @Override
     public void handle() {
-        //this.view.goToIdle();
+        this.view.goToIdle();
         MessageFragment context = null;
         try {
             try {

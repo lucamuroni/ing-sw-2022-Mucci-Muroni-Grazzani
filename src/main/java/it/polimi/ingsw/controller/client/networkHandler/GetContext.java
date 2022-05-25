@@ -18,7 +18,7 @@ public class GetContext {
     }
 
     public String handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
-        this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
+        this.messageHandler.read(ConnectionTimings.INFINITE.getTiming());
         String context = this.messageHandler.getMessagePayloadFromStream(CONTEXT.getFragment());
         int topicId = this.messageHandler.getMessagesUniqueTopic();
         Message message = new Message(CONTEXT.getFragment(), OK.getFragment(), topicId);
