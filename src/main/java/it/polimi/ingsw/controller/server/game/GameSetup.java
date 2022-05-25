@@ -15,6 +15,8 @@ import it.polimi.ingsw.model.pawn.TowerColor;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
+
 /**
  * This class is the setup phase of the game, where all the info to start a game are initialized and sent to the players
  */
@@ -52,11 +54,11 @@ public class GameSetup implements GamePhase{
      * This is the main method that handles the GameSetup
      */
     public void handle(){
+        this.initIslands(this.game);
         for(Player player : this.controller.getPlayers()){
             this.updateMotherNaturePlace(player);
             this.updateIslandStatus(player);
         }
-        this.initIslands(this.game);
         for(Player player : this.controller.getPlayers()){
             try {
                 player.getGamer(this.game.getGamers()).initGamer(this.game.getBag().pullStudents(this.numStudents),this.numTowers);
@@ -117,8 +119,10 @@ public class GameSetup implements GamePhase{
         this.view.setCurrentPlayer(player);
         try{
             try{
+                this.view.sendContext(CONTEXT_MOTHER.getFragment());
                 this.view.updateMotherNaturePlace(this.game.getMotherNature().getPlace());
             }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                this.view.sendContext(CONTEXT_MOTHER.getFragment());
                 this.view.updateMotherNaturePlace(this.game.getMotherNature().getPlace());
             }
         }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
@@ -134,8 +138,10 @@ public class GameSetup implements GamePhase{
         this.view.setCurrentPlayer(player);
         try{
             try{
+                this.view.sendContext(CONTEXT_ISLAND.getFragment());
                 this.view.updateIslandStatus(this.game.getIslands());
             }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                this.view.sendContext(CONTEXT_ISLAND.getFragment());
                 this.view.updateIslandStatus(this.game.getIslands());
             }
         }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
@@ -147,8 +153,10 @@ public class GameSetup implements GamePhase{
         this.view.setCurrentPlayer(player);
         try {
             try {
+                this.view.sendContext(CONTEXT_COLOR.getFragment());
                 this.view.sendTowerColor(player.getGamer(this.game.getGamers()).getTowerColor());
             } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e) {
+                this.view.sendContext(CONTEXT_COLOR.getFragment());
                 this.view.sendTowerColor(player.getGamer(this.game.getGamers()).getTowerColor());
             }
         } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
@@ -166,8 +174,10 @@ public class GameSetup implements GamePhase{
         this.view.setCurrentPlayer(player);
         try{
             try{
+                this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
                 this.view.updateDashboards(this.game.getGamers(), this.game);
             }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
                 this.view.updateDashboards(this.game.getGamers(), this.game);
             }
         }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
@@ -210,8 +220,10 @@ public class GameSetup implements GamePhase{
         this.view.setCurrentPlayer(player);
         try{
             try{
+                this.view.sendContext(CONTEXT_FIGURE.getFragment());
                 this.view.sendChosenAssistantCardDeck(figure, currentPlayer.getToken(), currentPlayer);
             }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                this.view.sendContext(CONTEXT_FIGURE.getFragment());
                 this.view.sendChosenAssistantCardDeck(figure, currentPlayer.getToken(), currentPlayer);
             }
         }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
@@ -229,7 +241,6 @@ public class GameSetup implements GamePhase{
         int rand = random.nextInt(0, AssistantCardDeckFigures.values().length);
         return AssistantCardDeckFigures.values()[rand];
     }
-
 
     /**
      * This method changes the phase to the next one

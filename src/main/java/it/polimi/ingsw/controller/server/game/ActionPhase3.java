@@ -6,7 +6,6 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
-import it.polimi.ingsw.controller.server.game.exceptions.GenericErrorException;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
@@ -17,8 +16,7 @@ import it.polimi.ingsw.model.gamer.Gamer;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static it.polimi.ingsw.controller.networking.MessageFragment.CONTEXT_ACTION1;
-import static it.polimi.ingsw.controller.networking.MessageFragment.CONTEXT_ACTION3;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
  * This class implements the fourth phase of the game, which is the ActionPhase3, where the currentPlayer chooses a cloud
@@ -71,11 +69,11 @@ public class ActionPhase3 implements GamePhase{
                 this.view.setCurrentPlayer(pl);
                 try {
                     try {
-                        this.view.sendContext(CONTEXT_ACTION3.getFragment());
+                        this.view.sendContext(CONTEXT_CLOUD.getFragment());
                         this.view.updateCloudsStatus(this.game.getClouds());
                         this.view.updateDashboards(this.game.getGamers(), this.game);
                     } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
-                        this.view.sendContext(CONTEXT_ACTION3.getFragment());
+                        this.view.sendContext(CONTEXT_CLOUD.getFragment());
                         this.view.updateCloudsStatus(this.game.getClouds());
                         this.view.updateDashboards(this.game.getGamers(), this.game);
                     }
