@@ -2,7 +2,6 @@ package it.polimi.ingsw.controller.client.game;
 
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.client.networkHandler.Network;
-import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
@@ -11,10 +10,7 @@ import it.polimi.ingsw.model.pawn.Student;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Game;
 
-import java.nio.charset.MalformedInputException;
-
 public class ActionPhase1 implements GamePhase{
-    private final Phase name = Phase.PLANNING_PHASE;
     private final Game game;
     private final ViewHandler view;
     private final Network network;
@@ -54,10 +50,10 @@ public class ActionPhase1 implements GamePhase{
             }
             try {
                 try {
-                    this.network.getDashboard();
+                    this.network.getDashboard(this.game);
                     //TODO: pezzo che modifica la view
                 } catch (MalformedMessageException e) {
-                    this.network.getDashboard();
+                    this.network.getDashboard(this.game);
                     //TODO: pezzo che modifica la view
                 }
             } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
@@ -69,10 +65,5 @@ public class ActionPhase1 implements GamePhase{
     @Override
     public GamePhase next() {
         return new Idle(this.game, this.controller, this.view);
-    }
-
-    @Override
-    public Phase getPhase() {
-        return name;
     }
 }

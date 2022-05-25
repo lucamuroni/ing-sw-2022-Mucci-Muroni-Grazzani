@@ -10,13 +10,14 @@ import it.polimi.ingsw.controller.networking.messageParts.MessageFragment;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Game;
 
+import java.util.Objects;
+
 public class Idle implements GamePhase{
-    private Phase name;
-    private Network network;
-    private ClientController controller;
-    private ViewHandler view;
-    private Game game;
-    private String context;
+    private final Network network;
+    private final ClientController controller;
+    private final ViewHandler view;
+    private final Game game;
+    private GamePhase nextPhase;
 
     public Idle(Game game, ClientController controller, ViewHandler view) {
         this.game = game;
@@ -27,7 +28,7 @@ public class Idle implements GamePhase{
 
     @Override
     public void handle() {
-        this.view.goToIdle();
+        //this.view.goToIdle();
         MessageFragment context = null;
         try {
             try {
@@ -39,7 +40,7 @@ public class Idle implements GamePhase{
             this.controller.handleError();
         }
 
-        switch (context) {
+        switch (Objects.requireNonNull(context)) {
             case CONTEXT_CARD:
                 try {
                     try {
@@ -108,30 +109,40 @@ public class Idle implements GamePhase{
                 }
                 break;
             case CONTEXT_PHASE:
+                Phase phase = null;
                 try {
                     try {
-                        this.network.getPhase();
+                         phase = this.network.getPhase();
                     } catch (MalformedMessageException | TimeHasEndedException e) {
-                        this.network.getPhase();
+                         phase = this.network.getPhase();
                     }
                 } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
                     this.controller.handleError();
+                }
+                switch (Objects.requireNonNull(phase)) {
+                    case PLANNING_PHASE -> {
+                        nextPhase = new PlanningPhase(this.game, this.controller, this.view);
+                        this.next();
+                    }
+                    case ACTION_PHASE_1 -> {
+                        nextPhase = new ActionPhase1(this.game, this.controller, this.view);
+                        this.next();
+                    }
+                    case ACTION_PHASE_3 -> {
+                        nextPhase = new ActionPhase3(this.game, this.controller, this.view);
+                        this.next();
+                    }
+                    case END_GAME_PHASE -> {
+                        nextPhase = new EndGame(this.game, this.controller, this.view);
+                        this.next();
+                    }
                 }
                 break;
         }
     }
 
-    private void update() {
-
-    }
-
-    @Override
-    public Phase getPhase() {
-        return name;
-    }
-
     @Override
     public GamePhase next() {
-        return null;
+        return nextPhase;
     }
 }

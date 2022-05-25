@@ -3,7 +3,6 @@ package it.polimi.ingsw.controller.client.game;
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.client.networkHandler.Network;
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
-import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
@@ -50,7 +49,7 @@ public class Start implements GamePhase {
             } catch (MalformedMessageException e) {
                 this.network.sendAssistantCardDeck(figure);
             }
-        } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+        } catch (MalformedMessageException e) {
             this.controller.handleError();
         }
     }
@@ -82,9 +81,9 @@ public class Start implements GamePhase {
     private void updateDashboards() {
         try {
             try {
-                this.network.getDashboard();
+                this.network.getDashboard(this.game);
             } catch (MalformedMessageException e) {
-                this.network.getDashboard();
+                this.network.getDashboard(this.game);
             }
         } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
             this.controller.handleError();
@@ -93,7 +92,7 @@ public class Start implements GamePhase {
 
     @Override
     public GamePhase next() {
-        return null;
+        return new Idle(this.game, this.controller, this.view);
     }
 
 }

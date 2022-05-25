@@ -29,6 +29,11 @@ public class NetworkHandler implements Network {
     }
 
     @Override
+    public void broadcastPlayerInfo() {
+
+    }
+
+    @Override
     public Player getCurrentPlayer() {
 
     }
