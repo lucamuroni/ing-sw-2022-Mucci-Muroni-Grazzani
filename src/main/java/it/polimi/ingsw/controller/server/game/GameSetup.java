@@ -136,16 +136,18 @@ public class GameSetup implements GamePhase{
      */
     private void updateIslandStatus(Player player){
         this.view.setCurrentPlayer(player);
-        try{
+        for (int i = 0; i<this.game.getIslands().size(); i++) {
             try{
-                this.view.sendContext(CONTEXT_ISLAND.getFragment());
-                this.view.updateIslandStatus(this.game.getIslands());
-            }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
-                this.view.sendContext(CONTEXT_ISLAND.getFragment());
-                this.view.updateIslandStatus(this.game.getIslands());
+                try{
+                    this.view.sendContext(CONTEXT_ISLAND.getFragment());
+                    this.view.updateIslandStatus(this.game.getIslands().get(i));
+                }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                    this.view.sendContext(CONTEXT_ISLAND.getFragment());
+                    this.view.updateIslandStatus(this.game.getIslands().get(i));
+                }
+            }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
+                this.controller.handlePlayerError(player);
             }
-        }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
-            this.controller.handlePlayerError(player);
         }
     }
 
@@ -172,17 +174,21 @@ public class GameSetup implements GamePhase{
      */
     private void updateDashboards(Player player){
         this.view.setCurrentPlayer(player);
-        try{
+        for (int i = 0; i<this.game.getGamers().size(); i++) {
             try{
-                this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
-                this.view.updateDashboards(this.game.getGamers(), this.game);
-            }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
-                this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
-                this.view.updateDashboards(this.game.getGamers(), this.game);
+                try{
+                    this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
+                    this.view.updateDashboards(this.game.getGamers().get(i), this.game);
+                }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                    this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
+                    this.view.updateDashboards(this.game.getGamers().get(i), this.game);
+                }
+            }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
+                this.controller.handlePlayerError(player);
             }
-        }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
-            this.controller.handlePlayerError(player);
         }
+
+
     }
 
     /**

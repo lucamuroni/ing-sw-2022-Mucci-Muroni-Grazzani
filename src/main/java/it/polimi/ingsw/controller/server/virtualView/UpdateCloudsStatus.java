@@ -40,7 +40,7 @@ public class UpdateCloudsStatus {
      * @throws FlowErrorException launched when the client sends an unexpected response
      */
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
-        ArrayList<Message> messages = new ArrayList<Message>();
+        ArrayList<Message> messages = new ArrayList<>();
         int numStud;
         int topicId = this.messageHandler.getNewUniqueTopicID();
         Integer token = cloud.getID();

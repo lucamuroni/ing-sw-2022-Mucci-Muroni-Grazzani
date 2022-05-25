@@ -8,8 +8,7 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.PHASE;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
  * @author Sara Mucci

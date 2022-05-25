@@ -58,7 +58,7 @@ public class VirtualViewHandler implements View {
     }
 
     /**
-     * Methos that handles the messages to update the status of an island
+     * Method that handles the messages to update the status of an island
      * @param island represents the island to update
      * @throws MalformedMessageException launched if the message isn't created the correct way
      * @throws FlowErrorException launched when the client sends an unexpected response
@@ -140,8 +140,7 @@ public class VirtualViewHandler implements View {
     @Override
     public AssistantCard getChosenAssistantCard(ArrayList<AssistantCard> cardsList) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetChosenAssistantCard func = new GetChosenAssistantCard(cardsList, messageHandler);
-        AssistantCard result = func.handle();
-        return result;
+        return func.handle();
     }
 
     /**
@@ -154,8 +153,7 @@ public class VirtualViewHandler implements View {
     @Override
     public PawnColor getMovedStudentColor() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetMovedStudentColor func = new GetMovedStudentColor(messageHandler);
-        PawnColor result = func.handle();
-        return result;
+        return func.handle();
     }
 
     /**
@@ -168,10 +166,7 @@ public class VirtualViewHandler implements View {
     @Override
     public int getMovedStudentLocation() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetMovedStudentLocation func = new GetMovedStudentLocation(messageHandler);
-        //Controllare con Grazza: l'idea è che la funzione ritornerà un int che potrà essere 0, e allora indicherà che lo studente
-        //è stato mosso nella hall, o un numero che va da 1 a 12, e allora indicherà una delle 12 isole
-        int result = func.handle();
-        return result;
+        return func.handle();
     }
 
     /**
@@ -185,8 +180,7 @@ public class VirtualViewHandler implements View {
     @Override
     public Island getMNLocation(ArrayList<Island> islands) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetMNLocation func = new GetMNLocation(islands, messageHandler);
-        Island result = func.handle();
-        return result;
+        return func.handle();
     }
 
     /**
@@ -200,8 +194,7 @@ public class VirtualViewHandler implements View {
     @Override
     public Cloud getChosenCloud(ArrayList<Cloud> clouds) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetChosenCloud func = new GetChosenCloud(clouds, messageHandler);
-        Cloud result = func.handle();
-        return result;
+        return func.handle();
     }
 
     /**
@@ -215,8 +208,7 @@ public class VirtualViewHandler implements View {
     @Override
     public AssistantCardDeckFigures getChosenAssistantCardDeck(ArrayList<AssistantCardDeckFigures> cardDeck) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetChosenAssistantCardDeck func = new GetChosenAssistantCardDeck(cardDeck, messageHandler);
-        AssistantCardDeckFigures result = func.handle();
-        return result;
+        return func.handle();
     }
 
     /**
@@ -276,6 +268,7 @@ public class VirtualViewHandler implements View {
     @Override
     public void sendChosenAssistantCard(AssistantCard card, Integer token) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         SendChosenAssistantCard func = new SendChosenAssistantCard(card, token, messageHandler);
+        func.handle();
     }
 
     /**

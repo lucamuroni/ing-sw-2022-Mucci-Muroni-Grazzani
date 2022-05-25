@@ -8,7 +8,7 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.AssistantCard;
 import java.util.ArrayList;
-import static it.polimi.ingsw.controller.networking.MessageFragment.*;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
  * @author Luca Muroni

@@ -9,11 +9,9 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.AssistantCard;
 
-import it.polimi.ingsw.model.gamer.Gamer;
-
 import java.util.ArrayList;
 
-import static it.polimi.ingsw.controller.networking.MessageFragment.*;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
  * @author Sara Mucci
