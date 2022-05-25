@@ -11,7 +11,6 @@ import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Island;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MotherNaturePhase implements GamePhase{
@@ -19,7 +18,6 @@ public class MotherNaturePhase implements GamePhase{
     private final Network network;
     private final ViewHandler view;
     private final ClientController controller;
-    private final Phase name = Phase.MOTHERNATURE_PHASE;
 
     public MotherNaturePhase(Game game, ClientController controller, ViewHandler view) {
         this.game = game;
@@ -55,10 +53,5 @@ public class MotherNaturePhase implements GamePhase{
     @Override
     public GamePhase next() {
         return new Idle(this.game, this.controller, this.view);
-    }
-
-    @Override
-    public Phase getPhase() {
-        return name;
     }
 }

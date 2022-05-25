@@ -120,23 +120,13 @@ public class Idle implements GamePhase{
                     this.controller.handleError();
                 }
                 switch (Objects.requireNonNull(phase)) {
-                    case PLANNING_PHASE -> {
-                        nextPhase = new PlanningPhase(this.game, this.controller, this.view);
-                        this.next();
-                    }
-                    case ACTION_PHASE_1 -> {
-                        nextPhase = new ActionPhase1(this.game, this.controller, this.view);
-                        this.next();
-                    }
-                    case ACTION_PHASE_3 -> {
-                        nextPhase = new ActionPhase3(this.game, this.controller, this.view);
-                        this.next();
-                    }
-                    case END_GAME_PHASE -> {
-                        nextPhase = new EndGame(this.game, this.controller, this.view);
-                        this.next();
-                    }
+                    case PLANNING_PHASE -> nextPhase = new PlanningPhase(this.game, this.controller, this.view);
+                    case ACTION_PHASE_1 -> nextPhase = new ActionPhase1(this.game, this.controller, this.view);
+                    case MOTHER_NATURE_PHASE -> nextPhase = new MotherNaturePhase(this.game, this.controller, this.view);
+                    case ACTION_PHASE_3 -> nextPhase = new ActionPhase3(this.game, this.controller, this.view);
+                    case END_GAME_PHASE -> nextPhase = new EndGame(this.game, this.controller, this.view);
                 }
+                this.next();
                 break;
         }
     }

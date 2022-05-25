@@ -2,7 +2,6 @@ package it.polimi.ingsw.controller.client.game;
 
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.client.networkHandler.Network;
-import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
@@ -10,7 +9,6 @@ import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Gamer;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class EndGame implements GamePhase{
@@ -38,10 +36,10 @@ public class EndGame implements GamePhase{
             this.controller.handleError();
         }
         if (winner.size() == 1) {
-            if (gamer.getId() == this.game.getSelf().getId()) {
+            if (winner.get(0).getId() == this.game.getSelf().getId()) {
                 this.view.showWinnerPage();
             } else {
-                this.view.shoeLoserPage();
+                this.view.showLoserPage();
             }
 
         } else {

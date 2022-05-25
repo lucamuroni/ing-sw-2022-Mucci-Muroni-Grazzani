@@ -2,18 +2,15 @@ package it.polimi.ingsw.controller.client.game;
 
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.client.networkHandler.Network;
-import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.view.ViewHandler;
-import it.polimi.ingsw.view.asset.game.Cloud;
 import it.polimi.ingsw.view.asset.game.Game;
 
 public class PlanningPhase implements GamePhase {
-    private final Phase name = Phase.PLANNING_PHASE;
     private final Game game;
     private final ViewHandler view;
     private final Network network;
@@ -28,7 +25,7 @@ public class PlanningPhase implements GamePhase {
 
     @Override
     public void handle() {
-        for (Cloud cloud : this.game.getClouds()) {
+        for (int i = 0; i<this.game.getClouds().size(); i++) {
             this.updateClouds();
         }
         try {
@@ -77,11 +74,6 @@ public class PlanningPhase implements GamePhase {
             this.controller.handleError();
         }
 
-    }
-
-    @Override
-    public Phase getPhase() {
-        return name;
     }
 
     @Override

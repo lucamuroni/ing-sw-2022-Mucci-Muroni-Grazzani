@@ -8,7 +8,6 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Game;
-import it.polimi.ingsw.view.asset.game.Gamer;
 
 import java.util.ArrayList;
 
@@ -29,7 +28,7 @@ public class Start implements GamePhase {
     public void handle() {
         this.updateMNPlace();
         this.updateIslandStatus();
-        for (Gamer gamer : this.game.getGamers()) {
+        for (int i = 0; i<this.game.getGamers().size(); i++) {
             this.updateDashboards();
         }
         ArrayList<AssistantCardDeckFigures> figures = new ArrayList<>();
