@@ -12,10 +12,10 @@ import java.util.ArrayList;
 public class Gamer {
     private final int id;
     private String username;
-    private ArrayList<AssistantCard> cards;
+    private final ArrayList<AssistantCard> cards;
     private AssistantCard currentSelection;
     private AssistantCardDeckFigures figure;
-    private DashBoard dashBoard;
+    private final DashBoard dashBoard;
     private TowerColor color;
 
     /**
@@ -55,7 +55,11 @@ public class Gamer {
         this.currentSelection = card;
     }
 
-    public void updateColor(TowerColor color) {
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setColor(TowerColor color) {
         this.color = color;
     }
 
