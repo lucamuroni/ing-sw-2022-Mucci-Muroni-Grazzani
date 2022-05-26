@@ -12,77 +12,97 @@ public class AsciiIsland {
         this.island = island;
     }
 
-    public void draw(int line){
+    public int draw(int line){
         int size;
+        String string = "";
         switch (line){
             case 0:
-                System.out.print("     _________     ");
+                string = "     _________";
+                System.out.print(string);
                 break;
             case 1:
-                System.out.print("    |    "+island.getId()+"    |    ");
+                string = "    |    "+island.getId()+"    |";
+                System.out.print(string);
                 break;
             case 2:
-                System.out.print("   -           -   ");
+                string = "   -           -   ";
+                System.out.print(string);
                 break;
             case 3:
                 size = (int) this.island.getStudents().stream().filter(x -> x.getColor() == PawnColor.BLUE).count();
                 if(size>0){
-                    System.out.print("  |     "+AnsiColor.BLUE.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x"+size+"     | ");
+                    string = "  |     "+AnsiColor.BLUE.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x"+size+"     |";
+                    System.out.print(string);
                 }else{
-                    System.out.print("  |             | ");
+                    string = "  |             | ";
+                    System.out.print(string);
                 }
                 break;
             case 4:
                 size = (int) this.island.getStudents().stream().filter(x -> x.getColor() == PawnColor.RED).count();
                 if(size>0){
-                    System.out.print(" -      "+AnsiColor.RED.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x"+size+"      -");
+                    string = " -      "+AnsiColor.RED.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x"+size+"      -";
+                    System.out.print(string);
                 }else{
-                    System.out.print(" -               -");
+                    string = " -               -";
+                    System.out.print(string);
                 }
                 break;
             case 5:
                 size = (int) this.island.getStudents().stream().filter(x -> x.getColor() == PawnColor.GREEN).count();
                 if(size>0){
-                    System.out.print("|       "+AnsiColor.GREEN.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x"+size+"       |");
+                    string = "|       "+AnsiColor.GREEN.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x"+size+"       |";
+                    System.out.print(string);
                 }else{
-                    System.out.print("|                 |");
+                    string = "|                 |";
+                    System.out.print(string);
                 }
                 break;
             case 6:
                 size = (int) this.island.getStudents().stream().filter(x -> x.getColor() == PawnColor.PINK).count();
                 if(size>0){
-                    System.out.print(" -      "+AnsiColor.PURPLE.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x"+size+"      -");
+                    string = " -      "+AnsiColor.PURPLE.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x"+size+"      -";
+                    System.out.print(string);
                 }else{
-                    System.out.print(" -               -");
+                    string = " -               -";
+                    System.out.print(string);
                 }
                 break;
             case 7:
                 size = (int) this.island.getStudents().stream().filter(x -> x.getColor() == PawnColor.YELLOW).count();
                 if(size>0){
-                    System.out.print("  |     "+AnsiColor.YELLOW.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x"+size+"     | ");
+                    string = "  |     "+AnsiColor.YELLOW.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x"+size+"     |";
+                    System.out.print(string);
                 }else{
-                    System.out.print("  |             | ");
+                    string = "  |             |";
+                    System.out.print(string);
                 }
                 break;
             case 8:
 
                 if(this.island.isMotherNaturePresent()){
-                    System.out.print("   -     "+AnsiChar.MOTHER_NATURE+"     -  ");
+                    string = "   -     "+AnsiChar.MOTHER_NATURE+"     -";
+                    System.out.print(string);
                 }else{
-                    System.out.print("   -           -  ");
+                    string = "   -           -  ";
+                    System.out.print(string);
                 }
                 break;
             case 9:
                 if(this.island.isTowerPresent()){
-                    System.out.print("    |   "+AnsiChar.TOWER+"("+this.island.getTowersColor().getAcronym()+")  |    ");
+                    string = "    |   "+AnsiChar.TOWER+"("+this.island.getTowersColor().getAcronym()+")  |";
+                    System.out.print(string);
                 }else{
-                    System.out.print("    |         |    ");
+                    string = "    |         |";
+                    System.out.print(string);
                 }
                 break;
             case 10:
-                System.out.print("     ---------     ");
+                string = "     ---------";
+                System.out.print(string);
                 break;
         }
+        return string.length();
     }
 
     public void draw(){

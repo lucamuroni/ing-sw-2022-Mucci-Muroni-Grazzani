@@ -4,7 +4,8 @@ public enum AnsiChar {
     TOWER("♖"),
     PAWN("♟"),
     MISSING_PAWN("♙"),
-    MOTHER_NATURE("\uD83D\uDCA9");
+    MOTHER_NATURE("\uD83D\uDCA9"),
+    WIZARD("⚝");
 
 // 💩
     private final String ansiText;

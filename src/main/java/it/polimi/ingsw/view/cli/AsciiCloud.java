@@ -11,23 +11,45 @@ public class AsciiCloud {
     public AsciiCloud(Cloud cloud){
         this.cloud = cloud;
     }
-    public void draw(int line){
+    public int draw(int line){
+        String string = "";
         switch (line){
             case 0:
-                System.out.print("    _____   ");
+                string = "    _____";
+                System.out.print(string);
+                break;
             case 1:
-                System.out.print(" __|     |__ ");
+                string = " __|     |__";
+                System.out.print(string);
+                break;
             case 2:
                 if(this.cloud.getStudents().isEmpty()){
-                    System.out.print("|   "+AnsiChar.MISSING_PAWN.toString()+"    "+AnsiChar.MISSING_PAWN+toString()+"   |");
+                    string = "|   "+AnsiChar.MISSING_PAWN.toString()+"    "+AnsiChar.MISSING_PAWN+toString()+"   |";
+                    System.out.print(string);
                 }else{
-                   System.out.print("|   "+this.fromPawnToAnsi(this.cloud.getStudents().get(0).getColor())+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString()+"    "+this.fromPawnToAnsi(this.cloud.getStudents().get(1).getColor())+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString()+"   |");
+                    string = "|   "+this.fromPawnToAnsi(this.cloud.getStudents().get(0).getColor())+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString()+"    "+this.fromPawnToAnsi(this.cloud.getStudents().get(1).getColor())+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString()+"   |";
+                    System.out.print(string);
                 }
+                break;
             case 3:
+                if(this.cloud.getStudents().size()==3){
+                    string = "|     "+this.fromPawnToAnsi(this.cloud.getStudents().get(2).getColor())+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString()+"     |";
+                    System.out.print(string);
+                }else{
+                    string = "|   "+this.fromPawnToAnsi(this.cloud.getStudents().get(2).getColor())+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString()+"    "+this.fromPawnToAnsi(this.cloud.getStudents().get(3).getColor())+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString()+"   |";
+                    System.out.print(string);
+                }
+                break;
             case 4:
+                string = " --|     |--";
+                System.out.print(string);
+                break;
             case 5:
-
+                string = "    -----";
+                System.out.print(string);
+                break;
         }
+        return string.length();
     }
 
     private String fromPawnToAnsi(PawnColor color){
@@ -36,5 +58,6 @@ public class AsciiCloud {
                 return ansiColor.toString();
             }
         }
+        return null;
     }
 }
