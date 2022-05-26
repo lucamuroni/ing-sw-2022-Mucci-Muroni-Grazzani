@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.networking;
+package it.polimi.ingsw.controller.networking.messageParts;
 
 /**
  * @author Davide Grazzani

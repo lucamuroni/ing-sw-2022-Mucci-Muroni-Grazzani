@@ -14,8 +14,7 @@ import it.polimi.ingsw.model.gamer.Gamer;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static it.polimi.ingsw.controller.networking.MessageFragment.CONTEXT_CLOUD;
-import static it.polimi.ingsw.controller.networking.MessageFragment.CONTEXT_PLANNING;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
  * This class implements the first phase of the game, which is the planning phase, where all the players choose
@@ -61,9 +60,9 @@ public class PlanningPhase implements GamePhase{
                 this.view.setCurrentPlayer(player);
                 try {
                     try{
-                        this.view.sendNewPhase(Phase.PLANNINGPHASE);
+                        this.view.sendNewPhase(Phase.PLANNING_PHASE);
                     }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
-                        this.view.sendNewPhase(Phase.PLANNINGPHASE);
+                        this.view.sendNewPhase(Phase.PLANNING_PHASE);
                     }
                 }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
                     try {
@@ -149,10 +148,10 @@ public class PlanningPhase implements GamePhase{
             this.view.setCurrentPlayer(players.get(i));
             try {
                 try {
-                    this.view.sendContext(CONTEXT_PLANNING.getFragment());
+                    this.view.sendContext(CONTEXT_CARD.getFragment());
                     this.view.sendChosenAssistantCard(chosenCard, currentPlayer.getToken());
                 } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e) {
-                    this.view.sendContext(CONTEXT_PLANNING.getFragment());
+                    this.view.sendContext(CONTEXT_CARD.getFragment());
                     this.view.sendChosenAssistantCard(chosenCard, currentPlayer.getToken());
                 }
             } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {

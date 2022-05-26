@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.pawn.Student;
-
 import java.util.ArrayList;
 
 /**
@@ -16,7 +15,7 @@ public class Cloud {
 
     /**
      * Class constructor
-     * @param id is the unique id given to a Cloud
+     * @param id is the unique id associated to a Cloud
      */
     public Cloud(int id) {
         this.students = new ArrayList<Student>();
@@ -62,7 +61,7 @@ public class Cloud {
 
     /**
      * Getter method
-     * @return a copy of the student that are present on this Cloud
+     * @return a copy of the students that are present on this Cloud
      */
     public ArrayList<Student> getStudents(){
         return new ArrayList<Student>(this.students);

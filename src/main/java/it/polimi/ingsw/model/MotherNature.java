@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-
 /**
  * @author Davide Grazzani
  * Class designated for the rappresentation of Mother Nature

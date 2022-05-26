@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.networking;
+package it.polimi.ingsw.controller.networking.messageParts;
 
 /**
  * @author Davide Grazzani
@@ -12,13 +12,14 @@ public enum MessageFragment {
     CLOUD("cloud"),
     CLOUD_ID("cloud_id"),
     CONTEXT("context"),
+    CONTEXT_CARD("cardSelection"),
     CONTEXT_CLOUD("fillCloud"),
-    CONTEXT_PLANNING("planning"),
-    CONTEXT_ACTION1("action1"),
+    CONTEXT_COLOR("towerColor"),
+    CONTEXT_DASHBOARD("dashboardUpdate"),
+    CONTEXT_FIGURE("figureSelection"),
+    CONTEXT_ISLAND("islandUpdate"),
     CONTEXT_MOTHER("motherNature"),
-    CONTEXT_CONQUER("conquerIsland"),
-    CONTEXT_ACTION3("action3"),
-    CONTEXT_ENDGAME("endgame"),
+    CONTEXT_PHASE("changePhase"),
     DASHBOARD("dashboard"),
     GAME_TYPE("GameType"),
     GREETINGS("greetings"),
@@ -37,6 +38,7 @@ public enum MessageFragment {
     NUM_TOWERS("numTowers"),
     OK("ok"),
     OWNER("Owner"),
+    PAYLOAD_SIZE("payload dimension"),
     PAWN_RED("red"),
     PAWN_BLUE("blue"),
     PAWN_YELLOW("yellow"),
@@ -54,8 +56,7 @@ public enum MessageFragment {
     WAITING_PAWN_YELLOW("yellow"),
     WAITING_PAWN_GREEN("green"),
     WAITING_PAWN_PINK("pink"),
-    WINNER("winner"),
-    PAYLOAD_SIZE("payload dimension");
+    WINNER("winner");
 
     private String fragment;
 
@@ -73,5 +74,14 @@ public enum MessageFragment {
      */
     public String getFragment() {
         return fragment;
+    }
+
+    public static MessageFragment getEnum(String string) {
+        MessageFragment frag = null;
+        for (MessageFragment fragment : MessageFragment.values()) {
+            if (fragment.getFragment().equals(string))
+                frag = fragment;
+        }
+        return frag;
     }
 }

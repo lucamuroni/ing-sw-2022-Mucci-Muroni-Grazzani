@@ -57,7 +57,7 @@ public class VirtualViewHandler implements View {
     }
 
     /**
-     * Methos that handles the messages to update the status of an island
+     * Method that handles the messages to update the status of an island
      * @param island represents the island to update
      * @throws MalformedMessageException launched if the message isn't created the correct way
      * @throws FlowErrorException launched when the client sends an unexpected response

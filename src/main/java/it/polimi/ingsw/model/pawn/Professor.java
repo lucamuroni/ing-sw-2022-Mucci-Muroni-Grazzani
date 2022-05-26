@@ -1,14 +1,12 @@
+package it.polimi.ingsw.model.pawn;
+
+import it.polimi.ingsw.model.gamer.Gamer;
+import java.util.Optional;
+
 /**
  * @author Sara Mucci
  * class that represents a professor.
  */
-
-package it.polimi.ingsw.model.pawn;
-
-import it.polimi.ingsw.model.gamer.Gamer;
-
-import java.util.Optional;
-
 public class Professor extends Pawn {
     private Optional<Gamer> owner;
 
@@ -22,6 +20,7 @@ public class Professor extends Pawn {
     }
 
     /**
+     * Setter method
      * @param owner represents the professor's new owner.
      */
     public void setOwner(Gamer owner) {
@@ -29,6 +28,7 @@ public class Professor extends Pawn {
     }
 
     /**
+     * Getter method
      * @return the professor owner.
      */
     public Optional<Gamer> getOwner() {

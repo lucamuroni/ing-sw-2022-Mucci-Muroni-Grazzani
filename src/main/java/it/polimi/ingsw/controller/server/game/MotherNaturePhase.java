@@ -5,7 +5,6 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
-import it.polimi.ingsw.controller.server.game.exceptions.GenericErrorException;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
@@ -15,10 +14,10 @@ import it.polimi.ingsw.model.game.Game;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static it.polimi.ingsw.controller.networking.MessageFragment.CONTEXT_MOTHER;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CONTEXT_MOTHER;
 
 /**
- * This class implements the first part of the third phase of the game, which is the ActionPhase2, and in particular this part
+ * This class implements the first part of the third phase of the game, which is the MotherNaturePhase, and in particular this part
  * handles the movement of MotherNature
  */
 public class MotherNaturePhase implements GamePhase{

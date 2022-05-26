@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller.server.virtualView;
 
-import it.polimi.ingsw.controller.networking.ConnectionTimings;
+import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
 import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
@@ -10,7 +10,12 @@ import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.model.gamer.Gamer;
 import java.util.ArrayList;
+<<<<<<< HEAD
 import static it.polimi.ingsw.controller.networking.MessageFragment.*;
+=======
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
+
+>>>>>>> clientcontroller
 
 /**
  * @author Sara Mucci

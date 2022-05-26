@@ -6,7 +6,6 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
-import it.polimi.ingsw.controller.server.game.exceptions.GenericErrorException;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
@@ -18,8 +17,7 @@ import it.polimi.ingsw.model.pawn.Student;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static it.polimi.ingsw.controller.networking.MessageFragment.CONTEXT_ACTION1;
-import static it.polimi.ingsw.controller.networking.MessageFragment.CONTEXT_PLANNING;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
  * This class implements the second phase of the game, which is the ActionPhase1, where the current player moves 3/4 students
@@ -92,17 +90,9 @@ public class ActionPhase1 implements GamePhase{
                     this.view.setCurrentPlayer(pl);
                     try {
                         try {
-                            this.view.sendContext(CONTEXT_ACTION1.getFragment());
-                            if (place > 0) {
-                                this.view.updateIslandStatus(this.game.getIslands().get(place-1));
-                            }
-                            this.view.updateDashboards(this.game.getCurrentPlayer(), this.game);
+                            this.sendInfo(place);
                         } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
-                            this.view.sendContext(CONTEXT_ACTION1.getFragment());
-                            if (place > 0) {
-                                this.view.updateIslandStatus(this.game.getIslands().get(place-1));
-                            }
-                            this.view.updateDashboards(this.game.getCurrentPlayer(), this.game);
+                            this.sendInfo(place);
                         }
                     } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
                         this.controller.handlePlayerError(pl);
@@ -161,6 +151,15 @@ public class ActionPhase1 implements GamePhase{
             Island isl = this.game.getIslands().get(place-1);
             this.game.getCurrentPlayer().getDashboard().moveStudent(stud, isl);
         }
+    }
+
+    private void sendInfo(int place) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        if (place > 0) {
+            this.view.sendContext(CONTEXT_ISLAND.getFragment());
+            this.view.updateIslandStatus(this.game.getIslands().get(place-1));
+        }
+        this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
+        this.view.updateDashboards(this.game.getCurrentPlayer(), this.game);
     }
 
     /**

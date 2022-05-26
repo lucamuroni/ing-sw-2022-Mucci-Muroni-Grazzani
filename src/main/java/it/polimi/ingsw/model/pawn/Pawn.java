@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model.pawn;
 
-import it.polimi.ingsw.model.pawn.PawnColor;
-
 /**
  * @author Sara Mucci
  * @author Davide Grazzani
@@ -20,7 +18,7 @@ abstract class Pawn {
     }
 
     /**
-     *
+     * Getter method
      * @return pawn color
      */
     public PawnColor getColor() {
