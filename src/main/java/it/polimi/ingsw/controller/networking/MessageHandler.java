@@ -132,7 +132,8 @@ public class MessageHandler {
      */
     public int getNewUniqueTopicID(){
         Random random = new Random();
-        return random.nextInt((int) Math.pow(2,30),(int) Math.pow(2,31));
+        int number = random.nextInt((int) Math.pow(2,30),(int) Math.pow(2,31));
+        return number;
     }
 
     /**
