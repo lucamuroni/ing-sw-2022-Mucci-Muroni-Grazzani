@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
+ * @author Luca Muroni
  * @author Sara Mucci
  * Class that implements the mssage to send to the server the infos about the player and the game
  * This class is used at the beginning of the connection phase
@@ -47,4 +48,3 @@ public class SendInfo {
         this.messageHandler.writeOut();
     }
 }
-//TODO: da ricontrollare
