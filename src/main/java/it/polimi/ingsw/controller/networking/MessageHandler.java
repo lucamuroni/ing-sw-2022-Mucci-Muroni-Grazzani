@@ -20,7 +20,7 @@ public class MessageHandler {
     private JSONObject encoder;
     private final static String topKeyWord = "topicUniqueID";
     private final ConnectionHandler connectionHandler;
-    private ArrayList<Message> incomingMessages;
+    private final ArrayList<Message> incomingMessages;
     private int lastTopicRead;
 
     /**
@@ -29,7 +29,7 @@ public class MessageHandler {
      */
     public MessageHandler(Socket socket){
         connectionHandler = new ConnectionHandler(socket);
-        incomingMessages = new ArrayList<Message>();
+        incomingMessages = new ArrayList<>();
         this.lastTopicRead = 0;
     }
 
@@ -132,8 +132,7 @@ public class MessageHandler {
      */
     public int getNewUniqueTopicID(){
         Random random = new Random();
-        int number = random.nextInt((int) Math.pow(2,30),(int) Math.pow(2,31));
-        return number;
+        return random.nextInt((int) Math.pow(2,30),(int) Math.pow(2,31));
     }
 
     /**
