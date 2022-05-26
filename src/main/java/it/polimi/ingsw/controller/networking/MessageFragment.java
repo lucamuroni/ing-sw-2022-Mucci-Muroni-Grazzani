@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller.networking;
 
 /**
  * @author Davide Grazzani
- * Enum used to define standard messages headers and payloads
+ * Enum used to define standard messages' headers and payloads
  */
 public enum MessageFragment {
     ASSISTANT_CARD("assistantCard"),
@@ -12,6 +12,7 @@ public enum MessageFragment {
     CLOUD("cloud"),
     CLOUD_ID("cloud_id"),
     CONTEXT("context"),
+    CONTEXT_CLOUD("fillCloud"),
     CONTEXT_PLANNING("planning"),
     CONTEXT_ACTION1("action1"),
     CONTEXT_MOTHER("motherNature"),

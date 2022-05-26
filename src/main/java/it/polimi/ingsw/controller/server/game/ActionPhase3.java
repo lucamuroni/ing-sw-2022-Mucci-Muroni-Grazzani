@@ -17,6 +17,9 @@ import it.polimi.ingsw.model.gamer.Gamer;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static it.polimi.ingsw.controller.networking.MessageFragment.CONTEXT_ACTION1;
+import static it.polimi.ingsw.controller.networking.MessageFragment.CONTEXT_ACTION3;
+
 /**
  * This class implements the fourth phase of the game, which is the ActionPhase3, where the currentPlayer chooses a cloud
  */
@@ -41,6 +44,12 @@ public class ActionPhase3 implements GamePhase{
      */
     @Override
     public void handle() {
+        this.game.setTurnNumber();
+        try {
+            this.view.setCurrentPlayer(this.controller.getPlayer(this.game.getCurrentPlayer()));
+        } catch (ModelErrorException e) {
+            this.controller.shutdown();
+        }
         try {
             try{
                 this.view.sendNewPhase(Phase.ACTION_PHASE_3);
@@ -62,9 +71,11 @@ public class ActionPhase3 implements GamePhase{
                 this.view.setCurrentPlayer(pl);
                 try {
                     try {
+                        this.view.sendContext(CONTEXT_ACTION3.getFragment());
                         this.view.updateCloudsStatus(this.game.getClouds());
                         this.view.updateDashboards(this.game.getGamers(), this.game);
                     } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
+                        this.view.sendContext(CONTEXT_ACTION3.getFragment());
                         this.view.updateCloudsStatus(this.game.getClouds());
                         this.view.updateDashboards(this.game.getGamers(), this.game);
                     }
@@ -104,6 +115,7 @@ public class ActionPhase3 implements GamePhase{
             chosenCloud = this.getRandomCloud(possibleChoices);
             currentPlayer.getDashboard().addStudentsWaitingRoom(chosenCloud.pullStudent());
         }
+        assert chosenCloud != null;
         currentPlayer.getDashboard().addStudentsWaitingRoom(chosenCloud.pullStudent());
     }
 

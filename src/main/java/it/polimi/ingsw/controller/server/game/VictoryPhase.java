@@ -39,25 +39,25 @@ public class VictoryPhase implements GamePhase{
     public void handle() {
         ArrayList<Gamer> winners = new ArrayList<>(this.game.checkWinner());
         if (!winners.isEmpty()) {
-            try {
-                try{
-                    this.view.sendNewPhase(Phase.END_GAME_PHASE);
-                }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
-                    this.view.sendNewPhase(Phase.END_GAME_PHASE);
-                }
-            }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
-                try {
-                    this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()));
-                } catch (ModelErrorException i) {
-                    this.controller.shutdown();
-                }
-            }
             ArrayList<String> names = new ArrayList<>();
             for (Gamer gamer : winners) {
                 names.add(gamer.getUsername());
             }
             for (Player player : this.controller.getPlayers()) {
                 this.view.setCurrentPlayer(player);
+                try {
+                    try{
+                        this.view.sendNewPhase(Phase.END_GAME_PHASE);
+                    }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                        this.view.sendNewPhase(Phase.END_GAME_PHASE);
+                    }
+                }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
+                    try {
+                        this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()));
+                    } catch (ModelErrorException i) {
+                        this.controller.shutdown();
+                    }
+                }
                 try {
                     try {
                         this.view.sendWinner(names);

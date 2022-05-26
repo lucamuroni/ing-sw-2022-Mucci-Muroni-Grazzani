@@ -11,11 +11,11 @@ import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
 import static it.polimi.ingsw.controller.networking.MessageFragment.*;
-import static java.lang.Integer.valueOf;
 import java.util.ArrayList;
 
 /**
  * @author Sara Mucci
+ * @author Luca Muroni
  * Class that implements the message to update che status of the clouds
  */
 public class UpdateCloudsStatus {

@@ -1,9 +1,7 @@
 package it.polimi.ingsw.controller.networking;
 
-
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -56,7 +54,7 @@ class ConnectionHandler {
     }
 
     /**
-     * Method responsible for reading incoming messages from socket. It starts a thread that can autodetect ping requests and replay to them without touching incoming messages.
+     * Method responsible for reading incoming messages from socket. It starts a thread that can autodetect ping requests and reply to them without touching incoming messages.
      * Messages are managed with a FIFO politics
      */
     private void readInputMessage(){
@@ -188,7 +186,7 @@ class ConnectionHandler {
 
     /**
      * Method used to reset all piped messages already present.
-     * This method was concept to try to recovery possible errors
+     * This method was designed to try to recover possible errors
      */
     public void restLines(){
         synchronized (this.outputMessages){

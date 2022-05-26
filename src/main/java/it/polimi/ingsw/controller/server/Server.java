@@ -2,9 +2,9 @@ package it.polimi.ingsw.controller.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.ArrayList;
 import java.util.Scanner;
 
+//TODO: javadoc
 public class Server {
     private ServerSocket serverSocket;
     private final ClientReception clientReception;

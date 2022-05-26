@@ -2,8 +2,8 @@ package it.polimi.ingsw.controller.networking;
 
 /**
  * @author Davide Grazzani
- * This class is used for modeling a single message shared between Server and Clients.
- * The Message class does NOT rapresent an entire command(or Message) that a host can handle,it rapresent only a fragment of it;
+ * This class is used to model a single message shared between Server and Clients.
+ * The Message class does NOT represent an entire command(or Message) that a host can handle but only a fragment of it;
  * A correct wellformed Message is a combination of object type Message sharing same ID.
  * Messages are immutable.
  */

@@ -20,7 +20,7 @@ public enum GameType {
 
     /**
      * Getter method
-     * @return the name associated the mode you chose
+     * @return the name associated to the chosen mode
      */
     public String getName(){
         return this.name;

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.controller.server.virtualView;
 
-import it.polimi.ingsw.controller.networking.MessageFragment;
 import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
@@ -15,7 +14,6 @@ import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.TowerColor;
-
 import java.util.ArrayList;
 
 /**
@@ -27,7 +25,7 @@ import java.util.ArrayList;
 public interface View{
 
     /**
-     * Methos that handles the messages to update the status of an island
+     * Method that handles the messages to update the status of an island
      * @param island represents the island to update
      * @throws MalformedMessageException launched if the message isn't created the correct way
      * @throws FlowErrorException launched when the client sends an unexpected response
@@ -37,7 +35,7 @@ public interface View{
     public void updateIslandStatus(Island island) throws MalformedMessageException, FlowErrorException, TimeHasEndedException, ClientDisconnectedException;
 
     /**
-     * Method that handles the messages to the status of more than one island (EG: when there is an archipelago)
+     * Method that handles the messages to update the status of more than one island (EG: when there is an archipelago)
      * @param islands represents the islands to update
      * @throws MalformedMessageException launched if the message isn't created the correct way
      * @throws FlowErrorException launched when the client sends an unexpected response
@@ -47,7 +45,7 @@ public interface View{
     public void updateIslandStatus(ArrayList<Island> islands) throws MalformedMessageException, FlowErrorException, TimeHasEndedException, ClientDisconnectedException;
 
     /**
-     * Method that handles the messages to update the clouds status
+     * Method that handles the messages to update the clouds' status (with only one cloud)
      * @param cloud the cloud to update
      * @throws FlowErrorException launched when the client sends an unexpected response
      * @throws MalformedMessageException launched if the message isn't created the correct way
@@ -57,7 +55,7 @@ public interface View{
     public void updateCloudsStatus(Cloud cloud) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
     /**
-     * Method that handles the messages to update the clouds status
+     * Method that handles the messages to update the clouds' status (with more than one cloud)
      * @param clouds the clouds to update
      * @throws FlowErrorException launched when the client sends an unexpected response
      * @throws MalformedMessageException launched if the message isn't created the correct way
@@ -67,7 +65,7 @@ public interface View{
     public void updateCloudsStatus(ArrayList<Cloud> clouds) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
     /**
-     * Method that handles the messages to update the status of the dashboards
+     * Method that handles the messages to update the dashboards' status (with more than one dashboard)
      * @param gamers represents the players
      * @throws MalformedMessageException launched if the message isn't created the correct way
      * @throws TimeHasEndedException launched when the available time for the response ends
@@ -77,7 +75,7 @@ public interface View{
     public void updateDashboards(ArrayList<Gamer> gamers, Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException;
 
     /**
-     * Method that handles the messages to update the status of the dashboards
+     * Method that handles the messages to update the status of the dashboards (with one dashboard)
      * @param gamer represents the player
      * @throws MalformedMessageException launched if the message isn't created the correct way
      * @throws TimeHasEndedException launched when the available time for the response ends
@@ -88,7 +86,7 @@ public interface View{
 
 
     /**
-     * Methos that handles the messages to update the mother nature location
+     * Method that handles the messages to update the mother nature location
      * @param island represents the new mother nature location
      * @throws MalformedMessageException launched if the message isn't created the correct way
      * @throws TimeHasEndedException launched when the available time for the response ends
@@ -136,7 +134,7 @@ public interface View{
     public int getMovedStudentLocation() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
     /**
-     * Method that handles the messages to get the new mother nature location
+     * Method that handles the messages to get the mother nature new location
      * @param islands represents the available islands
      * @return the new mother nature location
      * @throws MalformedMessageException launched if the message isn't created the correct way
@@ -199,7 +197,7 @@ public interface View{
     public void sendNewPhase(Phase phase) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
     /**
-     * Method that handles the message to send the username of the winner / the usernames of the winners in case of a draw
+     * Method that handles the message to send the username of the winner / the usernames of the winners (in case of a draw)
      * @param names represents the usernames to be sent
      * @throws FlowErrorException launched when the client sends an unexpected response
      * @throws MalformedMessageException launched if the message isn't created the correct way
@@ -208,6 +206,15 @@ public interface View{
      */
     public void sendWinner(ArrayList<String> names) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
+    /**
+     * Method that handles the message to send the context to the players not currently playing
+     * A context is sent to the players not currently playing to inform them of the phase in which the current player is
+     * @param context represents the context to send
+     * @throws FlowErrorException launched when the client sends an unexpected response
+     * @throws MalformedMessageException launched if the message isn't created the correct way
+     * @throws TimeHasEndedException launched when the available time for the response ends
+     * @throws ClientDisconnectedException launched if the client disconnects
+     */
     public void sendContext(String context) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
     /**
