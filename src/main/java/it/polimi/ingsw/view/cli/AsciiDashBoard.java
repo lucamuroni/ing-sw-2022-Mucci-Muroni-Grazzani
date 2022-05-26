@@ -5,12 +5,14 @@ import it.polimi.ingsw.view.asset.game.DashBoard;
 
 public class AsciiDashBoard {
     private final DashBoard dashBoard;
+    private final static int width = 80;
+    private final static int height = 10;
 
     public AsciiDashBoard(DashBoard dashBoard){
         this.dashBoard = dashBoard;
     }
 
-    public void print(int line){
+    public void draw(int line){
         int num;
         switch (line){
             case 0:
@@ -151,6 +153,13 @@ public class AsciiDashBoard {
                 System.out.print("|              |                             |            |        |");
             case 9:
                 System.out.print("------------------------------------------------------------------");
+        }
+    }
+
+    public void draw(){
+        for(int i = 0;i<height;i++){
+            this.draw(i);
+            System.out.print("\n");
         }
     }
 }
