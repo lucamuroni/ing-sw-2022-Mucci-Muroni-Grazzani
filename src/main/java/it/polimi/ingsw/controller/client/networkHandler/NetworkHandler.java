@@ -210,8 +210,8 @@ public class NetworkHandler implements Network {
     }
 
     @Override
-    public void sendInfo(Player player, Game game) throws MalformedMessageException {
-        SendInfo func = new SendInfo(player, game, messageHandler);
+    public void sendInfo(Gamer gamer, String gameType, int players, String lobby) throws MalformedMessageException {
+        SendInfo func = new SendInfo(gamer, gameType, players, lobby, messageHandler);
         func.handle();
     }
 

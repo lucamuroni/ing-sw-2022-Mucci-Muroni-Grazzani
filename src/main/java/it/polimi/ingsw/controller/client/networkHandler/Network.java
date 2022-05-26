@@ -138,7 +138,7 @@ public interface Network {
      */
     ArrayList<AssistantCardDeckFigures> getPossibleDecks() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
-    public void sendInfo(Player player, Game game) throws MalformedMessageException;
+    void sendInfo(Gamer gamer, String gameType, int players, String lobby) throws MalformedMessageException;
 
     /**
      * Method that sends the chosen assistant card to the server
