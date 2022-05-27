@@ -36,7 +36,7 @@ public class SelectAssistantCardPage implements Page {
                 System.out.println("Retry"+AnsiColor.RESET);
                 menù.print();
             }else {
-                // TODO log choice to the asset
+                //TODO: controller salva info
                 doNotProcede = false;
                 synchronized (this){
                     this.isProcessReady = true;

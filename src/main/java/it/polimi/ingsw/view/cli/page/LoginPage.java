@@ -33,7 +33,7 @@ public class LoginPage implements Page {
             System.out.println(AnsiColor.GREEN +"Found a Server"+ AnsiColor.RESET);
             System.out.print("Please insert your nickName: ");
             String nick = scanner.nextLine();
-            Gamer player = new Gamer(id, nick);
+            //Gamer player = new Gamer(id, nick);
             //TODO : aggiornare il modello nel client per il nickname dell'utente
             ArrayList<String> opt = new ArrayList<>();
             opt.add("Normal");
@@ -50,13 +50,7 @@ public class LoginPage implements Page {
                     System.out.println("Retry"+AnsiColor.RESET);
                     menù.print();
                 }else {
-                    if (choice == 1) {
-                        //TODO: deve il controller con un metodo, ad esempio
-                        Game game = new Game(player);
-                    } else {
-                        ExpertGame game = new ExpertGame(player);
-                    }
-
+                    //TODO: controller salva info
                     doNotProcede = false;
                 }
             }
@@ -68,7 +62,7 @@ public class LoginPage implements Page {
                     System.out.println(AnsiColor.RED+"Choiches ranges from 2 to 3 players");
                     System.out.println("Retry"+AnsiColor.RESET);
                 }else {
-                    // TODO log choice to the asset
+                    // TODO: controller salva info
                     doNotProcede = false;
                 }
             }
@@ -87,7 +81,7 @@ public class LoginPage implements Page {
                     System.out.println("Retry"+AnsiColor.RESET);
                     menù.print();
                 }else {
-                    // TODO log choice to the asset
+                    // TODO: controller salva info
                     doNotProcede = false;
                 }
             }

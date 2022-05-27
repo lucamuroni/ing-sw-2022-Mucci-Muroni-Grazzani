@@ -41,9 +41,43 @@ public class MoveStudentPage implements Page {
         if(choice==2){
             doNotProcede = true;
             while(doNotProcede){
-                // TODO : select an island and populate it
+                options.clear();
+                options.add("island 1");
+                options.add("island 2");
+                options.add("island 3");
+                options.add("island 4");
+                options.add("island 5");
+                options.add("island 6");
+                options.add("island 7");
+                options.add("island 8");
+                options.add("island 9");
+                options.add("island 10");
+                options.add("island 11");
+                options.add("island 12");
+                options.add("Back");
+                menù.clear();
+                menù.addOptions(options);
+                menù.setContext("Which island do you want to choose ?");
+                menù.print();
+                doNotProcede = true;
+                while (doNotProcede) {
+                    choice = scanner.nextInt();
+                    if(choice<1 || choice>options.size()){
+                        System.out.println(AnsiColor.RED+"No choice with that number");
+                        System.out.println("Retry"+AnsiColor.RESET);
+                        menù.print();
+                    }else if (choice == 13){
+                        throw new UndoException();
+
+                    }else {
+                        //TODO: controller salva info
+                        doNotProcede = false;
+                    }
+                }
             }
         }
+        options.clear();
+        
     }
 
     @Override
