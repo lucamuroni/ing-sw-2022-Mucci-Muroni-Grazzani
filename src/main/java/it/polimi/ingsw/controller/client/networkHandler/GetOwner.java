@@ -50,4 +50,3 @@ public class GetOwner {
         this.game.getMotherNaturePosition().updateOwner(color);
     }
 }
-//TODO: serve un metodo o un attributo in island per mostrare il colore della torre sull'isola
