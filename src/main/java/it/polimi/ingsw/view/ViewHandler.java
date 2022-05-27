@@ -10,5 +10,5 @@ public interface ViewHandler {
     AssistantCard selectCard(ArrayList<AssistantCard> cards);
     Student chooseStudentToMove();
     String choosePlace();
-    Island chooseIsland(ArrayList<it.polimi.ingsw.model.Island> islands);
+    Island chooseIsland(ArrayList<Island> islands);
 }

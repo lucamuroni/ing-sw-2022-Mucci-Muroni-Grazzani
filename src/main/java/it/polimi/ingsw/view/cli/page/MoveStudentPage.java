@@ -77,7 +77,8 @@ public class MoveStudentPage implements Page {
             }
         }
         options.clear();
-        
+        op
+
     }
 
     @Override

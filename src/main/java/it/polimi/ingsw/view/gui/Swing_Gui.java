@@ -37,7 +37,7 @@ public class Swing_Gui implements ViewHandler {
     }
 
     @Override
-    public Island chooseIsland(ArrayList<it.polimi.ingsw.model.Island> islands) {
+    public Island chooseIsland(ArrayList<Island> islands) {
         return null;
     }
 }
