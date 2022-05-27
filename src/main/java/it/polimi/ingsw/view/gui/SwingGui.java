@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.pawn.Student;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Island;
+
 import java.util.ArrayList;
 
 public class SwingGui implements ViewHandler {
