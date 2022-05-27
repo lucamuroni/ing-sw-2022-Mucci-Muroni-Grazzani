@@ -102,7 +102,7 @@ public class NetworkHandler implements Network {
      */
     @Override
     public void getNewOwner(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        GetNewOwner func = new GetNewOwner(messageHandler, game);
+        GetOwner func = new GetOwner(messageHandler, game);
         func.handle();
     }
 

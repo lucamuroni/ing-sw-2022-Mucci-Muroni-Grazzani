@@ -15,7 +15,7 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
  * @author Sara Mucci
  * Class that implements the message to get the new owner of the island mother nature is on
  */
-public class GetNewOwner {
+public class GetOwner {
     MessageHandler messageHandler;
     Game game;
 
@@ -23,7 +23,7 @@ public class GetNewOwner {
      * Class constructor
      * @param messageHandler represents the messageHandler used for the message
      */
-    public GetNewOwner(MessageHandler messageHandler, Game game) {
+    public GetOwner(MessageHandler messageHandler, Game game) {
         this.messageHandler = messageHandler;
         this.game = game;
     }
