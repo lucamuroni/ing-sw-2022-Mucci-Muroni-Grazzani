@@ -77,7 +77,7 @@ public class MoveStudentPage implements Page {
             }
         }
         options.clear();
-        op
+        //TODO: choose a student
 
     }
 
