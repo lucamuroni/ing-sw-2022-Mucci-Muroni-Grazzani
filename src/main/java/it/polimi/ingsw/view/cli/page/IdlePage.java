@@ -2,6 +2,10 @@ package it.polimi.ingsw.view.cli.page;
 
 import it.polimi.ingsw.view.Page;
 
+/**
+ * @author Luca Muroni
+ * Class that represents the idlePage. an idlePage is
+ */
 public class IdlePage implements Page {
     private boolean clearance = false;
     private boolean readyToProcede = false;
@@ -16,6 +20,10 @@ public class IdlePage implements Page {
         }
     }
 
+    /**
+     * Method that checks if the process is ready
+     * @return true if the process is ready, false otherwise
+     */
     @Override
     public boolean isProcessReady() {
         if(!this.readyToProcede){
@@ -26,6 +34,10 @@ public class IdlePage implements Page {
         }
     }
 
+    /**
+     * Setter method
+     * @param clearance represents
+     */
     @Override
     public void setClearance(boolean clearance) {
         this.clearance = clearance;

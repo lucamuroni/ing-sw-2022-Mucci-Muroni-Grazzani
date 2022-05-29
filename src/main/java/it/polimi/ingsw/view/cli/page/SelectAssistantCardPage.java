@@ -4,21 +4,31 @@ import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.cli.AnsiColor;
 import it.polimi.ingsw.view.cli.Menù;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * @author Davide Grazzani
+ * Class that represents the assistant card page
+ */
 public class SelectAssistantCardPage implements Page {
     private ArrayList<AssistantCard> cards;
     private boolean clearance = false;
     private boolean isProcessReady = false;
     private Scanner scanner;
 
+    /**
+     * Class constructor
+     * @param cards represents the arrayList of possible cards the player can choose from
+     */
     public SelectAssistantCardPage(ArrayList<AssistantCard> cards){
         this.cards = new ArrayList<AssistantCard>(cards);
         scanner = new Scanner(System.in);
     }
 
+    /**
+     * Method that handles the page
+     */
     @Override
     public void handle() {
         ArrayList<String> options = new ArrayList<String>();
@@ -45,6 +55,10 @@ public class SelectAssistantCardPage implements Page {
         }
     }
 
+    /**
+     * Method that checks if the process is ready
+     * @return true if the process is ready, false otherwise
+     */
     @Override
     public synchronized boolean isProcessReady() {
         if(isProcessReady){
@@ -55,11 +69,19 @@ public class SelectAssistantCardPage implements Page {
         }
     }
 
+    /**
+     * Setter Method
+     * @param clearance represents the
+     */
     @Override
     public synchronized void setClearance(boolean clearance) {
         this.clearance = clearance;
     }
 
+    /**
+     * Getter method
+     * @return the
+     */
     private synchronized boolean getClearance(){
         return this.clearance;
     }

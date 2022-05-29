@@ -3,15 +3,28 @@ package it.polimi.ingsw.view.cli;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.view.asset.game.Island;
 
+/**
+ * @author Davide Grazzani
+ * Class that represents an Island in the cli
+ */
 public class AsciiIsland {
     private final Island island;
     private final static int height = 11;
     private final static int width = 19;
 
+    /**
+     * Class constructor
+     * @param island represents the island to show
+     */
     public AsciiIsland(Island island){
         this.island = island;
     }
 
+    /**
+     * Method that draws a line of the island
+     * @param line represents a line in the cli
+     * @return the length of the string
+     */
     public int draw(int line){
         int size;
         String string = "";
@@ -105,6 +118,9 @@ public class AsciiIsland {
         return string.length();
     }
 
+    /**
+     * Method that draws the island
+     */
     public void draw(){
         for(int i = 0;i< height;i++){
             this.draw(i);

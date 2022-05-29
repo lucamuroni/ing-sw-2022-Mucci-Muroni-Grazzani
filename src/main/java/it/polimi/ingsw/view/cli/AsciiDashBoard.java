@@ -3,15 +3,27 @@ package it.polimi.ingsw.view.cli;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.view.asset.game.DashBoard;
 
+/**
+ * @author Davide Grazzani
+ * Class that represents a dashboard in the cli
+ */
 public class AsciiDashBoard {
     private final DashBoard dashBoard;
     private final static int width = 80;
     private final static int height = 10;
 
+    /**
+     * Class constructor
+     * @param dashBoard represents the dashboard to show
+     */
     public AsciiDashBoard(DashBoard dashBoard){
         this.dashBoard = dashBoard;
     }
 
+    /**
+     * Method that draws a line of the dashboard
+     * @param line represents a line in the cli
+     */
     public void draw(int line){
         int num;
         switch (line){
@@ -156,6 +168,9 @@ public class AsciiDashBoard {
         }
     }
 
+    /**
+     * Method that draws the dashboard
+     */
     public void draw(){
         for(int i = 0;i<height;i++){
             this.draw(i);

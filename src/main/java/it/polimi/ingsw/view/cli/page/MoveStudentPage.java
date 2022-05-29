@@ -2,19 +2,30 @@ package it.polimi.ingsw.view.cli.page;
 
 import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.cli.AnsiColor;
-import it.polimi.ingsw.view.cli.Menù;
-
+import it.polimi.ingsw.view.cli.Menù;ù
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * @author Davide Grazzani
+ * Class that represents the page to decide where to move a student (?)
+ */
 public class MoveStudentPage implements Page {
     private boolean clearance = false;
     private boolean isProcessReady = false;
     private Scanner scanner;
 
+    /**
+     * Class constructor
+     */
     public MoveStudentPage(){
         this.scanner = new Scanner(System.in);
     }
+
+    /**
+     * Method that handles the page
+     * @throws UndoException launched if the player returns back to the possible choices (?)
+     */
     @Override
     public void handle() throws UndoException {
         ArrayList<String> options = new ArrayList<String>();
@@ -81,6 +92,10 @@ public class MoveStudentPage implements Page {
 
     }
 
+    /**
+     * Method that checks if the process is ready
+     * @return true if the process is ready, false otherwise
+     */
     @Override
     public synchronized boolean isProcessReady() {
         if(isProcessReady){
@@ -91,11 +106,19 @@ public class MoveStudentPage implements Page {
         }
     }
 
+    /**
+     * Setter method
+     * @param clearance represents
+     */
     @Override
     public synchronized void setClearance(boolean clearance) {
         this.clearance = clearance;
     }
 
+    /**
+     * Getter method
+     * @return the
+     */
     private synchronized boolean getClearance(){
         return this.clearance;
     }

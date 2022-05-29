@@ -1,17 +1,18 @@
 package it.polimi.ingsw.view.cli.page;
 
 import it.polimi.ingsw.view.Page;
-import it.polimi.ingsw.view.asset.game.ExpertGame;
-import it.polimi.ingsw.view.asset.game.Game;
-import it.polimi.ingsw.view.asset.game.Gamer;
 import it.polimi.ingsw.view.cli.AnsiColor;
 import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.LoadingBar;
 import it.polimi.ingsw.view.cli.Menù;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * @author Davide Grazzani
+ * @author Luca Muroni
+ * Class that represents the login page
+ */
 public class LoginPage implements Page {
     private final Cli cli;
     private Menù menù;
@@ -20,13 +21,20 @@ public class LoginPage implements Page {
     private boolean clearance = false;
     private final int id;
 
+    /**
+     * Class constructor
+     * @param cli represents the cli associated to the game
+     * @param id represents the id associated to the player (?)
+     */
     public LoginPage(Cli cli, int id){
         this.cli = cli;
         scanner = new Scanner(System.in);
         this.id = id;
     }
 
-
+    /**
+     * Method that handles the login page
+     */
     @Override
     public void handle() {
         Thread t = new Thread(()->{
@@ -104,7 +112,10 @@ public class LoginPage implements Page {
         t.start();
     }
 
-
+    /**
+     * Method that checks if the process is ready
+     * @return true if the process is ready, false otherwise
+     */
     @Override
     public synchronized boolean isProcessReady() {
         if(!this.readyToProcede){
@@ -115,11 +126,19 @@ public class LoginPage implements Page {
         }
     }
 
+    /**
+     * Setter method
+     * @param clearance represents
+     */
     @Override
     public synchronized void setClearance(boolean clearance) {
         this.clearance = clearance;
     }
 
+    /**
+     * Getter method
+     * @return the
+     */
     private synchronized boolean getClearance(){
         return this.clearance;
     }
