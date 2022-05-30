@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.asset.game;
 
 import java.util.ArrayList;
+
+import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.view.asset.game.Island;
 
 public class Game {
@@ -11,7 +13,7 @@ public class Game {
     private Gamer self;
 
     private Island chosenIsland;
-
+    private PawnColor chosenColor;
     public Game(Gamer gamer) {
         this.gamers = new ArrayList<>();
         this.islands = new ArrayList<>();
@@ -46,11 +48,23 @@ public class Game {
         return motherNaturePosition;
     }
 
+    public Island getChosenIsland() {
+        return chosenIsland;
+    }
+
+    public PawnColor getChosenColor() {
+        return chosenColor;
+    }
+
     public void setMotherNaturePosition(Island motherNaturePosition) {
         this.motherNaturePosition = motherNaturePosition;
     }
 
-    private void setChosenIsland(Island chosenIsland) {
+    public void setChosenIsland(Island chosenIsland) {
         this.chosenIsland = chosenIsland;
+    }
+
+    public void setChosenColor(PawnColor chosenColor) {
+        this.chosenColor = chosenColor;
     }
 }

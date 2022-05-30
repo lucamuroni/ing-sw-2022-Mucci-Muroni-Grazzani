@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.cli.page;
 
+import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.cli.AnsiColor;
@@ -72,7 +73,7 @@ public class MoveStudentPage implements Page {
                 options.add("Back");
                 menù.clear();
                 menù.addOptions(options);
-                menù.setContext("Which island do you want to choose ?");
+                menù.setContext("Which island do you want to choose?");
                 menù.print();
                 doNotProcede = true;
                 while (doNotProcede) {
@@ -84,16 +85,53 @@ public class MoveStudentPage implements Page {
                     }else if (choice == 13){
                         throw new UndoException();
                     }else {
-                        //TODO: controller salva info
-                        assetGame.
+                        assetGame.setChosenIsland(this.assetGame.getIslands().get(choice-1));
                         doNotProcede = false;
                     }
                 }
             }
         }
         options.clear();
-        //TODO: choose a student
-
+        options.add("Red");
+        options.add("Blue");
+        options.add("Yellow");
+        options.add("Green");
+        options.add("Pink");
+        options.add("Back");
+        menù.clear();
+        menù.addOptions(options);
+        menù.setContext("Which type of student do you want to move?");
+        menù.print();
+        doNotProcede = true;
+        while (doNotProcede) {
+            choice = scanner.nextInt();
+            if(choice<1 || choice>options.size()){
+                System.out.println(AnsiColor.RED+"No choice with that number");
+                System.out.println("Retry"+AnsiColor.RESET);
+                menù.print();
+            }else if (choice == 6){
+                throw new UndoException();
+            }else {
+                switch (choice) {
+                    case 1:
+                        assetGame.setChosenColor(PawnColor.RED);
+                        break;
+                    case 2:
+                        assetGame.setChosenColor(PawnColor.BLUE);
+                        break;
+                    case 3:
+                        assetGame.setChosenColor(PawnColor.YELLOW);
+                        break;
+                    case 4:
+                        assetGame.setChosenColor(PawnColor.GREEN);
+                        break;
+                    case 5:
+                        assetGame.setChosenColor(PawnColor.PINK);
+                        break;
+                }
+                doNotProcede = false;
+            }
+        }
     }
 
     /**
