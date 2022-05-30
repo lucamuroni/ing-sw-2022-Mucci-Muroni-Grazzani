@@ -223,6 +223,8 @@ public interface View{
      */
     public void setCurrentPlayer(Player player);
 
+    public void sendActiveUsername(Player player) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+
     /**
      *
      */

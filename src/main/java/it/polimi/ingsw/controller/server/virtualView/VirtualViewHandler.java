@@ -301,10 +301,14 @@ public class VirtualViewHandler implements View {
      * Method that handles the messages to set a new current player
      * @param player represents the new current player
      */
-    //TODO: controllare se è necessario creare un messaggio che aggiorni il current player o se questo metodo non serve
     @Override
     public void setCurrentPlayer(Player player) {
         this.messageHandler = player.getMessageHandler();
+    }
+
+    public void sendActiveUsername(Player player) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        SendActiveUsername func = new SendActiveUsername(messageHandler, player);
+        func.handle();
     }
 
     /**

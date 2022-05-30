@@ -71,6 +71,25 @@ public class ActionPhase1 implements GamePhase{
                 this.controller.shutdown();
             }
         }
+        ArrayList<Player> players = this.controller.getPlayers();
+        try {
+            players.remove(this.controller.getPlayer(this.game.getCurrentPlayer()));
+        } catch (ModelErrorException e) {
+            this.controller.shutdown();
+        }
+        for (Player player : players) {
+            try {
+                try {
+                    this.view.sendActiveUsername(this.controller.getPlayer(this.game.getCurrentPlayer()));
+                } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
+                    this.view.sendActiveUsername(this.controller.getPlayer(this.game.getCurrentPlayer()));
+                }
+            } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException | ClientDisconnectedException e) {
+                this.controller.handlePlayerError(player);
+            } catch (ModelErrorException e) {
+                this.controller.shutdown();
+            }
+        }
         try {
             for (int cont = 0; cont < this.numOfMovements; cont++) {
                 int place = this.moveStudentToLocation(this.controller.getPlayer(this.game.getCurrentPlayer()));
@@ -84,8 +103,6 @@ public class ActionPhase1 implements GamePhase{
                 } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
                     this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()));
                 }
-                ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
-                players.remove(this.controller.getPlayer(this.game.getCurrentPlayer()));
                 for (Player pl : players) {
                     this.view.setCurrentPlayer(pl);
                     try {
