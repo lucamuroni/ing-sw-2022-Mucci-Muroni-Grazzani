@@ -54,7 +54,7 @@ public class ActionPhase1 implements GamePhase{
     public void handle() {
         this.game.setTurnNumber();
         try {
-            this.view.sendCurrentPlayer(this.controller.getPlayer(this.game.getCurrentPlayer()));
+            this.view.setCurrentPlayer(this.controller.getPlayer(this.game.getCurrentPlayer()));
         } catch (ModelErrorException e) {
             this.controller.shutdown();
         }
@@ -74,7 +74,7 @@ public class ActionPhase1 implements GamePhase{
         try {
             for (int cont = 0; cont < this.numOfMovements; cont++) {
                 int place = this.moveStudentToLocation(this.controller.getPlayer(this.game.getCurrentPlayer()));
-                this.view.sendCurrentPlayer(this.controller.getPlayer(this.game.getCurrentPlayer()));
+                this.view.setCurrentPlayer(this.controller.getPlayer(this.game.getCurrentPlayer()));
                 try {
                     try {
                         this.view.updateDashboards(this.game.getCurrentPlayer(), this.game);
@@ -87,7 +87,7 @@ public class ActionPhase1 implements GamePhase{
                 ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
                 players.remove(this.controller.getPlayer(this.game.getCurrentPlayer()));
                 for (Player pl : players) {
-                    this.view.sendCurrentPlayer(pl);
+                    this.view.setCurrentPlayer(pl);
                     try {
                         try {
                             this.sendInfo(place);
@@ -110,7 +110,7 @@ public class ActionPhase1 implements GamePhase{
      * @param player represents the currentPlayer that is playing
      */
     private int moveStudentToLocation(Player player) {
-        this.view.sendCurrentPlayer(player);
+        this.view.setCurrentPlayer(player);
         int place = 0;
         PawnColor color = null;
         try{

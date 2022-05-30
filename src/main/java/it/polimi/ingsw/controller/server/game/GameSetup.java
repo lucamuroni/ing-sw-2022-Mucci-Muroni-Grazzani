@@ -116,7 +116,7 @@ public class GameSetup implements GamePhase{
      * @param player is the player whose view will be adjourned
      */
     private void updateMotherNaturePlace(Player player) {
-        this.view.sendCurrentPlayer(player);
+        this.view.setCurrentPlayer(player);
         try{
             try{
                 this.view.sendContext(CONTEXT_MOTHER.getFragment());
@@ -135,7 +135,7 @@ public class GameSetup implements GamePhase{
      * @param player is the player whose view will be adjourned
      */
     private void updateIslandStatus(Player player){
-        this.view.sendCurrentPlayer(player);
+        this.view.setCurrentPlayer(player);
         for (int i = 0; i<this.game.getIslands().size(); i++) {
             try{
                 try{
@@ -152,7 +152,7 @@ public class GameSetup implements GamePhase{
     }
 
     private void updateTowerColor(Player player) {
-        this.view.sendCurrentPlayer(player);
+        this.view.setCurrentPlayer(player);
         try {
             try {
                 this.view.sendContext(CONTEXT_COLOR.getFragment());
@@ -173,7 +173,7 @@ public class GameSetup implements GamePhase{
      * @param player is the player whose view will be adjourned
      */
     private void updateDashboards(Player player){
-        this.view.sendCurrentPlayer(player);
+        this.view.setCurrentPlayer(player);
         for (int i = 0; i<this.game.getGamers().size(); i++) {
             try{
                 try{
@@ -197,7 +197,7 @@ public class GameSetup implements GamePhase{
      * @return the figure chosen by the player
      */
     private AssistantCardDeckFigures getChosenAssistantCardDeck(Player player){
-        this.view.sendCurrentPlayer(player);
+        this.view.setCurrentPlayer(player);
         AssistantCardDeckFigures card = null;
         try{
             try{
@@ -223,7 +223,7 @@ public class GameSetup implements GamePhase{
      * @param figure is the figure chosen by the currentPlayer
      */
     private void updateChosenCardDeck(Player player, Gamer currentPlayer, AssistantCardDeckFigures figure){
-        this.view.sendCurrentPlayer(player);
+        this.view.setCurrentPlayer(player);
         try{
             try{
                 this.view.sendContext(CONTEXT_FIGURE.getFragment());

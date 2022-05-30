@@ -69,7 +69,7 @@ public class GameController extends Thread{
     public void shutdown(){
         System.out.println("Error revealed on server side : shutting down game");
         for(Player player : this.players){
-            this.view.sendCurrentPlayer(player);
+            this.view.setCurrentPlayer(player);
             this.view.haltOnError();
         }
         this.isOK = false;
@@ -82,7 +82,7 @@ public class GameController extends Thread{
     public void handlePlayerError(Player player){
         System.out.println("Error revealed on client side");
         System.out.println("Gamer info : "+player.getUsername()+", token : "+player.getToken());
-        this.view.sendCurrentPlayer(player);
+        this.view.setCurrentPlayer(player);
         this.view.haltOnError();
         player.getMessageHandler().shutDown();
         this.players.remove(player);

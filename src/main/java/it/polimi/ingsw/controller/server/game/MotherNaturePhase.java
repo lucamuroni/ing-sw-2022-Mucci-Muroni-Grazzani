@@ -46,7 +46,7 @@ public class MotherNaturePhase implements GamePhase{
             ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
             players.remove(this.controller.getPlayer(this.game.getCurrentPlayer()));
             for (Player pl : players) {
-                this.view.sendCurrentPlayer(pl);
+                this.view.setCurrentPlayer(pl);
                 try {
                     try {
                         this.view.sendContext(CONTEXT_MOTHER.getFragment());
@@ -69,7 +69,7 @@ public class MotherNaturePhase implements GamePhase{
      * @param player represents the currentPlayer that is playing
      */
     private void moveMotherNature(Player player) {
-        this.view.sendCurrentPlayer(player);
+        this.view.setCurrentPlayer(player);
         Island place = null;
         ArrayList<Island> possibleChoices = this.game.getMotherNatureDestination();
         try {

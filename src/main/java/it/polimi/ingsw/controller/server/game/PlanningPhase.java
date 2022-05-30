@@ -57,7 +57,7 @@ public class PlanningPhase implements GamePhase{
         for(Player player : this.controller.getPlayers()){
             try {
                 this.game.setCurrentPlayer(player.getGamer(this.game.getGamers()));
-                this.view.sendCurrentPlayer(player);
+                this.view.setCurrentPlayer(player);
                 try {
                     try{
                         this.view.sendNewPhase(Phase.PLANNING_PHASE);
@@ -89,7 +89,7 @@ public class PlanningPhase implements GamePhase{
      * @param player represents the player whose view will be adjourned
      */
     private void updateCloudsStatus(Player player){
-        this.view.sendCurrentPlayer(player);
+        this.view.setCurrentPlayer(player);
         try{
             try{
                 this.view.sendContext(CONTEXT_CLOUD.getFragment());
@@ -110,7 +110,7 @@ public class PlanningPhase implements GamePhase{
      * @return the card chosen by the player
      */
     private AssistantCard getChoseAssistantCard(Player player, ArrayList<AssistantCard> alreadyPlayedCards){
-        this.view.sendCurrentPlayer(player);
+        this.view.setCurrentPlayer(player);
         Gamer currentPlayer = this.game.getCurrentPlayer();
         AssistantCard result = null;
         ArrayList<AssistantCard> cardsOfPlayer = new ArrayList<>(currentPlayer.getDeck().getCardList());
@@ -145,7 +145,7 @@ public class PlanningPhase implements GamePhase{
         ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
         players.remove(currentPlayer);
         for (int i = 0; i<players.size(); i++) {
-            this.view.sendCurrentPlayer(players.get(i));
+            this.view.setCurrentPlayer(players.get(i));
             try {
                 try {
                     this.view.sendContext(CONTEXT_CARD.getFragment());
