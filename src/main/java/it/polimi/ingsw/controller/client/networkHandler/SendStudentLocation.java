@@ -46,3 +46,4 @@ public class SendStudentLocation {
         this.messageHandler.assertOnEquals(OK.getFragment(), STUDENT_LOCATION.getFragment());
     }
 }
+

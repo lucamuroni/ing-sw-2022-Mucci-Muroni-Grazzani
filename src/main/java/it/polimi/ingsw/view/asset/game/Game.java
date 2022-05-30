@@ -1,22 +1,19 @@
 package it.polimi.ingsw.view.asset.game;
 
 import java.util.ArrayList;
+
+import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.view.asset.game.Island;
 
 public class Game {
     private ArrayList<Gamer> gamers;
     private ArrayList<Island> islands;
     private ArrayList<Cloud> clouds;
-    //TODO: confrontarsi con Grazza per capire se va bene MN in questo modo oppure è necessario creare una classe
-    //      apposta perché serve alla cli/gui
     private Island motherNaturePosition;
     private Gamer self;
-    //private ArrayList<Student> bag;
 
-    public void setMotherNaturePosition(Island motherNaturePosition) {
-        this.motherNaturePosition = motherNaturePosition;
-    }
-
+    private Island chosenIsland;
+    private PawnColor chosenColor;
     public Game(Gamer gamer) {
         this.gamers = new ArrayList<>();
         this.islands = new ArrayList<>();
@@ -49,5 +46,25 @@ public class Game {
 
     public Island getMotherNaturePosition() {
         return motherNaturePosition;
+    }
+
+    public Island getChosenIsland() {
+        return chosenIsland;
+    }
+
+    public PawnColor getChosenColor() {
+        return chosenColor;
+    }
+
+    public void setMotherNaturePosition(Island motherNaturePosition) {
+        this.motherNaturePosition = motherNaturePosition;
+    }
+
+    public void setChosenIsland(Island chosenIsland) {
+        this.chosenIsland = chosenIsland;
+    }
+
+    public void setChosenColor(PawnColor chosenColor) {
+        this.chosenColor = chosenColor;
     }
 }

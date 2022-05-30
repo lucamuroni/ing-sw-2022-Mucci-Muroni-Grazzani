@@ -1,9 +1,5 @@
 package it.polimi.ingsw.controller.networking.messageParts;
 
-/**
- * @author Davide Grazzani
- * Enum used to define standard timing constrains for user action
- */
 public enum ConnectionTimings {
     CONNECTION_STARTUP(40000),
     PLAYER_MOVE(30000),

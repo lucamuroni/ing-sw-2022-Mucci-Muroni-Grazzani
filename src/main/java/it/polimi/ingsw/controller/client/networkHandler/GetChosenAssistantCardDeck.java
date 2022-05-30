@@ -60,3 +60,4 @@ public class GetChosenAssistantCardDeck {
         owner.updateFigure(deck);
     }
 }
+

@@ -48,3 +48,4 @@ public class SendInfo {
         this.messageHandler.writeOut();
     }
 }
+
