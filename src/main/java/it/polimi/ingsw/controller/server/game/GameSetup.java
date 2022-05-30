@@ -68,8 +68,11 @@ public class GameSetup implements GamePhase{
             }
         }
         for (Player player : this.controller.getPlayers()) {
-            this.updateTowerColor(player);
-            this.updateDashboards(player);
+            ArrayList<Player> pl = new ArrayList<>(this.controller.getPlayers());
+            for (Player player1 : pl) {
+                this.updateTowerColor(player1);
+                this.updateDashboards(player1);
+            }
         }
         for(Player player : this.controller.getPlayers()){
             AssistantCardDeckFigures figure = this.getChosenAssistantCardDeck(player);

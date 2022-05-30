@@ -35,7 +35,7 @@ public class NetworkHandler implements Network {
     }
 
     @Override
-    public void getCurrentPlayer(MessageHandler messageHandler, Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+    public void getCurrentPlayer(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetCurrentPlayer func = new GetCurrentPlayer(messageHandler, game);
         func.handle();
     }

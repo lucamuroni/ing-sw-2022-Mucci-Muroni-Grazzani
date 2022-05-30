@@ -129,6 +129,17 @@ public class Idle implements GamePhase{
                     }
                     this.stop = true;
                     break;
+                case CONTEXT_USERNAME:
+                    try {
+                        try {
+                            this.network.getCurrentPlayer(this.game);
+                        } catch (MalformedMessageException e) {
+                            this.network.getCurrentPlayer(this.game);
+                        }
+                    } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+                        this.controller.handleError();
+                    }
+                    break;
             }
         }
     }

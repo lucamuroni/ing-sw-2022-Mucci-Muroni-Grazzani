@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * Interface with all the messages methods executed by the client
  */
 public interface Network {
-    void getCurrentPlayer(MessageHandler messageHandler, Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+    void getCurrentPlayer(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
     void getConnection(ClientController controller) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 

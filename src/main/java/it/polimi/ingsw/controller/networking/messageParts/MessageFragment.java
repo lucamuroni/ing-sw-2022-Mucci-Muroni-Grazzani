@@ -20,6 +20,7 @@ public enum MessageFragment {
     CONTEXT_ISLAND("islandUpdate"),
     CONTEXT_MOTHER("motherNature"),
     CONTEXT_PHASE("changePhase"),
+    CONTEXT_USERNAME("activeUsername"),
     DASHBOARD("dashboard"),
     GAME_TYPE("GameType"),
     GAME_NORMAL("normal game"),

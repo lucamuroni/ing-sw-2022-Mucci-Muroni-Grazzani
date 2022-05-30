@@ -78,10 +78,13 @@ public class ActionPhase1 implements GamePhase{
             this.controller.shutdown();
         }
         for (Player player : players) {
+            this.view.setCurrentPlayer(player);
             try {
                 try {
+                    this.view.sendContext(CONTEXT_USERNAME.getFragment());
                     this.view.sendActiveUsername(this.controller.getPlayer(this.game.getCurrentPlayer()));
                 } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
+                    this.view.sendContext(CONTEXT_USERNAME.getFragment());
                     this.view.sendActiveUsername(this.controller.getPlayer(this.game.getCurrentPlayer()));
                 }
             } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException | ClientDisconnectedException e) {
