@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller.client.networkHandler;
 
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
+import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
  * Interface with all the messages methods executed by the client
  */
 public interface Network {
-    Player getCurrentPlayer();
+    void getCurrentPlayer(MessageHandler messageHandler, Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
     void getConnection(ClientController controller) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 

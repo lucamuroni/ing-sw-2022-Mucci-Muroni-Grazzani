@@ -11,7 +11,7 @@ public class Game {
     private ArrayList<Cloud> clouds;
     private Island motherNaturePosition;
     private Gamer self;
-
+    private String currentPlayer;
     private Island chosenIsland;
     private PawnColor chosenColor;
     public Game(Gamer gamer) {
@@ -66,5 +66,13 @@ public class Game {
 
     public void setChosenColor(PawnColor chosenColor) {
         this.chosenColor = chosenColor;
+    }
+
+    public String getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(String currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 }
