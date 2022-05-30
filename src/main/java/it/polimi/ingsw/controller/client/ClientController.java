@@ -1,11 +1,13 @@
 package it.polimi.ingsw.controller.client;
 
 import it.polimi.ingsw.controller.client.game.ConnectionPhase;
+import it.polimi.ingsw.controller.client.game.ExpertPhase;
 import it.polimi.ingsw.controller.client.game.GamePhase;
 import it.polimi.ingsw.controller.client.game.Start;
 import it.polimi.ingsw.controller.client.networkHandler.Network;
 import it.polimi.ingsw.controller.client.networkHandler.NetworkHandler;
 import it.polimi.ingsw.controller.networking.MessageHandler;
+import it.polimi.ingsw.controller.server.GameType;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Game;
 
@@ -17,15 +19,27 @@ public class ClientController {
     private ViewHandler viewHandler;
     private GamePhase phase;
     private Game game;
+    private boolean isGameFinished;
+    private GameType type;
 
     public ClientController(MessageHandler messageHandler,ViewHandler viewHandler){
         this.network = new NetworkHandler(messageHandler);
         this.viewHandler = viewHandler;
+        this.isGameFinished = false;
         this.run();
     }
 
     private void run(){
         this.phase = new ConnectionPhase(this);
+        while (this.getGameStatus()){
+            phase.handle();
+            if(this.type == GameType.EXPERT){
+                GamePhase expertPhase = new ExpertPhase(this);
+                expertPhase.handle();
+            }
+            phase = phase.next();
+        }
+        // TODO : fare qualcosa per far ricominciare il gioco
     }
 
     public Network getNetwork() {
@@ -48,5 +62,13 @@ public class ClientController {
 
     public Game getGame() {
         return this.game;
+    }
+
+    public synchronized void gameIsFinished() {
+        isGameFinished = true;
+    }
+
+    private synchronized boolean getGameStatus(){
+        return this.isGameFinished;
     }
 }
