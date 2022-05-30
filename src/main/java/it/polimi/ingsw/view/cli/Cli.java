@@ -1,10 +1,12 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.controller.client.ClientController;
+import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.controller.networking.GameType;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.pawn.Student;
 import it.polimi.ingsw.view.ViewHandler;
+import it.polimi.ingsw.view.asset.game.Cloud;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.asset.game.Island;
@@ -112,7 +114,7 @@ public class Cli implements ViewHandler {
      * @return the chosen place on the dashboard
      */
     @Override
-    public String choosePlace() {
+    public int choosePlace() {
         return null;
     }
 
@@ -124,5 +126,30 @@ public class Cli implements ViewHandler {
     @Override
     public Island chooseIsland(ArrayList<Island> islands) {
         return null;
+    }
+
+    @Override
+    public Cloud chooseCloud(ArrayList<Cloud> clouds) {
+        return null;
+    }
+
+    @Override
+    public AssistantCardDeckFigures chooseFigure(ArrayList<AssistantCardDeckFigures> figures) {
+        return null;
+    }
+
+    @Override
+    public void displayLoginPage() {
+
+    }
+
+    @Override
+    public void getPlayerInfo() {
+
+    }
+
+    @Override
+    public void goToIdle() {
+
     }
 }

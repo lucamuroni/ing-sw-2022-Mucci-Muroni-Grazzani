@@ -116,20 +116,9 @@ public class LoginPage implements Page {
         }
     }
 
-    /**
-     * Setter method
-     * @param clearance represents
-     */
     @Override
-    public synchronized void setClearance(boolean clearance) {
-        this.clearance = clearance;
+    public void kill() {
+
     }
 
-    /**
-     * Getter method
-     * @return the
-     */
-    private synchronized boolean getClearance(){
-        return this.clearance;
-    }
 }

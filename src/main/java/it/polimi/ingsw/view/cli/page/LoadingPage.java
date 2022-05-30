@@ -12,7 +12,8 @@ import it.polimi.ingsw.view.cli.LoadingBar;
 public class LoadingPage implements Page {
     private final LoadingBar loadingBar;
     private final Cli cli;
-    private boolean clearance;
+    private boolean killed;
+
 
     /**
      * Class constructor
@@ -21,7 +22,7 @@ public class LoadingPage implements Page {
     public LoadingPage(Cli cli){
         this.cli = cli;
         this.loadingBar = new LoadingBar(15);
-        this.clearance = false;
+        this.killed = false;
     }
 
     /**
@@ -50,7 +51,7 @@ public class LoadingPage implements Page {
     @Override
     public void handle() {
         Thread t = new Thread(()->{
-            while(!this.getClearance()){
+            while(!this.isKilled()){
                 this.draw();
             }
         });
@@ -66,20 +67,13 @@ public class LoadingPage implements Page {
         return true;
     }
 
-    /**
-     * Setter method
-     * @param clearance represents
-     */
     @Override
-    public synchronized void setClearance(boolean clearance) {
-        this.clearance = clearance;
+    public synchronized void kill() {
+        this.killed = true;
     }
 
-    /**
-     * Getter method
-     * @return the
-     */
-    private synchronized boolean getClearance(){
-        return  this.clearance;
+    private synchronized boolean isKilled(){
+        return this.killed;
     }
+
 }
