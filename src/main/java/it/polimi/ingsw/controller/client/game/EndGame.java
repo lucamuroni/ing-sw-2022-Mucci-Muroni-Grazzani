@@ -17,8 +17,8 @@ public class EndGame implements GamePhase{
     private final ViewHandler view;
     private final Network network;
     private final ClientController controller;
-    public EndGame(Game game, ClientController controller) {
-        this.game = game;
+    public EndGame(ClientController controller) {
+        this.game = controller.getGame();
         this.view = controller.getViewHandler();
         this.controller = controller;
         this.network = this.controller.getNetwork();

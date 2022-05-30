@@ -30,7 +30,7 @@ public class ConnectionPhase implements GamePhase{
 
     @Override
     public GamePhase next() {
-        return new Start(this.game,this.controller,this.view);
+        return new Start(this.controller);
     }
 
 }

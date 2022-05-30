@@ -20,8 +20,8 @@ public class Idle implements GamePhase{
     private GamePhase nextPhase;
     private boolean stop;
 
-    public Idle(Game game, ClientController controller) {
-        this.game = game;
+    public Idle(ClientController controller) {
+        this.game = controller.getGame();
         this.controller = controller;
         this.network = this.controller.getNetwork();
         this.view = this.controller.getViewHandler();
@@ -121,11 +121,11 @@ public class Idle implements GamePhase{
                         this.controller.handleError();
                     }
                     switch (Objects.requireNonNull(phase)) {
-                        case PLANNING_PHASE -> nextPhase = new PlanningPhase(this.game, this.controller);
-                        case ACTION_PHASE_1 -> nextPhase = new ActionPhase1(this.game, this.controller);
-                        case MOTHER_NATURE_PHASE -> nextPhase = new MotherNaturePhase(this.game, this.controller);
-                        case ACTION_PHASE_3 -> nextPhase = new ActionPhase3(this.game, this.controller);
-                        case END_GAME_PHASE -> nextPhase = new EndGame(this.game, this.controller);
+                        case PLANNING_PHASE -> nextPhase = new PlanningPhase(this.controller);
+                        case ACTION_PHASE_1 -> nextPhase = new ActionPhase1(this.controller);
+                        case MOTHER_NATURE_PHASE -> nextPhase = new MotherNaturePhase(this.controller);
+                        case ACTION_PHASE_3 -> nextPhase = new ActionPhase3(this.controller);
+                        case END_GAME_PHASE -> nextPhase = new EndGame(this.controller);
                     }
                     this.stop = true;
                     break;

@@ -17,8 +17,8 @@ public class Start implements GamePhase {
     private final Network network;
     private final ClientController controller;
 
-    public Start(Game game, ClientController controller) {
-        this.game = game;
+    public Start(ClientController controller) {
+        this.game = controller.getGame();
         this.view = controller.getViewHandler();
         this.controller = controller;
         this.network = this.controller.getNetwork();
@@ -91,7 +91,7 @@ public class Start implements GamePhase {
 
     @Override
     public GamePhase next() {
-        return new Idle(this.game, this.controller);
+        return new Idle(this.controller);
     }
 
 }

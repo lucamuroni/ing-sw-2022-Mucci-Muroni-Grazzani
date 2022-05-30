@@ -41,4 +41,12 @@ public class ClientController {
         System.out.println(AnsiColor.RED.toString()+"Error revealed: shutting down process"+AnsiColor.RESET.toString());
         System.exit(1);
     }
+
+    public void setGame(Game game){
+        this.game = game;
+    }
+
+    public Game getGame() {
+        return this.game;
+    }
 }

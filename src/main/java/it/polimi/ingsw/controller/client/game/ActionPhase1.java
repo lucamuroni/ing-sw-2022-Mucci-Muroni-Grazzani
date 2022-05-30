@@ -17,8 +17,8 @@ public class ActionPhase1 implements GamePhase{
     private final ClientController controller;
     private final int numOfMoves;
 
-    public ActionPhase1(Game game, ClientController controller) {
-        this.game = game;
+    public ActionPhase1(ClientController controller) {
+        this.game = controller.getGame();
         this.view = controller.getViewHandler();
         this.controller = controller;
         this.network = this.controller.getNetwork();
@@ -64,6 +64,6 @@ public class ActionPhase1 implements GamePhase{
 
     @Override
     public GamePhase next() {
-        return new MotherNaturePhase(this.game,this.controller,this.view);
+        return new MotherNaturePhase(this.controller);
     }
 }
