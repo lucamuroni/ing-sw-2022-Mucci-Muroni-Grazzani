@@ -43,7 +43,7 @@ public class ConquerIslandPhase implements GamePhase{
         this.game.checkIslandOwner();
         ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
         for (Player pl : players) {
-            this.view.setCurrentPlayer(pl);
+            this.view.sendCurrentPlayer(pl);
             try {
                 try {
                     this.view.sendContext(CONTEXT_ISLAND.getFragment());

@@ -303,8 +303,9 @@ public class VirtualViewHandler implements View {
      */
     //TODO: controllare se è necessario creare un messaggio che aggiorni il current player o se questo metodo non serve
     @Override
-    public void setCurrentPlayer(Player player) {
-        this.messageHandler = player.getMessageHandler();
+    public void sendCurrentPlayer(Player player) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        SendCurrentPlayer func = new SendCurrentPlayer(player, messageHandler);
+        func.handle();
     }
 
     /**

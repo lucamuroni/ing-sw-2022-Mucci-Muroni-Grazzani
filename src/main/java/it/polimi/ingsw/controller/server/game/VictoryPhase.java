@@ -44,7 +44,7 @@ public class VictoryPhase implements GamePhase{
                 names.add(gamer.getUsername());
             }
             for (Player player : this.controller.getPlayers()) {
-                this.view.setCurrentPlayer(player);
+                this.view.sendCurrentPlayer(player);
                 try {
                     try{
                         this.view.sendNewPhase(Phase.END_GAME_PHASE);

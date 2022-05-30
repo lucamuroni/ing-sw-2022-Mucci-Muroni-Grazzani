@@ -44,7 +44,7 @@ public class ActionPhase3 implements GamePhase{
     public void handle() {
         this.game.setTurnNumber();
         try {
-            this.view.setCurrentPlayer(this.controller.getPlayer(this.game.getCurrentPlayer()));
+            this.view.sendCurrentPlayer(this.controller.getPlayer(this.game.getCurrentPlayer()));
         } catch (ModelErrorException e) {
             this.controller.shutdown();
         }
@@ -66,7 +66,7 @@ public class ActionPhase3 implements GamePhase{
             ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
             players.remove(this.controller.getPlayer(this.game.getCurrentPlayer()));
             for (Player pl : players) {
-                this.view.setCurrentPlayer(pl);
+                this.view.sendCurrentPlayer(pl);
                 try {
                     try {
                         this.view.sendContext(CONTEXT_CLOUD.getFragment());
@@ -92,7 +92,7 @@ public class ActionPhase3 implements GamePhase{
      * @param player represents the currentPlayer
      */
     private void choseCloud(Player player) {
-        this.view.setCurrentPlayer(player);
+        this.view.sendCurrentPlayer(player);
         Gamer currentPlayer = this.game.getCurrentPlayer();
         Cloud chosenCloud = null;
         ArrayList<Cloud> possibleChoices = new ArrayList<>();

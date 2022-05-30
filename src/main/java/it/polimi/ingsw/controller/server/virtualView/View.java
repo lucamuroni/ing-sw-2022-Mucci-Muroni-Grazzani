@@ -221,7 +221,7 @@ public interface View{
      * Method that handles the messages to set a new current player
      * @param player represents the new current player
      */
-    public void setCurrentPlayer(Player player);
+    public void sendCurrentPlayer(Player player) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
     /**
      *
