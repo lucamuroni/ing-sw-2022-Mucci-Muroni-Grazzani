@@ -11,6 +11,7 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.pawn.PawnColor;
+import it.polimi.ingsw.model.pawn.TowerColor;
 import it.polimi.ingsw.view.asset.game.*;
 import java.util.ArrayList;
 
@@ -20,6 +21,8 @@ import java.util.ArrayList;
  */
 public interface Network {
     void getCurrentPlayer(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+
+    void getTowerColor(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
     void getConnection(ClientController controller) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 

@@ -29,8 +29,6 @@ public class Start implements GamePhase {
         this.updateMNPlace();
         this.updateIslandStatus();
         for (int i = 0; i<this.game.getGamers().size(); i++) {
-            //TODO: bisogna mette a posto come viene inviato il colore, bisogna aggiungere che oltre al colore
-            //      il messaggio lato server ti invia l'ID del giocatore a cui è associato
             this.updateColor();
             this.updateDashboards();
         }
@@ -95,8 +93,12 @@ public class Start implements GamePhase {
     private void updateColor() {
         try {
             try {
-                this.network.getTowerColor();
+                this.network.getTowerColor(this.game);
+            } catch (MalformedMessageException e) {
+                this.network.getTowerColor(this.game);
             }
+        } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+            this.controller.handleError();
         }
     }
 

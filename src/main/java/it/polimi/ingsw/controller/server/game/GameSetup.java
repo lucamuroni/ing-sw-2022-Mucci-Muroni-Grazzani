@@ -122,10 +122,10 @@ public class GameSetup implements GamePhase{
         this.view.setCurrentPlayer(player);
         try{
             try{
-                this.view.sendContext(CONTEXT_MOTHER.getFragment());
+                //this.view.sendContext(CONTEXT_MOTHER.getFragment());
                 this.view.updateMotherNaturePlace(this.game.getMotherNature().getPlace());
             }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
-                this.view.sendContext(CONTEXT_MOTHER.getFragment());
+                //this.view.sendContext(CONTEXT_MOTHER.getFragment());
                 this.view.updateMotherNaturePlace(this.game.getMotherNature().getPlace());
             }
         }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
@@ -142,10 +142,10 @@ public class GameSetup implements GamePhase{
         for (int i = 0; i<this.game.getIslands().size(); i++) {
             try{
                 try{
-                    this.view.sendContext(CONTEXT_ISLAND.getFragment());
+                    //this.view.sendContext(CONTEXT_ISLAND.getFragment());
                     this.view.updateIslandStatus(this.game.getIslands().get(i));
                 }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
-                    this.view.sendContext(CONTEXT_ISLAND.getFragment());
+                    //this.view.sendContext(CONTEXT_ISLAND.getFragment());
                     this.view.updateIslandStatus(this.game.getIslands().get(i));
                 }
             }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
@@ -158,11 +158,11 @@ public class GameSetup implements GamePhase{
         this.view.setCurrentPlayer(player);
         try {
             try {
-                this.view.sendContext(CONTEXT_COLOR.getFragment());
-                this.view.sendTowerColor(player.getGamer(this.game.getGamers()).getTowerColor());
+                //this.view.sendContext(CONTEXT_COLOR.getFragment());
+                this.view.sendTowerColor(player.getGamer(this.game.getGamers()));
             } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e) {
-                this.view.sendContext(CONTEXT_COLOR.getFragment());
-                this.view.sendTowerColor(player.getGamer(this.game.getGamers()).getTowerColor());
+                //this.view.sendContext(CONTEXT_COLOR.getFragment());
+                this.view.sendTowerColor(player.getGamer(this.game.getGamers()));
             }
         } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
             this.controller.handlePlayerError(player);
@@ -180,10 +180,10 @@ public class GameSetup implements GamePhase{
         for (int i = 0; i<this.game.getGamers().size(); i++) {
             try{
                 try{
-                    this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
+                    //this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
                     this.view.updateDashboards(this.game.getGamers().get(i), this.game);
                 }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
-                    this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
+                    //this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
                     this.view.updateDashboards(this.game.getGamers().get(i), this.game);
                 }
             }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
@@ -229,10 +229,10 @@ public class GameSetup implements GamePhase{
         this.view.setCurrentPlayer(player);
         try{
             try{
-                this.view.sendContext(CONTEXT_FIGURE.getFragment());
+                //this.view.sendContext(CONTEXT_FIGURE.getFragment());
                 this.view.sendChosenAssistantCardDeck(figure, currentPlayer.getToken(), currentPlayer);
             }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
-                this.view.sendContext(CONTEXT_FIGURE.getFragment());
+                //this.view.sendContext(CONTEXT_FIGURE.getFragment());
                 this.view.sendChosenAssistantCardDeck(figure, currentPlayer.getToken(), currentPlayer);
             }
         }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){

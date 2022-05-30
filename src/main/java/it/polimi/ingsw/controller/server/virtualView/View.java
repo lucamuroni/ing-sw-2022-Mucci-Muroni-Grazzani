@@ -178,13 +178,13 @@ public interface View{
 
     /**
      * Method that handles the messages to send the color of the current player
-     * @param color represents the current player's color
+     * @param gamer represents the current player
      * @throws MalformedMessageException launched if the message isn't created the correct way
      * @throws TimeHasEndedException launched when the available time for the response ends
      * @throws ClientDisconnectedException launched if the client disconnects
      * @throws FlowErrorException launched when the client sends an unexpected response
      */
-    public void sendTowerColor(TowerColor color) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException;
+    public void sendTowerColor(Gamer gamer) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException;
 
     /**
      * Method that handles the messages to send the new phase to the current player

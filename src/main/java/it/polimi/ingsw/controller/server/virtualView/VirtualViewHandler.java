@@ -278,8 +278,8 @@ public class VirtualViewHandler implements View {
      * @throws FlowErrorException launched when the client sends an unexpected response
      */
     @Override
-    public void sendTowerColor(TowerColor color) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException{
-        SendTowerColor func = new SendTowerColor(color, messageHandler);
+    public void sendTowerColor(Gamer gamer) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException{
+        SendTowerColor func = new SendTowerColor(gamer, messageHandler);
         func.handle();
     }
 

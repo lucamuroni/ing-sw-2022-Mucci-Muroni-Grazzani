@@ -10,6 +10,7 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.pawn.PawnColor;
+import it.polimi.ingsw.model.pawn.TowerColor;
 import it.polimi.ingsw.view.asset.game.*;
 import java.util.ArrayList;
 
@@ -31,6 +32,11 @@ public class NetworkHandler implements Network {
     @Override
     public void broadcastPlayerInfo(Game game) throws MalformedMessageException {
         BroadcastPlayerInfo func = new BroadcastPlayerInfo(messageHandler,game);
+        func.handle();
+    }
+
+    public void getTowerColor(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        GetTowerColor func = new GetTowerColor(messageHandler, game);
         func.handle();
     }
 
