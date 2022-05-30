@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.cli.page;
 
+import it.polimi.ingsw.controller.server.GameType;
 import it.polimi.ingsw.view.Page;
+import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.cli.AnsiColor;
 import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.LoadingBar;
@@ -16,6 +18,7 @@ import java.util.Scanner;
 public class LoginPage implements Page {
     private final Cli cli;
     private Menù menù;
+    private Game game;
     private final Scanner scanner;
     private boolean readyToProcede = false;
     private boolean clearance = false;
@@ -26,10 +29,11 @@ public class LoginPage implements Page {
      * @param cli represents the cli associated to the game
      * @param id represents the id associated to the player (?)
      */
-    public LoginPage(Cli cli, int id){
+    public LoginPage(Cli cli, int id, Game game){
         this.cli = cli;
         scanner = new Scanner(System.in);
         this.id = id;
+        this.game = game;
     }
 
     /**
@@ -41,8 +45,7 @@ public class LoginPage implements Page {
             System.out.println(AnsiColor.GREEN +"Found a Server"+ AnsiColor.RESET);
             System.out.print("Please insert your nickName: ");
             String nick = scanner.nextLine();
-            //Gamer player = new Gamer(id, nick);
-            //TODO : aggiornare il modello nel client per il nickname dell'utente
+            this.game.getSelf().setUsername(nick);
             ArrayList<String> opt = new ArrayList<>();
             opt.add("Normal");
             opt.add("Expert");
@@ -58,7 +61,10 @@ public class LoginPage implements Page {
                     System.out.println("Retry"+AnsiColor.RESET);
                     menù.print();
                 }else {
-                    //TODO: controller salva info
+                    switch (choice) {
+                        case 1 -> this.game.setType(GameType.NORMAL);
+                        case 2 -> this.game.setType(GameType.EXPERT);
+                    }
                     doNotProcede = false;
                 }
             }
@@ -67,29 +73,13 @@ public class LoginPage implements Page {
                 System.out.println("Insert th number of players you wish to play with");
                 choice = scanner.nextInt();
                 if(choice<2 || choice>3){
-                    System.out.println(AnsiColor.RED+"Choiches ranges from 2 to 3 players");
+                    System.out.println(AnsiColor.RED+"Choices ranges from 2 to 3 players");
                     System.out.println("Retry"+AnsiColor.RESET);
                 }else {
-                    // TODO: controller salva info
-                    doNotProcede = false;
-                }
-            }
-            opt.clear();
-            opt.add("join");
-            opt.add("create");
-            menù.clear();
-            menù.addOptions(opt);
-            menù.setContext("Do you wish to join or partecipate ?");
-            menù.print();
-            doNotProcede = true;
-            while (doNotProcede){
-                choice = scanner.nextInt();
-                if(choice<1 || choice>opt.size()){
-                    System.out.println(AnsiColor.RED+"No choice with that number");
-                    System.out.println("Retry"+AnsiColor.RESET);
-                    menù.print();
-                }else {
-                    // TODO: controller salva info
+                    switch (choice) {
+                        case 2 -> this.game.setLobbySize(2);
+                        case 3 -> this.game.setLobbySize(3);
+                    }
                     doNotProcede = false;
                 }
             }

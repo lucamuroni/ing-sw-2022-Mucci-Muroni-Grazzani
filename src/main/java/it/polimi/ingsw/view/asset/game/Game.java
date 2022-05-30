@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.asset.game;
 
 import java.util.ArrayList;
 
+import it.polimi.ingsw.controller.server.GameType;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.view.asset.game.Island;
 
@@ -11,7 +12,8 @@ public class Game {
     private ArrayList<Cloud> clouds;
     private Island motherNaturePosition;
     private Gamer self;
-
+    private GameType type;
+    private int lobbySize;
     private Island chosenIsland;
     private PawnColor chosenColor;
     public Game(Gamer gamer) {
@@ -60,11 +62,31 @@ public class Game {
         this.motherNaturePosition = motherNaturePosition;
     }
 
+    public String getGameType() {
+        return this.type.getName();
+    }
+
+    public GameType getType() {
+        return type;
+    }
+
+    public int getLobbySize() {
+        return lobbySize;
+    }
+
     public void setChosenIsland(Island chosenIsland) {
         this.chosenIsland = chosenIsland;
     }
 
     public void setChosenColor(PawnColor chosenColor) {
         this.chosenColor = chosenColor;
+    }
+
+    public void setType(GameType type) {
+        this.type = type;
+    }
+
+    public void setLobbySize(int lobbySize) {
+        this.lobbySize = lobbySize;
     }
 }

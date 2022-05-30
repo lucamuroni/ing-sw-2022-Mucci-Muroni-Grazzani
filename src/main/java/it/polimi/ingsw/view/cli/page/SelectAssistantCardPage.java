@@ -2,6 +2,8 @@ package it.polimi.ingsw.view.cli.page;
 
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.view.Page;
+import it.polimi.ingsw.view.asset.game.Game;
+import it.polimi.ingsw.view.asset.game.Gamer;
 import it.polimi.ingsw.view.cli.AnsiColor;
 import it.polimi.ingsw.view.cli.Menù;
 import java.util.ArrayList;
@@ -13,6 +15,8 @@ import java.util.Scanner;
  */
 public class SelectAssistantCardPage implements Page {
     private ArrayList<AssistantCard> cards;
+
+    private Gamer self;
     private boolean clearance = false;
     private boolean isProcessReady = false;
     private Scanner scanner;
@@ -21,9 +25,10 @@ public class SelectAssistantCardPage implements Page {
      * Class constructor
      * @param cards represents the arrayList of possible cards the player can choose from
      */
-    public SelectAssistantCardPage(ArrayList<AssistantCard> cards){
-        this.cards = new ArrayList<AssistantCard>(cards);
+    public SelectAssistantCardPage(ArrayList<AssistantCard> cards, Gamer self){
+        this.cards = new ArrayList<>(cards);
         scanner = new Scanner(System.in);
+        this.self = self;
     }
 
     /**
@@ -31,7 +36,7 @@ public class SelectAssistantCardPage implements Page {
      */
     @Override
     public void handle() {
-        ArrayList<String> options = new ArrayList<String>();
+        ArrayList<String> options = new ArrayList<>();
         for(AssistantCard card : this.cards){
             options.add(card.getName()+" ("+card.getTurnValue()+", "+card.getMovement()+")");
         }
@@ -46,7 +51,7 @@ public class SelectAssistantCardPage implements Page {
                 System.out.println("Retry"+AnsiColor.RESET);
                 menù.print();
             }else {
-                //TODO: controller salva info
+                self.setCurrentSelection(this.cards.get(choice-1));
                 doNotProcede = false;
                 synchronized (this){
                     this.isProcessReady = true;
