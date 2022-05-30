@@ -7,15 +7,10 @@ public class Game {
     private ArrayList<Gamer> gamers;
     private ArrayList<Island> islands;
     private ArrayList<Cloud> clouds;
-    //TODO: confrontarsi con Grazza per capire se va bene MN in questo modo oppure è necessario creare una classe
-    //      apposta perché serve alla cli/gui
     private Island motherNaturePosition;
     private Gamer self;
-    //private ArrayList<Student> bag;
 
-    public void setMotherNaturePosition(Island motherNaturePosition) {
-        this.motherNaturePosition = motherNaturePosition;
-    }
+    private Island chosenIsland;
 
     public Game(Gamer gamer) {
         this.gamers = new ArrayList<>();
@@ -49,5 +44,13 @@ public class Game {
 
     public Island getMotherNaturePosition() {
         return motherNaturePosition;
+    }
+
+    public void setMotherNaturePosition(Island motherNaturePosition) {
+        this.motherNaturePosition = motherNaturePosition;
+    }
+
+    private void setChosenIsland(Island chosenIsland) {
+        this.chosenIsland = chosenIsland;
     }
 }

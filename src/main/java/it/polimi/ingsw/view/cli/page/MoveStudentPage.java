@@ -1,8 +1,9 @@
 package it.polimi.ingsw.view.cli.page;
 
 import it.polimi.ingsw.view.Page;
+import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.cli.AnsiColor;
-import it.polimi.ingsw.view.cli.Menù;ù
+import it.polimi.ingsw.view.cli.Menù;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -15,11 +16,14 @@ public class MoveStudentPage implements Page {
     private boolean isProcessReady = false;
     private Scanner scanner;
 
+    private Game assetGame;
+
     /**
      * Class constructor
      */
-    public MoveStudentPage(){
+    public MoveStudentPage(Game assetGame){
         this.scanner = new Scanner(System.in);
+        this.assetGame = assetGame;
     }
 
     /**
@@ -79,9 +83,9 @@ public class MoveStudentPage implements Page {
                         menù.print();
                     }else if (choice == 13){
                         throw new UndoException();
-
                     }else {
                         //TODO: controller salva info
+                        assetGame.
                         doNotProcede = false;
                     }
                 }
