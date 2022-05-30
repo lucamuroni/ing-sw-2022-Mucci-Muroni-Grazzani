@@ -12,8 +12,6 @@ import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Gamer;
 
 public class ConnectionPhase implements GamePhase{
-    private Game game;
-    private Gamer gamer;
     private ClientController controller;
     private ViewHandler view;
     private Network network;
