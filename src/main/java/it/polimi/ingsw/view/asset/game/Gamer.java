@@ -88,8 +88,4 @@ public class Gamer {
     public TowerColor getColor() {
         return color;
     }
-
-    public void setUsername(String username){
-        this.username = username;
-    }
 }
