@@ -138,14 +138,10 @@ public class Cli implements ViewHandler {
         return null;
     }
 
-    @Override
-    public void displayLoginPage() {
-
-    }
 
     @Override
     public void getPlayerInfo() {
-
+    
     }
 
     @Override

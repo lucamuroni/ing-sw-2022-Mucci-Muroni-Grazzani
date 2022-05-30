@@ -2,7 +2,6 @@ package it.polimi.ingsw.controller.client.game;
 
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.client.networkHandler.Network;
-import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Gamer;
@@ -22,7 +21,7 @@ public class ConnectionPhase implements GamePhase{
 
     @Override
     public void handle() {
-        this.view.displayLoginPage();
+        this.view.displayLoadingPage();
         this.network.getConnection();
         this.view.getPlayerInfo();
         this.network.broadcastPlayerInfo();

@@ -39,7 +39,6 @@ public interface ViewHandler {
     Island chooseIsland(ArrayList<Island> islands);
     Cloud chooseCloud(ArrayList<Cloud> clouds);
     AssistantCardDeckFigures chooseFigure(ArrayList<AssistantCardDeckFigures> figures);
-    void displayLoginPage();
     void getPlayerInfo();
     void goToIdle();
 
