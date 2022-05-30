@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.view.asset.game.Cloud;
 import it.polimi.ingsw.view.asset.game.Island;
 import it.polimi.ingsw.model.pawn.Student;
+import it.polimi.ingsw.view.asset.game.Results;
+
 import java.util.ArrayList;
 
 /**
@@ -43,4 +45,5 @@ public interface ViewHandler {
     void getPlayerInfo();
     void goToIdle();
 
+    void showEndGamePage(Results win);
 }

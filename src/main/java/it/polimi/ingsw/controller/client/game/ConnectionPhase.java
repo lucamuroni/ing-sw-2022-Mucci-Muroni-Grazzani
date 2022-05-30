@@ -36,10 +36,16 @@ public class ConnectionPhase implements GamePhase{
         }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e){
             this.controller.handleError();
         }
-        
-        //TODO controllo che posso avanzare dalla cli
         this.view.getPlayerInfo();
-        this.network.broadcastPlayerInfo(this.controller.getGame());
+        try{
+            try{
+                this.network.broadcastPlayerInfo(this.controller.getGame());
+            }catch (MalformedMessageException e){
+                this.network.broadcastPlayerInfo(this.controller.getGame());
+            }
+        }catch (MalformedMessageException e){
+            this.controller.handleError();
+        }
     }
 
     @Override

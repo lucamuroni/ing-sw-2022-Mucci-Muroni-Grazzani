@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 package it.polimi.ingsw.controller.client.networkHandler;
 
 import it.polimi.ingsw.controller.networking.Message;
