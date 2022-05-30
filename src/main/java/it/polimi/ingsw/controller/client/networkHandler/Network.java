@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.client.networkHandler;
 
+import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.Player;
@@ -19,9 +20,7 @@ import java.util.ArrayList;
 public interface Network {
     Player getCurrentPlayer();
 
-    void getConnection();
-
-    void getLobbyStatus();
+    void getConnection(ClientController controller) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
     String getContext() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
@@ -193,5 +192,5 @@ public interface Network {
      */
     void sendAssistantCardDeck(AssistantCardDeckFigures assistantCardDeck) throws MalformedMessageException;
 
-    void broadcastPlayerInfo();
+    void broadcastPlayerInfo(Game game) throws MalformedMessageException;
 }

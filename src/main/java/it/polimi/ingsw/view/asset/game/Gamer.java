@@ -21,11 +21,9 @@ public class Gamer {
     /**
      * Constructor of the class
      * @param id is the unique token that identifies the gamer
-     * @param username is the nick choose by the player
      */
-    public Gamer(int id, String username) {
+    public Gamer(int id) {
         this.id = id;
-        this.username = username;
         this.cards = new ArrayList<>();
         this.dashBoard = new DashBoard(this.id);
     }
@@ -85,5 +83,9 @@ public class Gamer {
 
     public TowerColor getColor() {
         return color;
+    }
+
+    public void setUsername(String username){
+        this.username = username;
     }
 }

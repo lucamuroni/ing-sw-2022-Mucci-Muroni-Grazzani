@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.client.networkHandler;
 
+import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.Phase;
@@ -29,8 +30,9 @@ public class NetworkHandler implements Network {
     }
 
     @Override
-    public void broadcastPlayerInfo() {
-
+    public void broadcastPlayerInfo(Game game) throws MalformedMessageException {
+        BroadcastPlayerInfo func = new BroadcastPlayerInfo(messageHandler,game);
+        func.handle();
     }
 
     @Override
@@ -39,13 +41,12 @@ public class NetworkHandler implements Network {
     }
 
     @Override
-    public void getConnection() {
-
-    }
-
-    @Override
-    public void getLobbyStatus() {
-
+    public void getConnection(ClientController controller) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        GetConnection func = new GetConnection(this.messageHandler);
+        int result = func.handle();
+        Gamer self = new Gamer(result);
+        Game game = new Game(self);
+        controller.setGame(game);
     }
 
     public String getContext() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
