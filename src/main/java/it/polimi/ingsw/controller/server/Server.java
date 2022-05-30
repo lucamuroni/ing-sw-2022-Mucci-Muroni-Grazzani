@@ -2,8 +2,9 @@ package it.polimi.ingsw.controller.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.ArrayList;
+import java.util.Scanner;
 
+//TODO: javadoc
 public class Server {
     private ServerSocket serverSocket;
     private final ClientReception clientReception;
@@ -24,6 +25,7 @@ public class Server {
             }
         }
         this.clientReception = new ClientReception(this.serverSocket);
+        System.out.println("Server is about to power up");
         this.run();
     }
 
@@ -38,8 +40,17 @@ public class Server {
     }
 
     private void run(){
+        System.out.println("Opening connections");
         this.clientReception.start();
+        System.out.println("Starting Lobby thread");
         this.gameStarter();
+        System.out.println("Input q for quit");
+        Scanner scanner = new Scanner(System.in);
+        while (isEveryThingOK){
+            if(scanner.nextLine().equals("q")){
+                System.exit(0);
+            }
+        }
     }
 
 
@@ -70,13 +81,17 @@ public class Server {
                     lobbyToStart.startGame(this);
                 }
             }
+            System.out.println("Lobby thread ended");
         });
         t.start();
     }
 
     public void signalFatalError(){
-        System.out.println("Fatal Error revealed -> Shutting down everything");
+        System.out.println("Shutting down everything");
         this.isEveryThingOK = false;
+        synchronized (this.clientReception.getLobbies()){
+            this.clientReception.getLobbies().notifyAll();
+        }
         this.clientReception.shutdown();
     }
 }

@@ -7,10 +7,8 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
-import java.util.ArrayList;
-import static it.polimi.ingsw.controller.networking.MessageFragment.ASSISTANT_CARD_DECK;
-import static it.polimi.ingsw.controller.networking.MessageFragment.STOP;
 
 /**
  * @author Sara Mucci

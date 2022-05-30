@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
+
 /**
  * @author Davide Grazzani
  * Class that represents the possible pawns to show in the cli
@@ -21,6 +22,7 @@ public enum AnsiChar {
     private AnsiChar(String ansiText){
         this.ansiText = ansiText;
     }
+
 
     /**
      * Override of the toString method

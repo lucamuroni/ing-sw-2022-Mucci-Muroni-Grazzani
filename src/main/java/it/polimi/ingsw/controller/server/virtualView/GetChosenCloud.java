@@ -8,11 +8,11 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.Cloud;
 import java.util.ArrayList;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CLOUD_ID;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.STOP;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 
 /**
+ * @author Luca Muroni
  * @author Sara Mucci
  * Class that implements the message to get the cloud chosen by the current player
  */

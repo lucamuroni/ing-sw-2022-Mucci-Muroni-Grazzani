@@ -3,9 +3,9 @@ package it.polimi.ingsw.controller.server;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.server.game.gameController.ExpertGameController;
 import it.polimi.ingsw.controller.server.game.gameController.GameController;
-
 import java.util.ArrayList;
 
+//TOOD: javadoc
 public class Lobby {
     private final GameType type;
     private final int numPlayers;

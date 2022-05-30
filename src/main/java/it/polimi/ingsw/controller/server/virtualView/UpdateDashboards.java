@@ -14,7 +14,6 @@ import it.polimi.ingsw.model.pawn.Professor;
 import it.polimi.ingsw.model.pawn.Student;
 import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
-import static java.lang.Integer.valueOf;
 
 /**
  * @author LucaMuroni
@@ -24,7 +23,6 @@ public class UpdateDashboards {
     Gamer gamer;
     Game game;
     MessageHandler messageHandler;
-    //Game game;
 
     /**
      * Class constructor
@@ -45,7 +43,7 @@ public class UpdateDashboards {
      * @throws FlowErrorException launched when the client sends an unexpected response
      */
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
-        ArrayList<Message> messages = new ArrayList<Message>();
+        ArrayList<Message> messages = new ArrayList<>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
         int result;
         int prof;

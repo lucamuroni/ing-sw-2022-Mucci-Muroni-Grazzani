@@ -7,12 +7,12 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
 import it.polimi.ingsw.controller.networking.messageParts.MessageFragment;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.Random;
 
+//TODO: javadoc
 class ClientReception extends Thread{
     private final ServerSocket serverSocket;
     private final ArrayList<Lobby> lobbies;
@@ -44,8 +44,9 @@ class ClientReception extends Thread{
             System.out.println("Could not close Server Socket");
             e.printStackTrace();
         }
+        System.out.println("Connection closed");
     }
-
+    //TODO :sistemare la funzione per renderla catch safe
     private void playerHandShake(Player player){
         Thread t = new Thread(() -> {
             int uniqueMsgID = player.getMessageHandler().getNewUniqueTopicID();

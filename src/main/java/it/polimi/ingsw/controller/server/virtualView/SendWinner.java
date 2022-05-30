@@ -10,6 +10,7 @@ import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 import java.util.ArrayList;
 
+
 /**
  * @author Sara Mucci
  * Class that implements the message to send the username of the winner/the usernames of the winners in case of a draw

@@ -9,23 +9,14 @@ import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
 import it.polimi.ingsw.controller.networking.messageParts.MessageFragment;
 
-public class GetConnection {
+public class BroadcastPlayerInfo {
     private MessageHandler messageHandler;
 
-    public GetConnection(MessageHandler messageHandler){
+    public BroadcastPlayerInfo(MessageHandler messageHandler){
         this.messageHandler = messageHandler;
     }
 
     public void handle(){
-        try {
-            this.messageHandler.read(ConnectionTimings.CONNECTION_STARTUP.getTiming());
-            this.messageHandler.assertOnEquals("",MessageFragment.GREETINGS.getFragment());
-            this.messageHandler.write(new Message(MessageFragment.GREETINGS.getFragment(),MessageFragment.OK.getFragment(), this.messageHandler.getMessagesUniqueTopic()));
-            this.messageHandler.writeOut();
-
-        } catch (MalformedMessageException | FlowErrorException |ClientDisconnectedException | TimeHasEndedException e) {
-            e.printStackTrace();
-        }
+        // TODO uploadare i valori inputtati nell'asset
     }
 }
-

@@ -9,10 +9,11 @@ import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
-import it.polimi.ingsw.model.pawn.TowerColor;
 
 import java.util.ArrayList;
-import java.util.Optional;
+
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
+
 
 /**
  * This class implements the second part of the third phase of the game, which is the MotherNaturePhase, and in particular this part
@@ -45,11 +46,24 @@ public class ConquerIslandPhase implements GamePhase{
             this.view.setCurrentPlayer(pl);
             try {
                 try {
+                    this.view.sendContext(CONTEXT_ISLAND.getFragment());
                     this.view.updateIslandStatus(this.game.getMotherNature().getPlace());
                 } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
+                    this.view.sendContext(CONTEXT_ISLAND.getFragment());
                     this.view.updateIslandStatus(this.game.getMotherNature().getPlace());
                 }
             } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
+                this.controller.handlePlayerError(pl);
+            }
+            try {
+                try {
+                    this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
+                    this.view.updateDashboards(this.game.getGamers(), game);
+                } catch (MalformedMessageException e) {
+                    this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
+                    this.view.updateDashboards(this.game.getGamers(), game);
+                }
+            } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException | FlowErrorException e) {
                 this.controller.handlePlayerError(pl);
             }
         }

@@ -14,6 +14,8 @@ import it.polimi.ingsw.model.gamer.Gamer;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
+
 /**
  * This class implements the first phase of the game, which is the planning phase, where all the players choose
  * an AssistantCard to be played
@@ -44,19 +46,6 @@ public class PlanningPhase implements GamePhase{
      * This main method that handles the PlanningPhase
      */
     public void handle (){
-        try {
-            try{
-                this.view.sendNewPhase(Phase.PLANNINGPHASE);
-            }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
-                this.view.sendNewPhase(Phase.PLANNINGPHASE);
-            }
-        }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
-            try {
-                this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()));
-            } catch (ModelErrorException i) {
-                this.controller.shutdown();
-            }
-        }
         for(Cloud cloud : this.game.getClouds()){
             this.game.fillCloud(this.game.getBag().pullStudents(this.numStudents), cloud);
         }
@@ -68,6 +57,20 @@ public class PlanningPhase implements GamePhase{
         for(Player player : this.controller.getPlayers()){
             try {
                 this.game.setCurrentPlayer(player.getGamer(this.game.getGamers()));
+                this.view.setCurrentPlayer(player);
+                try {
+                    try{
+                        this.view.sendNewPhase(Phase.PLANNING_PHASE);
+                    }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                        this.view.sendNewPhase(Phase.PLANNING_PHASE);
+                    }
+                }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
+                    try {
+                        this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()));
+                    } catch (ModelErrorException i) {
+                        this.controller.shutdown();
+                    }
+                }
                 AssistantCard card = this.getChoseAssistantCard(player, alreadyPlayedCards);
                 alreadyPlayedCards.add(card);
             } catch (ModelErrorException e) {
@@ -89,8 +92,10 @@ public class PlanningPhase implements GamePhase{
         this.view.setCurrentPlayer(player);
         try{
             try{
+                this.view.sendContext(CONTEXT_CLOUD.getFragment());
                 this.view.updateCloudsStatus(this.game.getClouds());
             }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                this.view.sendContext(CONTEXT_CLOUD.getFragment());
                 this.view.updateCloudsStatus(this.game.getClouds());
             }
         }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
@@ -143,8 +148,10 @@ public class PlanningPhase implements GamePhase{
             this.view.setCurrentPlayer(players.get(i));
             try {
                 try {
+                    this.view.sendContext(CONTEXT_CARD.getFragment());
                     this.view.sendChosenAssistantCard(chosenCard, currentPlayer.getToken());
                 } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e) {
+                    this.view.sendContext(CONTEXT_CARD.getFragment());
                     this.view.sendChosenAssistantCard(chosenCard, currentPlayer.getToken());
                 }
             } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {

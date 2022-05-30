@@ -11,11 +11,12 @@ import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
-import static java.lang.Integer.valueOf;
+
 import java.util.ArrayList;
 
 /**
  * @author Sara Mucci
+ * @author Luca Muroni
  * Class that implements the message to update che status of the clouds
  */
 public class UpdateCloudsStatus {
@@ -40,7 +41,7 @@ public class UpdateCloudsStatus {
      * @throws FlowErrorException launched when the client sends an unexpected response
      */
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
-        ArrayList<Message> messages = new ArrayList<Message>();
+        ArrayList<Message> messages = new ArrayList<>();
         int numStud;
         int topicId = this.messageHandler.getNewUniqueTopicID();
         Integer token = cloud.getID();

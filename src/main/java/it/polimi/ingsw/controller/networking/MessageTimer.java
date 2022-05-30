@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.networking;
 
+//TODO: javadoc
 class MessageTimer extends Thread{
     private final int timeToWait;
     private final static int minimumSleepTime = 500;

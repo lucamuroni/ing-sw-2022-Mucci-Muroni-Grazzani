@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.model.AssistantCard;
+import it.polimi.ingsw.view.asset.game.Cloud;
 import it.polimi.ingsw.view.asset.game.Island;
 import it.polimi.ingsw.model.pawn.Student;
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ public interface ViewHandler {
      * Method that returns the chosen place to move a student
      * @return the chosen place on the dashboard
      */
-    String choosePlace();
+    int choosePlace();
 
     /**
      * Method that returns the chosen island to move a student to
@@ -35,4 +37,10 @@ public interface ViewHandler {
      * @return the chosen island
      */
     Island chooseIsland(ArrayList<Island> islands);
+    Cloud chooseCloud(ArrayList<Cloud> clouds);
+    AssistantCardDeckFigures chooseFigure(ArrayList<AssistantCardDeckFigures> figures);
+    void displayLoginPage();
+    void getPlayerInfo();
+    void goToIdle();
+
 }

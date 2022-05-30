@@ -1,9 +1,7 @@
 package it.polimi.ingsw.controller.networking;
 
-
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.model.gamer.Gamer;
-
 import java.util.ArrayList;
 
 /**
@@ -24,7 +22,7 @@ public class Player {
     }
 
     /**
-     * Method used for setting up username and token of a player
+     * Method used to set username and token for a player
      * @param username is the username of a specific Gamer (model class)
      * @param token is the unique token given to a Gamer. It's used to identify the Gamer
      */
@@ -35,7 +33,7 @@ public class Player {
 
     /**
      * Getter method
-     * @return the gamers' token
+     * @return the gamer token
      */
     public int getToken() {
         return this.token;

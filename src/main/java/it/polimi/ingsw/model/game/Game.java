@@ -75,7 +75,7 @@ public class Game {
     }
 
     /**
-     * Method used to initiate the order of the players
+     * Method used to initiate the order of players
      */
     private void initiatePlayersOrder(){
         ArrayList<Gamer> players = new ArrayList<>(this.gamers);
@@ -275,12 +275,7 @@ public class Game {
     public void setTurnNumber() {
         this.turnNumber++;
     }
-
-    /**
-     * Method that checks if there is a winner or more winners for the current game
-     * @return the arraylist with the winner/winners (in case of a draw) for the game
-     */
-    //TODO : finire la funzione checkWinner
+    
     public ArrayList<Gamer> checkWinner() {
         ArrayList<Gamer> winners = new ArrayList<Gamer>();
         for(Gamer gamer : this.gamers){
@@ -289,15 +284,32 @@ public class Game {
                 return winners;
             }
         }
-        
+        for(Gamer gamer1 : this.gamers){
+            boolean victorious = true;
+            for(Gamer gamer2 : this.gamers){
+                if(!gamer1.equals(gamer2) && gamer1.getDashboard().getNumTowers()>=gamer2.getDashboard().getNumTowers()){
+                    victorious = false;
+                }
+                if(victorious){
+                    winners.add(gamer1);
+                    return winners;
+                }
+            }
+        }
+        for(Gamer gamer1 : this.gamers){
+            boolean victorious = true;
+            for(Gamer gamer2 : this.gamers){
+                if(!gamer1.equals(gamer2) && this.getProfessorsByGamer(gamer1).size()<this.getProfessorsByGamer(gamer2).size()){
+                    victorious = false;
+                }
+                if(victorious){
+                    winners.add(gamer1);
+                }
+            }
+        }
         return winners;
     }
 
-    /**
-     * Method that returns the professor associated to a gamer
-     * @param gamer represents the current gamer
-     * @return the professors owned by the player
-     */
     public ArrayList<Professor> getProfessorsByGamer(Gamer gamer) {
         InfluenceCalculator influenceCalculator = new InfluenceCalculator(this.gamers,this.professors);
         return influenceCalculator.getProfessorsOwnedByPlayer(gamer);
