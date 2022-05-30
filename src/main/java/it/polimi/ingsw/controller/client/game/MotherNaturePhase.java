@@ -18,10 +18,10 @@ public class MotherNaturePhase implements GamePhase{
     private final ViewHandler view;
     private final ClientController controller;
 
-    public MotherNaturePhase(Game game, ClientController controller, ViewHandler view) {
+    public MotherNaturePhase(Game game, ClientController controller) {
         this.game = game;
         this.controller = controller;
-        this.view = view;
+        this.view = controller.getViewHandler();
         this.network = this.controller.getNetwork();
     }
 
@@ -51,6 +51,6 @@ public class MotherNaturePhase implements GamePhase{
 
     @Override
     public GamePhase next() {
-        return new Idle(this.game, this.controller, this.view);
+        return new Idle(this.game, this.controller);
     }
 }

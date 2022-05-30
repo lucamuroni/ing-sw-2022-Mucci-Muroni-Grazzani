@@ -16,9 +16,9 @@ public class PlanningPhase implements GamePhase {
     private final Network network;
     private final ClientController controller;
 
-    public PlanningPhase(Game game, ClientController controller, ViewHandler view) {
+    public PlanningPhase(Game game, ClientController controller) {
         this.game = game;
-        this.view = view;
+        this.view = controller.getViewHandler();
         this.controller = controller;
         this.network = this.controller.getNetwork();
     }
@@ -78,6 +78,6 @@ public class PlanningPhase implements GamePhase {
 
     @Override
     public GamePhase next() {
-        return new Idle(this.game, this.controller, this.view);
+        return new Idle(this.game, this.controller);
     }
 }

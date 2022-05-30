@@ -8,6 +8,7 @@ import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Gamer;
+import it.polimi.ingsw.view.asset.game.Results;
 
 import java.util.ArrayList;
 
@@ -16,9 +17,9 @@ public class EndGame implements GamePhase{
     private final ViewHandler view;
     private final Network network;
     private final ClientController controller;
-    public EndGame(Game game, ClientController controller, ViewHandler view) {
+    public EndGame(Game game, ClientController controller) {
         this.game = game;
-        this.view = view;
+        this.view = controller.getViewHandler();
         this.controller = controller;
         this.network = this.controller.getNetwork();
     }
@@ -37,15 +38,15 @@ public class EndGame implements GamePhase{
         }
         if (winner.size() == 1) {
             if (winner.get(0).getId() == this.game.getSelf().getId()) {
-                this.view.showWinnerPage();
+                this.view.showEndGamePage(Results.WIN);
             } else {
-                this.view.showLoserPage();
+                this.view.showEndGamePage(Results.LOSS);
             }
 
         } else {
             for (Gamer gamer : winner) {
                 if (gamer.getId() == this.game.getSelf().getId()) {
-                    this.view.showTiePage();
+                    this.view.showEndGamePage(Results.TIE);
                 }
             }
         }

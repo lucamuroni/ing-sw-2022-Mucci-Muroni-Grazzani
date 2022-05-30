@@ -14,9 +14,9 @@ public class ConnectionPhase implements GamePhase{
     private ViewHandler view;
     private Network network;
 
-    public ConnectionPhase(ClientController controller,ViewHandler viewHandler){
+    public ConnectionPhase(ClientController controller){
         this.controller = controller;
-        this.view = viewHandler;
+        this.view = this.controller.getViewHandler();
         this.network = this.controller.getNetwork();
     }
 
