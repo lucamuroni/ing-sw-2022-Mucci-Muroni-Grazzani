@@ -54,7 +54,7 @@ public class LoadingBar {
         for(int i = 0;i<loadingSize;i++){
             oldSpacePosition[i]++;
         }
-        if(oldSpacePosition[loadingSize]>length+loadingSize){
+        if(oldSpacePosition[loadingSize-1]>length+loadingSize){
             reset();
         }else {
             try {

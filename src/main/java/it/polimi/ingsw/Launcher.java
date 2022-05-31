@@ -52,7 +52,7 @@ public class Launcher {
     public static void main(String args[]){
         boolean debug = true;
         if(debug){
-            if(args[1].equals("-s")){
+            if(args[0].equals("-s")){
                 Server s = new Server(17894);
             }else{
                 MessageHandler messageHandler = null;
@@ -63,6 +63,7 @@ public class Launcher {
                 }
                 ViewHandler viewHandler = new Cli();
                 ClientController c = new ClientController(messageHandler,viewHandler);
+
             }
         }else{
             Launcher launcher = new Launcher();

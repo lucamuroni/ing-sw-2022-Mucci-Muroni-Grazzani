@@ -34,7 +34,7 @@ public class Cli implements ViewHandler {
     public Cli(){
         this.os = System.getProperty("os.name");
         this.currentPage = new LoadingPage(this);
-        this.pageHasChanged = false;
+        this.pageHasChanged = true;
         this.start();
     }
 
