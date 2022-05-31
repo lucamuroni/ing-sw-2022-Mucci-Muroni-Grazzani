@@ -32,6 +32,7 @@ public class ClientController {
         }
         this.network = new NetworkHandler(messageHandler);
         this.viewHandler = viewHandler;
+        this.viewHandler.setController(this);
         this.isGameFinished = false;
         this.run();
     }
@@ -58,8 +59,12 @@ public class ClientController {
     }
 
     public void handleError() {
+        this.handleError("Error revealed: shutting down process");
+    }
+
+    public void handleError(String s) {
         System.out.print("\n\n\n");
-        System.out.println(AnsiColor.RED.toString()+"Error revealed: shutting down process"+AnsiColor.RESET.toString());
+        System.out.println(AnsiColor.RED.toString()+s+AnsiColor.RESET.toString());
         System.exit(1);
     }
 
@@ -76,7 +81,7 @@ public class ClientController {
     }
 
     private synchronized boolean getGameStatus(){
-        return this.isGameFinished;
+        return !this.isGameFinished;
     }
 
     public void setGameType(GameType type){

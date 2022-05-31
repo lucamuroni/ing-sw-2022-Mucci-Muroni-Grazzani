@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.view.asset.game.Cloud;
@@ -45,4 +46,5 @@ public interface ViewHandler {
     void goToIdle();
 
     void showEndGamePage(Results win);
+    void setController(ClientController controller);
 }

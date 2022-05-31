@@ -143,6 +143,15 @@ public class Cli implements ViewHandler {
     public void getPlayerInfo() {
         Page p = new LoginPage(this,this.controller.getGame());
         this.changePage(p);
+        while(!p.isProcessReady()){
+            synchronized (this){
+                try{
+                    this.wait(100);
+                }catch(InterruptedException e){
+                    this.controller.handleError("Could not wait for user to complete registration");
+                }
+            }
+        }
     }
 
     @Override
