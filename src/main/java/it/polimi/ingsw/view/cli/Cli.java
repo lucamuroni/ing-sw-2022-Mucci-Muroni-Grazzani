@@ -23,21 +23,23 @@ import java.util.ArrayList;
  */
 public class Cli implements ViewHandler {
     private final String os;
-    private final ClientController controller;
+    private ClientController controller;
     private boolean pageHasChanged;
     private Page currentPage;
     private final Object pageLock = new Object();
 
     /**
      * Class constructor
-     * @param controller represents the controller associated to the game
      */
-    public Cli(ClientController controller){
-        this.controller = controller;
+    public Cli(){
         this.os = System.getProperty("os.name");
         this.currentPage = new LoadingPage(this);
         this.pageHasChanged = false;
         this.start();
+    }
+
+    public void setController(ClientController controller){
+        this.controller = controller;
     }
 
     /**

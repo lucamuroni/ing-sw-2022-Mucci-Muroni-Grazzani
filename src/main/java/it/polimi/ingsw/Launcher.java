@@ -1,6 +1,13 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.controller.client.ClientController;
+import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.server.Server;
+import it.polimi.ingsw.view.ViewHandler;
+import it.polimi.ingsw.view.cli.Cli;
+
+import java.io.IOException;
+import java.net.Socket;
 
 public class Launcher {
     public void standardLaunch(String args[]){
@@ -45,7 +52,18 @@ public class Launcher {
     public static void main(String args[]){
         boolean debug = true;
         if(debug){
-            Server s = new Server(17894);
+            if(args[1].equals("-s")){
+                Server s = new Server(17894);
+            }else{
+                MessageHandler messageHandler = null;
+                try {
+                    messageHandler = new MessageHandler(new Socket("192.168.1.78",17894));
+                } catch (IOException e) {
+                    System.out.println("could not initiate client");
+                }
+                ViewHandler viewHandler = new Cli();
+                ClientController c = new ClientController(messageHandler,viewHandler);
+            }
         }else{
             Launcher launcher = new Launcher();
             launcher.standardLaunch(args);
