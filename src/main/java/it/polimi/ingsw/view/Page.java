@@ -7,6 +7,7 @@ import it.polimi.ingsw.view.cli.page.UndoException;
  * Interface with the methods for the cli and the gui
  */
 public interface Page {
+
     /**
      *
      * @throws UndoException
@@ -18,10 +19,5 @@ public interface Page {
      * @return true if the process is ready, false otherwise
      */
     public boolean isProcessReady();
-
-    /**
-     * Setter Method
-     * @param clearance represents the
-     */
-    public void setClearance(boolean clearance);
+    public void kill();
 }

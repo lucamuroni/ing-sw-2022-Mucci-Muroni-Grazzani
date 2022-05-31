@@ -1,13 +1,16 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.controller.client.ClientController;
+import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.controller.networking.GameType;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.pawn.Student;
 import it.polimi.ingsw.view.ViewHandler;
+import it.polimi.ingsw.view.asset.game.Cloud;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.asset.game.Island;
+import it.polimi.ingsw.view.asset.game.Results;
 import it.polimi.ingsw.view.cli.page.LoadingPage;
 import it.polimi.ingsw.view.cli.page.UndoException;
 import java.io.IOException;
@@ -44,7 +47,7 @@ public class Cli implements ViewHandler {
      */
     private void start(){
         Thread t = new Thread(()->{
-            while (this.controller.isRunning()){
+            while (true){
                 synchronized (this.pageLock){
                     if(this.pageHasChanged){
                         try {
@@ -95,7 +98,7 @@ public class Cli implements ViewHandler {
      */
     @Override
     public AssistantCard selectCard(ArrayList<AssistantCard> cards) {
-        this.changePage();
+        return AssistantCard.CAT;
     }
 
     /**
@@ -112,8 +115,8 @@ public class Cli implements ViewHandler {
      * @return the chosen place on the dashboard
      */
     @Override
-    public String choosePlace() {
-        return null;
+    public int choosePlace() {
+        return 0;
     }
 
     /**
@@ -125,4 +128,30 @@ public class Cli implements ViewHandler {
     public Island chooseIsland(ArrayList<Island> islands) {
         return null;
     }
+
+    @Override
+    public Cloud chooseCloud(ArrayList<Cloud> clouds) {
+        return null;
+    }
+
+    @Override
+    public AssistantCardDeckFigures chooseFigure(ArrayList<AssistantCardDeckFigures> figures) {
+        return null;
+    }
+
+    @Override
+    public void getPlayerInfo() {
+
+    }
+
+    @Override
+    public void goToIdle() {
+
+    }
+
+    @Override
+    public void showEndGamePage(Results win) {
+
+    }
+
 }

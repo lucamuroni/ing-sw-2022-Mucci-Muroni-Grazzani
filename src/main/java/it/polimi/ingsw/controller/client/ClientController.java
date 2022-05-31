@@ -71,4 +71,8 @@ public class ClientController {
     private synchronized boolean getGameStatus(){
         return this.isGameFinished;
     }
+
+    public void setGameType(GameType type){
+        this.type = type;
+    }
 }
