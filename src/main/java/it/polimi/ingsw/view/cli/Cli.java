@@ -140,11 +140,6 @@ public class Cli implements ViewHandler {
     }
 
     @Override
-    public void displayLoginPage() {
-
-    }
-
-    @Override
     public void getPlayerInfo() {
 
     }
@@ -158,4 +153,5 @@ public class Cli implements ViewHandler {
     public void showEndGamePage(Results win) {
 
     }
+
 }

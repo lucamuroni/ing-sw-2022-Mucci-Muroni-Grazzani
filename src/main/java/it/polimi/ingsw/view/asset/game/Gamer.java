@@ -53,14 +53,6 @@ public class Gamer {
         this.currentSelection = card;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setColor(TowerColor color) {
-        this.color = color;
-    }
-
     public DashBoard getDashBoard() {
         return this.dashBoard;
     }
@@ -87,5 +79,21 @@ public class Gamer {
 
     public TowerColor getColor() {
         return color;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setColor(TowerColor color) {
+        this.color = color;
+    }
+
+    public void setCurrentSelection(AssistantCard currentSelection) {
+        this.currentSelection = currentSelection;
+    }
+
+    public void setFigure(AssistantCardDeckFigures figure) {
+        this.figure = figure;
     }
 }

@@ -29,7 +29,7 @@ public class BroadcastPlayerInfo {
         msg.add(new Message(PLAYER_NAME.getFragment(),this.game.getSelf().getUsername(),uniqueId));
         msg.add(new Message(AUTH_ID.getFragment(),String.valueOf(this.game.getSelf().getId()),uniqueId));
         msg.add(new Message(GAME_TYPE.getFragment(),this.game.getGameType(),uniqueId));
-        msg.add(new Message(LOBBY_SIZE.getFragment(),String.valueOf(this.game.getGameSize()),uniqueId));
+        msg.add(new Message(LOBBY_SIZE.getFragment(),String.valueOf(this.game.getLobbySize()),uniqueId));
         this.messageHandler.write(msg);
         this.messageHandler.writeOut();
     }

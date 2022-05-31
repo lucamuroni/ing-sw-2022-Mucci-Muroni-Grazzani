@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.cli.page;
 
+import it.polimi.ingsw.view.asset.game.Island;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.asset.game.Game;
@@ -58,31 +59,21 @@ public class MoveStudentPage implements Page {
             doNotProcede = true;
             while(doNotProcede){
                 options.clear();
-                options.add("island 1");
-                options.add("island 2");
-                options.add("island 3");
-                options.add("island 4");
-                options.add("island 5");
-                options.add("island 6");
-                options.add("island 7");
-                options.add("island 8");
-                options.add("island 9");
-                options.add("island 10");
-                options.add("island 11");
-                options.add("island 12");
+                for(Island island : this.assetGame.getIslands()){
+                    options.add("Island " + island.getId());
+                }
                 options.add("Back");
                 menù.clear();
                 menù.addOptions(options);
                 menù.setContext("Which island do you want to choose?");
                 menù.print();
-                doNotProcede = true;
                 while (doNotProcede) {
                     choice = scanner.nextInt();
                     if(choice<1 || choice>options.size()){
                         System.out.println(AnsiColor.RED+"No choice with that number");
                         System.out.println("Retry"+AnsiColor.RESET);
                         menù.print();
-                    }else if (choice == 13){
+                    }else if (choice == options.size()){
                         throw new UndoException();
                     }else {
                         assetGame.setChosenIsland(this.assetGame.getIslands().get(choice-1));
@@ -113,21 +104,11 @@ public class MoveStudentPage implements Page {
                 throw new UndoException();
             }else {
                 switch (choice) {
-                    case 1:
-                        assetGame.setChosenColor(PawnColor.RED);
-                        break;
-                    case 2:
-                        assetGame.setChosenColor(PawnColor.BLUE);
-                        break;
-                    case 3:
-                        assetGame.setChosenColor(PawnColor.YELLOW);
-                        break;
-                    case 4:
-                        assetGame.setChosenColor(PawnColor.GREEN);
-                        break;
-                    case 5:
-                        assetGame.setChosenColor(PawnColor.PINK);
-                        break;
+                    case 1 -> assetGame.setChosenColor(PawnColor.RED);
+                    case 2 -> assetGame.setChosenColor(PawnColor.BLUE);
+                    case 3 -> assetGame.setChosenColor(PawnColor.YELLOW);
+                    case 4 -> assetGame.setChosenColor(PawnColor.GREEN);
+                    case 5 -> assetGame.setChosenColor(PawnColor.PINK);
                 }
                 doNotProcede = false;
             }
@@ -148,20 +129,8 @@ public class MoveStudentPage implements Page {
         }
     }
 
-    /**
-     * Setter method
-     * @param clearance represents
-     */
     @Override
-    public synchronized void setClearance(boolean clearance) {
-        this.clearance = clearance;
-    }
+    public void kill() {
 
-    /**
-     * Getter method
-     * @return the
-     */
-    private synchronized boolean getClearance(){
-        return this.clearance;
     }
 }
