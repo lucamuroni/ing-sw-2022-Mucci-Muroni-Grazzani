@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.server.virtualView;
 
+import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
 import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.*;
 import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
