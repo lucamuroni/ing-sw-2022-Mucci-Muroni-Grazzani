@@ -12,6 +12,7 @@ import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.asset.game.Island;
 import it.polimi.ingsw.view.asset.game.Results;
 import it.polimi.ingsw.view.cli.page.LoadingPage;
+import it.polimi.ingsw.view.cli.page.LoginPage;
 import it.polimi.ingsw.view.cli.page.UndoException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +22,6 @@ import java.util.ArrayList;
  * Class that represents the cli for the game
  */
 public class Cli implements ViewHandler {
-    private final Game game;
     private final String os;
     private final ClientController controller;
     private boolean pageHasChanged;
@@ -30,11 +30,9 @@ public class Cli implements ViewHandler {
 
     /**
      * Class constructor
-     * @param game represents the current game
      * @param controller represents the controller associated to the game
      */
-    public Cli(Game game, ClientController controller){
-        this.game = game;
+    public Cli(ClientController controller){
         this.controller = controller;
         this.os = System.getProperty("os.name");
         this.currentPage = new LoadingPage(this);
@@ -141,7 +139,8 @@ public class Cli implements ViewHandler {
 
     @Override
     public void getPlayerInfo() {
-
+        Page p = new LoginPage(this,this.controller.getGame());
+        this.changePage(p);
     }
 
     @Override

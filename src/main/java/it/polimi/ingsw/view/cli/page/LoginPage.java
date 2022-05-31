@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.cli.page;
 
 import it.polimi.ingsw.controller.networking.GameType;
-import it.polimi.ingsw.controller.server.GameType;
 import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.cli.AnsiColor;
@@ -22,19 +21,19 @@ public class LoginPage implements Page {
     private Game game;
     private final Scanner scanner;
     private boolean readyToProcede = false;
-    private boolean clearance = false;
     private final int id;
+    private boolean killed;
 
     /**
      * Class constructor
      * @param cli represents the cli associated to the game
-     * @param id represents the id associated to the player (?)
      */
-    public LoginPage(Cli cli, int id, Game game){
+    public LoginPage(Cli cli, Game game){
         this.cli = cli;
         scanner = new Scanner(System.in);
-        this.id = id;
+        this.id = game.getSelf().getId();
         this.game = game;
+        this.killed = false;
     }
 
     /**
@@ -87,15 +86,8 @@ public class LoginPage implements Page {
             cli.clearConsole();
             LoadingBar loadingBar = new LoadingBar(80);
             this.readyToProcede = true;
-            while (!this.getClearance()){
+            while (!this.isKilled()){
                 System.out.println("Please wait unit we reach the server");
-                loadingBar.print();
-                this.cli.clearConsole();
-            }
-            System.out.println(AnsiColor.GREEN+"Lobby has been founded"+AnsiColor.RESET);
-            loadingBar = new LoadingBar(80);
-            while (!this.getClearance()){
-                System.out.println("Please wait unit the game stars");
                 loadingBar.print();
                 this.cli.clearConsole();
             }
@@ -118,8 +110,11 @@ public class LoginPage implements Page {
     }
 
     @Override
-    public void kill() {
-
+    public synchronized void kill() {
+        this.killed = true;
     }
 
+    private synchronized boolean isKilled(){
+        return this.killed;
+    }
 }
