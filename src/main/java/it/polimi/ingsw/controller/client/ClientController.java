@@ -11,6 +11,8 @@ import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.cli.AnsiColor;
 
+import java.io.IOException;
+
 /**
  * This class implements the controller of the client
  */
@@ -22,7 +24,12 @@ public class ClientController {
     private boolean isGameFinished;
     private GameType type;
 
-    public ClientController(MessageHandler messageHandler,ViewHandler viewHandler){
+    public ClientController(MessageHandler messageHandler,ViewHandler viewHandler) {
+        try {
+            messageHandler.startConnection();
+        } catch (IOException e) {
+            System.out.println(AnsiColor.RED.toString()+"Could not initiate connection to server: Please retry"+AnsiColor.RESET.toString());
+        }
         this.network = new NetworkHandler(messageHandler);
         this.viewHandler = viewHandler;
         this.isGameFinished = false;

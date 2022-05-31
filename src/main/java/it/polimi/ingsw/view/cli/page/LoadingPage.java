@@ -53,6 +53,8 @@ public class LoadingPage implements Page {
         Thread t = new Thread(()->{
             while(!this.isKilled()){
                 this.draw();
+                //TODO : rimuovere linea
+                this.kill();
             }
         });
         t.start();
