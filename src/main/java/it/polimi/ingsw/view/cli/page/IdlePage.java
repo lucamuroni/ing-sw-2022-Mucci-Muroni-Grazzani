@@ -17,7 +17,6 @@ public class IdlePage implements Page {
 
         });
         t.start();
-        }
     }
 
     /**
