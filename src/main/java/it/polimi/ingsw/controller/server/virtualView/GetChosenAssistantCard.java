@@ -8,7 +8,8 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.AssistantCard;
 import java.util.ArrayList;
-import static it.polimi.ingsw.controller.networking.MessageFragment.*;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
+
 
 /**
  * @author Luca Muroni
@@ -50,8 +51,9 @@ class GetChosenAssistantCard {
         if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
             throw new MalformedMessageException();
         }
+        String cardName;
         AssistantCard result = null;
-        String cardName = this.messageHandler.getMessagePayloadFromStream(ASSISTANT_CARD.getFragment());
+        cardName = this.messageHandler.getMessagePayloadFromStream(ASSISTANT_CARD.getFragment());
         for (AssistantCard card : this.cards) {
             if (card.getName().equals(cardName))
                 result = card;

@@ -57,7 +57,7 @@ public class VirtualViewHandler implements View {
     }
 
     /**
-     * Methos that handles the messages to update the status of an island
+     * Method that handles the messages to update the status of an island
      * @param island represents the island to update
      * @throws MalformedMessageException launched if the message isn't created the correct way
      * @throws FlowErrorException launched when the client sends an unexpected response
@@ -278,8 +278,8 @@ public class VirtualViewHandler implements View {
      * @throws FlowErrorException launched when the client sends an unexpected response
      */
     @Override
-    public void sendTowerColor(TowerColor color) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException{
-        SendTowerColor func = new SendTowerColor(color, messageHandler);
+    public void sendTowerColor(Gamer gamer) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException{
+        SendTowerColor func = new SendTowerColor(gamer, messageHandler);
         func.handle();
     }
 
@@ -301,10 +301,14 @@ public class VirtualViewHandler implements View {
      * Method that handles the messages to set a new current player
      * @param player represents the new current player
      */
-    //TODO: controllare se è necessario creare un messaggio che aggiorni il current player o se questo metodo non serve
     @Override
     public void setCurrentPlayer(Player player) {
         this.messageHandler = player.getMessageHandler();
+    }
+
+    public void sendActiveUsername(Player player) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        SendActiveUsername func = new SendActiveUsername(messageHandler, player);
+        func.handle();
     }
 
     /**

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.networking;
+package it.polimi.ingsw.controller.networking.messageParts;
 
 /**
  * @author Davide Grazzani
@@ -12,18 +12,21 @@ public enum MessageFragment {
     CLOUD("cloud"),
     CLOUD_ID("cloud_id"),
     CONTEXT("context"),
+    CONTEXT_CARD("cardSelection"),
     CONTEXT_CLOUD("fillCloud"),
-    CONTEXT_PLANNING("planning"),
-    CONTEXT_ACTION1("action1"),
+    CONTEXT_COLOR("towerColor"),
+    CONTEXT_DASHBOARD("dashboardUpdate"),
+    CONTEXT_FIGURE("figureSelection"),
+    CONTEXT_ISLAND("islandUpdate"),
     CONTEXT_MOTHER("motherNature"),
-    CONTEXT_CONQUER("conquerIsland"),
-    CONTEXT_ACTION3("action3"),
-    CONTEXT_ENDGAME("endgame"),
+    CONTEXT_PHASE("changePhase"),
+    CONTEXT_USERNAME("activeUsername"),
     DASHBOARD("dashboard"),
     GAME_TYPE("GameType"),
+    GAME_NORMAL("normal game"),
+    GAME_EXPERT("expert game"),
     GREETINGS("greetings"),
     GREETINGS_STATUS_SUCCESFULL("successful"),
-    HALL_STUDENT("hallStudent"),
     HALL_PAWN_RED("red"),
     HALL_PAWN_BLUE("blue"),
     HALL_PAWN_YELLOW("yellow"),
@@ -31,12 +34,15 @@ public enum MessageFragment {
     HALL_PAWN_PINK("pink"),
     ISLAND("island"),
     ISLAND_ID("island_id"),
-    LOBBY_TYPE("LobbyType"),
+    LOBBY("lobby"),
+    LOBBY_CREATE("create lobby"),
+    LOBBY_JOIN("join lobby"),
     LOBBY_SIZE("LobbySize"),
     MN_LOCATION("MNLocation"),
     NUM_TOWERS("numTowers"),
     OK("ok"),
     OWNER("Owner"),
+    PAYLOAD_SIZE("payload dimension"),
     PAWN_RED("red"),
     PAWN_BLUE("blue"),
     PAWN_YELLOW("yellow"),
@@ -44,18 +50,15 @@ public enum MessageFragment {
     PAWN_PINK("pink"),
     PHASE ("phase"),
     PLAYER_NAME("PlayerName"),
-    STOP("Stop"),
     STUDENT_COLOR("studentColor"),
     STUDENT_LOCATION("studentLocation"),
     TOWER_COLOR("towerColor"),
-    WAITING_STUDENT("waitingStudent"),
     WAITING_PAWN_RED("red"),
     WAITING_PAWN_BLUE("blue"),
     WAITING_PAWN_YELLOW("yellow"),
     WAITING_PAWN_GREEN("green"),
     WAITING_PAWN_PINK("pink"),
-    WINNER("winner"),
-    PAYLOAD_SIZE("payload dimension");
+    WINNER("winner");
 
     private String fragment;
 
@@ -73,5 +76,14 @@ public enum MessageFragment {
      */
     public String getFragment() {
         return fragment;
+    }
+
+    public static MessageFragment getEnum(String string) {
+        MessageFragment frag = null;
+        for (MessageFragment fragment : MessageFragment.values()) {
+            if (fragment.getFragment().equals(string))
+                frag = fragment;
+        }
+        return frag;
     }
 }

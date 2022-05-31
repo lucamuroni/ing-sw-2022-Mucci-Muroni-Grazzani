@@ -7,8 +7,11 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
+
 import java.util.ArrayList;
-import static it.polimi.ingsw.controller.networking.MessageFragment.*;
+
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
+
 
 /**
  * @author Sara Mucci
@@ -37,21 +40,18 @@ public class GetChosenAssistantCardDeck {
      */
     public AssistantCardDeckFigures handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
-        int size = this.decks.size();
-        Message message = new Message(PAYLOAD_SIZE.getFragment(), String.valueOf(size),topicId);
-        this.messageHandler.write(message);
-        this.messageHandler.writeOut();
         for (AssistantCardDeckFigures assistantCardDeckFigures: this.decks) {
-            message = new Message(ASSISTANT_CARD_DECK.getFragment(), assistantCardDeckFigures.name(), topicId);
+            Message message = new Message(ASSISTANT_CARD_DECK.getFragment(), assistantCardDeckFigures.name(), topicId);
             this.messageHandler.write(message);
-            this.messageHandler.writeOut();
         }
+        this.messageHandler.write(new Message(STOP.getFragment(), "", topicId));
         this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
         if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
-            throw new MalformedMessageException();
+            throw  new MalformedMessageException();
         }
+        String deckName;
         AssistantCardDeckFigures result = null;
-        String deckName = this.messageHandler.getMessagePayloadFromStream(ASSISTANT_CARD_DECK.getFragment());
+        deckName = this.messageHandler.getMessagePayloadFromStream(ASSISTANT_CARD_DECK.getFragment());
         for (AssistantCardDeckFigures assistantCardDeckFigures: this.decks) {
             if (assistantCardDeckFigures.name().equals(deckName))
                 result = assistantCardDeckFigures;

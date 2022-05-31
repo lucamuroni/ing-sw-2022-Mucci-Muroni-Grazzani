@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller.server.virtualView;
 
-import it.polimi.ingsw.controller.networking.ConnectionTimings;
+import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
 import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
@@ -13,7 +13,7 @@ import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Professor;
 import it.polimi.ingsw.model.pawn.Student;
 import java.util.ArrayList;
-import static it.polimi.ingsw.controller.networking.MessageFragment.*;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
  * @author LucaMuroni
@@ -43,7 +43,7 @@ public class UpdateDashboards {
      * @throws FlowErrorException launched when the client sends an unexpected response
      */
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
-        ArrayList<Message> messages = new ArrayList<Message>();
+        ArrayList<Message> messages = new ArrayList<>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
         int result;
         int prof;
