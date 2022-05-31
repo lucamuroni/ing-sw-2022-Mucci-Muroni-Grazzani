@@ -15,7 +15,6 @@ import java.util.Scanner;
  */
 public class SelectAssistantCardPage implements Page {
     private ArrayList<AssistantCard> cards;
-
     private Gamer self;
     private boolean clearance = false;
     private boolean isProcessReady = false;
@@ -24,6 +23,7 @@ public class SelectAssistantCardPage implements Page {
     /**
      * Class constructor
      * @param cards represents the arrayList of possible cards the player can choose from
+     * @param self represent the player
      */
     public SelectAssistantCardPage(ArrayList<AssistantCard> cards, Gamer self){
         this.cards = new ArrayList<>(cards);

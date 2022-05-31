@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.pawn.Student;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Game;
+import it.polimi.ingsw.view.asset.game.Gamer;
 import it.polimi.ingsw.view.asset.game.Island;
 import java.util.ArrayList;
 
@@ -22,7 +23,7 @@ public class Swing_Gui implements ViewHandler {
 
     }
     @Override
-    public AssistantCard selectCard(ArrayList<AssistantCard> cards) {
+    public AssistantCard selectCard(ArrayList<AssistantCard> cards, Gamer self) {
         return null;
     }
 

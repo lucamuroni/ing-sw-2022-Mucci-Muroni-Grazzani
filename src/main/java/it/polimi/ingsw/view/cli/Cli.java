@@ -9,8 +9,10 @@ import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Cloud;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.Page;
+import it.polimi.ingsw.view.asset.game.Gamer;
 import it.polimi.ingsw.view.asset.game.Island;
 import it.polimi.ingsw.view.cli.page.LoadingPage;
+import it.polimi.ingsw.view.cli.page.SelectAssistantCardPage;
 import it.polimi.ingsw.view.cli.page.UndoException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -96,8 +98,8 @@ public class Cli implements ViewHandler {
      * @return the chosen assistant card
      */
     @Override
-    public AssistantCard selectCard(ArrayList<AssistantCard> cards) {
-        this.changePage();
+    public AssistantCard selectCard(ArrayList<AssistantCard> cards, Gamer self) {
+        this.changePage(new SelectAssistantCardPage(cards, self));
     }
 
     /**

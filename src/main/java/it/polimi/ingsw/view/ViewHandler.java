@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.view.asset.game.Cloud;
+import it.polimi.ingsw.view.asset.game.Gamer;
 import it.polimi.ingsw.view.asset.game.Island;
 import it.polimi.ingsw.model.pawn.Student;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public interface ViewHandler {
      * @param cards represents the possible cards to choose from
      * @return the chosen assistant card
      */
-    AssistantCard selectCard(ArrayList<AssistantCard> cards);
+    AssistantCard selectCard(ArrayList<AssistantCard> cards, Gamer self);
 
     /**
      * Method that returns the chosen student to move
