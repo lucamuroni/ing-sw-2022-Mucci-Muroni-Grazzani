@@ -68,15 +68,8 @@ public class Cli implements ViewHandler {
      * Method that clears the cli
      */
     public void clearConsole(){
-        try {
-            if(os.contains("Windows")){
-                Runtime.getRuntime().exec("cls");
-            }else{
-                Runtime.getRuntime().exec("clear");
-            }
-        }catch (IOException e){
-            System.out.println(AnsiColor.RED.toString()+"OS error while trying to refresh cli interface"+AnsiColor.RESET.toString());
-        }
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 
     /**

@@ -54,7 +54,7 @@ public class LoadingPage implements Page {
             while(!this.isKilled()){
                 this.draw();
                 //TODO : rimuovere linea
-                this.kill();
+                //this.kill();
             }
         });
         t.start();
