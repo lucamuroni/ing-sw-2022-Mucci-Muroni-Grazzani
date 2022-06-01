@@ -12,6 +12,7 @@ import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.asset.game.Island;
 import it.polimi.ingsw.view.asset.game.Results;
 import it.polimi.ingsw.view.cli.page.LoadingPage;
+import it.polimi.ingsw.view.cli.page.LobbyFounded;
 import it.polimi.ingsw.view.cli.page.LoginPage;
 import it.polimi.ingsw.view.cli.page.UndoException;
 import java.io.IOException;
@@ -78,6 +79,7 @@ public class Cli implements ViewHandler {
      */
     public void changePage(Page page){
         synchronized (this.pageLock){
+            this.currentPage.kill();
             this.clearConsole();
             this.currentPage = page;
             this.pageHasChanged = true;
@@ -157,4 +159,8 @@ public class Cli implements ViewHandler {
 
     }
 
+    @Override
+    public void lobbyFounded() {
+        this.changePage(new LobbyFounded(this));
+    }
 }

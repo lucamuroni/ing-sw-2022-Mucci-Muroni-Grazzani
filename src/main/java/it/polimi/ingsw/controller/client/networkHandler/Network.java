@@ -197,4 +197,6 @@ public interface Network {
     void sendAssistantCardDeck(AssistantCardDeckFigures assistantCardDeck) throws MalformedMessageException;
 
     void broadcastPlayerInfo(Game game) throws MalformedMessageException;
+
+    void awaitForLobby() throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 }

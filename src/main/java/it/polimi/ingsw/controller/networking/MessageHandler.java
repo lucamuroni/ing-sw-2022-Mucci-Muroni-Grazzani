@@ -180,7 +180,7 @@ public class MessageHandler {
 
     //TODO: javadoc
     private void updateLastTopic(Message message){
-        this.lastTopicRead = this.incomingMessages.get(this.incomingMessages.indexOf(message)).getUniqueTopicID();
+        this.lastTopicRead = message.getUniqueTopicID();
     }
 
 }

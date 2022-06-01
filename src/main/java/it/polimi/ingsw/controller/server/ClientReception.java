@@ -73,6 +73,7 @@ class ClientReception extends Thread{
                 msgs.add(new Message(MessageFragment.AUTH_ID.getFragment(), uniquePlayerID.toString(),uniqueMsgID));
                 player.getMessageHandler().write(msgs);
                 msgs.clear();
+                System.out.println("unique msg id :"+ uniqueMsgID);
                 player.getMessageHandler().writeOutAndWait(ConnectionTimings.INFINITE.getTiming());
                 player.getMessageHandler().assertOnEquals(uniquePlayerID.toString(), MessageFragment.AUTH_ID.getFragment());
                 String name = player.getMessageHandler().getMessagePayloadFromStream(MessageFragment.PLAYER_NAME.getFragment());

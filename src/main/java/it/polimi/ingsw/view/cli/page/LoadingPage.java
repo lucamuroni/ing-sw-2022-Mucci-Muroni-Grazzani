@@ -29,7 +29,7 @@ public class LoadingPage implements Page {
      * Method that draws the loading page
      */
     public void draw() {
-        String padding = "   ";
+        String padding = "                        ";
         System.out.println("Welcome to " +AnsiColor.GREEN.toString()+
                 "\n" +
                 "███████╗██████╗ ██╗   ██╗ █████╗ ███╗   ██╗████████╗██╗███████╗\n" +
@@ -40,7 +40,7 @@ public class LoadingPage implements Page {
                 "╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚═╝╚══════╝\n" +
                 "                                                               \n" +
                 "\n"+AnsiColor.RESET.toString());
-        System.out.print("Please wait until a connection with the server is established"+padding);
+        System.out.print("Please wait until a connection with the server is established\n"+padding);
         this.loadingBar.print();
         this.cli.clearConsole();
     }
@@ -54,7 +54,7 @@ public class LoadingPage implements Page {
             while(!this.isKilled()){
                 this.draw();
                 //TODO : rimuovere linea
-                //this.kill();
+                this.kill();
             }
         });
         t.start();

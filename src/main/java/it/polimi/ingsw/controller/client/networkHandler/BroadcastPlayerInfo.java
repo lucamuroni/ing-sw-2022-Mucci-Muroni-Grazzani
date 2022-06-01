@@ -24,6 +24,7 @@ public class BroadcastPlayerInfo {
 
     public void handle() throws MalformedMessageException {
         int uniqueId = this.messageHandler.getMessagesUniqueTopic();
+        System.out.println("unique recieved id :" + uniqueId);
         ArrayList<Message> msg = new ArrayList<Message>();
         msg.add(new Message(AUTH_ID.getFragment(),String.valueOf(this.game.getSelf().getId()),uniqueId));
         msg.add(new Message(PLAYER_NAME.getFragment(),this.game.getSelf().getUsername(),uniqueId));
@@ -31,6 +32,7 @@ public class BroadcastPlayerInfo {
         msg.add(new Message(GAME_TYPE.getFragment(),this.game.getGameType(),uniqueId));
         msg.add(new Message(LOBBY_SIZE.getFragment(),String.valueOf(this.game.getLobbySize()),uniqueId));
         this.messageHandler.write(msg);
+        System.out.println("ho scritto");
         this.messageHandler.writeOut();
     }
 }

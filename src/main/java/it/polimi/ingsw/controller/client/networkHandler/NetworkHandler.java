@@ -35,6 +35,12 @@ public class NetworkHandler implements Network {
         func.handle();
     }
 
+    @Override
+    public void awaitForLobby() throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        AwaitForLobby func = new AwaitForLobby(this.messageHandler);
+        func.handle();
+    }
+
     public void getTowerColor(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetTowerColor func = new GetTowerColor(messageHandler, game);
         func.handle();

@@ -24,6 +24,7 @@ public class ConnectionPhase implements GamePhase{
 
     @Override
     public void handle() {
+        // TODO : rimuovere i commenti una volta finito il debug
         /*synchronized (this){
             try{
                 this.wait(3000);
@@ -38,7 +39,7 @@ public class ConnectionPhase implements GamePhase{
                 this.network.getConnection(this.controller);
             }
         }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e){
-            this.controller.handleError();
+            this.controller.handleError("Error while starting the connection");
         }
         this.view.getPlayerInfo();
         try{
@@ -48,8 +49,18 @@ public class ConnectionPhase implements GamePhase{
                 this.network.broadcastPlayerInfo(this.controller.getGame());
             }
         }catch (MalformedMessageException e){
-            this.controller.handleError();
+            this.controller.handleError("Error while connecting to the server");
         }
+        try{
+            try {
+                this.network.awaitForLobby();
+            }catch (MalformedMessageException e){
+                this.network.awaitForLobby();
+            }
+        }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e){
+            this.controller.handleError("Error while inserting player into the lobby");
+        }
+        this.view.lobbyFounded();
     }
 
     @Override

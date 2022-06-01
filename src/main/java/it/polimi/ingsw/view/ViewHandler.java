@@ -47,4 +47,6 @@ public interface ViewHandler {
 
     void showEndGamePage(Results win);
     void setController(ClientController controller);
+
+    void lobbyFounded();
 }

@@ -72,6 +72,7 @@ public class Menù {
             System.out.print("#");
         }
         System.out.print("\n");
+        System.out.print("Your choice : ");
     }
 
     /**
