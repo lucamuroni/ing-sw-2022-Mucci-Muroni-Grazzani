@@ -46,6 +46,7 @@ public class ConnectionPhase implements GamePhase{
             try{
                 this.network.broadcastPlayerInfo(this.controller.getGame());
             }catch (MalformedMessageException e){
+                e.printStackTrace();
                 this.network.broadcastPlayerInfo(this.controller.getGame());
             }
         }catch (MalformedMessageException e){

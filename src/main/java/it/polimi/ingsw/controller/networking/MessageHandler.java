@@ -106,6 +106,7 @@ public class MessageHandler {
         decoder = (JSONObject) JSONValue.parse(messages);
         uniqueID = (int)((Long)decoder.get(this.topKeyWord)).intValue();
         Set<String> keySet = decoder.keySet();
+        this.incomingMessages.clear();
         for(String key : keySet){
             Message m = new Message(key,String.valueOf( decoder.get(key)),uniqueID);
             this.incomingMessages.add(m);
