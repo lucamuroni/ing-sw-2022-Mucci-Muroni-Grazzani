@@ -17,6 +17,9 @@ import it.polimi.ingsw.view.cli.page.LoginPage;
 import it.polimi.ingsw.view.cli.page.UndoException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 /**
  * @author Davide Grazzani
@@ -28,6 +31,7 @@ public class Cli implements ViewHandler {
     private boolean pageHasChanged;
     private Page currentPage;
     private final Object pageLock = new Object();
+    private final Scanner scanner;
 
     /**
      * Class constructor
@@ -36,6 +40,7 @@ public class Cli implements ViewHandler {
         this.os = System.getProperty("os.name");
         this.currentPage = new LoadingPage(this);
         this.pageHasChanged = true;
+        this.scanner = new Scanner(System.in);
         this.start();
     }
 
@@ -86,6 +91,84 @@ public class Cli implements ViewHandler {
         }
     }
 
+    public int readInt(int range,Menù menù) throws UndoException{
+        return this.readInt(1,range,true,menù,null);
+    }
+
+    public int readInt(int min,int max,String string) throws UndoException{
+        return this.readInt(min,max,false,null,string);
+    }
+
+    public int readInt(int min,int max,boolean isMenù, Menù menù,String string) throws UndoException{
+        int result = 0;
+        if(isMenù){
+            menù.print();
+        }else{
+            System.out.print(string);
+        }
+        try{
+            result = scanner.nextInt();
+            if(result> max || result < min){
+                throw new NoSuchElementException("No element with such index");
+            }
+            if(result == max && isMenù){
+                this.scanner.nextLine();
+                throw new UndoException();
+            }
+        }catch (NoSuchElementException e){
+            this.printChoiceError("The input is not a number or the input is out of bound");
+            this.scanner.nextLine();
+            result = this.readInt(min,max,isMenù,menù,string);
+            return result;
+        }catch (IllegalStateException e){
+            this.controller.handleError("No input stream was found");
+        }
+        this.scanner.nextLine();
+        return result;
+    }
+
+    public String readString(String string) throws UndoException{
+        ArrayList<String> empty = new ArrayList<>();
+        return this.readString(string,empty,true);
+    }
+    public String readString(String string,ArrayList<String> options, boolean inclusivity) throws UndoException{
+        String result = "";
+        System.out.print(string);
+        try{
+            result = scanner.nextLine();
+            if(result.equals("")){
+                throw new NoSuchElementException("invalid input");
+            }
+            if(options.size() != 0){
+                if(inclusivity){
+                    if(!options.contains(result)){
+                        throw new NoSuchElementException("invalid input");
+                    }
+                }else{
+                    if(options.contains(result)){
+                        throw new NoSuchElementException("invalid input");
+                    }
+                }
+            }
+            if(result == "b"){
+                throw new UndoException();
+            }
+        }catch (NoSuchElementException e){
+            this.printChoiceError("The input is not a number or the input is out of bound");
+            result = this.readString(string,options,inclusivity);
+            return result;
+        }catch (IllegalStateException e){
+            this.controller.handleError("No input stream was found");
+        }
+        return result;
+    }
+
+    private void printChoiceError(String s){
+        System.out.print("\n");
+        System.out.println(AnsiColor.RED+s);
+        System.out.println("Please retry"+AnsiColor.RESET);
+        System.out.print("\n");
+    }
     /**
      * Method that returns the assistant card the player chooses (?)
      * @param cards represents the arrayList of possible cards
