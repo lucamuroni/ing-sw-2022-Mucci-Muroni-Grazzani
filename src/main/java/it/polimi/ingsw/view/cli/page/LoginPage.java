@@ -21,19 +21,18 @@ public class LoginPage implements Page {
     private Game game;
     private final Scanner scanner;
     private boolean readyToProcede = false;
-    private boolean clearance = false;
-    private final int id;
+    private boolean killed;
 
     /**
      * Class constructor
      * @param cli represents the cli associated to the game
-     * @param id represents the id associated to the player (?)
+     * @param game represents the game
      */
-    public LoginPage(Cli cli, int id, Game game){
+    public LoginPage(Cli cli, Game game){
         this.cli = cli;
         scanner = new Scanner(System.in);
-        this.id = id;
         this.game = game;
+        this.killed = false;
     }
 
     /**
@@ -86,15 +85,16 @@ public class LoginPage implements Page {
             cli.clearConsole();
             LoadingBar loadingBar = new LoadingBar(80);
             this.readyToProcede = true;
-            while (!this.getClearance()){
-                System.out.println("Please wait unit we reach the server");
+            //TODO: riguardare come usare l'attributo killed
+            while(/*!this.isKilled()*/){
+                System.out.println("Please wait until we reach the server");
                 loadingBar.print();
                 this.cli.clearConsole();
             }
             System.out.println(AnsiColor.GREEN+"Lobby has been founded"+AnsiColor.RESET);
             loadingBar = new LoadingBar(80);
-            while (!this.getClearance()){
-                System.out.println("Please wait unit the game stars");
+            while (/*!this.isKilled()*/){
+                System.out.println("Please wait until the game starts");
                 loadingBar.print();
                 this.cli.clearConsole();
             }
@@ -117,8 +117,11 @@ public class LoginPage implements Page {
     }
 
     @Override
-    public void kill() {
-
+    public synchronized void kill() {
+        this.killed = true;
     }
 
+    private synchronized boolean isKilled(){
+        return this.killed;
+    }
 }

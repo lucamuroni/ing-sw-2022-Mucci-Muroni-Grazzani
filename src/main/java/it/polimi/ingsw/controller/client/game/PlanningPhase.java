@@ -37,7 +37,7 @@ public class PlanningPhase implements GamePhase {
         } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
             this.controller.handleError();
         }
-        AssistantCard chosenCard = this.view.selectCard(this.game.getSelf().getCards(), this.game.getSelf());
+        AssistantCard chosenCard = this.view.selectCard(this.game.getSelf().getCards());
         try {
             try {
                 this.network.sendCard(chosenCard);

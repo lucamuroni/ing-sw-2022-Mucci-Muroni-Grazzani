@@ -18,7 +18,7 @@ public interface ViewHandler {
      * @param cards represents the possible cards to choose from
      * @return the chosen assistant card
      */
-    AssistantCard selectCard(ArrayList<AssistantCard> cards, Gamer self);
+    AssistantCard selectCard(ArrayList<AssistantCard> cards);
 
     /**
      * Method that returns the chosen student to move

@@ -1,49 +1,38 @@
 package it.polimi.ingsw.view.cli.page;
 
+import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.view.Page;
-import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Gamer;
 import it.polimi.ingsw.view.cli.AnsiColor;
 import it.polimi.ingsw.view.cli.Menù;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
- * @author Davide Grazzani
- * Class that represents the assistant card page
- */
-public class SelectAssistantCardPage implements Page {
-    private ArrayList<AssistantCard> cards;
-    private Game game;
+public class SelectAssistantCardDeckPage implements Page {
+    private ArrayList<AssistantCardDeckFigures> figures;
+    private Gamer self;
     private boolean killed;
     private boolean isProcessReady = false;
     private Scanner scanner;
-
-    /**
-     * Class constructor
-     * @param cards represents the arrayList of possible cards the player can choose from
-     * @param game represents the game
-     */
-    public SelectAssistantCardPage(ArrayList<AssistantCard> cards, Game game){
-        this.cards = new ArrayList<>(cards);
-        scanner = new Scanner(System.in);
-        this.game = game;
+    
+    public SelectAssistantCardDeckPage(Gamer self, ArrayList<AssistantCardDeckFigures> figures) {
+        this.self = self;
+        this.figures = figures;
         this.killed = false;
+        scanner = new Scanner(System.in);
     }
-
-    /**
-     * Method that handles the page
-     */
+    
     @Override
-    public void handle() {
-        Thread t = new Thread(()->{
+    public void handle() /*throws UndoException*/ {
+        Thread t = new Thread(() -> {
             ArrayList<String> options = new ArrayList<>();
-            for(AssistantCard card : this.cards){
-                options.add(card.getName()+" ("+card.getTurnValue()+", "+card.getMovement()+")");
+            for(AssistantCardDeckFigures figures : this.figures){
+                options.add(figures.name());
             }
             Menù menù = new Menù(options);
-            menù.setContext("Please select a card ");
+            menù.setContext("Please select a deck ");
             boolean doNotProcede = true;
             int choice = 0;
             while (doNotProcede){
@@ -53,13 +42,14 @@ public class SelectAssistantCardPage implements Page {
                     System.out.println("Retry"+AnsiColor.RESET);
                     menù.print();
                 }else {
-                    this.game.getSelf().setCurrentSelection(this.cards.get(choice-1));
+                    self.setFigure(this.figures.get(choice-1));
                     doNotProcede = false;
                     synchronized (this){
                         this.isProcessReady = true;
                     }
                 }
             }
+
         });
         t.start();
     }

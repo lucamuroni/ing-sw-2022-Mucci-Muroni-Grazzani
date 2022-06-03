@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class JavaFXGui implements ViewHandler {
 
     @Override
-    public AssistantCard selectCard(ArrayList<AssistantCard> cards, Gamer self) {
+    public AssistantCard selectCard(ArrayList<AssistantCard> cards) {
         return null;
     }
 
@@ -20,7 +20,7 @@ public class JavaFXGui implements ViewHandler {
     }
 
     @Override
-    public String choosePlace() {
+    public int choosePlace() {
         return null;
     }
 
