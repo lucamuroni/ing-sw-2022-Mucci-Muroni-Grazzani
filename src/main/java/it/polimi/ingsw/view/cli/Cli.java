@@ -150,7 +150,7 @@ public class Cli implements ViewHandler {
                     }
                 }
             }
-            if(result == "b"){
+            if(result.equals("b")){
                 throw new UndoException();
             }
         }catch (NoSuchElementException e){

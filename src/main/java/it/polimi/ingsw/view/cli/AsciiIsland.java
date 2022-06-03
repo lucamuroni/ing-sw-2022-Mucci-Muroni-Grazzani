@@ -127,4 +127,8 @@ public class AsciiIsland {
             System.out.print("\n");
         }
     }
+
+    public Island getIsland() {
+        return island;
+    }
 }
