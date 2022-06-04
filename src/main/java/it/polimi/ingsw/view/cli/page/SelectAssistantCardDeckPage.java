@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.cli.page;
 
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
-import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.asset.game.Gamer;
 import it.polimi.ingsw.view.cli.AnsiColor;

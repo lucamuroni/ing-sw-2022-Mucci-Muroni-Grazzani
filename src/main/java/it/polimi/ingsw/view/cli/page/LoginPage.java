@@ -17,7 +17,6 @@ import java.util.Scanner;
  */
 public class LoginPage implements Page {
     private final Cli cli;
-    private Menù menù;
     private Game game;
     private final Scanner scanner;
     private boolean readyToProcede = false;
@@ -86,14 +85,14 @@ public class LoginPage implements Page {
             LoadingBar loadingBar = new LoadingBar(80);
             this.readyToProcede = true;
             //TODO: riguardare come usare l'attributo killed
-            while(/*!this.isKilled()*/){
+            while(!this.isKilled()){
                 System.out.println("Please wait until we reach the server");
                 loadingBar.print();
                 this.cli.clearConsole();
             }
             System.out.println(AnsiColor.GREEN+"Lobby has been founded"+AnsiColor.RESET);
             loadingBar = new LoadingBar(80);
-            while (/*!this.isKilled()*/){
+            while (!this.isKilled()){
                 System.out.println("Please wait until the game starts");
                 loadingBar.print();
                 this.cli.clearConsole();

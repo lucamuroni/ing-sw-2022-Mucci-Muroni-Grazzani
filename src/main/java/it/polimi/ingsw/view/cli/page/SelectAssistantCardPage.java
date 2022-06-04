@@ -3,7 +3,6 @@ package it.polimi.ingsw.view.cli.page;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.asset.game.Game;
-import it.polimi.ingsw.view.asset.game.Gamer;
 import it.polimi.ingsw.view.cli.AnsiColor;
 import it.polimi.ingsw.view.cli.Menù;
 import java.util.ArrayList;

@@ -147,7 +147,8 @@ public class Cli implements ViewHandler {
 
     @Override
     public Cloud chooseCloud(ArrayList<Cloud> clouds) {
-        return null;
+        this.changePage(new SelectCloudPage(game, clouds));
+        return this.game.getChosenCloud();
     }
 
     @Override

@@ -16,6 +16,8 @@ public class Game {
     private int lobbySize;
     private Island chosenIsland;
     private PawnColor chosenColor;
+    private Cloud chosenCloud;
+
     public Game(Gamer gamer) {
         this.gamers = new ArrayList<>();
         this.islands = new ArrayList<>();
@@ -58,8 +60,8 @@ public class Game {
         return chosenColor;
     }
 
-    public void setMotherNaturePosition(Island motherNaturePosition) {
-        this.motherNaturePosition = motherNaturePosition;
+    public Cloud getChosenCloud() {
+        return chosenCloud;
     }
 
     public String getGameType() {
@@ -74,12 +76,20 @@ public class Game {
         return lobbySize;
     }
 
+    public void setMotherNaturePosition(Island motherNaturePosition) {
+        this.motherNaturePosition = motherNaturePosition;
+    }
+
     public void setChosenIsland(Island chosenIsland) {
         this.chosenIsland = chosenIsland;
     }
 
     public void setChosenColor(PawnColor chosenColor) {
         this.chosenColor = chosenColor;
+    }
+
+    public void setChosenCloud(Cloud chosenCloud) {
+        this.chosenCloud = chosenCloud;
     }
 
     public void setType(GameType type) {
