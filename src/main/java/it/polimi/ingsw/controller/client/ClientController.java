@@ -10,6 +10,7 @@ import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.server.GameType;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Game;
+import it.polimi.ingsw.view.cli.AnsiColor;
 
 /**
  * This class implements the controller of the client
