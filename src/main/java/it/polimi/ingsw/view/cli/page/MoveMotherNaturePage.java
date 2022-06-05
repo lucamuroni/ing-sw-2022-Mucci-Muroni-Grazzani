@@ -3,64 +3,64 @@ package it.polimi.ingsw.view.cli.page;
 import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Island;
-import it.polimi.ingsw.view.cli.AnsiColor;
+import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.Menù;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class MoveMotherNaturePage implements Page {
     private Menù menù;
     private Game game;
+    private Cli cli;
     private ArrayList<Island> islands;
-    private final Scanner scanner;
-    private boolean readyToProcede = false;
+    private boolean readyToProceed = false;
     private boolean killed;
 
-    public MoveMotherNaturePage(Game game, ArrayList<Island> islands) {
+    public MoveMotherNaturePage(Cli cli, Game game, ArrayList<Island> islands) {
+        this.cli = cli;
         this.game = game;
-        scanner = new Scanner(System.in);
         this.killed = false;
         this.islands = islands;
     }
 
     @Override
     public void handle() throws UndoException {
-        Thread t = new Thread(() -> {
-            ArrayList<String> options = new ArrayList<>();
-            for (Island island : this.islands) {
-                options.add("Island " + island.getId());
-            }
-            boolean doNotProcede = true;
-            int choice = 0;
-            Menù menù = new Menù(options);
-            menù.clear();
-            menù.addOptions(options);
-            menù.setContext("Which island do you want to choose?");
-            menù.print();
-            while (doNotProcede) {
-                choice = scanner.nextInt();
-                if(choice<1 || choice>options.size()){
-                    System.out.println(AnsiColor.RED+"No choice with that number");
-                    System.out.println("Retry"+AnsiColor.RESET);
-                    menù.print();
-                } else {
-                    game.setMotherNaturePosition(this.islands.get(choice-1));
-                    doNotProcede = false;
-                }
-            }
-        });
-        t.start();
+        ArrayList<String> options = new ArrayList<>();
+        for (Island island : this.islands) {
+            options.add("Island " + island.getId());
+        }
+        int choice;
+        Menù menù = new Menù(options);
+        menù.clear();
+        menù.addOptions(options);
+        menù.setContext("Which island do you want to choose?");
+        menù.print();
+        //Controllo del back
+        choice = this.cli.readInt(options.size(), menù);
+        options.clear();
+        options.add("y");
+        options.add("n");
+        String input = this.cli.readString("Are you satisfied with your selections (y/n): ",options,true);
+        if(input.equals("n")){
+            throw new UndoException();
+        }
+        //cli.clearConsole();
+        game.setMotherNaturePosition(this.islands.get(choice-1));
+        this.setReadyToProcede();
     }
 
     @Override
     public boolean isReadyToProceed() {
-        if(!this.readyToProcede){
+        if(!this.readyToProceed){
             return false;
         }else {
-            this.readyToProcede = false;
+            this.readyToProceed = false;
             return true;
         }
+    }
+
+    private synchronized void setReadyToProcede(){
+        this.readyToProceed = true;
     }
 
     @Override

@@ -232,17 +232,37 @@ public class Cli implements ViewHandler {
     /**
      * Method that returns the island on which the player wants to move a student
      * @param islands represents the arrayList of possible islands
-     * @return the chosend island
+     * @return the chosen island
      */
     @Override
     public Island chooseIsland(ArrayList<Island> islands) {
-        this.changePage(new MoveMotherNaturePage(game, islands));
+        Page p = new MoveMotherNaturePage(this, game, islands);
+        this.changePage(p);
+        while (!p.isReadyToProceed()) {
+            synchronized (this) {
+                try {
+                    this.wait(100);
+                } catch (InterruptedException e) {
+                    this.controller.handleError("Could not wait for user to choose a deck");
+                }
+            }
+        }
         return this.game.getMotherNaturePosition();
     }
 
     @Override
     public Cloud chooseCloud(ArrayList<Cloud> clouds) {
-        this.changePage(new SelectCloudPage(game, clouds));
+        Page p = new SelectCloudPage(this, game, clouds);
+        this.changePage(p);
+        while (!p.isReadyToProceed()) {
+            synchronized (this) {
+                try {
+                    this.wait(100);
+                } catch (InterruptedException e) {
+                    this.controller.handleError("Could not wait for user to choose a deck");
+                }
+            }
+        }
         return this.game.getChosenCloud();
     }
 

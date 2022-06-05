@@ -1,10 +1,10 @@
 package it.polimi.ingsw.view.cli.page;
 
-import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.asset.game.Cloud;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.cli.AnsiColor;
+import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.Menù;
 
 import java.util.ArrayList;
@@ -13,53 +13,54 @@ import java.util.Scanner;
 public class SelectCloudPage implements Page {
     private ArrayList<Cloud> clouds;
     private Game game;
+    private Cli cli;
     private boolean killed;
-    private boolean readyToProcede = false;
-    private Scanner scanner;
+    private boolean readyToProceed = false;
 
-    public SelectCloudPage(Game game, ArrayList<Cloud> clouds) {
+    public SelectCloudPage(Cli cli, Game game, ArrayList<Cloud> clouds) {
+        this.cli = cli;
         this.game = game;
         this.clouds = clouds;
-        scanner = new Scanner(System.in);
         killed = false;
     }
 
     @Override
-    public void handle() /*throws UndoException*/ {
-        Thread t = new Thread(() -> {
-            ArrayList<String> options = new ArrayList<>();
-            for(Cloud cloud : this.clouds){
+    public void handle() throws UndoException {
+        ArrayList<String> options = new ArrayList<>();
+        for(Cloud cloud : this.clouds){
                 options.add("Cloud " + cloud.getId());
-            }
-            boolean doNotProcede = true;
-            int choice = 0;
-            Menù menù = new Menù(options);
-            menù.clear();
-            menù.addOptions(options);
-            menù.setContext("Which cloud do you want to choose?");
-            menù.print();
-            while (doNotProcede) {
-                choice = scanner.nextInt();
-                if(choice<1 || choice>options.size()){
-                    System.out.println(AnsiColor.RED+"No choice with that number");
-                    System.out.println("Retry"+AnsiColor.RESET);
-                    menù.print();
-                } else {
-                    game.setChosenCloud(clouds.get(choice-1));
-                    doNotProcede = false;
-                }
-            }
-        });
+        }
+        int choice;
+        Menù menù = new Menù(options);
+        menù.clear();
+        menù.addOptions(options);
+        menù.setContext("Which cloud do you want to choose?");
+        menù.print();
+        choice = this.cli.readInt(options.size(), menù);
+        options.clear();
+        options.add("y");
+        options.add("n");
+        String input = this.cli.readString("Are you satisfied with your selections (y/n): ",options,true);
+        if(input.equals("n")){
+            throw new UndoException();
+        }
+        //cli.clearConsole();
+        game.setChosenCloud(clouds.get(choice-1));
+        this.setReadyToProcede();
     }
 
     @Override
     public boolean isReadyToProceed() {
-        if(!this.readyToProcede){
+        if(!this.readyToProceed){
             return false;
         }else {
-            this.readyToProcede = false;
+            this.readyToProceed = false;
             return true;
         }
+    }
+
+    private synchronized void setReadyToProcede(){
+        this.readyToProceed = true;
     }
 
     @Override
