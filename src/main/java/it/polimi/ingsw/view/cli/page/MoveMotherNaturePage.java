@@ -36,7 +36,7 @@ public class MoveMotherNaturePage implements Page {
         menù.setContext("Which island do you want to choose?");
         menù.print();
         //Controllo del back
-        choice = this.cli.readInt(options.size(), menù);
+        choice = this.cli.readInt(options.size(), menù, false);
         options.clear();
         options.add("y");
         options.add("n");

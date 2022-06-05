@@ -46,7 +46,7 @@ public class SelectAssistantCardPage implements Page {
         menù.setContext("Please select a card ");
         int choice;
         //Controllo del back
-        choice = this.cli.readInt(options.size(), menù);
+        choice = this.cli.readInt(options.size(), menù, false);
         options.clear();
         options.add("y");
         options.add("n");

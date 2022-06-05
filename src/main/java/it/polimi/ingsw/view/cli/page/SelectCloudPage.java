@@ -36,7 +36,7 @@ public class SelectCloudPage implements Page {
         menù.addOptions(options);
         menù.setContext("Which cloud do you want to choose?");
         menù.print();
-        choice = this.cli.readInt(options.size(), menù);
+        choice = this.cli.readInt(options.size(), menù, false);
         options.clear();
         options.add("y");
         options.add("n");

@@ -41,7 +41,7 @@ public class MoveStudentPage implements Page {
         menù.print();
         int choice;
         //Controllo del back
-        choice = this.cli.readInt(options.size(), menù);
+        choice = this.cli.readInt(options.size(), menù, false);
         if(choice==2){
             options.clear();
             for(Island island : this.assetGame.getIslands()){
@@ -53,7 +53,7 @@ public class MoveStudentPage implements Page {
             menù.setContext("Which island do you want to choose?");
             menù.print();
             //Back presente
-            choice = this.cli.readInt(options.size(), menù);
+            choice = this.cli.readInt(options.size(), menù, true);
             assetGame.setChosenIsland(this.assetGame.getIslands().get(choice-1));
         }
         options.clear();
@@ -62,12 +62,13 @@ public class MoveStudentPage implements Page {
         options.add("Yellow");
         options.add("Green");
         options.add("Pink");
+        options.add("Back");
         menù.clear();
         menù.addOptions(options);
         menù.setContext("Which type of student do you want to move?");
         menù.print();
         //Controllo del back
-        choice = this.cli.readInt(options.size(), menù);
+        choice = this.cli.readInt(options.size(), menù, true);
         options.clear();
         options.add("y");
         options.add("n");
