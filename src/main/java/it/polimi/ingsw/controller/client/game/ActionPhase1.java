@@ -34,6 +34,7 @@ public class ActionPhase1 implements GamePhase{
         for (int i = 0; i<numOfMoves; i++) {
             Student stud = this.view.chooseStudentToMove();
             int location = this.view.choosePlace();
+            this.view.goToIdle();
             try {
                 try {
                     this.network.sendColor(stud.getColor());
@@ -41,20 +42,16 @@ public class ActionPhase1 implements GamePhase{
                 } catch (MalformedMessageException e) {
                     this.network.sendColor(stud.getColor());
                     this.network.sendLocation(location);
-                } catch (ClientDisconnectedException e) {
-                    throw new RuntimeException(e);
                 }
             } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException |
                      ClientDisconnectedException e) {
-                this.controller.handleError();
+                this.controller.handleError("Could not sent move to server");
             }
             try {
                 try {
                     this.network.getDashboard(this.game);
-                    //TODO: pezzo che modifica la view
                 } catch (MalformedMessageException e) {
                     this.network.getDashboard(this.game);
-                    //TODO: pezzo che modifica la view
                 }
             } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
                 this.controller.handleError();

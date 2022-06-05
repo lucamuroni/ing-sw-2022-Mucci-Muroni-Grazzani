@@ -28,10 +28,12 @@ public class Start implements GamePhase {
     public void handle() {
         this.updateMNPlace();
         this.updateIslandStatus();
+        // TODO mancano da inviare i giocatori  <====
         for (int i = 0; i<this.game.getGamers().size(); i++) {
             this.updateColor();
             this.updateDashboards();
         }
+        // TODO ======>
         ArrayList<AssistantCardDeckFigures> figures = new ArrayList<>();
         try {
             try {

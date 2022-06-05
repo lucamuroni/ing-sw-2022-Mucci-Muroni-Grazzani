@@ -128,7 +128,7 @@ public class Cli implements ViewHandler {
         ArrayList<String> empty = new ArrayList<>();
         return this.readString(string,empty,true);
     }
-    
+
     public String readString(String string,ArrayList<String> options, boolean inclusivity) throws UndoException{
         String result = "";
         System.out.print(string);
