@@ -64,7 +64,7 @@ public class LoginPage implements Page {
             throw new UndoException();
         }
         cli.clearConsole();
-        this.readyToProcede = true;
+        this.setReadyToProcede();
         Thread t = new Thread(()->{
             LoadingBar loadingBar = new LoadingBar(80);
             while (!this.isKilled()){
@@ -97,5 +97,9 @@ public class LoginPage implements Page {
 
     private synchronized boolean isKilled(){
         return this.killed;
+    }
+
+    private synchronized void setReadyToProcede(){
+        this.readyToProcede = true;
     }
 }
