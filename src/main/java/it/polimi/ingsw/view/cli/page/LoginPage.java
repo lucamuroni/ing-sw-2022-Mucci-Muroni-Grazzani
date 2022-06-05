@@ -8,7 +8,6 @@ import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.LoadingBar;
 import it.polimi.ingsw.view.cli.Menù;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * @author Davide Grazzani
@@ -17,26 +16,24 @@ import java.util.Scanner;
  */
 public class LoginPage implements Page {
     private final Cli cli;
-    private Menù menù;
     private Game game;
-
-    private boolean readyToProcede = false;
-    private final int id;
+    private boolean readyToProceed = false;
     private boolean killed;
 
     /**
      * Class constructor
      * @param cli represents the cli associated to the game
+     * @param game represents the game
      */
     public LoginPage(Cli cli, Game game){
         this.cli = cli;
-        this.id = game.getSelf().getId();
         this.game = game;
         this.killed = false;
     }
 
     /**
      * Method that handles the login page
+     * @throws UndoException to repeat the choice
      */
     @Override
     public void handle() throws UndoException{
@@ -55,7 +52,7 @@ public class LoginPage implements Page {
             case 1 -> this.game.setType(GameType.NORMAL);
             case 2 -> this.game.setType(GameType.EXPERT);
         }
-        choice = this.cli.readInt(2,3,"Insert th number of players you wish to play with :");
+        choice = this.cli.readInt(2,3,"Insert th number of players you wish to play with (2/3):");
         switch (choice) {
             case 2 -> this.game.setLobbySize(2);
             case 3 -> this.game.setLobbySize(3);
@@ -68,7 +65,7 @@ public class LoginPage implements Page {
             throw new UndoException();
         }
         cli.clearConsole();
-        this.readyToProcede = true;
+        this.setReadyToProcede();
         Thread t = new Thread(()->{
             LoadingBar loadingBar = new LoadingBar(80);
             while (!this.isKilled()){
@@ -85,11 +82,11 @@ public class LoginPage implements Page {
      * @return true if the process is ready, false otherwise
      */
     @Override
-    public synchronized boolean isProcessReady() {
-        if(!this.readyToProcede){
+    public synchronized boolean isReadyToProceed() {
+        if(!this.readyToProceed){
             return false;
         }else {
-            this.readyToProcede = false;
+            this.readyToProceed = false;
             return true;
         }
     }
@@ -101,5 +98,9 @@ public class LoginPage implements Page {
 
     private synchronized boolean isKilled(){
         return this.killed;
+    }
+
+    private synchronized void setReadyToProcede(){
+        this.readyToProceed = true;
     }
 }

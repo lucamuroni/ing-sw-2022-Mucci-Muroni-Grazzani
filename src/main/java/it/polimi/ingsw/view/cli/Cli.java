@@ -2,7 +2,6 @@ package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
-import it.polimi.ingsw.controller.networking.GameType;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.pawn.Student;
 import it.polimi.ingsw.view.ViewHandler;
@@ -11,13 +10,9 @@ import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.asset.game.Island;
 import it.polimi.ingsw.view.asset.game.Results;
-import it.polimi.ingsw.view.cli.page.LoadingPage;
-import it.polimi.ingsw.view.cli.page.LobbyFounded;
-import it.polimi.ingsw.view.cli.page.LoginPage;
-import it.polimi.ingsw.view.cli.page.UndoException;
-import java.io.IOException;
+import it.polimi.ingsw.view.cli.page.*;
+
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -32,6 +27,7 @@ public class Cli implements ViewHandler {
     private Page currentPage;
     private final Object pageLock = new Object();
     private final Scanner scanner;
+    private Game game;
 
     /**
      * Class constructor
@@ -46,6 +42,7 @@ public class Cli implements ViewHandler {
 
     public void setController(ClientController controller){
         this.controller = controller;
+        this.game = controller.getGame();
     }
 
     /**
@@ -99,7 +96,7 @@ public class Cli implements ViewHandler {
         return this.readInt(min,max,false,false,null,string);
     }
 
-    public int readInt(int min,int max,boolean isMenù,boolean goBack, Menù menù,String string) throws UndoException{
+    private int readInt(int min,int max,boolean isMenù,boolean goBack, Menù menù,String string) throws UndoException{
         int result = 0;
         if(isMenù){
             menù.print();
@@ -131,6 +128,7 @@ public class Cli implements ViewHandler {
         ArrayList<String> empty = new ArrayList<>();
         return this.readString(string,empty,true);
     }
+    
     public String readString(String string,ArrayList<String> options, boolean inclusivity) throws UndoException{
         String result = "";
         System.out.print(string);
@@ -176,7 +174,18 @@ public class Cli implements ViewHandler {
      */
     @Override
     public AssistantCard selectCard(ArrayList<AssistantCard> cards) {
-        return AssistantCard.CAT;
+        Page p = new SelectAssistantCardPage(this, cards, game);
+        this.changePage(p);
+        while (!p.isReadyToProceed()) {
+            synchronized (this) {
+                try {
+                    this.wait(100);
+                } catch (InterruptedException e) {
+                    this.controller.handleError("Could not wait for user to choose a card");
+                }
+            }
+        }
+        return this.game.getSelf().getCurrentSelection();
     }
 
     /**
@@ -185,7 +194,8 @@ public class Cli implements ViewHandler {
      */
     @Override
     public Student chooseStudentToMove() {
-        return null;
+        this.moveStudent();
+        return game.getSelf().getDashBoard().getWaitingRoom().stream().filter(x -> x.getColor().equals(this.game.getChosenColor())).findFirst().get();
     }
 
     /**
@@ -194,34 +204,90 @@ public class Cli implements ViewHandler {
      */
     @Override
     public int choosePlace() {
-        return 0;
+        int place = 0;
+        if(this.game.getChosenIsland() != null) {
+            for (Island island : game.getIslands()) {
+                if (island.getId() == this.game.getChosenIsland().getId())
+                    place = game.getIslands().indexOf(island) + 1;
+            }
+            this.game.setChosenIsland(null);
+        }
+        return place;
+
+    }
+
+    private void moveStudent() {
+        Page p = new MoveStudentPage(this, game);
+        this.changePage(p);
+        while (!p.isReadyToProceed()) {
+            synchronized (this) {
+                try {
+                    this.wait(100);
+                } catch (InterruptedException e) {
+                    this.controller.handleError("Could not wait for user to choose the move to play");
+                }
+            }
+        }
     }
 
     /**
      * Method that returns the island on which the player wants to move a student
      * @param islands represents the arrayList of possible islands
-     * @return the chosend island
+     * @return the chosen island
      */
     @Override
     public Island chooseIsland(ArrayList<Island> islands) {
-        return null;
+        Page p = new MoveMotherNaturePage(this, game, islands);
+        this.changePage(p);
+        while (!p.isReadyToProceed()) {
+            synchronized (this) {
+                try {
+                    this.wait(100);
+                } catch (InterruptedException e) {
+                    this.controller.handleError("Could not wait for user to choose a deck");
+                }
+            }
+        }
+        return this.game.getMotherNaturePosition();
     }
 
     @Override
     public Cloud chooseCloud(ArrayList<Cloud> clouds) {
-        return null;
+        Page p = new SelectCloudPage(this, game, clouds);
+        this.changePage(p);
+        while (!p.isReadyToProceed()) {
+            synchronized (this) {
+                try {
+                    this.wait(100);
+                } catch (InterruptedException e) {
+                    this.controller.handleError("Could not wait for user to choose a deck");
+                }
+            }
+        }
+        return this.game.getChosenCloud();
     }
 
     @Override
     public AssistantCardDeckFigures chooseFigure(ArrayList<AssistantCardDeckFigures> figures) {
-        return null;
+        Page p = new SelectAssistantCardDeckPage(this, this.game.getSelf(), figures);
+        this.changePage(p);
+        while (!p.isReadyToProceed()) {
+            synchronized (this) {
+                try {
+                    this.wait(100);
+                } catch (InterruptedException e) {
+                    this.controller.handleError("Could not wait for user to choose a deck");
+                }
+            }
+        }
+        return this.game.getSelf().getFigure();
     }
 
     @Override
     public void getPlayerInfo() {
         Page p = new LoginPage(this,this.controller.getGame());
         this.changePage(p);
-        while(!p.isProcessReady()){
+        while(!p.isReadyToProceed()){
             synchronized (this){
                 try{
                     this.wait(100);

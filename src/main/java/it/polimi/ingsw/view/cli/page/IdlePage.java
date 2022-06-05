@@ -23,7 +23,7 @@ public class IdlePage implements Page {
      * @return true if the process is ready, false otherwise
      */
     @Override
-    public boolean isProcessReady() {
+    public boolean isReadyToProceed() {
         if(!this.readyToProcede){
             return false;
         }else {

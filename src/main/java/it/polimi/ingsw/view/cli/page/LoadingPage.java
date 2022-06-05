@@ -65,7 +65,7 @@ public class LoadingPage implements Page {
      * @return true if the process is ready, false otherwise
      */
     @Override
-    public synchronized boolean isProcessReady() {
+    public synchronized boolean isReadyToProceed() {
         return true;
     }
 

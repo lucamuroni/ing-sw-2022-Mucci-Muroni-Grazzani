@@ -10,8 +10,8 @@ import it.polimi.ingsw.controller.networking.GameType;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.cli.AnsiColor;
-
 import java.io.IOException;
+
 
 /**
  * This class implements the controller of the client

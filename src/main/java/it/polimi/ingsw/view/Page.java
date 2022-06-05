@@ -18,6 +18,6 @@ public interface Page {
      * Method that checks if the process is ready
      * @return true if the process is ready, false otherwise
      */
-    public boolean isProcessReady();
+    public boolean isReadyToProceed();
     public void kill();
 }

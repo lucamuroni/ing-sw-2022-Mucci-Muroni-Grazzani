@@ -1,34 +1,26 @@
 package it.polimi.ingsw.view.cli.page;
 
-import it.polimi.ingsw.model.AssistantCard;
+import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.view.Page;
-import it.polimi.ingsw.view.asset.game.Game;
+import it.polimi.ingsw.view.asset.game.Gamer;
 import it.polimi.ingsw.view.cli.AnsiColor;
 import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.Menù;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
- * @author Davide Grazzani
- * Class that represents the assistant card page
- */
-public class SelectAssistantCardPage implements Page {
-    private ArrayList<AssistantCard> cards;
-    private Game game;
+public class SelectAssistantCardDeckPage implements Page {
+    private ArrayList<AssistantCardDeckFigures> figures;
+    private Gamer self;
     private Cli cli;
     private boolean killed;
     private boolean readyToProceed = false;
-
-    /**
-     * Class constructor
-     * @param cards represents the arrayList of possible cards the player can choose from
-     * @param game represents the game
-     */
-    public SelectAssistantCardPage(Cli cli, ArrayList<AssistantCard> cards, Game game){
+    
+    public SelectAssistantCardDeckPage(Cli cli, Gamer self, ArrayList<AssistantCardDeckFigures> figures) {
         this.cli = cli;
-        this.cards = new ArrayList<>(cards);
-        this.game = game;
+        this.self = self;
+        this.figures = figures;
         this.killed = false;
     }
 
@@ -39,11 +31,11 @@ public class SelectAssistantCardPage implements Page {
     @Override
     public void handle() throws UndoException {
         ArrayList<String> options = new ArrayList<>();
-        for(AssistantCard card : this.cards){
-            options.add(card.getName()+" ("+card.getTurnValue()+", "+card.getMovement()+")");
+        for(AssistantCardDeckFigures figures : this.figures){
+            options.add(figures.name());
         }
         Menù menù = new Menù(options);
-        menù.setContext("Please select a card ");
+        menù.setContext("Please select a deck ");
         int choice;
         //Controllo del back
         choice = this.cli.readInt(options.size(), menù, false);
@@ -55,7 +47,7 @@ public class SelectAssistantCardPage implements Page {
             throw new UndoException();
         }
         //cli.clearConsole();
-        this.game.getSelf().setCurrentSelection(this.cards.get(choice-1));
+        self.setFigure(this.figures.get(choice-1));
         this.setReadyToProcede();
     }
 
