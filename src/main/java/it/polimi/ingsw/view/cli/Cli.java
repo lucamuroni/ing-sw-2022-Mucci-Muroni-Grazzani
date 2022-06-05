@@ -99,7 +99,7 @@ public class Cli implements ViewHandler {
         return this.readInt(min,max,false,null,string);
     }
 
-    public int readInt(int min,int max,boolean isMenù, Menù menù,String string) throws UndoException{
+    private int readInt(int min,int max,boolean isMenù, Menù menù,String string) throws UndoException{
         int result = 0;
         if(isMenù){
             menù.print();
