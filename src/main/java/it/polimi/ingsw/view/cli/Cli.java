@@ -2,20 +2,17 @@ package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
-import it.polimi.ingsw.controller.networking.GameType;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.pawn.Student;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Cloud;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.Page;
-import it.polimi.ingsw.view.asset.game.Gamer;
 import it.polimi.ingsw.view.asset.game.Island;
 import it.polimi.ingsw.view.asset.game.Results;
 import it.polimi.ingsw.view.cli.page.*;
-import java.io.IOException;
+
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -176,7 +173,17 @@ public class Cli implements ViewHandler {
      */
     @Override
     public AssistantCard selectCard(ArrayList<AssistantCard> cards) {
-        this.changePage(new SelectAssistantCardPage(cards, game));
+        Page p = new SelectAssistantCardPage(this, cards, game);
+        this.changePage(p);
+        while (!p.isReadyToProceed()) {
+            synchronized (this) {
+                try {
+                    this.wait(100);
+                } catch (InterruptedException e) {
+                    this.controller.handleError("Could not wait for user to choose a card");
+                }
+            }
+        }
         return this.game.getSelf().getCurrentSelection();
     }
 
@@ -231,7 +238,17 @@ public class Cli implements ViewHandler {
 
     @Override
     public AssistantCardDeckFigures chooseFigure(ArrayList<AssistantCardDeckFigures> figures) {
-        this.changePage(new SelectAssistantCardDeckPage(this.game.getSelf(), figures));
+        Page p = new SelectAssistantCardDeckPage(this, this.game.getSelf(), figures);
+        this.changePage(p);
+        while (!p.isReadyToProceed()) {
+            synchronized (this) {
+                try {
+                    this.wait(100);
+                } catch (InterruptedException e) {
+                    this.controller.handleError("Could not wait for user to choose a deck");
+                }
+            }
+        }
         return this.game.getSelf().getFigure();
     }
 
@@ -239,7 +256,7 @@ public class Cli implements ViewHandler {
     public void getPlayerInfo() {
         Page p = new LoginPage(this,this.controller.getGame());
         this.changePage(p);
-        while(!p.isProcessReady()){
+        while(!p.isReadyToProceed()){
             synchronized (this){
                 try{
                     this.wait(100);

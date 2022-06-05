@@ -30,10 +30,10 @@ public class MoveStudentPage implements Page {
 
     /**
      * Method that handles the page
-     * @throws UndoException launched if the player returns back to the possible choices (?)
+     * @throws UndoException to repeat the choice
      */
     @Override
-    public void handle() /*throws UndoException*/ {
+    public void handle() throws UndoException {
         Thread t = new Thread(()->{
             ArrayList<String> options = new ArrayList<>();
             options.add("Hall");
@@ -123,7 +123,7 @@ public class MoveStudentPage implements Page {
      * @return true if the process is ready, false otherwise
      */
     @Override
-    public synchronized boolean isProcessReady() {
+    public synchronized boolean isReadyToProceed() {
         if(isProcessReady){
             isProcessReady = false;
             return true;

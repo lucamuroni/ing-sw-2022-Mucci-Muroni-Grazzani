@@ -54,7 +54,7 @@ public class MoveMotherNaturePage implements Page {
     }
 
     @Override
-    public boolean isProcessReady() {
+    public boolean isReadyToProceed() {
         if(!this.readyToProcede){
             return false;
         }else {

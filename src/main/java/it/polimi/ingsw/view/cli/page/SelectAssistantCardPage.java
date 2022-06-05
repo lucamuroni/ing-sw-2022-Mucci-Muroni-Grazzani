@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.cli.AnsiColor;
+import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.Menù;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -15,52 +16,38 @@ import java.util.Scanner;
 public class SelectAssistantCardPage implements Page {
     private ArrayList<AssistantCard> cards;
     private Game game;
+    private Cli cli;
     private boolean killed;
-    private boolean isProcessReady = false;
-    private Scanner scanner;
+    private boolean readyToProceed = false;
 
     /**
      * Class constructor
      * @param cards represents the arrayList of possible cards the player can choose from
      * @param game represents the game
      */
-    public SelectAssistantCardPage(ArrayList<AssistantCard> cards, Game game){
+    public SelectAssistantCardPage(Cli cli, ArrayList<AssistantCard> cards, Game game){
+        this.cli = cli;
         this.cards = new ArrayList<>(cards);
-        scanner = new Scanner(System.in);
         this.game = game;
         this.killed = false;
     }
 
     /**
      * Method that handles the page
+     * @throws UndoException to repeat the choice
      */
     @Override
-    public void handle() {
-        Thread t = new Thread(()->{
-            ArrayList<String> options = new ArrayList<>();
-            for(AssistantCard card : this.cards){
-                options.add(card.getName()+" ("+card.getTurnValue()+", "+card.getMovement()+")");
-            }
-            Menù menù = new Menù(options);
-            menù.setContext("Please select a card ");
-            boolean doNotProcede = true;
-            int choice = 0;
-            while (doNotProcede){
-                choice = scanner.nextInt();
-                if(choice<1 || choice>options.size()){
-                    System.out.println(AnsiColor.RED+"No choice with that number");
-                    System.out.println("Retry"+AnsiColor.RESET);
-                    menù.print();
-                }else {
-                    this.game.getSelf().setCurrentSelection(this.cards.get(choice-1));
-                    doNotProcede = false;
-                    synchronized (this){
-                        this.isProcessReady = true;
-                    }
-                }
-            }
-        });
-        t.start();
+    public void handle() throws UndoException {
+        ArrayList<String> options = new ArrayList<>();
+        for(AssistantCard card : this.cards){
+            options.add(card.getName()+" ("+card.getTurnValue()+", "+card.getMovement()+")");
+        }
+        Menù menù = new Menù(options);
+        menù.setContext("Please select a card ");
+        int choice;
+        choice = this.cli.readInt(options.size(), menù);
+        this.game.getSelf().setCurrentSelection(this.cards.get(choice-1));
+        this.setReadyToProcede();
     }
 
     /**
@@ -68,13 +55,17 @@ public class SelectAssistantCardPage implements Page {
      * @return true if the process is ready, false otherwise
      */
     @Override
-    public synchronized boolean isProcessReady() {
-        if(isProcessReady){
-            isProcessReady = false;
+    public synchronized boolean isReadyToProceed() {
+        if(readyToProceed){
+            readyToProceed = false;
             return true;
         }else{
             return false;
         }
+    }
+
+    private synchronized void setReadyToProcede(){
+        this.readyToProceed = true;
     }
 
     @Override

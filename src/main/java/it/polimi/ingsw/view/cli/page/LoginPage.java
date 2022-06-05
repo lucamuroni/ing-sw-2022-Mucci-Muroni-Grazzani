@@ -33,6 +33,7 @@ public class LoginPage implements Page {
 
     /**
      * Method that handles the login page
+     * @throws UndoException to repeat the choice
      */
     @Override
     public void handle() throws UndoException{
@@ -81,7 +82,7 @@ public class LoginPage implements Page {
      * @return true if the process is ready, false otherwise
      */
     @Override
-    public synchronized boolean isProcessReady() {
+    public synchronized boolean isReadyToProceed() {
         if(!this.readyToProcede){
             return false;
         }else {

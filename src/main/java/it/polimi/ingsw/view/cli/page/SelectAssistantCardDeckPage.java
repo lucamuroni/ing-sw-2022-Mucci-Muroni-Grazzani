@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.asset.game.Gamer;
 import it.polimi.ingsw.view.cli.AnsiColor;
+import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.Menù;
 
 import java.util.ArrayList;
@@ -12,45 +13,33 @@ import java.util.Scanner;
 public class SelectAssistantCardDeckPage implements Page {
     private ArrayList<AssistantCardDeckFigures> figures;
     private Gamer self;
+    private Cli cli;
     private boolean killed;
-    private boolean isProcessReady = false;
-    private Scanner scanner;
+    private boolean readyToProceed = false;
     
-    public SelectAssistantCardDeckPage(Gamer self, ArrayList<AssistantCardDeckFigures> figures) {
+    public SelectAssistantCardDeckPage(Cli cli, Gamer self, ArrayList<AssistantCardDeckFigures> figures) {
+        this.cli = cli;
         this.self = self;
         this.figures = figures;
         this.killed = false;
-        scanner = new Scanner(System.in);
     }
-    
-    @Override
-    public void handle() /*throws UndoException*/ {
-        Thread t = new Thread(() -> {
-            ArrayList<String> options = new ArrayList<>();
-            for(AssistantCardDeckFigures figures : this.figures){
-                options.add(figures.name());
-            }
-            Menù menù = new Menù(options);
-            menù.setContext("Please select a deck ");
-            boolean doNotProcede = true;
-            int choice = 0;
-            while (doNotProcede){
-                choice = scanner.nextInt();
-                if(choice<1 || choice>options.size()){
-                    System.out.println(AnsiColor.RED+"No choice with that number");
-                    System.out.println("Retry"+AnsiColor.RESET);
-                    menù.print();
-                }else {
-                    self.setFigure(this.figures.get(choice-1));
-                    doNotProcede = false;
-                    synchronized (this){
-                        this.isProcessReady = true;
-                    }
-                }
-            }
 
-        });
-        t.start();
+    /**
+     * Method that handles the page
+     * @throws UndoException to repeat the choice
+     */
+    @Override
+    public void handle() throws UndoException {
+        ArrayList<String> options = new ArrayList<>();
+        for(AssistantCardDeckFigures figures : this.figures){
+            options.add(figures.name());
+        }
+        Menù menù = new Menù(options);
+        menù.setContext("Please select a deck ");
+        int choice;
+        choice = this.cli.readInt(options.size(), menù);
+        self.setFigure(this.figures.get(choice-1));
+        this.setReadyToProcede();
     }
 
     /**
@@ -58,13 +47,17 @@ public class SelectAssistantCardDeckPage implements Page {
      * @return true if the process is ready, false otherwise
      */
     @Override
-    public synchronized boolean isProcessReady() {
-        if(isProcessReady){
-            isProcessReady = false;
+    public synchronized boolean isReadyToProceed() {
+        if(readyToProceed){
+            readyToProceed = false;
             return true;
         }else{
             return false;
         }
+    }
+
+    private synchronized void setReadyToProcede(){
+        this.readyToProceed = true;
     }
 
     @Override

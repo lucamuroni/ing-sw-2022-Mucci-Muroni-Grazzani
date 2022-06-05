@@ -29,7 +29,7 @@ public class LobbyFounded implements Page {
     }
 
     @Override
-    public boolean isProcessReady() {
+    public boolean isReadyToProceed() {
         return true;
     }
 
