@@ -45,7 +45,16 @@ public class SelectAssistantCardPage implements Page {
         Menù menù = new Menù(options);
         menù.setContext("Please select a card ");
         int choice;
+        //Controllo del back
         choice = this.cli.readInt(options.size(), menù);
+        options.clear();
+        options.add("y");
+        options.add("n");
+        String input = this.cli.readString("Are you satisfied with your selections (y/n): ",options,true);
+        if(input.equals("n")){
+            throw new UndoException();
+        }
+        //cli.clearConsole();
         this.game.getSelf().setCurrentSelection(this.cards.get(choice-1));
         this.setReadyToProcede();
     }

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class LoginPage implements Page {
     private final Cli cli;
     private Game game;
-    private boolean readyToProcede = false;
+    private boolean readyToProceed = false;
     private boolean killed;
 
     /**
@@ -52,7 +52,7 @@ public class LoginPage implements Page {
             case 1 -> this.game.setType(GameType.NORMAL);
             case 2 -> this.game.setType(GameType.EXPERT);
         }
-        choice = this.cli.readInt(2,3,"Insert th number of players you wish to play with :");
+        choice = this.cli.readInt(2,3,"Insert th number of players you wish to play with (2/3):");
         switch (choice) {
             case 2 -> this.game.setLobbySize(2);
             case 3 -> this.game.setLobbySize(3);
@@ -83,10 +83,10 @@ public class LoginPage implements Page {
      */
     @Override
     public synchronized boolean isReadyToProceed() {
-        if(!this.readyToProcede){
+        if(!this.readyToProceed){
             return false;
         }else {
-            this.readyToProcede = false;
+            this.readyToProceed = false;
             return true;
         }
     }
@@ -101,6 +101,6 @@ public class LoginPage implements Page {
     }
 
     private synchronized void setReadyToProcede(){
-        this.readyToProcede = true;
+        this.readyToProceed = true;
     }
 }

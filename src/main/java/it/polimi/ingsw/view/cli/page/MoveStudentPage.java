@@ -4,10 +4,9 @@ import it.polimi.ingsw.view.asset.game.Island;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.asset.game.Game;
-import it.polimi.ingsw.view.cli.AnsiColor;
+import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.Menù;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * @author Davide Grazzani
@@ -15,15 +14,15 @@ import java.util.Scanner;
  */
 public class MoveStudentPage implements Page {
     private boolean killed;
-    private boolean isProcessReady = false;
-    private Scanner scanner;
+    private boolean readyToProceed = false;
+    private Cli cli;
     private Game assetGame;
 
     /**
      * Class constructor
      */
-    public MoveStudentPage(Game assetGame){
-        this.scanner = new Scanner(System.in);
+    public MoveStudentPage(Cli cli, Game assetGame){
+        this.cli = cli;
         this.assetGame = assetGame;
         this.killed = false;
     }
@@ -34,88 +33,57 @@ public class MoveStudentPage implements Page {
      */
     @Override
     public void handle() throws UndoException {
-        Thread t = new Thread(()->{
-            ArrayList<String> options = new ArrayList<>();
-            options.add("Hall");
-            options.add("Island");
-            //options.add("Back");
-            Menù menù= new Menù(options);
-            menù.setContext("Where do you want to move your player?");
-            menù.print();
-            boolean doNotProcede = true;
-            int choice = 0;
-            while (doNotProcede){
-                choice = scanner.nextInt();
-                if(choice<1 || choice>options.size()){
-                    System.out.println(AnsiColor.RED+"No choice with that number");
-                    System.out.println("Retry"+AnsiColor.RESET);
-                    menù.print();
-                } //else if(choice == 3){
-                    //throw new UndoException();
-                else {
-                    doNotProcede = false;
-                }
-            }
-            if(choice==2){
-                doNotProcede = true;
-                while(doNotProcede){
-                    options.clear();
-                    for(Island island : this.assetGame.getIslands()){
-                        options.add("Island " + island.getId());
-                    }
-                    //options.add("Back");
-                    menù.clear();
-                    menù.addOptions(options);
-                    menù.setContext("Which island do you want to choose?");
-                    menù.print();
-                    while (doNotProcede) {
-                        choice = scanner.nextInt();
-                        if(choice<1 || choice>options.size()){
-                            System.out.println(AnsiColor.RED+"No choice with that number");
-                            System.out.println("Retry"+AnsiColor.RESET);
-                            menù.print();
-                        }//else if (choice == options.size()){
-                            //throw new UndoException();
-                        else {
-                            assetGame.setChosenIsland(this.assetGame.getIslands().get(choice-1));
-                            doNotProcede = false;
-                        }
-                    }
-                }
-            }
+        ArrayList<String> options = new ArrayList<>();
+        options.add("Hall");
+        options.add("Island");
+        Menù menù= new Menù(options);
+        menù.setContext("Where do you want to move your player?");
+        menù.print();
+        int choice;
+        //Controllo del back
+        choice = this.cli.readInt(options.size(), menù);
+        if(choice==2){
             options.clear();
-            options.add("Red");
-            options.add("Blue");
-            options.add("Yellow");
-            options.add("Green");
-            options.add("Pink");
-            //options.add("Back");
+            for(Island island : this.assetGame.getIslands()){
+                options.add("Island " + island.getId());
+            }
+            options.add("Back");
             menù.clear();
             menù.addOptions(options);
-            menù.setContext("Which type of student do you want to move?");
+            menù.setContext("Which island do you want to choose?");
             menù.print();
-            doNotProcede = true;
-            while (doNotProcede) {
-                choice = scanner.nextInt();
-                if(choice<1 || choice>options.size()){
-                    System.out.println(AnsiColor.RED+"No choice with that number");
-                    System.out.println("Retry"+AnsiColor.RESET);
-                    menù.print();
-                }//else if (choice == 6){
-                    //throw new UndoException();
-                else {
-                    switch (choice) {
-                        case 1 -> assetGame.setChosenColor(PawnColor.RED);
-                        case 2 -> assetGame.setChosenColor(PawnColor.BLUE);
-                        case 3 -> assetGame.setChosenColor(PawnColor.YELLOW);
-                        case 4 -> assetGame.setChosenColor(PawnColor.GREEN);
-                        case 5 -> assetGame.setChosenColor(PawnColor.PINK);
-                    }
-                    doNotProcede = false;
-                }
-            }
-        });
-        t.start();
+            //Back presente
+            choice = this.cli.readInt(options.size(), menù);
+            assetGame.setChosenIsland(this.assetGame.getIslands().get(choice-1));
+        }
+        options.clear();
+        options.add("Red");
+        options.add("Blue");
+        options.add("Yellow");
+        options.add("Green");
+        options.add("Pink");
+        menù.clear();
+        menù.addOptions(options);
+        menù.setContext("Which type of student do you want to move?");
+        menù.print();
+        //Controllo del back
+        choice = this.cli.readInt(options.size(), menù);
+        options.clear();
+        options.add("y");
+        options.add("n");
+        String input = this.cli.readString("Are you satisfied with your selections (y/n): ",options,true);
+        if(input.equals("n")){
+            throw new UndoException();
+        }
+        //cli.clearConsole();
+        switch (choice) {
+            case 1 -> assetGame.setChosenColor(PawnColor.RED);
+            case 2 -> assetGame.setChosenColor(PawnColor.BLUE);
+            case 3 -> assetGame.setChosenColor(PawnColor.YELLOW);
+            case 4 -> assetGame.setChosenColor(PawnColor.GREEN);
+            case 5 -> assetGame.setChosenColor(PawnColor.PINK);
+        }
+        this.setReadyToProcede();
     }
 
     /**
@@ -124,12 +92,16 @@ public class MoveStudentPage implements Page {
      */
     @Override
     public synchronized boolean isReadyToProceed() {
-        if(isProcessReady){
-            isProcessReady = false;
+        if(readyToProceed){
+            readyToProceed = false;
             return true;
         }else{
             return false;
         }
+    }
+
+    private synchronized void setReadyToProcede(){
+        this.readyToProceed = true;
     }
 
     @Override

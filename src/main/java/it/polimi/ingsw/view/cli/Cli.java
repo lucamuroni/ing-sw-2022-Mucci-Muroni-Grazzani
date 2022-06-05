@@ -216,7 +216,17 @@ public class Cli implements ViewHandler {
     }
 
     private void moveStudent() {
-        this.changePage(new MoveStudentPage(game));
+        Page p = new MoveStudentPage(this, game);
+        this.changePage(p);
+        while (!p.isReadyToProceed()) {
+            synchronized (this) {
+                try {
+                    this.wait(100);
+                } catch (InterruptedException e) {
+                    this.controller.handleError("Could not wait for user to choose the move to play");
+                }
+            }
+        }
     }
 
     /**
