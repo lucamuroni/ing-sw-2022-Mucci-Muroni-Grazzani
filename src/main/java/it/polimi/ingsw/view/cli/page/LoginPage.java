@@ -50,7 +50,7 @@ public class LoginPage implements Page {
         Menù menù = new Menù(opt);
         menù.setContext("Do you want to play a Standard game or an Expert one: ");
         int choice;
-        choice =  this.cli.readInt(opt.size(),menù);
+        choice =  this.cli.readInt(opt.size(),menù,true);
         switch (choice){
             case 1 -> this.game.setType(GameType.NORMAL);
             case 2 -> this.game.setType(GameType.EXPERT);

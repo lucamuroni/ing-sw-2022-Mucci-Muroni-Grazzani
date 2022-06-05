@@ -91,15 +91,15 @@ public class Cli implements ViewHandler {
         }
     }
 
-    public int readInt(int range,Menù menù) throws UndoException{
-        return this.readInt(1,range,true,menù,null);
+    public int readInt(int range,Menù menù, boolean goBack) throws UndoException{
+        return this.readInt(1,range,true,goBack,menù,null);
     }
 
     public int readInt(int min,int max,String string) throws UndoException{
-        return this.readInt(min,max,false,null,string);
+        return this.readInt(min,max,false,false,null,string);
     }
 
-    public int readInt(int min,int max,boolean isMenù, Menù menù,String string) throws UndoException{
+    public int readInt(int min,int max,boolean isMenù,boolean goBack, Menù menù,String string) throws UndoException{
         int result = 0;
         if(isMenù){
             menù.print();
@@ -111,14 +111,14 @@ public class Cli implements ViewHandler {
             if(result> max || result < min){
                 throw new NoSuchElementException("No element with such index");
             }
-            if(result == max && isMenù){
+            if(result == max && isMenù && goBack){
                 this.scanner.nextLine();
                 throw new UndoException();
             }
         }catch (NoSuchElementException e){
             this.printChoiceError("The input is not a number or the input is out of bound");
             this.scanner.nextLine();
-            result = this.readInt(min,max,isMenù,menù,string);
+            result = this.readInt(min,max,isMenù,goBack,menù,string);
             return result;
         }catch (IllegalStateException e){
             this.controller.handleError("No input stream was found");
