@@ -9,12 +9,10 @@ import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Cloud;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.Page;
+import it.polimi.ingsw.view.asset.game.Gamer;
 import it.polimi.ingsw.view.asset.game.Island;
 import it.polimi.ingsw.view.asset.game.Results;
-import it.polimi.ingsw.view.cli.page.LoadingPage;
-import it.polimi.ingsw.view.cli.page.LobbyFounded;
-import it.polimi.ingsw.view.cli.page.LoginPage;
-import it.polimi.ingsw.view.cli.page.UndoException;
+import it.polimi.ingsw.view.cli.page.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -32,6 +30,7 @@ public class Cli implements ViewHandler {
     private Page currentPage;
     private final Object pageLock = new Object();
     private final Scanner scanner;
+    private Game game;
 
     /**
      * Class constructor
@@ -46,6 +45,7 @@ public class Cli implements ViewHandler {
 
     public void setController(ClientController controller){
         this.controller = controller;
+        this.game = controller.getGame();
     }
 
     /**
@@ -176,7 +176,8 @@ public class Cli implements ViewHandler {
      */
     @Override
     public AssistantCard selectCard(ArrayList<AssistantCard> cards) {
-        return AssistantCard.CAT;
+        this.changePage(new SelectAssistantCardPage(cards, game));
+        return this.game.getSelf().getCurrentSelection();
     }
 
     /**
@@ -185,7 +186,8 @@ public class Cli implements ViewHandler {
      */
     @Override
     public Student chooseStudentToMove() {
-        return null;
+        this.moveStudent();
+        return game.getSelf().getDashBoard().getWaitingRoom().stream().filter(x -> x.getColor().equals(this.game.getChosenColor())).findFirst().get();
     }
 
     /**
@@ -194,7 +196,20 @@ public class Cli implements ViewHandler {
      */
     @Override
     public int choosePlace() {
-        return 0;
+        int place = 0;
+        if(this.game.getChosenIsland() != null) {
+            for (Island island : game.getIslands()) {
+                if (island.getId() == this.game.getChosenIsland().getId())
+                    place = game.getIslands().indexOf(island) + 1;
+            }
+            this.game.setChosenIsland(null);
+        }
+        return place;
+
+    }
+
+    private void moveStudent() {
+        this.changePage(new MoveStudentPage(game));
     }
 
     /**
@@ -204,17 +219,20 @@ public class Cli implements ViewHandler {
      */
     @Override
     public Island chooseIsland(ArrayList<Island> islands) {
-        return null;
+        this.changePage(new MoveMotherNaturePage(game, islands));
+        return this.game.getMotherNaturePosition();
     }
 
     @Override
     public Cloud chooseCloud(ArrayList<Cloud> clouds) {
-        return null;
+        this.changePage(new SelectCloudPage(game, clouds));
+        return this.game.getChosenCloud();
     }
 
     @Override
     public AssistantCardDeckFigures chooseFigure(ArrayList<AssistantCardDeckFigures> figures) {
-        return null;
+        this.changePage(new SelectAssistantCardDeckPage(this.game.getSelf(), figures));
+        return this.game.getSelf().getFigure();
     }
 
     @Override

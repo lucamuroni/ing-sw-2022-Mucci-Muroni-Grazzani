@@ -8,7 +8,6 @@ import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.LoadingBar;
 import it.polimi.ingsw.view.cli.Menù;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * @author Davide Grazzani
@@ -17,20 +16,17 @@ import java.util.Scanner;
  */
 public class LoginPage implements Page {
     private final Cli cli;
-    private Menù menù;
     private Game game;
-
     private boolean readyToProcede = false;
-    private final int id;
     private boolean killed;
 
     /**
      * Class constructor
      * @param cli represents the cli associated to the game
+     * @param game represents the game
      */
     public LoginPage(Cli cli, Game game){
         this.cli = cli;
-        this.id = game.getSelf().getId();
         this.game = game;
         this.killed = false;
     }
