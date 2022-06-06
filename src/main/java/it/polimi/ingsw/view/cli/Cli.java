@@ -299,12 +299,23 @@ public class Cli implements ViewHandler {
 
     @Override
     public void goToIdle() {
-
+        Page p = new IdlePage();
+        this.changePage(p);
     }
 
     @Override
-    public void showEndGamePage(Results win) {
-
+    public void showEndGamePage(Results result) {
+        Page p = new EndGamePage(result);
+        this.changePage(p);
+        while(!p.isReadyToProceed()){
+            synchronized (this){
+                try{
+                    this.wait(100);
+                }catch(InterruptedException e){
+                    this.controller.handleError("Could not wait for user to complete registration");
+                }
+            }
+        }
     }
 
     @Override
