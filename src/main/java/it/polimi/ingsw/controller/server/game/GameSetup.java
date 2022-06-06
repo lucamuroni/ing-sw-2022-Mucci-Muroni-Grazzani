@@ -242,9 +242,10 @@ public class GameSetup implements GamePhase{
     }
 
     private void updateUsernames(){
-        for (Player player1 : this.controller.getPlayers()){
+        ArrayList<Player> players = new ArrayList<Player>(this.controller.getPlayers());
+        for (Player player1 : players){
             this.view.setCurrentPlayer(player1);
-            for(Player player2 : this.controller.getPlayers()){
+            for(Player player2 : players){
                 if(!player1.equals(player2)){
                     try {
                         try {
