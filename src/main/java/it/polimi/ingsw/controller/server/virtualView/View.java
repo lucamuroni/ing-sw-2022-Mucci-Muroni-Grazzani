@@ -229,4 +229,6 @@ public interface View{
      *
      */
     public void haltOnError(); //TODO: scrivere il metodo
+
+    void sendUserName(String username);
 }

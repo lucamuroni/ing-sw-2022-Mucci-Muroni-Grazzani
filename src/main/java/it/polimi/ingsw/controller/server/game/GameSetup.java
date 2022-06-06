@@ -54,6 +54,7 @@ public class GameSetup implements GamePhase{
      * This is the main method that handles the GameSetup
      */
     public void handle(){
+        this.updateUsernames();
         this.initIslands(this.game);
         for(Player player : this.controller.getPlayers()){
             this.updateMotherNaturePlace(player);
@@ -237,6 +238,17 @@ public class GameSetup implements GamePhase{
             }
         }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
             this.controller.handlePlayerError(player);
+        }
+    }
+
+    private void updateUsernames(){
+        for (Player player1 : this.controller.getPlayers()){
+            this.view.setCurrentPlayer(player1);
+            for(Player player2 : this.controller.getPlayers()){
+                if(!player1.equals(player2)){
+                    this.view.sendUserName(player2.getUsername());
+                }
+            }
         }
     }
 
