@@ -4,6 +4,7 @@ import it.polimi.ingsw.view.cli.AnsiColor;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 //TODO: javadoc
@@ -62,7 +63,8 @@ public class Server {
                 Lobby lobbyToStart = null;
                 boolean lobbyAlreadyChosen = false;
                 synchronized (this.clientReception.getLobbies()){
-                    while (this.clientReception.getLobbies().isEmpty() || this.numOfInstances<maxNumOfInstances){
+                    System.out.println("dim lobby "+this.clientReception.getLobbies().size());
+                    while (this.clientReception.getLobbies().isEmpty() || this.numOfInstances>maxNumOfInstances){
                         try {
                             this.clientReception.getLobbies().wait(500);
                         } catch (InterruptedException e) {
@@ -70,7 +72,8 @@ public class Server {
                             e.printStackTrace();
                         }
                     }
-                    for(Lobby lobby : this.clientReception.getLobbies()){
+                    ArrayList<Lobby> lobbies = new ArrayList<>(this.clientReception.getLobbies());
+                    for(Lobby lobby : lobbies){
                         if(lobby.isLobbyReady() && !lobbyAlreadyChosen){
                             lobbyAlreadyChosen = true;
                             lobbyToStart = lobby;
