@@ -29,12 +29,10 @@ public class Start implements GamePhase {
         this.getUsernames();
         this.updateMNPlace();
         this.updateIslandStatus();
-        // TODO mancano da inviare i giocatori  <====
         for (int i = 0; i<this.game.getGamers().size(); i++) {
             this.updateColor();
             this.updateDashboards();
         }
-        // TODO ======>
         ArrayList<AssistantCardDeckFigures> figures = new ArrayList<>();
         try {
             try {
@@ -58,7 +56,7 @@ public class Start implements GamePhase {
     }
 
     private void getUsernames() {
-        for(int i = 0 ; i< this.game.getNumGamers();i++){
+        for(int i = 0 ; i< this.game.getLobbySize();i++){
             this.network.getUsernames();
         }
     }
