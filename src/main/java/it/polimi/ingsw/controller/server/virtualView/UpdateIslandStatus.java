@@ -69,9 +69,6 @@ public class UpdateIslandStatus {
         messages.add(new Message(PAWN_PINK.getFragment(), Integer.toString(numStud), topicId));
         this.messageHandler.write(messages);
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
-        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
-            throw new MalformedMessageException();
-        }
         this.messageHandler.assertOnEquals(OK.getFragment(), ISLAND.getFragment());
     }
 }
