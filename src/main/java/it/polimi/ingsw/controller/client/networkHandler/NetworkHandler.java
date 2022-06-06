@@ -48,7 +48,7 @@ public class NetworkHandler implements Network {
         func.handle();
     }
 
-    public void getTowerColor(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+    public void getTowerColor(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, AssetErrorException {
         GetTowerColor func = new GetTowerColor(messageHandler, game);
         func.handle();
     }
@@ -81,7 +81,7 @@ public class NetworkHandler implements Network {
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
     @Override
-    public Phase getPhase() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+    public Phase getPhase() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException, AssetErrorException {
         GetPhase func = new GetPhase(messageHandler);
         return func.handle();
     }
@@ -94,7 +94,7 @@ public class NetworkHandler implements Network {
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
     @Override
-    public void getPossibleCards(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+    public void getPossibleCards(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException, AssetErrorException {
         GetPossibleCards func = new GetPossibleCards(messageHandler, game);
         func.handle();
     }
@@ -108,7 +108,7 @@ public class NetworkHandler implements Network {
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
     @Override
-    public ArrayList<Island> getPossibleIslands(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+    public ArrayList<Island> getPossibleIslands(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException, AssetErrorException {
         GetPossibleIslands func = new GetPossibleIslands(messageHandler, game);
         return func.handle();
     }
@@ -136,14 +136,14 @@ public class NetworkHandler implements Network {
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
     @Override
-    public ArrayList<Cloud> getPossibleClouds(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+    public ArrayList<Cloud> getPossibleClouds(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException, AssetErrorException {
         GetPossibleClouds func = new GetPossibleClouds(messageHandler, game);
         return func.handle();
     }
 
 
     @Override
-    public ArrayList<Gamer> getWinner(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException{
+    public ArrayList<Gamer> getWinner(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException, AssetErrorException {
         GetWinner func = new GetWinner(messageHandler, game);
         return func.handle();
     }
@@ -225,7 +225,7 @@ public class NetworkHandler implements Network {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      */
     @Override
-    public ArrayList<AssistantCardDeckFigures> getPossibleDecks() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+    public ArrayList<AssistantCardDeckFigures> getPossibleDecks() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, AssetErrorException {
         GetPossibleDecks func = new GetPossibleDecks(messageHandler);
         return func.handle();
     }

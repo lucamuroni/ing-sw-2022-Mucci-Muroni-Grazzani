@@ -25,7 +25,7 @@ public interface Network {
 
     void getCurrentPlayer(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, AssetErrorException;
 
-    void getTowerColor(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+    void getTowerColor(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, AssetErrorException;
 
     void getConnection(ClientController controller) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
@@ -38,7 +38,7 @@ public interface Network {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
-    Phase getPhase() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
+    Phase getPhase() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException, AssetErrorException;
 
     /**
      * Method that updates the possible cards to choose from
@@ -47,7 +47,7 @@ public interface Network {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
-    void getPossibleCards(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
+    void getPossibleCards(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException, AssetErrorException;
 
     /**
      * Method that returns the arraylist of the possible islands on which mother nature can move on
@@ -57,7 +57,7 @@ public interface Network {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
-    ArrayList<Island> getPossibleIslands(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
+    ArrayList<Island> getPossibleIslands(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException, AssetErrorException;
 
     /**
      * Method that updates the new owner's color for the island on which mother nature is on
@@ -76,7 +76,7 @@ public interface Network {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
-    ArrayList<Cloud> getPossibleClouds(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
+    ArrayList<Cloud> getPossibleClouds(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException, AssetErrorException;
 
     /**
      * Method that returns the arraylist with the winner (or winners) for the current game
@@ -86,7 +86,7 @@ public interface Network {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
-    ArrayList<Gamer> getWinner(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException;
+    ArrayList<Gamer> getWinner(Game game) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException, AssetErrorException;
 
     /**
      * Method that updates the clouds' status in the view
@@ -142,7 +142,7 @@ public interface Network {
      * @throws TimeHasEndedException launched when the available time for the response has ended
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      */
-    ArrayList<AssistantCardDeckFigures> getPossibleDecks() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+    ArrayList<AssistantCardDeckFigures> getPossibleDecks() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, AssetErrorException;
 
     void sendInfo(Gamer gamer, String gameType, int players, String lobby) throws MalformedMessageException;
 

@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.view.ViewHandler;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Cloud;
 import it.polimi.ingsw.view.asset.game.Game;
 
@@ -35,6 +36,8 @@ public class ActionPhase3 implements GamePhase {
             }
         } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
             this.controller.handleError();
+        } catch (AssetErrorException e) {
+            this.controller.handleError("Doesn't found cloud");
         }
         Cloud cloud = this.view.chooseCloud(clouds);
         try {

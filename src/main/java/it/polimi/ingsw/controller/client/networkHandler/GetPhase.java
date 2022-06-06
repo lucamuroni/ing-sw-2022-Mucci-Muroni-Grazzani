@@ -6,6 +6,8 @@ import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
+
 import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.PHASE;
@@ -33,7 +35,7 @@ public class GetPhase {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
-    public Phase handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+    public Phase handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException, AssetErrorException {
         this.messageHandler.read(PLAYER_MOVE.getTiming());
         String result = this.messageHandler.getMessagePayloadFromStream(PHASE.getFragment());
         Phase phase = null;
@@ -42,6 +44,8 @@ public class GetPhase {
                 phase = ph;
             }
         }
+        if (phase == null)
+            throw new AssetErrorException();
         int topicId = this.messageHandler.getMessagesUniqueTopic();
         Message message = new Message(PHASE.getFragment(), OK.getFragment(), topicId);
         this.messageHandler.write(message);

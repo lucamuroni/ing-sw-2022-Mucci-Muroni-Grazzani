@@ -37,6 +37,8 @@ public class PlanningPhase implements GamePhase {
             }
         } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
             this.controller.handleError();
+        } catch (AssetErrorException e) {
+            this.controller.handleError("Doesn't found card");
         }
         AssistantCard chosenCard = this.view.selectCard(this.game.getSelf().getCards());
         try {

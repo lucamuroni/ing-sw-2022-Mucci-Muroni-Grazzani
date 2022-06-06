@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Gamer;
 import java.util.ArrayList;
@@ -38,17 +39,20 @@ public class GetWinner {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
-    public ArrayList<Gamer> handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+    public ArrayList<Gamer> handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException, AssetErrorException {
         this.messageHandler.read(PLAYER_MOVE.getTiming());
         int num = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAYLOAD_SIZE.getFragment()));
         for (int i = 0; i<num; i++) {
             this.messageHandler.read(PLAYER_MOVE.getTiming());
             String string = this.messageHandler.getMessagePayloadFromStream(WINNER.getFragment());
+            boolean check = false;
             for (Gamer gamer : game.getGamers()) {
                 if (string.equals(gamer.getUsername())) {
                     winners.add(gamer);
                 }
             }
+            if (!check)
+                throw new AssetErrorException();
         }
         int topicId = this.messageHandler.getMessagesUniqueTopic();
         Message message = new Message(WINNER.getFragment(), OK.getFragment(), topicId);

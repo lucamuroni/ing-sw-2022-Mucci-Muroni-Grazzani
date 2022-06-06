@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Island;
 import java.util.ArrayList;
@@ -39,17 +40,21 @@ public class GetPossibleIslands {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created the correct way
      */
-    public ArrayList<Island> handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+    public ArrayList<Island> handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException, AssetErrorException {
         this.messageHandler.read(PLAYER_MOVE.getTiming());
         int num = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAYLOAD_SIZE.getFragment()));
         for (int i = 0; i<num; i++) {
             this.messageHandler.read(PLAYER_MOVE.getTiming());
             int result = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(ISLAND_ID.getFragment()));
+            boolean check = false;
             for (Island island: game.getIslands()) {
                 if (result == island.getId()) {
                     islands.add(island);
+                    check = true;
                 }
             }
+            if (!check)
+                throw new AssetErrorException();
         }
         return islands;
     }

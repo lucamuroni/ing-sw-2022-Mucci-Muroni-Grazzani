@@ -6,6 +6,7 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
 import it.polimi.ingsw.model.pawn.TowerColor;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Gamer;
 
@@ -20,7 +21,7 @@ public class GetTowerColor {
         this.game = game;
     }
 
-    public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+    public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException, AssetErrorException {
         this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
         String result = this.messageHandler.getMessagePayloadFromStream(OWNER.getFragment());
         int id = Integer.parseInt(result);
@@ -30,6 +31,8 @@ public class GetTowerColor {
                 owner = gamer;
             }
         }
+        if (owner == null)
+            throw new AssetErrorException();
         result = this.messageHandler.getMessagePayloadFromStream(TOWER_COLOR.getFragment());
         TowerColor col = null;
         for (TowerColor color : TowerColor.values()) {
@@ -37,7 +40,8 @@ public class GetTowerColor {
                 col = color;
             }
         }
-        assert owner != null;
+        if (col == null)
+            throw new AssetErrorException();
         owner.setColor(col);
     }
 }

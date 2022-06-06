@@ -43,6 +43,8 @@ public class Start implements GamePhase {
             }
         } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
             this.controller.handleError();
+        } catch (AssetErrorException e) {
+            this.controller.handleError("Doesn't found deck figure");
         }
         AssistantCardDeckFigures figure = this.view.chooseFigure(figures);
         try {
@@ -82,6 +84,8 @@ public class Start implements GamePhase {
             }
         } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
             this.controller.handleError();
+        } catch (AssetErrorException e) {
+            this.controller.handleError("Doesn't found island of mother nature");
         }
     }
 
@@ -108,6 +112,8 @@ public class Start implements GamePhase {
             }
         } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
             this.controller.handleError();
+        } catch (AssetErrorException e) {
+            this.controller.handleError("Doesn't found dashboard");
         }
     }
 
@@ -120,6 +126,8 @@ public class Start implements GamePhase {
             }
         } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
             this.controller.handleError();
+        } catch (AssetErrorException e) {
+            this.controller.handleError("Doesn't found tower color/gamer");
         }
     }
 
