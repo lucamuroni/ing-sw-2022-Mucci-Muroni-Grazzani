@@ -246,7 +246,15 @@ public class GameSetup implements GamePhase{
             this.view.setCurrentPlayer(player1);
             for(Player player2 : this.controller.getPlayers()){
                 if(!player1.equals(player2)){
-                    this.view.sendUserName(player2.getUsername());
+                    try {
+                        try {
+                            this.view.sendUserName(player2.getUsername());
+                        } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e) {
+                            this.view.sendUserName(player2.getUsername());
+                        }
+                    } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
+                        this.controller.handlePlayerError(player1);
+                    }
                 }
             }
         }

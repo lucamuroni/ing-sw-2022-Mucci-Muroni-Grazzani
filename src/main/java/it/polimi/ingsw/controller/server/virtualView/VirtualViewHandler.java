@@ -311,16 +311,17 @@ public class VirtualViewHandler implements View {
         func.handle();
     }
 
+    @Override
+    public void sendUserName(String username) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        SendUsernames func = new SendUsernames(username, messageHandler);
+        func.handle();
+    }
+
     /**
      *
      */
     @Override
     public void haltOnError() {
-
-    }
-
-    @Override
-    public void sendUserName(String username) {
 
     }
 }
