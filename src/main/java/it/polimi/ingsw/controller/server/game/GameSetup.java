@@ -255,6 +255,7 @@ public class GameSetup implements GamePhase{
                             this.view.sendUserName(player2.getUsername());
                         }
                     } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
+                        e.printStackTrace();
                         this.controller.handlePlayerError(player1,"Error while uploading usernames");
                     }
                 }

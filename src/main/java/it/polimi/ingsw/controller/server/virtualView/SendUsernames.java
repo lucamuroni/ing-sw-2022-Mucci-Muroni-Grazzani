@@ -25,9 +25,9 @@ public class SendUsernames {
         Message message = new Message(PLAYER_NAME.getFragment(), username, topicId);
         this.messageHandler.write(message);
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
-        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
-            throw new MalformedMessageException();
-        }
+        //if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
+        //    throw new MalformedMessageException();
+        //}
         this.messageHandler.assertOnEquals(OK.getFragment(), PLAYER_NAME.getFragment());
     }
 }
