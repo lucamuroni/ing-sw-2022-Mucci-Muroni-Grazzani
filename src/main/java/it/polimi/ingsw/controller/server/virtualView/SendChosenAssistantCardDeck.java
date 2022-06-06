@@ -51,9 +51,6 @@ public class SendChosenAssistantCardDeck {
         messages.add(new Message(ASSISTANT_CARD_DECK.getFragment(), this.deck.name(), topicId));
         this.messageHandler.write(messages);
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
-        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
-            throw new MalformedMessageException();
-        }
         this.messageHandler.assertOnEquals(OK.getFragment(), ASSISTANT_CARD_DECK.getFragment());
     }
 }

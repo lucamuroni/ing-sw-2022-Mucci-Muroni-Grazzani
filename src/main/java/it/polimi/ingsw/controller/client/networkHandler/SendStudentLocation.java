@@ -40,9 +40,6 @@ public class SendStudentLocation {
         Message message = new Message(STUDENT_LOCATION.getFragment(), Integer.toString(location), topicId);
         this.messageHandler.write(message);
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
-        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
-            throw new MalformedMessageException();
-        }
         this.messageHandler.assertOnEquals(OK.getFragment(), STUDENT_LOCATION.getFragment());
     }
 }

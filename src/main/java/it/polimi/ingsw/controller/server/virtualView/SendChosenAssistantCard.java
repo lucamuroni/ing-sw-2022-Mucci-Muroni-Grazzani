@@ -47,9 +47,6 @@ public class SendChosenAssistantCard {
         messages.add(new Message(ASSISTANT_CARD.getFragment(), this.card.getName(), topicId));
         this.messageHandler.write(messages);
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
-        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
-            throw new MalformedMessageException();
-        }
         this.messageHandler.assertOnEquals(OK.getFragment(), ASSISTANT_CARD.getFragment());
     }
 }

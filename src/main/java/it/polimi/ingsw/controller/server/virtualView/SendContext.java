@@ -41,9 +41,6 @@ public class SendContext {
         Message message = new Message(CONTEXT.getFragment(), context, topicId);
         this.messageHandler.write(message);
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
-        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
-            throw new MalformedMessageException();
-        }
         this.messageHandler.assertOnEquals(OK.getFragment(), CONTEXT.getFragment());
     }
 }

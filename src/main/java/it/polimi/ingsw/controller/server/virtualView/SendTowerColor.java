@@ -46,9 +46,6 @@ public class SendTowerColor {
         messages.add(new Message(TOWER_COLOR.getFragment(), this.gamer.getTowerColor().toString(), topicId));
         this.messageHandler.write(messages);
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
-        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
-            throw new MalformedMessageException();
-        }
         this.messageHandler.assertOnEquals(OK.getFragment(), TOWER_COLOR.getFragment());
     }
 }

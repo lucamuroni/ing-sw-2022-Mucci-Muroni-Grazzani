@@ -26,9 +26,6 @@ public class SendActiveUsername {
         Message message = new Message(PLAYER_NAME.getFragment(), player.getUsername(), topicId);
         this.messageHandler.write(message);
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
-        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
-            throw new MalformedMessageException();
-        }
         this.messageHandler.assertOnEquals(OK.getFragment(), PLAYER_NAME.getFragment());
     }
 }
