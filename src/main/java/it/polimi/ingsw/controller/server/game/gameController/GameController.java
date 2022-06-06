@@ -11,6 +11,7 @@ import it.polimi.ingsw.controller.server.virtualView.VirtualViewHandler;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.TowerColor;
+import it.polimi.ingsw.view.cli.AnsiColor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,6 +57,7 @@ public class GameController extends Thread{
             this.gamePhase = this.gamePhase.next();
             this.gamePhase.handle();
         }
+        System.out.print("\n"+AnsiColor.GREEN.toString()+"A game has been concluded"+AnsiColor.RESET.toString());
     }
 
     public View getView(){
@@ -66,8 +68,9 @@ public class GameController extends Thread{
         return this.players;
     }
 
-    public void shutdown(){
-        System.out.println("Error revealed on server side : shutting down game");
+    public void shutdown(String s){
+        //TODO : scrivere per chiamare la fase di vittoria ed inviarla
+        System.out.println(AnsiColor.RED.toString()+s+AnsiColor.RESET.toString());
         for(Player player : this.players){
             this.view.setCurrentPlayer(player);
             this.view.haltOnError();
@@ -79,14 +82,12 @@ public class GameController extends Thread{
         return this.cardDesks;
     }
 
-    public void handlePlayerError(Player player){
-        System.out.println("Error revealed on client side");
-        System.out.println("Gamer info : "+player.getUsername()+", token : "+player.getToken());
-        this.view.setCurrentPlayer(player);
-        this.view.haltOnError();
+    public void handlePlayerError(Player player,String s){
+        System.out.println(AnsiColor.RED.toString()+s+AnsiColor.RESET.toString());
+        System.out.println("Involved gamer info : "+AnsiColor.RED.toString()+player.getUsername()+AnsiColor.RESET.toString()+", token : "+AnsiColor.RED.toString()+player.getToken()+AnsiColor.RESET.toString());
         player.getMessageHandler().shutDown();
         this.players.remove(player);
-        this.shutdown();
+        this.shutdown("An Gamer reported an error");
     }
 
     public Player getPlayer(Gamer currentPlayer, ArrayList<Player> players) throws ModelErrorException {
@@ -109,7 +110,7 @@ public class GameController extends Thread{
             try {
                 this.players.add(this.getPlayer(gamer,cp));
             } catch (ModelErrorException e) {
-                this.shutdown();
+                this.shutdown("Could not find player in model while updating their order");
             }
         }
     }

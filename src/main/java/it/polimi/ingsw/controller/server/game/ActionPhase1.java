@@ -56,7 +56,7 @@ public class ActionPhase1 implements GamePhase{
         try {
             this.view.setCurrentPlayer(this.controller.getPlayer(this.game.getCurrentPlayer()));
         } catch (ModelErrorException e) {
-            this.controller.shutdown();
+            this.controller.shutdown("Error founded in model : shutting down this game");
         }
         try {
             try{
@@ -66,16 +66,16 @@ public class ActionPhase1 implements GamePhase{
             }
         }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
             try {
-                this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()));
+                this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()),"Error while sending ACTION PHASE 1");
             } catch (ModelErrorException i) {
-                this.controller.shutdown();
+                this.controller.shutdown("Error founded in model : shutting down this game");
             }
         }
         ArrayList<Player> players = this.controller.getPlayers();
         try {
             players.remove(this.controller.getPlayer(this.game.getCurrentPlayer()));
         } catch (ModelErrorException e) {
-            this.controller.shutdown();
+            this.controller.shutdown("Error founded in model : shutting down this game");
         }
         for (Player player : players) {
             this.view.setCurrentPlayer(player);
@@ -88,9 +88,9 @@ public class ActionPhase1 implements GamePhase{
                     this.view.sendActiveUsername(this.controller.getPlayer(this.game.getCurrentPlayer()));
                 }
             } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException | ClientDisconnectedException e) {
-                this.controller.handlePlayerError(player);
+                this.controller.handlePlayerError(player,"Error while uploading current player to other gamers");
             } catch (ModelErrorException e) {
-                this.controller.shutdown();
+                this.controller.shutdown("Error founded in model : shutting down this game");
             }
         }
         try {
@@ -104,7 +104,7 @@ public class ActionPhase1 implements GamePhase{
                         this.view.updateDashboards(this.game.getCurrentPlayer(), this.game);
                     }
                 } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
-                    this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()));
+                    this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()),"Error while uploading dashboards");
                 }
                 for (Player pl : players) {
                     this.view.setCurrentPlayer(pl);
@@ -115,12 +115,12 @@ public class ActionPhase1 implements GamePhase{
                             this.sendInfo(place);
                         }
                     } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
-                        this.controller.handlePlayerError(pl);
+                        this.controller.handlePlayerError(pl,"Error while updating islands and dashboards");
                     }
                 }
             }
         } catch (ModelErrorException e) {
-            this.controller.shutdown();
+            this.controller.shutdown("Error founded in model : shutting down this game");
             e.printStackTrace();
         }
     }
@@ -142,7 +142,7 @@ public class ActionPhase1 implements GamePhase{
                 place = this.view.getMovedStudentLocation();
             }
         }catch (MalformedMessageException | ClientDisconnectedException e){
-            this.controller.handlePlayerError(player);
+            this.controller.handlePlayerError(player,"Error while getting the location of  moved the student");
         }catch (TimeHasEndedException e){
             color = this.randomColorPicker();
             place = this.randomPlacePicker();
@@ -164,7 +164,7 @@ public class ActionPhase1 implements GamePhase{
             try {
                 this.game.changeProfessorOwner(stud.getColor());
             }catch (Exception e) {
-                this.controller.shutdown();
+                this.controller.shutdown("Error founded in model : shutting down this game");
             }
         }
         else {

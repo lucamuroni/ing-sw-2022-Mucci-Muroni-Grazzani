@@ -53,7 +53,7 @@ public class ConquerIslandPhase implements GamePhase{
                     this.view.updateIslandStatus(this.game.getMotherNature().getPlace());
                 }
             } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
-                this.controller.handlePlayerError(pl);
+                this.controller.handlePlayerError(pl,"Error while updating islands status");
             }
             try {
                 try {
@@ -64,7 +64,7 @@ public class ConquerIslandPhase implements GamePhase{
                     this.view.updateDashboards(this.game.getGamers(), game);
                 }
             } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException | FlowErrorException e) {
-                this.controller.handlePlayerError(pl);
+                this.controller.handlePlayerError(pl,"Error while updating dashboard status");
             }
         }
     }

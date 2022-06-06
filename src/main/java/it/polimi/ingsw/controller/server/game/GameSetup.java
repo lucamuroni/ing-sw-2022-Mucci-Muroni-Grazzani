@@ -64,8 +64,7 @@ public class GameSetup implements GamePhase{
             try {
                 player.getGamer(this.game.getGamers()).initGamer(this.game.getBag().pullStudents(this.numStudents),this.numTowers);
             } catch (ModelErrorException e) {
-                System.out.println("Error founded in model : shutting down this game");
-                this.controller.shutdown();
+                this.controller.shutdown("Error founded in model : shutting down this game");
             }
         }
         for (Player player : this.controller.getPlayers()) {
@@ -83,7 +82,7 @@ public class GameSetup implements GamePhase{
             try {
                 currentPlayer = player.getGamer(this.game.getGamers());
             } catch (ModelErrorException e) {
-                this.controller.shutdown();
+                this.controller.shutdown("Error founded in model : shutting down this game");
             }
             for(Player player1 : players){
                 this.updateChosenCardDeck(player1, currentPlayer, figure);
@@ -130,7 +129,8 @@ public class GameSetup implements GamePhase{
                 this.view.updateMotherNaturePlace(this.game.getMotherNature().getPlace());
             }
         }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
-            this.controller.handlePlayerError(player);
+            e.printStackTrace();
+            this.controller.handlePlayerError(player,"Error while updating Mother Nature place");
         }
     }
 
@@ -150,7 +150,8 @@ public class GameSetup implements GamePhase{
                     this.view.updateIslandStatus(this.game.getIslands().get(i));
                 }
             }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
-                this.controller.handlePlayerError(player);
+                e.printStackTrace();
+                this.controller.handlePlayerError(player,"Error while syncing islands");
             }
         }
     }
@@ -166,9 +167,9 @@ public class GameSetup implements GamePhase{
                 this.view.sendTowerColor(player.getGamer(this.game.getGamers()));
             }
         } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
-            this.controller.handlePlayerError(player);
+            this.controller.handlePlayerError(player,"Error while updating color");
         } catch (ModelErrorException e) {
-            this.controller.shutdown();
+            this.controller.shutdown("Error founded in model : shutting down this game");
         }
     }
 
@@ -188,7 +189,7 @@ public class GameSetup implements GamePhase{
                     this.view.updateDashboards(this.game.getGamers().get(i), this.game);
                 }
             }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
-                this.controller.handlePlayerError(player);
+                this.controller.handlePlayerError(player,"Error while updating dashboard");
             }
         }
 
@@ -210,7 +211,7 @@ public class GameSetup implements GamePhase{
                 card = this.view.getChosenAssistantCardDeck(this.controller.getCardDesks());
             }
         }catch (MalformedMessageException | ClientDisconnectedException e){
-            this.controller.handlePlayerError(player);
+            this.controller.handlePlayerError(player, "Error while getting chosen assistant card");
         }catch (TimeHasEndedException e) {
             card = this.randomFigurePicker();
             this.controller.getCardDesks().remove(card);
@@ -237,7 +238,7 @@ public class GameSetup implements GamePhase{
                 this.view.sendChosenAssistantCardDeck(figure, currentPlayer.getToken(), currentPlayer);
             }
         }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
-            this.controller.handlePlayerError(player);
+            this.controller.handlePlayerError(player, "Error while updating chosen card deck figure");
         }
     }
 
@@ -254,7 +255,7 @@ public class GameSetup implements GamePhase{
                             this.view.sendUserName(player2.getUsername());
                         }
                     } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
-                        this.controller.handlePlayerError(player1);
+                        this.controller.handlePlayerError(player1,"Error while uploading usernames");
                     }
                 }
             }

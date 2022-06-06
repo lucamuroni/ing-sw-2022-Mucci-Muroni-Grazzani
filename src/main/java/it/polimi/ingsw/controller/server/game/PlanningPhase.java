@@ -66,21 +66,21 @@ public class PlanningPhase implements GamePhase{
                     }
                 }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
                     try {
-                        this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()));
+                        this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()),"Error while sending PLANNING PHASE");
                     } catch (ModelErrorException i) {
-                        this.controller.shutdown();
+                        this.controller.shutdown("Error founded in model : shutting down this game");
                     }
                 }
                 AssistantCard card = this.getChoseAssistantCard(player, alreadyPlayedCards);
                 alreadyPlayedCards.add(card);
             } catch (ModelErrorException e) {
-                this.controller.shutdown();
+                this.controller.shutdown("Error founded in model : shutting down this game");
             }
         }
         try {
             this.game.setCurrentPlayer(this.controller.getPlayers().get(0).getGamer(this.game.getGamers()));
         } catch (ModelErrorException e) {
-            this.controller.shutdown();
+            this.controller.shutdown("Error founded in model : shutting down this game");
         }
     }
 
@@ -99,7 +99,7 @@ public class PlanningPhase implements GamePhase{
                 this.view.updateCloudsStatus(this.game.getClouds());
             }
         }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
-            this.controller.handlePlayerError(player);
+            this.controller.handlePlayerError(player,"Error while updating clouds status");
         }
     }
 
@@ -126,7 +126,7 @@ public class PlanningPhase implements GamePhase{
                 result = this.view.getChosenAssistantCard(cardsOfPlayer);
             }
         }catch (MalformedMessageException | ClientDisconnectedException e){
-            this.controller.handlePlayerError(player);
+            this.controller.handlePlayerError(player,"Error while getting the chose assistant card");
         }catch (TimeHasEndedException e){
             result = this.getRandomAssistantCard(cardsOfPlayer);
         }
@@ -155,7 +155,7 @@ public class PlanningPhase implements GamePhase{
                     this.view.sendChosenAssistantCard(chosenCard, currentPlayer.getToken());
                 }
             } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
-                this.controller.handlePlayerError(players.get(i));
+                this.controller.handlePlayerError(players.get(i),"Error while uploading chosen assistant card");
             }
         }
     }

@@ -53,9 +53,9 @@ public class VictoryPhase implements GamePhase{
                     }
                 }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
                     try {
-                        this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()));
+                        this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()),"Error while sending END_GAME_PHASE");
                     } catch (ModelErrorException i) {
-                        this.controller.shutdown();
+                        this.controller.shutdown("Error founded in model : shutting down this game");
                     }
                 }
                 try {
@@ -65,7 +65,7 @@ public class VictoryPhase implements GamePhase{
                         this.view.sendWinner(names);
                     }
                 } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
-                    this.controller.handlePlayerError(player);
+                    this.controller.handlePlayerError(player,"Error while sending winner");
                 }
             }
         }

@@ -56,11 +56,11 @@ public class MotherNaturePhase implements GamePhase{
                         this.view.updateMotherNaturePlace(this.game.getMotherNature().getPlace());
                     }
                 } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
-                    this.controller.handlePlayerError(pl);
+                    this.controller.handlePlayerError(pl,"Error while updating mother nature place");
                 }
             }
         } catch (ModelErrorException e) {
-            this.controller.shutdown();
+            this.controller.shutdown("Error founded in model : shutting down this game");
         }
     }
 
@@ -79,7 +79,7 @@ public class MotherNaturePhase implements GamePhase{
                 place = this.view.getMNLocation(possibleChoices);
             }
         } catch (MalformedMessageException | ClientDisconnectedException e) {
-            this.controller.handlePlayerError(player);
+            this.controller.handlePlayerError(player,"Error while getting mother nature location");
         } catch (TimeHasEndedException e) {
             place = this.getRandomIsland(possibleChoices);
             this.game.moveMotherNature(place);
