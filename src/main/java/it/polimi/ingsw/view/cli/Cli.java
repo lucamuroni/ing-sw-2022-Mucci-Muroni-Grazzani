@@ -306,7 +306,7 @@ public class Cli implements ViewHandler {
 
     @Override
     public void showEndGamePage(Results win) {
-        
+
     }
 
     @Override

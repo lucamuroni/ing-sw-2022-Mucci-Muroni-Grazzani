@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Interface with all the messages methods executed by the client
  */
 public interface Network {
-    void getUsernames(Game game);
+    void getUsernames(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
     void getCurrentPlayer(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 

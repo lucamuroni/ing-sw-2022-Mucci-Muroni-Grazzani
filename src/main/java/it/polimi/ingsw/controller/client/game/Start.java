@@ -57,7 +57,17 @@ public class Start implements GamePhase {
 
     private void getUsernames() {
         for(int i = 0 ; i< this.game.getLobbySize();i++) {
-            this.network.getUsernames(this.game);
+            try{
+                try {
+                    this.network.getUsernames(this.game);
+                } catch (MalformedMessageException e) {
+                    this.network.getUsernames(this.game);
+                }
+            }catch (TimeHasEndedException e){
+                this.controller.handleError("No other players were founded");
+            }catch (MalformedMessageException | ClientDisconnectedException e) {
+                this.controller.handleError("Could not receive info about other players");
+            }
         }
     }
 

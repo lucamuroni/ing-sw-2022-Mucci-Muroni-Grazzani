@@ -24,7 +24,7 @@ public class GetUsernames {
     }
 
     public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
-        this.messageHandler.read(ConnectionTimings.RESPONSE.getTiming());
+        this.messageHandler.read(ConnectionTimings.INFINITE.getTiming());
         String username = this.messageHandler.getMessagePayloadFromStream(PLAYER_NAME.getFragment());
         int topicId = this.messageHandler.getMessagesUniqueTopic();
         Message message = new Message(PLAYER_NAME.getFragment(), OK.getFragment(), topicId);
