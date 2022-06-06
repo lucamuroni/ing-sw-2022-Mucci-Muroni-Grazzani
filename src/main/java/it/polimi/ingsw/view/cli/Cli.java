@@ -300,12 +300,13 @@ public class Cli implements ViewHandler {
 
     @Override
     public void goToIdle() {
-
+        // TODO : placeholder
+        System.out.println(" you are in idle");
     }
 
     @Override
     public void showEndGamePage(Results win) {
-
+        
     }
 
     @Override
