@@ -1,5 +1,7 @@
 package it.polimi.ingsw.controller.server;
 
+import it.polimi.ingsw.view.cli.AnsiColor;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.Scanner;
@@ -79,6 +81,7 @@ public class Server {
                 if(lobbyToStart != null){
                     this.numOfInstances++;
                     lobbyToStart.startGame(this);
+                    System.out.println(AnsiColor.GREEN.toString()+"A new Game Has started"+AnsiColor.RESET.toString());
                 }
             }
             System.out.println("Lobby thread ended");
