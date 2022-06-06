@@ -25,13 +25,17 @@ public class Game {
         this.islands = new ArrayList<>();
         this.clouds = new ArrayList<>();
         this.self = gamer;
+        this.gamers.add(self);
         this.createAssets();
     }
 
     private void createAssets() {
-        this.islands.addAll(islands);
-        this.clouds.addAll(clouds);
-        this.motherNaturePosition = motherNaturePosition;
+        for (int i = 0; i<12; i++) {
+            this.islands.add(new Island(i+1));
+        }
+        for (int i = 0; i<lobbySize; i++) {
+            this.clouds.add(new Cloud(i+1));
+        }
     }
 
     public Gamer getSelf() {
@@ -78,7 +82,6 @@ public class Game {
         return currentPlayer;
     }
 
-
     public void setMotherNaturePosition(Island motherNaturePosition) {
         this.motherNaturePosition = motherNaturePosition;
     }
@@ -90,7 +93,6 @@ public class Game {
     public void setChosenColor(PawnColor chosenColor) {
         this.chosenColor = chosenColor;
     }
-
 
     public void setCurrentPlayer(String currentPlayer) {
         this.currentPlayer = currentPlayer;
@@ -107,5 +109,4 @@ public class Game {
     public void setLobbySize(int lobbySize) {
         this.lobbySize = lobbySize;
     }
-
 }

@@ -37,6 +37,7 @@ public class GetTowerColor {
                 col = color;
             }
         }
+        assert owner != null;
         owner.setColor(col);
     }
 }
