@@ -19,6 +19,7 @@ public class Game {
     private Island chosenIsland;
     private PawnColor chosenColor;
     private Cloud chosenCloud;
+    private int numGamers = 0;
 
     public Game(Gamer gamer) {
         this.gamers = new ArrayList<>();
@@ -106,4 +107,11 @@ public class Game {
         this.lobbySize = lobbySize;
     }
 
+    public int getNumGamers() {
+        return this.numGamers;
+    }
+
+    public void setNumGamers(int size){
+        this.numGamers = size;
+    }
 }

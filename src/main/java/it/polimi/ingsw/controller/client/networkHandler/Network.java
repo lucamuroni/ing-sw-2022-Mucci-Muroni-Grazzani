@@ -199,4 +199,6 @@ public interface Network {
     void broadcastPlayerInfo(Game game) throws MalformedMessageException;
 
     void awaitForLobby() throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+
+    void getUsernames();
 }

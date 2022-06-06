@@ -26,6 +26,7 @@ public class Start implements GamePhase {
 
     @Override
     public void handle() {
+        this.getUsernames();
         this.updateMNPlace();
         this.updateIslandStatus();
         // TODO mancano da inviare i giocatori  <====
@@ -53,6 +54,12 @@ public class Start implements GamePhase {
             }
         } catch (MalformedMessageException e) {
             this.controller.handleError();
+        }
+    }
+
+    private void getUsernames() {
+        for(int i = 0 ; i< this.game.getNumGamers();i++){
+            this.network.getUsernames();
         }
     }
 
