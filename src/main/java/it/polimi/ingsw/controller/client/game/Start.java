@@ -56,7 +56,7 @@ public class Start implements GamePhase {
     }
 
     private void getUsernames() {
-        for(int i = 0 ; i< this.game.getLobbySize();i++) {
+        for(int i = 0 ; i< this.game.getLobbySize()-1;i++) {
             try{
                 try {
                     this.network.getUsernames(this.game);
