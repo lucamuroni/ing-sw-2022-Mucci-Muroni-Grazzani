@@ -50,7 +50,6 @@ public class UpdateIslandStatus {
             token = this.island.getOwner().get().getToken();
         }
         else {
-
             token = 0;
         }
         messages.add(new Message(OWNER.getFragment(), Integer.toString(token), topicId));

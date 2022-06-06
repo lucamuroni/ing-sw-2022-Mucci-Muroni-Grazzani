@@ -44,9 +44,6 @@ class UpdateMotherNaturePlace {
         Message message = new Message(MN_LOCATION.getFragment(), id.toString(), topicId);
         this.messageHandler.write(message);
         this.messageHandler.writeOutAndWait(ConnectionTimings.RESPONSE.getTiming());
-        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
-            throw new MalformedMessageException();
-        }
         this.messageHandler.assertOnEquals(OK.getFragment(), MN_LOCATION.getFragment());
     }
 }
