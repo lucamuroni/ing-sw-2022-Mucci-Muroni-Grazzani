@@ -8,6 +8,7 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.pawn.Student;
 import it.polimi.ingsw.view.ViewHandler;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
 
 public class ActionPhase1 implements GamePhase{
@@ -55,6 +56,8 @@ public class ActionPhase1 implements GamePhase{
                 }
             } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
                 this.controller.handleError();
+            } catch (AssetErrorException e) {
+                this.controller.handleError("Doesn't found dashboard");
             }
         }
     }

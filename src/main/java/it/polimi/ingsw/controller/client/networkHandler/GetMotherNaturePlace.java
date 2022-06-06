@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Island;
 import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
@@ -36,7 +37,7 @@ public class GetMotherNaturePlace {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created the correct way
      */
-    public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+    public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException, AssetErrorException {
         this.messageHandler.read(PLAYER_MOVE.getTiming());
         int result = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(MN_LOCATION.getFragment()));
         Island MNIsland = null;
@@ -45,6 +46,8 @@ public class GetMotherNaturePlace {
                 MNIsland = island;
             }
         }
+        if (MNIsland==null)
+            throw new AssetErrorException();
         int topicId = this.messageHandler.getMessagesUniqueTopic();
         Message message = new Message(MN_LOCATION.getFragment(), OK.getFragment(), topicId);
         this.messageHandler.write(message);

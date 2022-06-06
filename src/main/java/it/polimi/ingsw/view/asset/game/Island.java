@@ -40,6 +40,13 @@ public class Island {
         this.students.clear();
         this.students.addAll(students);
         this.towersColor = towersColor;
+        this.setTowerPresent();
+    }
+
+    public void updateIsland(ArrayList<Student> students, int numTowers) {
+        this.numTowers = numTowers;
+        this.students.clear();
+        this.students.addAll(students);
     }
 
     public void updateOwner(TowerColor towersColor) {

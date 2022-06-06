@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Gamer;
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class GetDashboard {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
-    public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+    public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException, AssetErrorException {
         this.messageHandler.read(PLAYER_MOVE.getTiming());
         int result = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(OWNER.getFragment()));
         Gamer gamer = null;
@@ -54,6 +55,8 @@ public class GetDashboard {
                 gamer = gm;
             }
         }
+        if (gamer==null)
+            throw new AssetErrorException();
         numTowers = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(NUM_TOWERS.getFragment()));
         //Prendo studenti WaitingRoom
         int waitingRed = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(WAITING_PAWN_RED.getFragment()));
@@ -152,7 +155,6 @@ public class GetDashboard {
          Message message = new Message(DASHBOARD.getFragment(), OK.getFragment(), topicId);
          this.messageHandler.write(message);
          this.messageHandler.writeOut();
-         assert gamer != null;
          gamer.getDashBoard().updateDashBoard(numTowers, studentsWaitingRoom, studentsHall, professors);
     }
 }

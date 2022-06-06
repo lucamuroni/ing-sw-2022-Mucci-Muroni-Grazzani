@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Cloud;
 import it.polimi.ingsw.view.asset.game.Game;
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class GetCloudStatus {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
-    public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+    public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException, AssetErrorException {
         this.messageHandler.read(PLAYER_MOVE.getTiming());
         String id = this.messageHandler.getMessagePayloadFromStream(CLOUD_ID.getFragment());
         int result = Integer.parseInt(id);
@@ -89,7 +90,9 @@ public class GetCloudStatus {
         Message message = new Message(CLOUD.getFragment(), OK.getFragment(), topicId);
         this.messageHandler.write(message);
         this.messageHandler.writeOut();
-        assert cloud != null;
-        cloud.update(students);
+        if (cloud!=null)
+            cloud.update(students);
+        else
+            throw new AssetErrorException();
     }
 }

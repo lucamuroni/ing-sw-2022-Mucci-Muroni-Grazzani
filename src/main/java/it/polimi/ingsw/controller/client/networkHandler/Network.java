@@ -12,6 +12,7 @@ import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.TowerColor;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.*;
 import java.util.ArrayList;
 
@@ -22,13 +23,13 @@ import java.util.ArrayList;
 public interface Network {
     void getUsernames(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
-    void getCurrentPlayer(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+    void getCurrentPlayer(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, AssetErrorException;
 
     void getTowerColor(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
     void getConnection(ClientController controller) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
-    String getContext() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+    String getContext() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, AssetErrorException;
 
     /**
      * Method that returns the new current phase
@@ -65,7 +66,7 @@ public interface Network {
      * @throws TimeHasEndedException launched when the available time for the response has ended
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      */
-    void getNewOwner(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+    void getNewOwner(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, AssetErrorException;
 
     /**
      * Method that returns the arraylist with the possible clouds to choose from
@@ -94,7 +95,7 @@ public interface Network {
      * @throws TimeHasEndedException launched when the available time for the response has ended
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      */
-    void getCloudStatus(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+    void getCloudStatus(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, AssetErrorException;
 
     /**
      * Method that updates the dashboards' status in the view
@@ -103,7 +104,7 @@ public interface Network {
      * @throws TimeHasEndedException launched when the available time for the response has ended
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      */
-    void getDashboard(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+    void getDashboard(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, AssetErrorException;
 
     /**
      * Method that updates the islands' status in the view
@@ -112,7 +113,7 @@ public interface Network {
      * @throws TimeHasEndedException launched when the available time for the response has ended
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      */
-    void getIslandStatus(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+    void getIslandStatus(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, AssetErrorException;
 
     /**
      * Method that updates the mother nature's new place in the view
@@ -121,7 +122,7 @@ public interface Network {
      * @throws TimeHasEndedException launched when the available time for the response has ended
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      */
-    void getMotherNaturePlace(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+    void getMotherNaturePlace(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, AssetErrorException;
 
     /**
      * Method that sets the chosen assistant card
@@ -130,9 +131,9 @@ public interface Network {
      * @throws TimeHasEndedException launched when the available time for the response has ended
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      */
-    void getChosenAssistantCard(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+    void getChosenAssistantCard(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, AssetErrorException;
 
-    void getChosenAssistantCardDeck(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+    void getChosenAssistantCardDeck(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, AssetErrorException;
 
     /**
      * Method that returns the arraylist with the possible decks to choose from

@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.view.ViewHandler;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
 
 import java.util.ArrayList;
@@ -93,6 +94,8 @@ public class Start implements GamePhase {
             }
         } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
             this.controller.handleError();
+        } catch (AssetErrorException e) {
+            this.controller.handleError("Doesn't found island");
         }
     }
 

@@ -8,6 +8,7 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.controller.networking.messageParts.MessageFragment;
 import it.polimi.ingsw.view.ViewHandler;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
 
 import java.util.Objects;
@@ -18,7 +19,6 @@ public class Idle implements GamePhase{
     private final ViewHandler view;
     private final Game game;
     private GamePhase nextPhase;
-    private boolean stop;
 
     public Idle(ClientController controller) {
         this.game = controller.getGame();
@@ -30,7 +30,7 @@ public class Idle implements GamePhase{
     @Override
     public void handle() {
         this.view.goToIdle();
-        this.stop = false;
+        boolean stop = false;
         while (!stop) {
             MessageFragment context = null;
             try {
@@ -41,6 +41,8 @@ public class Idle implements GamePhase{
                 }
             } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
                 this.controller.handleError();
+            } catch (AssetErrorException e) {
+                this.controller.handleError("Doesn't found context");
             }
             switch (Objects.requireNonNull(context)) {
                 case CONTEXT_CARD:
@@ -52,6 +54,8 @@ public class Idle implements GamePhase{
                         }
                     } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
                         this.controller.handleError();
+                    } catch (AssetErrorException e) {
+                        this.controller.handleError("Doesn't found card");
                     }
                     break;
                 case CONTEXT_FIGURE:
@@ -63,6 +67,8 @@ public class Idle implements GamePhase{
                         }
                     } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
                         this.controller.handleError();
+                    } catch (AssetErrorException e) {
+                        this.controller.handleError("Doesn't found deck's figure");
                     }
                     break;
                 case CONTEXT_ISLAND:
@@ -74,6 +80,8 @@ public class Idle implements GamePhase{
                         }
                     } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
                         this.controller.handleError();
+                    } catch (AssetErrorException e) {
+                        this.controller.handleError("Doesn't found island");
                     }
                     break;
                 case CONTEXT_DASHBOARD:
@@ -85,6 +93,8 @@ public class Idle implements GamePhase{
                         }
                     } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
                         this.controller.handleError();
+                    } catch (AssetErrorException e) {
+                        this.controller.handleError("Doesn't found dashboard");
                     }
                     break;
                 case CONTEXT_CLOUD:
@@ -96,6 +106,8 @@ public class Idle implements GamePhase{
                         }
                     } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
                         this.controller.handleError();
+                    }  catch (AssetErrorException e) {
+                        this.controller.handleError("Doesn't found cloud");
                     }
                     break;
                 case CONTEXT_MOTHER:
@@ -107,6 +119,8 @@ public class Idle implements GamePhase{
                         }
                     } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
                         this.controller.handleError();
+                    } catch (AssetErrorException e) {
+                        this.controller.handleError("Doesn't found island of mother nature");
                     }
                     break;
                 case CONTEXT_PHASE:
@@ -127,7 +141,7 @@ public class Idle implements GamePhase{
                         case ACTION_PHASE_3 -> nextPhase = new ActionPhase3(this.controller);
                         case END_GAME_PHASE -> nextPhase = new EndGame(this.controller);
                     }
-                    this.stop = true;
+                    stop = true;
                     break;
                 case CONTEXT_USERNAME:
                     try {
@@ -138,6 +152,8 @@ public class Idle implements GamePhase{
                         }
                     } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
                         this.controller.handleError();
+                    } catch (AssetErrorException e) {
+                        this.controller.handleError("Doesn't found player name");
                     }
                     break;
             }

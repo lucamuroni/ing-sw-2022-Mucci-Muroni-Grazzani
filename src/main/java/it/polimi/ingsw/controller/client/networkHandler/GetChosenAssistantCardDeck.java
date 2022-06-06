@@ -6,6 +6,7 @@ import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Gamer;
 import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
@@ -37,7 +38,7 @@ public class GetChosenAssistantCardDeck {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
-    public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+    public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException, AssetErrorException {
         this.messageHandler.read(PLAYER_MOVE.getTiming());
         int id = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(OWNER.getFragment()));
         Gamer owner = null;
@@ -46,17 +47,20 @@ public class GetChosenAssistantCardDeck {
                 owner = gamer;
             }
         }
+        if (owner==null)
+            throw new AssetErrorException();
         String name = this.messageHandler.getMessagePayloadFromStream(ASSISTANT_CARD_DECK.getFragment());
         for (AssistantCardDeckFigures deckFigures: AssistantCardDeckFigures.values()) {
             if (name.equals(deckFigures.name())) {
                 deck = deckFigures;
             }
         }
+        if (deck == null)
+            throw new AssetErrorException();
         int topicId = this.messageHandler.getMessagesUniqueTopic();
         Message message = new Message(ASSISTANT_CARD_DECK.getFragment(), OK.getFragment(), topicId);
         this.messageHandler.write(message);
         this.messageHandler.writeOut();
-        assert owner != null;
         owner.updateFigure(deck);
     }
 }

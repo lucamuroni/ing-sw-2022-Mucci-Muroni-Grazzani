@@ -8,6 +8,7 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.view.ViewHandler;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
 
 public class PlanningPhase implements GamePhase {
@@ -72,6 +73,8 @@ public class PlanningPhase implements GamePhase {
             }
         } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
             this.controller.handleError();
+        } catch (AssetErrorException e) {
+            this.controller.handleError("Doesn't found cloud");
         }
 
     }

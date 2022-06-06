@@ -11,6 +11,7 @@ import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.TowerColor;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.*;
 import java.util.ArrayList;
 
@@ -53,7 +54,7 @@ public class NetworkHandler implements Network {
     }
 
     @Override
-    public void getCurrentPlayer(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+    public void getCurrentPlayer(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, AssetErrorException {
         GetCurrentPlayer func = new GetCurrentPlayer(messageHandler, game);
         func.handle();
     }
@@ -67,7 +68,7 @@ public class NetworkHandler implements Network {
         controller.setGame(game);
     }
 
-    public String getContext() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+    public String getContext() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, AssetErrorException {
         GetContext func = new GetContext(messageHandler);
         return func.handle();
     }
@@ -120,9 +121,10 @@ public class NetworkHandler implements Network {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      */
     @Override
-    public void getNewOwner(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+    public void getNewOwner(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, AssetErrorException {
         GetOwner func = new GetOwner(messageHandler, game);
         func.handle();
+        //Al momento non esiste alcuna chiamata a questa classe perchè già updateIsland gestisce la cosa
     }
 
     /**
@@ -153,7 +155,7 @@ public class NetworkHandler implements Network {
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
     @Override
-    public void getCloudStatus(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+    public void getCloudStatus(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, AssetErrorException {
         GetCloudStatus func = new GetCloudStatus(messageHandler, game);
         func.handle();
     }
@@ -166,7 +168,7 @@ public class NetworkHandler implements Network {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      */
     @Override
-    public void getDashboard(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+    public void getDashboard(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, AssetErrorException {
         GetDashboard func = new GetDashboard(messageHandler, game);
         func.handle();
     }
@@ -179,7 +181,7 @@ public class NetworkHandler implements Network {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      */
     @Override
-    public void getIslandStatus(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+    public void getIslandStatus(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, AssetErrorException {
         GetIslandStatus func = new GetIslandStatus(messageHandler, game);
         func.handle();
     }
@@ -192,7 +194,7 @@ public class NetworkHandler implements Network {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      */
     @Override
-    public void getMotherNaturePlace(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+    public void getMotherNaturePlace(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, AssetErrorException {
         GetMotherNaturePlace func = new GetMotherNaturePlace(messageHandler, game);
         func.handle();
     }
@@ -205,12 +207,12 @@ public class NetworkHandler implements Network {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      */
     @Override
-    public void getChosenAssistantCard(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+    public void getChosenAssistantCard(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, AssetErrorException {
         GetChosenAssistantCard func = new GetChosenAssistantCard(messageHandler, game);
         func.handle();
     }
 
-    public void getChosenAssistantCardDeck(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException{
+    public void getChosenAssistantCardDeck(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, AssetErrorException {
         GetChosenAssistantCardDeck func = new GetChosenAssistantCardDeck(messageHandler, game);
         func.handle();
     }
