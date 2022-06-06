@@ -20,6 +20,8 @@ import java.util.ArrayList;
  * Interface with all the messages methods executed by the client
  */
 public interface Network {
+    void getUsernames(Game game);
+
     void getCurrentPlayer(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
     void getTowerColor(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
@@ -199,6 +201,4 @@ public interface Network {
     void broadcastPlayerInfo(Game game) throws MalformedMessageException;
 
     void awaitForLobby() throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
-
-    void getUsernames();
 }
