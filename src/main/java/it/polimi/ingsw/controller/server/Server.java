@@ -62,7 +62,7 @@ public class Server {
                 synchronized (this.clientReception.getLobbies()){
                     while (this.clientReception.getLobbies().isEmpty() || this.numOfInstances<maxNumOfInstances){
                         try {
-                            this.clientReception.getLobbies().wait();
+                            this.clientReception.getLobbies().wait(500);
                         } catch (InterruptedException e) {
                             System.out.println("Could not wait for scanning of lobbies");
                             e.printStackTrace();

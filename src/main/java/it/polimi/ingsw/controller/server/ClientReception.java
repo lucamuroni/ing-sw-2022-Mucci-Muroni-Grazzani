@@ -134,9 +134,9 @@ class ClientReception extends Thread{
             player.getMessageHandler().write(messages);
             player.getMessageHandler().writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming());
             player.getMessageHandler().assertOnEquals(MessageFragment.OK.getFragment(), MessageFragment.GREETINGS.getFragment());
-            synchronized (this.lobbies){
-                this.lobbies.notifyAll();
-            }
+            //synchronized (this.lobbies){
+            //    this.lobbies.notifyAll();
+            //}
         }catch (TimeHasEndedException | ClientDisconnectedException | MalformedMessageException | FlowErrorException e){
             synchronized (this.lobbies){
                 for(Lobby lobby : this.lobbies){
