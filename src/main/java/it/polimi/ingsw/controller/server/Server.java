@@ -63,7 +63,6 @@ public class Server {
                 Lobby lobbyToStart = null;
                 boolean lobbyAlreadyChosen = false;
                 synchronized (this.clientReception.getLobbies()){
-                    System.out.println("dim lobby "+this.clientReception.getLobbies().size());
                     while (this.clientReception.getLobbies().isEmpty() || this.numOfInstances>maxNumOfInstances){
                         try {
                             this.clientReception.getLobbies().wait(500);

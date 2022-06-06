@@ -73,7 +73,6 @@ class ClientReception extends Thread{
                 msgs.add(new Message(MessageFragment.AUTH_ID.getFragment(), uniquePlayerID.toString(),uniqueMsgID));
                 player.getMessageHandler().write(msgs);
                 msgs.clear();
-                System.out.println("unique msg id :"+ uniqueMsgID);
                 player.getMessageHandler().writeOutAndWait(ConnectionTimings.INFINITE.getTiming());
                 player.getMessageHandler().assertOnEquals(uniquePlayerID.toString(), MessageFragment.AUTH_ID.getFragment());
                 String name = player.getMessageHandler().getMessagePayloadFromStream(MessageFragment.PLAYER_NAME.getFragment());
@@ -134,9 +133,6 @@ class ClientReception extends Thread{
             player.getMessageHandler().write(messages);
             player.getMessageHandler().writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming());
             player.getMessageHandler().assertOnEquals(MessageFragment.OK.getFragment(), MessageFragment.GREETINGS.getFragment());
-            //synchronized (this.lobbies){
-            //    this.lobbies.notifyAll();
-            //}
         }catch (TimeHasEndedException | ClientDisconnectedException | MalformedMessageException | FlowErrorException e){
             synchronized (this.lobbies){
                 for(Lobby lobby : this.lobbies){

@@ -44,8 +44,10 @@ public class Lobby {
             System.out.println("A new game is about to start");
             if(this.type==GameType.NORMAL){
                 GameController gameController = new GameController(server,this.players);
+                gameController.start();
             }else{
                 ExpertGameController gameController = new ExpertGameController(server,this.players);
+                gameController.start();
             }
         });
         t.start();
