@@ -318,5 +318,10 @@ public class VirtualViewHandler implements View {
     public void haltOnError() {
 
     }
+
+    @Override
+    public void sendUserName(String username) {
+
+    }
 }
 

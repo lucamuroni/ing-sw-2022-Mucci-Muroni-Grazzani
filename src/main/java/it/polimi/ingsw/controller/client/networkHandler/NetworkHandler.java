@@ -41,6 +41,11 @@ public class NetworkHandler implements Network {
         func.handle();
     }
 
+    @Override
+    public void getUsernames() {
+
+    }
+
     public void getTowerColor(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetTowerColor func = new GetTowerColor(messageHandler, game);
         func.handle();
