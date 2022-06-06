@@ -92,8 +92,4 @@ public class Gamer {
     public void setCurrentSelection(AssistantCard currentSelection) {
         this.currentSelection = currentSelection;
     }
-
-    public void setFigure(AssistantCardDeckFigures figure) {
-        this.figure = figure;
-    }
 }

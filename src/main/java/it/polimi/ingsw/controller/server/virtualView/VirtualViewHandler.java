@@ -271,7 +271,7 @@ public class VirtualViewHandler implements View {
 
     /**
      * Method that handles the messages to send the color of the current player
-     * @param color represents the current player's color
+     * @param gamer represents the gamer
      * @throws MalformedMessageException launched if the message isn't created the correct way
      * @throws TimeHasEndedException launched when the available time for the response ends
      * @throws ClientDisconnectedException launched if the client disconnects
@@ -312,8 +312,8 @@ public class VirtualViewHandler implements View {
     }
 
     @Override
-    public void sendUserName(String username) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        SendUsernames func = new SendUsernames(username, messageHandler);
+    public void sendUsername(Player player) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        SendUsernames func = new SendUsernames(player, messageHandler);
         func.handle();
     }
 

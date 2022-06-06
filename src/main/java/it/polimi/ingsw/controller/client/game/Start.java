@@ -59,6 +59,7 @@ public class Start implements GamePhase {
         for(int i = 0 ; i< this.game.getLobbySize()-1;i++) {
             try{
                 try {
+                    //TODO: togliere i controlli quando c'è writeOutAndWait
                     this.network.getUsernames(this.game);
                 } catch (MalformedMessageException e) {
                     this.network.getUsernames(this.game);

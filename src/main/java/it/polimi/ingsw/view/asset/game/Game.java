@@ -25,10 +25,10 @@ public class Game {
         this.islands = new ArrayList<>();
         this.clouds = new ArrayList<>();
         this.self = gamer;
+        this.createAssets();
     }
 
-    public void updateGame(ArrayList<Gamer> gamers, ArrayList<Island> islands, ArrayList<Cloud> clouds, Island motherNaturePosition) {
-        this.gamers.addAll(gamers);
+    private void createAssets() {
         this.islands.addAll(islands);
         this.clouds.addAll(clouds);
         this.motherNaturePosition = motherNaturePosition;

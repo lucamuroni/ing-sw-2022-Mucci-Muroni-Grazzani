@@ -11,8 +11,7 @@ import it.polimi.ingsw.view.asset.game.Gamer;
 
 import java.util.ArrayList;
 
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.PLAYER_NAME;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 public class GetUsernames {
     private MessageHandler messageHandler;
@@ -25,16 +24,15 @@ public class GetUsernames {
 
     public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
         this.messageHandler.read(ConnectionTimings.INFINITE.getTiming());
+        int id = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PLAYER_ID.getFragment()));
         String username = this.messageHandler.getMessagePayloadFromStream(PLAYER_NAME.getFragment());
         int topicId = this.messageHandler.getMessagesUniqueTopic();
         Message message = new Message(PLAYER_NAME.getFragment(), OK.getFragment(), topicId);
         this.messageHandler.write(message);
         this.messageHandler.writeOut();
-        ArrayList<Gamer> gamers = new ArrayList<>(this.game.getGamers());
-        gamers.remove(this.game.getSelf());
-        for (Gamer gamer : gamers) {
-            if (gamer.getUsername() == null)
-                gamer.setUsername(username);
-        }
+        Gamer gamer = new Gamer(id);
+        ArrayList<Gamer> gamers = this.game.getGamers();
+        gamers.add(gamer);
+        gamer.setUsername(username);
     }
 }

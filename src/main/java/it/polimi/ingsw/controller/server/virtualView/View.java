@@ -224,7 +224,7 @@ public interface View{
     public void setCurrentPlayer(Player player);
 
     public void sendActiveUsername(Player player) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
-    public void sendUserName(String username) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+    public void sendUsername(Player player) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
     /**
      *

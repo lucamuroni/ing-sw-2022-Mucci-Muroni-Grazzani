@@ -243,16 +243,16 @@ public class GameSetup implements GamePhase{
     }
 
     private void updateUsernames(){
-        ArrayList<Player> players = new ArrayList<Player>(this.controller.getPlayers());
+        ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
         for (Player player1 : players){
             this.view.setCurrentPlayer(player1);
             for(Player player2 : players){
                 if(!player1.equals(player2)){
                     try {
                         try {
-                            this.view.sendUserName(player2.getUsername());
+                            this.view.sendUsername(player2);
                         } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e) {
-                            this.view.sendUserName(player2.getUsername());
+                            this.view.sendUsername(player2);
                         }
                     } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
                         e.printStackTrace();

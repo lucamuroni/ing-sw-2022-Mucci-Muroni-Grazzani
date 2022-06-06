@@ -47,7 +47,7 @@ public class SelectAssistantCardDeckPage implements Page {
             throw new UndoException();
         }
         //cli.clearConsole();
-        self.setFigure(this.figures.get(choice-1));
+        self.updateFigure(this.figures.get(choice-1));
         this.setReadyToProcede();
     }
 
