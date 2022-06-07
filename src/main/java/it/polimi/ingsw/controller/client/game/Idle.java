@@ -40,7 +40,7 @@ public class Idle implements GamePhase{
                     context = MessageFragment.getEnum(this.network.getContext());
                 }
             } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
-                this.controller.handleError();
+                this.controller.handleError("Could not await for context");
             } catch (AssetErrorException e) {
                 this.controller.handleError("Doesn't found context");
             }
