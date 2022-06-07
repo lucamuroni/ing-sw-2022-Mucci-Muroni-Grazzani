@@ -173,21 +173,17 @@ public class GameSetup implements GamePhase{
      * @param player is the player whose view will be adjourned
      */
     private void updateDashboards(Player player,Player currentPlayer){
-        for (int i = 0; i<this.game.getGamers().size(); i++) {
+        try{
             try{
-                try{
-                    //this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
-                    this.view.updateDashboards(this.game.getGamers().get(i), this.game);
-                }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
-                    //this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
-                    this.view.updateDashboards(this.game.getGamers().get(i), this.game);
-                }
-            }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
-                this.controller.handlePlayerError(currentPlayer,"Error while updating dashboard");
+                //this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
+                this.view.updateDashboards(player.getGamer(this.game.getGamers()), this.game);
+            }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                //this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
+                this.view.updateDashboards(player.getGamer(this.game.getGamers()), this.game);
             }
+        }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException | ModelErrorException e){
+            this.controller.handlePlayerError(currentPlayer,"Error while updating dashboard");
         }
-
-
     }
 
     /**
