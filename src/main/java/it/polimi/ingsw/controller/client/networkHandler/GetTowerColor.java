@@ -31,8 +31,10 @@ public class GetTowerColor {
                 owner = gamer;
             }
         }
-        if (owner == null)
+        if (owner == null){
+            System.out.println("Ba");
             throw new AssetErrorException();
+        }
         result = this.messageHandler.getMessagePayloadFromStream(TOWER_COLOR.getFragment());
         TowerColor col = null;
         for (TowerColor color : TowerColor.values()) {

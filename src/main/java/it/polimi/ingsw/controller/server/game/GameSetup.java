@@ -23,7 +23,6 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
 public class GameSetup implements GamePhase{
     private final int numTowers;
     private final int numStudents;
-    private final ArrayList<TowerColor> colors;
     private final Game game;
     private final GameController controller;
     private final View view;
@@ -37,16 +36,12 @@ public class GameSetup implements GamePhase{
         this.game = game;
         this.controller = controller;
         this.view = this.controller.getView();
-        this.colors = new ArrayList<>();
-        this.colors.add(TowerColor.WHITE);
-        this.colors.add(TowerColor.BLACK);
         if(game.getGamers().size() == 2){
             this.numStudents = 7;
             this.numTowers = 8;
         }else{
             this.numStudents = 9;
             this.numTowers = 6;
-            this.colors.add(TowerColor.GREY);
         }
     }
 
