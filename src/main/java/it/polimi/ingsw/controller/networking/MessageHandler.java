@@ -46,6 +46,10 @@ public class MessageHandler {
             this.encoder.put(this.topKeyWord,msg.getUniqueTopicID());
         }else{
             if(msg.getUniqueTopicID() != (int)this.encoder.get(this.topKeyWord)){
+                Set<String> keySet = this.encoder.keySet();
+                for(String chiave : keySet){
+                    System.out.println(chiave);
+                }
                 throw new MalformedMessageException("A message is already present, please writeOut() it before writing a new one");
             }
         }
