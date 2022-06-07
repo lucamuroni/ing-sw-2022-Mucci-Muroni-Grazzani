@@ -17,8 +17,8 @@ class ConnectionHandler {
     private final Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
-    private ArrayList<String> inputMessages;
-    private ArrayList<String> outputMessages;
+    private final ArrayList<String> inputMessages;
+    private final ArrayList<String> outputMessages;
     private boolean isON;
     private boolean hasConnectionBeenLost;
 
@@ -64,15 +64,17 @@ class ConnectionHandler {
                 try {
                     this.clientSocket.setSoTimeout(20000);
                     s = this.in.readLine();
-                    if(s.equals("ping-ok")){
-                        this.ping(8000);
-                    }else if(s.equals("ping")){
-                        synchronized (this.out){
-                            this.out.println("ping-ok");
-                        }
-                    }else{
-                        synchronized (this.inputMessages){
-                            this.inputMessages.add(s);
+                    if(s != null){
+                        if(s.equals("ping-ok")){
+                            this.ping(8000);
+                        }else if(s.equals("ping")){
+                            synchronized (this.out){
+                                this.out.println("ping-ok");
+                            }
+                        }else{
+                            synchronized (this.inputMessages){
+                                this.inputMessages.add(s);
+                            }
                         }
                     }
                 } catch (IOException e) {
