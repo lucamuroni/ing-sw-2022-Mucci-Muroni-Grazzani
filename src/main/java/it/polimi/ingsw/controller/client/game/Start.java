@@ -38,28 +38,6 @@ public class Start implements GamePhase {
             this.updateColor();
             this.updateDashboards();
         }
-        ArrayList<AssistantCardDeckFigures> figures = new ArrayList<>();
-        try {
-            try {
-                figures.addAll(this.network.getPossibleDecks());
-            } catch (MalformedMessageException e) {
-                figures.addAll(this.network.getPossibleDecks());
-            }
-        } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
-            this.controller.handleError();
-        } catch (AssetErrorException e) {
-            this.controller.handleError("Doesn't found deck figure");
-        }
-        AssistantCardDeckFigures figure = this.view.chooseFigure(figures);
-        try {
-            try {
-                this.network.sendAssistantCardDeck(figure);
-            } catch (MalformedMessageException e) {
-                this.network.sendAssistantCardDeck(figure);
-            }
-        } catch (MalformedMessageException e) {
-            this.controller.handleError();
-        }
     }
 
     private void getUsernames() {

@@ -18,9 +18,9 @@ public class PlanningPhase implements GamePhase {
     private final ClientController controller;
 
     public PlanningPhase(ClientController controller) {
+        this.controller = controller;
         this.game = controller.getGame();
         this.view = controller.getViewHandler();
-        this.controller = controller;
         this.network = this.controller.getNetwork();
     }
 
