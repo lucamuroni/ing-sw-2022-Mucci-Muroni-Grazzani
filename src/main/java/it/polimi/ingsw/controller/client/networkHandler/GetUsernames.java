@@ -27,7 +27,7 @@ public class GetUsernames {
         int id = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PLAYER_ID.getFragment()));
         String username = this.messageHandler.getMessagePayloadFromStream(PLAYER_NAME.getFragment());
         int topicId = this.messageHandler.getMessagesUniqueTopic();
-        Message message = new Message(PLAYER_NAME.getFragment(), OK.getFragment(), topicId);
+        Message message = new Message(PLAYER.getFragment(), OK.getFragment(), topicId);
         this.messageHandler.write(message);
         this.messageHandler.writeOut();
         Gamer gamer = new Gamer(id);
