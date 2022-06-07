@@ -28,6 +28,7 @@ public class Start implements GamePhase {
 
     @Override
     public void handle() {
+        this.view.setController(controller);
         this.getUsernames();
         this.updateMNPlace();
         for(int i = 0; i< 12;i++){
