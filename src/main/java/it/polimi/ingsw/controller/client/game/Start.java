@@ -87,8 +87,6 @@ public class Start implements GamePhase {
         } catch (AssetErrorException e) {
             this.controller.handleError("Doesn't found island of mother nature");
         }
-        //DEBUG
-        System.out.println("Madre natura è all isola"+game.getMotherNaturePosition().getId());
     }
 
     private void updateIslandStatus() {

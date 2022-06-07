@@ -64,6 +64,7 @@ public class Player {
     public Gamer getGamer(ArrayList<Gamer> gamers) throws ModelErrorException {
         for(Gamer gamer : gamers){
             if(gamer.getUsername().equals(this.username) && this.token==gamer.getToken()){
+                System.out.println(" colore giocatore "+ gamer.getTowerColor().toString());
                 return gamer;
             }
         }
