@@ -29,7 +29,6 @@ public class Start implements GamePhase {
     @Override
     public void handle() {
         this.getUsernames();
-        this.createAsset();
         this.updateMNPlace();
         this.updateIslandStatus();
         for (int i = 0; i<this.game.getGamers().size(); i++) {
@@ -60,24 +59,10 @@ public class Start implements GamePhase {
         }
     }
 
-    private void createAsset() {
-        ArrayList<Island> islands = new ArrayList<Island>();
-        for(int i = 1; i<= 12; i++){
-            Island island = new Island(i);
-            islands.add(island);
-        }
-        // todo : aggiungere le isole al game
-        for(int i = 1; i <= this.game.getLobbySize(); i++){
-            // todo creazione delle nuvole (id parte da 0 oppure da 1?)
-        }
-        // TODO capire cosa va creato come dashboard?
-    }
-
     private void getUsernames() {
         for(int i = 0 ; i< this.game.getLobbySize()-1;i++) {
             try{
                 try {
-                    //TODO: togliere i controlli quando c'è writeOutAndWait
                     this.network.getUsernames(this.game);
                 } catch (MalformedMessageException e) {
                     this.network.getUsernames(this.game);
