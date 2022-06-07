@@ -182,6 +182,7 @@ public class GameSetup implements GamePhase{
                 this.view.updateDashboards(player.getGamer(this.game.getGamers()), this.game);
             }
         }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException | ModelErrorException e){
+            e.printStackTrace();
             this.controller.handlePlayerError(currentPlayer,"Error while updating dashboard");
         }
     }
