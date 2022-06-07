@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.client.networkHandler;
 
+import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
@@ -32,7 +33,6 @@ public class GetTowerColor {
             }
         }
         if (owner == null){
-            System.out.println("Ba");
             throw new AssetErrorException();
         }
         result = this.messageHandler.getMessagePayloadFromStream(TOWER_COLOR.getFragment());
@@ -44,6 +44,9 @@ public class GetTowerColor {
         }
         if (col == null)
             throw new AssetErrorException();
+        Message message = new Message(TOWER_COLOR.getFragment(), OK.getFragment(), this.messageHandler.getMessagesUniqueTopic());
+        this.messageHandler.write(message);
+        this.messageHandler.writeOut();
         owner.setColor(col);
     }
 }
