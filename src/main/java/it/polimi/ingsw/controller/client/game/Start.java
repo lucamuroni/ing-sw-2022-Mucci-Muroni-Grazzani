@@ -30,7 +30,9 @@ public class Start implements GamePhase {
     public void handle() {
         this.getUsernames();
         this.updateMNPlace();
-        this.updateIslandStatus();
+        for(int i = 0; i< 12;i++){
+            this.updateIslandStatus();
+        }
         for (int i = 0; i<this.game.getGamers().size(); i++) {
             this.updateColor();
             this.updateDashboards();
