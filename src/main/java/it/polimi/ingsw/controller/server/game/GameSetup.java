@@ -67,11 +67,12 @@ public class GameSetup implements GamePhase{
                 this.controller.shutdown("Error founded in model : shutting down this game");
             }
         }
+        ArrayList<Player> pl = new ArrayList<>(this.controller.getPlayers());
         for (Player player : this.controller.getPlayers()) {
-            ArrayList<Player> pl = new ArrayList<>(this.controller.getPlayers());
+            this.view.setCurrentPlayer(player);
             for (Player player1 : pl) {
-                this.updateTowerColor(player1);
-                this.updateDashboards(player1);
+                this.updateTowerColor(player1,player);
+                this.updateDashboards(player1,player);
             }
         }
         for(Player player : this.controller.getPlayers()){
@@ -156,8 +157,7 @@ public class GameSetup implements GamePhase{
         }
     }
 
-    private void updateTowerColor(Player player) {
-        this.view.setCurrentPlayer(player);
+    private void updateTowerColor(Player player,Player currentPlayer) {
         try {
             try {
                 //this.view.sendContext(CONTEXT_COLOR.getFragment());
@@ -167,7 +167,7 @@ public class GameSetup implements GamePhase{
                 this.view.sendTowerColor(player.getGamer(this.game.getGamers()));
             }
         } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
-            this.controller.handlePlayerError(player,"Error while updating color");
+            this.controller.handlePlayerError(currentPlayer,"Error while updating color");
         } catch (ModelErrorException e) {
             this.controller.shutdown("Error founded in model : shutting down this game");
         }
@@ -177,8 +177,7 @@ public class GameSetup implements GamePhase{
      * This method is called by handle() and it sends to a player the information about of all dashboards
      * @param player is the player whose view will be adjourned
      */
-    private void updateDashboards(Player player){
-        this.view.setCurrentPlayer(player);
+    private void updateDashboards(Player player,Player currentPlayer){
         for (int i = 0; i<this.game.getGamers().size(); i++) {
             try{
                 try{
@@ -189,7 +188,7 @@ public class GameSetup implements GamePhase{
                     this.view.updateDashboards(this.game.getGamers().get(i), this.game);
                 }
             }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
-                this.controller.handlePlayerError(player,"Error while updating dashboard");
+                this.controller.handlePlayerError(currentPlayer,"Error while updating dashboard");
             }
         }
 

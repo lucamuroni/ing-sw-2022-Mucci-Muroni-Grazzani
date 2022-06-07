@@ -27,6 +27,7 @@ public class Island {
         this.numTowers = 0;
         this.isMotherNaturePresent = false;
         this.isTowerPresent = false;
+        this.students = new ArrayList<Student>();
     }
 
     /**

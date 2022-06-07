@@ -12,6 +12,8 @@ import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Gamer;
 import it.polimi.ingsw.view.asset.game.Island;
 import java.util.ArrayList;
+
+import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.CONNECTION_STARTUP;
 import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
@@ -44,7 +46,7 @@ public class GetIslandStatus {
      * @throws MalformedMessageException   launched if the message isn't created in the correct way
      */
     public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException, AssetErrorException {
-        this.messageHandler.read(PLAYER_MOVE.getTiming());
+        this.messageHandler.read(CONNECTION_STARTUP.getTiming());
         int result = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(ISLAND_ID.getFragment()));
         Island island = null;
         for (Island isl : game.getIslands()) {
