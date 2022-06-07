@@ -137,6 +137,7 @@ public class Idle implements GamePhase{
                         this.controller.handleError("Doesn't found phase");
                     }
                     switch (Objects.requireNonNull(phase)) {
+                        case DECK_PHASE -> nextPhase = new DeckPhase(this.controller);
                         case PLANNING_PHASE -> nextPhase = new PlanningPhase(this.controller);
                         case ACTION_PHASE_1 -> nextPhase = new ActionPhase1(this.controller);
                         case MOTHER_NATURE_PHASE -> nextPhase = new MotherNaturePhase(this.controller);

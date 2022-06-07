@@ -60,8 +60,10 @@ public class PlanningPhase implements GamePhase{
                 this.view.setCurrentPlayer(player);
                 try {
                     try{
+                        this.view.sendContext(CONTEXT_PHASE.getFragment());
                         this.view.sendNewPhase(Phase.PLANNING_PHASE);
                     }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                        this.view.sendContext(CONTEXT_PHASE.getFragment());
                         this.view.sendNewPhase(Phase.PLANNING_PHASE);
                     }
                 }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {

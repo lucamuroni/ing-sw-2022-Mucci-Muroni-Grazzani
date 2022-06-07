@@ -50,8 +50,10 @@ public class ActionPhase3 implements GamePhase{
         }
         try {
             try{
+                this.view.sendContext(CONTEXT_PHASE.getFragment());
                 this.view.sendNewPhase(Phase.ACTION_PHASE_3);
             }catch(MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                this.view.sendContext(CONTEXT_PHASE.getFragment());
                 this.view.sendNewPhase(Phase.ACTION_PHASE_3);
             }
         }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {

@@ -70,21 +70,6 @@ public class GameSetup implements GamePhase{
                 this.updateDashboards(player1,player);
             }
         }
-        for(Player player : this.controller.getPlayers()){
-            AssistantCardDeckFigures figure = this.getChosenAssistantCardDeck(player);
-            ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
-            players.remove(player);
-            Gamer currentPlayer = null;
-            try {
-                currentPlayer = player.getGamer(this.game.getGamers());
-            } catch (ModelErrorException e) {
-                this.controller.shutdown("Error founded in model : shutting down this game");
-            }
-            for(Player player1 : players){
-                this.updateChosenCardDeck(player1, currentPlayer, figure);
-            }
-            players.clear();
-        }
     }
 
     /**
@@ -187,52 +172,6 @@ public class GameSetup implements GamePhase{
         }
     }
 
-    /**
-     * This method is called by handle() and it asks a player which AssistantCardDeckFigure he wants to take
-     * @param player is the player currently playing
-     * @return the figure chosen by the player
-     */
-    private AssistantCardDeckFigures getChosenAssistantCardDeck(Player player){
-        this.view.setCurrentPlayer(player);
-        AssistantCardDeckFigures card = null;
-        try{
-            try{
-                card = this.view.getChosenAssistantCardDeck(this.controller.getCardDesks());
-            }catch (MalformedMessageException e){
-                card = this.view.getChosenAssistantCardDeck(this.controller.getCardDesks());
-            }
-        }catch (MalformedMessageException | ClientDisconnectedException e){
-            this.controller.handlePlayerError(player, "Error while getting chosen assistant card");
-        }catch (TimeHasEndedException e) {
-            card = this.randomFigurePicker();
-            this.controller.getCardDesks().remove(card);
-            return card;
-        }
-        this.controller.getCardDesks().remove(card);
-        return card;
-    }
-
-    /**
-     * This method is called by handle() and it sends to a player the AssistantCardDeckFigure chosen by the currentPlayer
-     * @param player is the player whose view will be adjourned
-     * @param currentPlayer is the current player
-     * @param figure is the figure chosen by the currentPlayer
-     */
-    private void updateChosenCardDeck(Player player, Gamer currentPlayer, AssistantCardDeckFigures figure){
-        this.view.setCurrentPlayer(player);
-        try{
-            try{
-                //this.view.sendContext(CONTEXT_FIGURE.getFragment());
-                this.view.sendChosenAssistantCardDeck(figure, currentPlayer.getToken(), currentPlayer);
-            }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
-                //this.view.sendContext(CONTEXT_FIGURE.getFragment());
-                this.view.sendChosenAssistantCardDeck(figure, currentPlayer.getToken(), currentPlayer);
-            }
-        }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
-            this.controller.handlePlayerError(player, "Error while updating chosen card deck figure");
-        }
-    }
-
     private void updateUsernames(){
         ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
         for (Player player1 : players){
@@ -255,21 +194,10 @@ public class GameSetup implements GamePhase{
     }
 
     /**
-     * This method is called by getChosenAssistantCardDeck() when the player doesn't reply in time. It chooses a random
-     * figure for the cards of the player
-     * @return a random AssistantCardDeckFigure
-     */
-    private AssistantCardDeckFigures randomFigurePicker() {
-        Random random = new Random();
-        int rand = random.nextInt(0, AssistantCardDeckFigures.values().length);
-        return AssistantCardDeckFigures.values()[rand];
-    }
-
-    /**
      * This method changes the phase to the next one
      * @return the next GamePhase
      */
     public GamePhase next(){
-        return new PlanningPhase(this.game,this.controller);
+        return new DeckPhase(this.game,this.controller);
     }
 }
