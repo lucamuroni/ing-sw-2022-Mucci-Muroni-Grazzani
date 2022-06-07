@@ -9,6 +9,7 @@ import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
+import it.polimi.ingsw.view.asset.game.Island;
 
 import java.util.ArrayList;
 
@@ -28,6 +29,7 @@ public class Start implements GamePhase {
     @Override
     public void handle() {
         this.getUsernames();
+        this.createAsset();
         this.updateMNPlace();
         this.updateIslandStatus();
         for (int i = 0; i<this.game.getGamers().size(); i++) {
@@ -56,6 +58,19 @@ public class Start implements GamePhase {
         } catch (MalformedMessageException e) {
             this.controller.handleError();
         }
+    }
+
+    private void createAsset() {
+        ArrayList<Island> islands = new ArrayList<Island>();
+        for(int i = 1; i<= 12; i++){
+            Island island = new Island(i);
+            islands.add(island);
+        }
+        // todo : aggiungere le isole al game
+        for(int i = 1; i <= this.game.getLobbySize(); i++){
+            // todo creazione delle nuvole (id parte da 0 oppure da 1?)
+        }
+        // TODO capire cosa va creato come dashboard?
     }
 
     private void getUsernames() {
