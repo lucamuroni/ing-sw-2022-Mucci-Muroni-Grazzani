@@ -42,7 +42,8 @@ public class SendTowerColor {
     public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
         ArrayList<Message> messages = new ArrayList<>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
-        System.out.println(String.valueOf(this.gamer.getToken())+"    "+this.gamer.getTowerColor().toString());
+        System.out.println("Ciao");
+        System.out.println(this.gamer.getToken()+"    "+this.gamer.getTowerColor().toString());
         messages.add(new Message(OWNER.getFragment(), String.valueOf(this.gamer.getToken()), topicId));
         messages.add(new Message(TOWER_COLOR.getFragment(), this.gamer.getTowerColor().toString(), topicId));
         this.messageHandler.write(messages);
