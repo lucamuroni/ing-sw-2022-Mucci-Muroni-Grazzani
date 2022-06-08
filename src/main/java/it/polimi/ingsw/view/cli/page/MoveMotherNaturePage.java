@@ -29,14 +29,9 @@ public class MoveMotherNaturePage implements Page {
         for (Island island : this.islands) {
             options.add("Island " + island.getId());
         }
-        int choice;
         Menù menù = new Menù(options);
-        menù.clear();
-        menù.addOptions(options);
         menù.setContext("Which island do you want to choose?");
-        menù.print();
-        //Controllo del back
-        choice = this.cli.readInt(options.size(), menù, false);
+        int choice = this.cli.readInt(options.size(), menù, false);
         options.clear();
         options.add("y");
         options.add("n");

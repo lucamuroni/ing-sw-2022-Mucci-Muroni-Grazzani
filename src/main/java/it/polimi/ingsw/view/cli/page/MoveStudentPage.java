@@ -34,14 +34,14 @@ public class MoveStudentPage implements Page {
     @Override
     public void handle() throws UndoException {
         ArrayList<String> options = new ArrayList<>();
-        options.add("Hall");
+        int possiblePlace = this.assetGame.getPossiblePlace();
+        if (possiblePlace == 2) {
+            options.add("Hall");
+        }
         options.add("Island");
         Menù menù= new Menù(options);
         menù.setContext("Where do you want to move your player?");
-        menù.print();
-        int choice;
-        //Controllo del back
-        choice = this.cli.readInt(options.size(), menù, false);
+        int choice = this.cli.readInt(options.size(), menù, false);
         if(choice==2){
             options.clear();
             for(Island island : this.assetGame.getIslands()){
@@ -51,23 +51,17 @@ public class MoveStudentPage implements Page {
             menù.clear();
             menù.addOptions(options);
             menù.setContext("Which island do you want to choose?");
-            menù.print();
-            //Back presente
             choice = this.cli.readInt(options.size(), menù, true);
             assetGame.setChosenIsland(this.assetGame.getIslands().get(choice-1));
         }
         options.clear();
-        options.add("Red");
-        options.add("Blue");
-        options.add("Yellow");
-        options.add("Green");
-        options.add("Pink");
-        options.add("Back");
+        ArrayList<PawnColor> possibleColors = new ArrayList<>(this.assetGame.getPossibleColors(choice));
+        for (PawnColor color : possibleColors) {
+            options.add(color.name());
+        }
         menù.clear();
         menù.addOptions(options);
         menù.setContext("Which type of student do you want to move?");
-        menù.print();
-        //Controllo del back
         choice = this.cli.readInt(options.size(), menù, true);
         options.clear();
         options.add("y");

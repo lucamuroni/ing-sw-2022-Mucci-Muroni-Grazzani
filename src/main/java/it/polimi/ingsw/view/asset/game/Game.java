@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.asset.game;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 import it.polimi.ingsw.controller.networking.GameType;
@@ -112,5 +113,31 @@ public class Game {
     public void setLobbySize(int lobbySize) {
         this.lobbySize = lobbySize;
         this.createClouds();
+    }
+
+    public ArrayList<PawnColor> getPossibleColors(int place) {
+        ArrayList<PawnColor> colors = new ArrayList<>(List.of(PawnColor.values()));
+        int num;
+        for (PawnColor color : PawnColor.values()) {
+            num = Math.toIntExact(this.self.getDashBoard().getWaitingRoom().stream().filter(x -> x.getColor().equals(color)).count());
+            if (num == 0)
+                colors.remove(color);
+            else {
+                if (place == 1) {
+                    num = Math.toIntExact(this.self.getDashBoard().getHall().stream().filter(x -> x.getColor().equals(color)).count());
+                        if (num == 10)
+                            colors.remove(color);
+
+                }
+            }
+        }
+        return colors;
+    }
+
+    public int getPossiblePlace() {
+        int num = this.self.getDashBoard().getHall().size();
+        if (num == 50)
+            return 1;
+        return 2;
     }
 }

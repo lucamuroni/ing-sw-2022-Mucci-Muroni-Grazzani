@@ -36,9 +36,7 @@ public class SelectAssistantCardDeckPage implements Page {
         }
         Menù menù = new Menù(options);
         menù.setContext("Please select a deck ");
-        int choice;
-        //Controllo del back
-        choice = this.cli.readInt(options.size(), menù, false);
+        int choice = this.cli.readInt(options.size(), menù, false);
         options.clear();
         options.add("y");
         options.add("n");
