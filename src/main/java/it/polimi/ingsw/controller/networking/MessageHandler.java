@@ -114,7 +114,7 @@ public class MessageHandler {
         for(String key : keySet){
             // TODO dubug <=====
             if(true){
-                System.out.println("lettura del payload "+decoder.get(key)+ "alla key "+key);
+                System.out.println("lettura del payload "+decoder.get(key)+ " alla key "+key);
             }
             // todo =====>
             Message m = new Message(key,String.valueOf( decoder.get(key)),uniqueID);
