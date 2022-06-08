@@ -26,9 +26,6 @@ public class PlanningPhase implements GamePhase {
 
     @Override
     public void handle() {
-        for (int i = 0; i<this.game.getClouds().size(); i++) {
-            this.updateClouds();
-        }
         try {
             try {
                 this.network.getPossibleCards(this.game);
@@ -66,20 +63,6 @@ public class PlanningPhase implements GamePhase {
         }
     }*/
 
-    private void updateClouds() {
-        try {
-            try {
-                this.network.getCloudStatus(this.game);
-            } catch (MalformedMessageException | TimeHasEndedException e) {
-                this.network.getCloudStatus(this.game);
-            }
-        } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
-            this.controller.handleError();
-        } catch (AssetErrorException e) {
-            this.controller.handleError("Doesn't found cloud");
-        }
-
-    }
 
     @Override
     public GamePhase next() {
