@@ -22,7 +22,7 @@ public class Idle implements GamePhase{
 
     public Idle(ClientController controller) {
         this.controller = controller;
-        this.game = controller.getGame();
+        this.game = this.controller.getGame();
         this.network = this.controller.getNetwork();
         this.view = this.controller.getViewHandler();
     }

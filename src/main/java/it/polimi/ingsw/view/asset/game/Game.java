@@ -26,13 +26,16 @@ public class Game {
         this.clouds = new ArrayList<>();
         this.self = gamer;
         this.gamers.add(self);
-        this.createAssets();
+        this.createIslands();
     }
 
-    private void createAssets() {
+    private void createIslands() {
         for (int i = 0; i<12; i++) {
             this.islands.add(new Island(i+1));
         }
+    }
+
+    private void createClouds(){
         for (int i = 0; i<lobbySize; i++) {
             this.clouds.add(new Cloud(i+1));
         }
@@ -108,5 +111,6 @@ public class Game {
 
     public void setLobbySize(int lobbySize) {
         this.lobbySize = lobbySize;
+        this.createClouds();
     }
 }
