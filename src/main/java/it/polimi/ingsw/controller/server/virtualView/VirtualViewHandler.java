@@ -83,7 +83,6 @@ public class VirtualViewHandler implements View {
     @Override
     public void updateCloudsStatus(ArrayList<Cloud> clouds) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         for (Cloud cloud : clouds) {
-            this.sendContext(CONTEXT_CLOUD.getFragment());
             this.updateCloudsStatus(cloud);
         }
     }
