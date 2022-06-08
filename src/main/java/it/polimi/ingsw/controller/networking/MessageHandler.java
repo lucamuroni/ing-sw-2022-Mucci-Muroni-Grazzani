@@ -120,6 +120,7 @@ public class MessageHandler {
             Message m = new Message(key,String.valueOf( decoder.get(key)),uniqueID);
             this.incomingMessages.add(m);
         }
+        this.updateLastTopic(this.incomingMessages.get(0));
     }
 
     /**
@@ -162,7 +163,6 @@ public class MessageHandler {
     public String getMessagePayloadFromStream(String key) throws MalformedMessageException {
         for(Message msg : this.incomingMessages){
             if(msg.getHeader().equals(key)){
-                updateLastTopic(msg);
                 this.incomingMessages.remove(msg);
                 return msg.getPayload();
             }
