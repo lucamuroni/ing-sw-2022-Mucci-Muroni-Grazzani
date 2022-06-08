@@ -17,6 +17,8 @@ import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.TowerColor;
 import java.util.ArrayList;
 
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CONTEXT_CLOUD;
+
 /**
  * @author Davide Grazzani
  * @author Luca Muroni
@@ -81,6 +83,7 @@ public class VirtualViewHandler implements View {
     @Override
     public void updateCloudsStatus(ArrayList<Cloud> clouds) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         for (Cloud cloud : clouds) {
+            this.sendContext(CONTEXT_CLOUD.getFragment());
             this.updateCloudsStatus(cloud);
         }
     }
