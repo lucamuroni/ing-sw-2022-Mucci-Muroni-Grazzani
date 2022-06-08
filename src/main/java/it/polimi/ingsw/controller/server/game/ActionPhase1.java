@@ -74,7 +74,7 @@ public class ActionPhase1 implements GamePhase{
                 this.controller.shutdown("Error founded in model : shutting down this game");
             }
         }
-        ArrayList<Player> players = this.controller.getPlayers();
+        ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
         try {
             players.remove(this.controller.getPlayer(this.game.getCurrentPlayer()));
         } catch (ModelErrorException e) {
