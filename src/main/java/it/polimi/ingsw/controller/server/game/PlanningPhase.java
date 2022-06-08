@@ -92,17 +92,20 @@ public class PlanningPhase implements GamePhase{
      */
     private void updateCloudsStatus(Player player){
         this.view.setCurrentPlayer(player);
-        try{
+        for (Cloud cloud : this.game.getClouds()) {
             try{
-                this.view.sendContext(CONTEXT_CLOUD.getFragment());
-                this.view.updateCloudsStatus(this.game.getClouds());
-            }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
-                this.view.sendContext(CONTEXT_CLOUD.getFragment());
-                this.view.updateCloudsStatus(this.game.getClouds());
+                try{
+                    this.view.sendContext(CONTEXT_CLOUD.getFragment());
+                    this.view.updateCloudsStatus(cloud);
+                }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                    this.view.sendContext(CONTEXT_CLOUD.getFragment());
+                    this.view.updateCloudsStatus(cloud);
+                }
+            }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
+                this.controller.handlePlayerError(player,"Error while updating clouds status");
             }
-        }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
-            this.controller.handlePlayerError(player,"Error while updating clouds status");
         }
+
     }
 
     /**

@@ -51,6 +51,10 @@ public class GetCloudStatus {
                 cloud = cl;
             }
         }
+        if(cloud == null) {
+            System.out.println("Qui");
+            throw new AssetErrorException();
+        }
         int colorRed = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_RED.getFragment()));
         if(colorRed > 0) {
             for (int i = 0; i < colorRed; i++) {
@@ -90,9 +94,6 @@ public class GetCloudStatus {
         Message message = new Message(CLOUD.getFragment(), OK.getFragment(), topicId);
         this.messageHandler.write(message);
         this.messageHandler.writeOut();
-        if (cloud!=null)
-            cloud.update(students);
-        else
-            throw new AssetErrorException();
+        cloud.update(students);
     }
 }
