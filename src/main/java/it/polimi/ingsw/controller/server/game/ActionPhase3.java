@@ -73,10 +73,12 @@ public class ActionPhase3 implements GamePhase{
                     try {
                         this.view.sendContext(CONTEXT_CLOUD.getFragment());
                         this.view.updateCloudsStatus(this.game.getClouds());
+                        this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
                         this.view.updateDashboards(this.game.getGamers(), this.game);
                     } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
                         this.view.sendContext(CONTEXT_CLOUD.getFragment());
                         this.view.updateCloudsStatus(this.game.getClouds());
+                        this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
                         this.view.updateDashboards(this.game.getGamers(), this.game);
                     }
                 } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
@@ -154,6 +156,7 @@ public class ActionPhase3 implements GamePhase{
             this.controller.updatePlayersOrder();
             return new PlanningPhase(this.game, this.controller);
         }else{
+            // TODO riga sotto da rimuovere
             this.game.setCurrentPlayer(this.game.getGamers().get((this.game.getTurnNumber()%this.game.getGamers().size())-1));
             return new ActionPhase1(this.game,this.controller);
         }
