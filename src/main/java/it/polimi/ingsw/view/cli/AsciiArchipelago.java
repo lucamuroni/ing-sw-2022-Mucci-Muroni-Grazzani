@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
 import com.sun.security.auth.UnixNumericGroupPrincipal;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 
 import java.util.ArrayList;
 
@@ -22,27 +23,47 @@ public class AsciiArchipelago {
         for(int i = 0; i<column;i++){
             for(int j = 0; j<row;j++){
                 if(j != 1 && i%2==0){
-                    positionalMatrix[j][i] = this.asciiIslands.get(counter).getIsland().getId();
+                    positionalMatrix[i][j] = this.asciiIslands.get(counter).getIsland().getId();
+                    counter ++;
                 }else{
-                    positionalMatrix[j][i] = 0;
+                    positionalMatrix[i][j] = 0;
                 }
             }
         }
     }
 
-    public void print(int line){
+    private void print(int line,int row) throws AssetErrorException {
         for(int i=0; i < column;i++){
-            for(int j=0; j<row;j++){
-                if(positionalMatrix[i][j]==0){
-
+            if(positionalMatrix[i][row]==0){
+                printSpace(AsciiIsland.getWidth());
+            }else {
+                AsciiIsland island = null;
+                for(AsciiIsland island1 : this.asciiIslands){
+                    if (island1.getIsland().getId()==positionalMatrix[i][row]){
+                        island = island1;
+                    }
                 }
+                if(island == null){
+                    throw new AssetErrorException("No island founded with that id ");
+                }
+                int space = island.draw(line);
+                this.printSpace(AsciiIsland.getWidth()-space);
             }
         }
+        System.out.print("\n");
     }
 
     private void printSpace(int number){
         for(int i = 0;i < number ; i++){
             System.out.print(" ");
+        }
+    }
+
+    public void draw() throws AssetErrorException {
+        for(int i = 0;i < row; i++){
+            for(int j = 0 ; j < AsciiIsland.getHeight();j++){
+                this.print(j,i);
+            }
         }
     }
 

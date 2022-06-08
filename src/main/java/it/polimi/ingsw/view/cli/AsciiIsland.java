@@ -131,4 +131,11 @@ public class AsciiIsland {
     public Island getIsland() {
         return island;
     }
+    public static int getHeight(){
+        return height;
+    }
+
+    public static int getWidth(){
+        return width;
+    }
 }
