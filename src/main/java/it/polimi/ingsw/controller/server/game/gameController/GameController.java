@@ -91,7 +91,10 @@ public class GameController extends Thread{
     }
 
     public Player getPlayer(Gamer currentPlayer, ArrayList<Player> players) throws ModelErrorException {
+        System.out.println("CurrentPlayer "+currentPlayer.getUsername()+"  "+currentPlayer.getToken());
+        System.out.println("players size  "+players.size());
         for(Player player : players){
+            System.out.println("player :"+player.getUsername()+ "    "+player.getToken());
             if(currentPlayer.getToken() == player.getToken() && currentPlayer.getUsername().equals(player.getUsername())){
                 return player;
             }
