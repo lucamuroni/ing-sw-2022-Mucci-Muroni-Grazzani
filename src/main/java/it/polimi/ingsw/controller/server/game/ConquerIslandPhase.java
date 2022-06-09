@@ -117,8 +117,14 @@ public class ConquerIslandPhase implements GamePhase{
                 this.view.setCurrentPlayer(player);
                 try {
                     try {
-                        this.view.sendMergedIsland(islands);
+                        this.view.sendContext(CONTEXT_MERGE.getFragment());
+                        this.view.sendMergedIslands(islands);
+                    }catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e){
+                        this.view.sendContext(CONTEXT_MERGE.getFragment());
+                        this.view.sendMergedIslands(islands);
                     }
+                }catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
+                    this.controller.handlePlayerError(player,"Could not send merged Islands");
                 }
             }
         }

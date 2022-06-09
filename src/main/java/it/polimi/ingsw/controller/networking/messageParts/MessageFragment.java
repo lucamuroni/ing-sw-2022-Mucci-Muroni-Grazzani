@@ -18,6 +18,7 @@ public enum MessageFragment {
     CONTEXT_DASHBOARD("dashboardUpdate"),
     CONTEXT_FIGURE("figureSelection"),
     CONTEXT_ISLAND("islandUpdate"),
+    CONTEXT_MERGE("mergeIslands"),
     CONTEXT_MOTHER("motherNature"),
     CONTEXT_PHASE("changePhase"),
     CONTEXT_USERNAME("activeUsername"),
