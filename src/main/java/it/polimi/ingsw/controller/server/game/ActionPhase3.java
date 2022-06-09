@@ -117,7 +117,6 @@ public class ActionPhase3 implements GamePhase{
             chosenCloud = this.getRandomCloud(possibleChoices);
             currentPlayer.getDashboard().addStudentsWaitingRoom(chosenCloud.pullStudent());
         }
-        assert chosenCloud != null;
         currentPlayer.getDashboard().addStudentsWaitingRoom(chosenCloud.pullStudent());
     }
 

@@ -58,6 +58,8 @@ public class GetChosenCloud {
             if (cloud.getID() == cloudID)
                 result = cloud;
         }
+        if (result == null)
+            throw new MalformedMessageException();
         return result;
     }
 }
