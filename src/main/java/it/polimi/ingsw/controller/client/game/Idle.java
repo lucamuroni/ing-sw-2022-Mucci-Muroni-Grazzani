@@ -159,6 +159,19 @@ public class Idle implements GamePhase{
                         this.controller.handleError("Doesn't found player name");
                     }
                     break;
+                case CONTEXT_MERGE:
+                    try {
+                        try {
+                            this.network.getMergedIslands(this.game);
+                        } catch (MalformedMessageException e) {
+                            this.network.getMergedIslands(this.game);
+                        }
+                    } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+                        this.controller.handleError();
+                    } catch (AssetErrorException e) {
+                        this.controller.handleError("Doesn't found island");
+                    }
+                    break;
             }
         }
     }

@@ -45,6 +45,5 @@ public class GetMergedIslands {
         Message message = new Message(OK.getFragment(), ISLAND.getFragment(), this.messageHandler.getMessagesUniqueTopic());
         this.messageHandler.write(message);
         this.messageHandler.writeOut();
-        //TODO: fare il merge
     }
 }

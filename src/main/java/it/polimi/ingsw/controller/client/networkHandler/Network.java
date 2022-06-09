@@ -97,6 +97,8 @@ public interface Network {
      */
     void getCloudStatus(Game game) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, AssetErrorException;
 
+    void getMergedIslands(Game game) throws AssetErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+
     /**
      * Method that updates the dashboards' status in the view
      * @param game represents the current game
