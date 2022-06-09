@@ -7,9 +7,9 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
+import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
-import it.polimi.ingsw.view.asset.game.Island;
 
 import java.util.ArrayList;
 
@@ -69,11 +69,15 @@ public class ConquerIslandPhase implements GamePhase{
             }
             try {
                 try {
-                    this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
-                    this.view.updateDashboards(this.game.getGamers(), game);
+                    for(Gamer gamer : this.game.getGamers()){
+                        this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
+                        this.view.updateDashboards(gamer, game);
+                    }
                 } catch (MalformedMessageException e) {
-                    this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
-                    this.view.updateDashboards(this.game.getGamers(), game);
+                    for(Gamer gamer : this.game.getGamers()){
+                        this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
+                        this.view.updateDashboards(gamer, game);
+                    }
                 }
             } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException | FlowErrorException e) {
                 this.controller.handlePlayerError(pl,"Error while updating dashboard status");
@@ -106,8 +110,17 @@ public class ConquerIslandPhase implements GamePhase{
     private void mergeIsland(int id1, int id2){
         if(this.game.getIslands().get(id1).getOwner().equals(this.game.getIslands().get(id2).getOwner())){
             this.game.getIslands().get(id1).mergeIsland(this.game.getIslands().get(id2));
-            //TODO update delle isole coinvolte (invio messaggio)
-            // TODO invio messaggio di merge
+            ArrayList<Island> islands = new ArrayList<Island>();
+            islands.add(this.game.getIslands().get(id1));
+            islands.add(this.game.getIslands().get(id2));
+            for(Player player : this.controller.getPlayers()){
+                this.view.setCurrentPlayer(player);
+                try {
+                    try {
+                        this.view.sendMergedIsland(islands);
+                    }
+                }
+            }
         }
     }
 }
