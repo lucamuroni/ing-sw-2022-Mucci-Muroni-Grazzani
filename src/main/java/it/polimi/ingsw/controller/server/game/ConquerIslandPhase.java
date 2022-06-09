@@ -108,7 +108,7 @@ public class ConquerIslandPhase implements GamePhase{
     }
 
     private void mergeIsland(int id1, int id2){
-        if(this.game.getIslands().get(id1).getOwner().equals(this.game.getIslands().get(id2).getOwner())){
+        if(this.game.getIslands().get(id1).getOwner().equals(this.game.getIslands().get(id2).getOwner()) && this.game.getIslands().get(id1).getOwner().isPresent()){
             this.game.getIslands().get(id1).mergeIsland(this.game.getIslands().get(id2));
             ArrayList<Island> islands = new ArrayList<Island>();
             islands.add(this.game.getIslands().get(id1));
