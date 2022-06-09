@@ -35,7 +35,7 @@ public class AsciiArchipelago {
     private void print(int line,int row) throws AssetErrorException {
         for(int i=0; i < column;i++){
             if(positionalMatrix[i][row]==0){
-                printSpace(AsciiIsland.getWidth());
+                printSpace(AsciiIsland.getWidth()/2);
             }else {
                 AsciiIsland island = null;
                 for(AsciiIsland island1 : this.asciiIslands){
