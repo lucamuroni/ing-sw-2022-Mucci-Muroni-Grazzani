@@ -59,6 +59,7 @@ public class MoveStudentPage implements Page {
         for (PawnColor color : possibleColors) {
             options.add(color.name());
         }
+        options.add("Back");
         menù.clear();
         menù.addOptions(options);
         menù.setContext("Which type of student do you want to move?");
@@ -71,13 +72,7 @@ public class MoveStudentPage implements Page {
             throw new UndoException();
         }
         //cli.clearConsole();
-        switch (choice) {
-            case 1 -> assetGame.setChosenColor(PawnColor.RED);
-            case 2 -> assetGame.setChosenColor(PawnColor.BLUE);
-            case 3 -> assetGame.setChosenColor(PawnColor.YELLOW);
-            case 4 -> assetGame.setChosenColor(PawnColor.GREEN);
-            case 5 -> assetGame.setChosenColor(PawnColor.PINK);
-        }
+        assetGame.setChosenColor(possibleColors.get(choice-1));
         this.setReadyToProcede();
     }
 
