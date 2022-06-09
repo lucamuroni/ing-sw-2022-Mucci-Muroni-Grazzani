@@ -319,6 +319,11 @@ public class VirtualViewHandler implements View {
         func.handle();
     }
 
+    public void sendMergedIslands(ArrayList<Island> mergedIslands) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        SendMergedIslands func = new SendMergedIslands(messageHandler, mergedIslands);
+        func.handle();
+    }
+
     /**
      *
      */

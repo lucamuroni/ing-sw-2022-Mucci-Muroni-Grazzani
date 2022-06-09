@@ -224,7 +224,10 @@ public interface View{
     public void setCurrentPlayer(Player player);
 
     public void sendActiveUsername(Player player) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+
     public void sendUsername(Player player) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+
+    public void sendMergedIslands(ArrayList<Island> mergedislands) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
     /**
      *
