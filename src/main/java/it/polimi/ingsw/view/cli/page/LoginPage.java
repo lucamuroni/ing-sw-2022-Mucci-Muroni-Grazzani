@@ -71,6 +71,11 @@ public class LoginPage implements Page {
                 System.out.println("Please wait unit we reach the server");
                 loadingBar.print();
                 this.cli.clearConsole();
+                synchronized (this){
+                    try {
+                        this.wait(100);
+                    } catch (InterruptedException e) {}
+                }
             }
         });
         t.start();

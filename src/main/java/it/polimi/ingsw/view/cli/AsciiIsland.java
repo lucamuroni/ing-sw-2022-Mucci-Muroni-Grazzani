@@ -34,7 +34,11 @@ public class AsciiIsland {
                 System.out.print(string);
                 break;
             case 1:
-                string = "    |    "+island.getId()+"    |";
+                if(island.getId()>=10){
+                    string = "    |    "+island.getId()+"   |";
+                }else{
+                    string = "    |    "+island.getId()+"    |";
+                }
                 System.out.print(string);
                 break;
             case 2:

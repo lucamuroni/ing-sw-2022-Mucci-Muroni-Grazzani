@@ -127,7 +127,6 @@ public class Game {
                     num = Math.toIntExact(this.self.getDashBoard().getHall().stream().filter(x -> x.getColor().equals(color)).count());
                         if (num == 10)
                             colors.remove(color);
-
                 }
             }
         }

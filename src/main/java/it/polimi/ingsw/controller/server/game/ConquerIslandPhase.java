@@ -9,6 +9,7 @@ import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
+import it.polimi.ingsw.view.asset.game.Island;
 
 import java.util.ArrayList;
 
@@ -41,6 +42,17 @@ public class ConquerIslandPhase implements GamePhase{
     @Override
     public void handle() {
         this.game.checkIslandOwner();
+        int id = this.game.getIslands().indexOf(this.game.getMotherNature().getPlace());
+        if(id-1 > 0){
+            this.mergeIsland(id,id-1);
+        }else{
+            this.mergeIsland(id,this.game.getIslands().size()-1);
+        }
+        if(id+1<this.game.getIslands().size()){
+            this.mergeIsland(id,id+1);
+        }else{
+            this.mergeIsland(id,0);
+        }
         ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
         for (Player pl : players) {
             this.view.setCurrentPlayer(pl);
@@ -89,5 +101,13 @@ public class ConquerIslandPhase implements GamePhase{
             return new VictoryPhase(this.game, this.controller);
         }
         return new ActionPhase3(this.game,this.controller);
+    }
+
+    private void mergeIsland(int id1, int id2){
+        if(this.game.getIslands().get(id1).getOwner().equals(this.game.getIslands().get(id2).getOwner())){
+            this.game.getIslands().get(id1).mergeIsland(this.game.getIslands().get(id2));
+            //TODO update delle isole coinvolte (invio messaggio)
+            // TODO invio messaggio di merge
+        }
     }
 }
