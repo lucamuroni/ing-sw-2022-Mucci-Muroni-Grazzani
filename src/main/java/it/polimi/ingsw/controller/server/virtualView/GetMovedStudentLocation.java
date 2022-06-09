@@ -32,11 +32,12 @@ public class GetMovedStudentLocation {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      */
     public int handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        int topicId = this.messageHandler.getNewUniqueTopicID();
-        Message message = new Message(STUDENT_LOCATION.getFragment(), "", topicId);
-        this.messageHandler.write(message);
-        this.messageHandler.writeOutAndWait(ConnectionTimings.PLAYER_MOVE.getTiming());
+        this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
         int result = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(STUDENT_LOCATION.getFragment()));
+        int id = this.messageHandler.getMessagesUniqueTopic();
+        Message message = new Message(STUDENT_LOCATION.getFragment(), OK.getFragment(), id);
+        this.messageHandler.write(message);
+        this.messageHandler.writeOut();
         return result;
     }
 }
