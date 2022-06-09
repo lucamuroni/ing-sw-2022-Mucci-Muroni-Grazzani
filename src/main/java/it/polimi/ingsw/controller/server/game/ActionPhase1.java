@@ -85,9 +85,6 @@ public class ActionPhase1 implements GamePhase{
             try {
                 try {
                     this.view.sendContext(CONTEXT_USERNAME.getFragment());
-                    System.out.println("current player :"+this.game.getCurrentPlayer().getUsername() );
-                    System.out.println("ricerca player");
-                    System.out.println(this.controller.getPlayer(this.game.getCurrentPlayer()).getUsername());
                     this.view.sendActiveUsername(this.controller.getPlayer(this.game.getCurrentPlayer()));
                 } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
                     this.view.sendContext(CONTEXT_USERNAME.getFragment());

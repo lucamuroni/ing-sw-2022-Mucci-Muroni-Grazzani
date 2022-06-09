@@ -39,6 +39,7 @@ public class ActionPhase1 implements GamePhase{
             try {
                 try {
                     this.network.sendColor(stud.getColor());
+                    System.out.println("COLORE CORRETTO");
                     this.network.sendLocation(location);
                 } catch (MalformedMessageException e) {
                     this.network.sendColor(stud.getColor());
