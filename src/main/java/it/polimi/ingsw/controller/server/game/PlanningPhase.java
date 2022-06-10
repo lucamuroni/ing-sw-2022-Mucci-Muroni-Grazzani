@@ -66,8 +66,13 @@ public class PlanningPhase implements GamePhase{
                 }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
                         this.controller.handlePlayerError(player,"Error while sending PLANNING PHASE");
                 }
-                AssistantCard card = this.getChoseAssistantCard(player, alreadyPlayedCards);
-                alreadyPlayedCards.add(card);
+            AssistantCard card = null;
+            try {
+                card = this.getChoseAssistantCard(player, alreadyPlayedCards);
+            } catch (ModelErrorException e) {
+                this.controller.shutdown("Error founded in model : shutting down this game");
+            }
+            alreadyPlayedCards.add(card);
         }
     }
 
@@ -99,9 +104,9 @@ public class PlanningPhase implements GamePhase{
      * @param alreadyPlayedCards are all the cards played till this moment
      * @return the card chosen by the player
      */
-    private AssistantCard getChoseAssistantCard(Player player, ArrayList<AssistantCard> alreadyPlayedCards){
+    private AssistantCard getChoseAssistantCard(Player player, ArrayList<AssistantCard> alreadyPlayedCards) throws ModelErrorException {
         this.view.setCurrentPlayer(player);
-        Gamer currentPlayer = this.game.getCurrentPlayer();
+        Gamer currentPlayer = player.getGamer(this.game.getGamers());
         AssistantCard result = null;
         ArrayList<AssistantCard> cardsOfPlayer = new ArrayList<>(currentPlayer.getDeck().getCardList());
         if(alreadyPlayedCards.size()>=1){
