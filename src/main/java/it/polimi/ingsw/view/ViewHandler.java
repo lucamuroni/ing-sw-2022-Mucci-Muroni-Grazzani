@@ -16,6 +16,7 @@ import java.util.ArrayList;
  * Class that represents the viewHandler with the methods to implement in the cli and the gui
  */
 public interface ViewHandler {
+    //TODO : definire un utilizzo del timer
     /**
      * Method that returns the assistant card the player chooses
      * @param cards represents the possible cards to choose from
