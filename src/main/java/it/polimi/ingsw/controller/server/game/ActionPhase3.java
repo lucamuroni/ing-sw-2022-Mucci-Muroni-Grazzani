@@ -166,6 +166,9 @@ public class ActionPhase3 implements GamePhase{
             return new VictoryPhase(this.game,this.controller);
         }
         if(this.game.getTurnNumber()%this.game.getGamers().size()==0){
+            for(Gamer gamer : this.game.getGamers()){
+                gamer.getDeck().setPastSelection();
+            }
             this.game.updatePlayersOrder();
             this.controller.updatePlayersOrder();
             return new PlanningPhase(this.game, this.controller);
