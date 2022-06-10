@@ -48,46 +48,56 @@ public class ActionPhase3 implements GamePhase{
         } catch (ModelErrorException e) {
             this.controller.shutdown("Error founded in model : shutting down this game");
         }
-        try {
-            try{
-                this.view.sendContext(CONTEXT_PHASE.getFragment());
-                this.view.sendNewPhase(Phase.ACTION_PHASE_3);
-            }catch(MalformedMessageException | FlowErrorException | TimeHasEndedException e){
-                this.view.sendContext(CONTEXT_PHASE.getFragment());
-                this.view.sendNewPhase(Phase.ACTION_PHASE_3);
-            }
-        }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
+        if (!this.calculateChoices().isEmpty()) {
             try {
-                this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()),"Error while sending ACTION PHASE 3");
-            } catch (ModelErrorException i) {
-                this.controller.shutdown("Error founded in model : shutting down this game");
-            }
-        }
-        try {
-            this.choseCloud(this.controller.getPlayer(this.game.getCurrentPlayer()));
-            ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
-            players.remove(this.controller.getPlayer(this.game.getCurrentPlayer()));
-            for (Player pl : players) {
-                this.view.setCurrentPlayer(pl);
+                try{
+                    this.view.sendContext(CONTEXT_PHASE.getFragment());
+                    this.view.sendNewPhase(Phase.ACTION_PHASE_3);
+                }catch(MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                    this.view.sendContext(CONTEXT_PHASE.getFragment());
+                    this.view.sendNewPhase(Phase.ACTION_PHASE_3);
+                }
+            }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
                 try {
-                    try {
-                        this.view.sendContext(CONTEXT_CLOUD.getFragment());
-                        this.view.updateCloudsStatus(this.game.getClouds());
-                        this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
-                        this.view.updateDashboards(this.game.getGamers(), this.game);
-                    } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
-                        this.view.sendContext(CONTEXT_CLOUD.getFragment());
-                        this.view.updateCloudsStatus(this.game.getClouds());
-                        this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
-                        this.view.updateDashboards(this.game.getGamers(), this.game);
-                    }
-                } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
-                    this.controller.handlePlayerError(pl,"Error while updating clouds and dashboards");
+                    this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()),"Error while sending ACTION PHASE 3");
+                } catch (ModelErrorException i) {
+                    this.controller.shutdown("Error founded in model : shutting down this game");
                 }
             }
-        } catch (ModelErrorException e) {
-            this.controller.shutdown("Error founded in model : shutting down this game");
-            e.printStackTrace();
+            try {
+                this.choseCloud(this.controller.getPlayer(this.game.getCurrentPlayer()));
+                ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
+                //players.remove(this.controller.getPlayer(this.game.getCurrentPlayer()));
+                for (Player pl : players) {
+                    this.view.setCurrentPlayer(pl);
+                    try {
+                        try {
+                            for (Cloud cloud : this.game.getClouds()) {
+                                this.view.sendContext(CONTEXT_CLOUD.getFragment());
+                                this.view.updateCloudsStatus(cloud);
+                            }
+                            for (Gamer gamer : this.game.getGamers()) {
+                                this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
+                                this.view.updateDashboards(gamer, this.game);
+                            }
+                        } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
+                            for (Cloud cloud : this.game.getClouds()) {
+                                this.view.sendContext(CONTEXT_CLOUD.getFragment());
+                                this.view.updateCloudsStatus(cloud);
+                            }
+                            for (Gamer gamer : this.game.getGamers()) {
+                                this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
+                                this.view.updateDashboards(gamer, this.game);
+                            }
+                        }
+                    } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
+                        this.controller.handlePlayerError(pl,"Error while updating clouds and dashboards");
+                    }
+                }
+            } catch (ModelErrorException e) {
+                this.controller.shutdown("Error founded in model : shutting down this game");
+                e.printStackTrace();
+            }
         }
     }
 
@@ -99,12 +109,7 @@ public class ActionPhase3 implements GamePhase{
         this.view.setCurrentPlayer(player);
         Gamer currentPlayer = this.game.getCurrentPlayer();
         Cloud chosenCloud = null;
-        ArrayList<Cloud> possibleChoices = new ArrayList<>();
-        for (Cloud cloud : this.game.getClouds()) {
-            if (!cloud.isEmpty()) {
-                possibleChoices.add(cloud);
-            }
-        }
+        ArrayList<Cloud> possibleChoices = new ArrayList<>(this.calculateChoices());
         try {
             try {
                 chosenCloud = this.view.getChosenCloud(possibleChoices);
@@ -112,12 +117,22 @@ public class ActionPhase3 implements GamePhase{
                 chosenCloud = this.view.getChosenCloud(possibleChoices);
             }
         } catch (MalformedMessageException | ClientDisconnectedException e) {
-            this.controller.handlePlayerError(player,"Error while getting the chosen cloud");
+            this.controller.handlePlayerError(player, "Error while getting the chosen cloud");
         } catch (TimeHasEndedException e) {
             chosenCloud = this.getRandomCloud(possibleChoices);
             currentPlayer.getDashboard().addStudentsWaitingRoom(chosenCloud.pullStudent());
         }
         currentPlayer.getDashboard().addStudentsWaitingRoom(chosenCloud.pullStudent());
+    }
+
+    private ArrayList<Cloud> calculateChoices() {
+        ArrayList<Cloud> clouds = new ArrayList<>();
+        for (Cloud cloud : this.game.getClouds()) {
+            if (!cloud.isEmpty()) {
+                clouds.add(cloud);
+            }
+        }
+        return clouds;
     }
 
     /**
