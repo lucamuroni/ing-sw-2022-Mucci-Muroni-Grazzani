@@ -135,6 +135,7 @@ public class PlanningPhase implements GamePhase{
             result = this.getRandomAssistantCard(cardsOfPlayer);
         }
         this.sendInfo(player, result);
+        currentPlayer.getDeck().setPastSelection();
         currentPlayer.getDeck().setCurrentSelection(result);
         return result;
     }

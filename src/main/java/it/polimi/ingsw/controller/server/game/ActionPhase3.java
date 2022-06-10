@@ -174,7 +174,7 @@ public class ActionPhase3 implements GamePhase{
             return new PlanningPhase(this.game, this.controller);
         }else{
             // TODO riga sotto da rimuovere
-            this.game.setCurrentPlayer(this.game.getGamers().get((this.game.getTurnNumber()%this.game.getGamers().size())-1));
+            this.game.setCurrentPlayer(this.game.getGamers().get((this.game.getTurnNumber()%this.game.getGamers().size())));
             return new ActionPhase1(this.game,this.controller);
         }
     }
