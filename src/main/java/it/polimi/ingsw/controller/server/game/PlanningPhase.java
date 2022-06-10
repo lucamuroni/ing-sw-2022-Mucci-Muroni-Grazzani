@@ -54,8 +54,6 @@ public class PlanningPhase implements GamePhase{
         }
         ArrayList<AssistantCard> alreadyPlayedCards = new ArrayList<>();
         for(Player player : this.controller.getPlayers()){
-            try {
-                this.game.setCurrentPlayer(player.getGamer(this.game.getGamers()));
                 this.view.setCurrentPlayer(player);
                 try {
                     try{
@@ -66,22 +64,10 @@ public class PlanningPhase implements GamePhase{
                         this.view.sendNewPhase(Phase.PLANNING_PHASE);
                     }
                 }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
-                    try {
-                        this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()),"Error while sending PLANNING PHASE");
-                    } catch (ModelErrorException i) {
-                        this.controller.shutdown("Error founded in model : shutting down this game");
-                    }
+                        this.controller.handlePlayerError(player,"Error while sending PLANNING PHASE");
                 }
                 AssistantCard card = this.getChoseAssistantCard(player, alreadyPlayedCards);
                 alreadyPlayedCards.add(card);
-            } catch (ModelErrorException e) {
-                this.controller.shutdown("Error founded in model : shutting down this game");
-            }
-        }
-        try {
-            this.game.setCurrentPlayer(this.controller.getPlayers().get(0).getGamer(this.game.getGamers()));
-        } catch (ModelErrorException e) {
-            this.controller.shutdown("Error founded in model : shutting down this game");
         }
     }
 
