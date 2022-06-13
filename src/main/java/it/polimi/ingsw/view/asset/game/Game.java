@@ -87,7 +87,9 @@ public class Game {
     }
 
     public void setMotherNaturePosition(Island motherNaturePosition) {
+        this.motherNaturePosition.setMotherNaturePresent(false);
         this.motherNaturePosition = motherNaturePosition;
+        motherNaturePosition.setMotherNaturePresent(true);
     }
 
     public void setChosenIsland(Island chosenIsland) {
