@@ -19,7 +19,7 @@ import java.util.Scanner;
  * Class that represents the cli for the game
  */
 public class Cli implements ViewHandler {
-    // TODO le nuvole vengono displayate male, le isole vengono displayate in ordine diverso, non viene visualizzata madre natura su nessuna isola, modelerror lato server quando bisogna spostare le pedine??,manca il merging delle isole
+    // TODO non viene visualizzata madre natura su nessuna isola-> setMotherNaturePresent di Island non viene mai chiamato, modelerror lato server quando bisogna spostare le pedine??,manca il merging delle isole
     private final String os;
     private ClientController controller;
     private boolean pageHasChanged;

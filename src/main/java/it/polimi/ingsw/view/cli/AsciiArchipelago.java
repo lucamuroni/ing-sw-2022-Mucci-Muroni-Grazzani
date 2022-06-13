@@ -20,13 +20,13 @@ public class AsciiArchipelago {
 
     private void initMatrix(){
         int counter = 0;
-        for(int i = 0; i<column;i++){
-            for(int j = 0; j<row;j++){
-                if(j != 1 && i%2==0){
-                    positionalMatrix[i][j] = this.asciiIslands.get(counter).getIsland().getId();
+        for(int i = 0; i<row;i++){
+            for(int j = 0; j<column;j++){
+                if(i != 1 && j%2==0){
+                    positionalMatrix[j][i] = this.asciiIslands.get(counter).getIsland().getId();
                     counter ++;
                 }else{
-                    positionalMatrix[i][j] = 0;
+                    positionalMatrix[j][i] = 0;
                 }
             }
         }
@@ -63,6 +63,31 @@ public class AsciiArchipelago {
         for(int i = 0;i < row; i++){
             for(int j = 0 ; j < AsciiIsland.getHeight();j++){
                 this.print(j,i);
+            }
+        }
+    }
+
+    public void mergeIsland(int id1, int id2){
+        // TODO non pronta
+        // in ordine trovo isola target, trovo isola più vicina nel conglomerato di isole, faccio il merge tra isola vicina e isola target
+        int island1X = 0,island2X = 0,island1Y = 0,island2Y = 0;
+        for(int x = 0; x< row;x++){
+            for(int y = 0; y< column; y++){
+                if(positionalMatrix[y][x]==id1){
+                    island1X = x;
+                    island1Y = y;
+                }else if(positionalMatrix[y][x]==id2){
+                    island2X = x;
+                    island2Y = y;
+                }
+            }
+        }
+        if(island1X == island2X){
+            positionalMatrix[island2Y][island2X] = 0;
+            if(island1Y - island2Y > 0){
+                positionalMatrix [island1Y-1][island2X] = id2;
+            }else{
+                positionalMatrix [island1Y+1][island2X] = id2;
             }
         }
     }
