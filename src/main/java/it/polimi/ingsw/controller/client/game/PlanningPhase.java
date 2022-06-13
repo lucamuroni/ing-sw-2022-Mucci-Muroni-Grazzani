@@ -23,12 +23,14 @@ public class PlanningPhase implements GamePhase {
         this.game = controller.getGame();
         this.view = controller.getViewHandler();
         this.network = this.controller.getNetwork();
-        this.initView = false;
+        this.setInitView(false);
     }
 
     @Override
     public void handle() {
+        System.out.print("Valore dell init view :" + this.initView);
         if(this.initView){
+            System.out.print("Init eseguita");
             this.view.init();
         }
         try {
@@ -74,7 +76,7 @@ public class PlanningPhase implements GamePhase {
         return new Idle(this.controller);
     }
 
-    public void initView(){
-        this.initView = true;
+    public void setInitView(boolean bool){
+        this.initView = bool;
     }
 }

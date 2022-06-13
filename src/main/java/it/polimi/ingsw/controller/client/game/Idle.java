@@ -147,10 +147,9 @@ public class Idle implements GamePhase{
                         case PLANNING_PHASE:
                             PlanningPhase planningPhase = new PlanningPhase(this.controller);
                             if(!isGameStarted){
-                                planningPhase.initView();
+                                planningPhase.setInitView(true);
                             }
                             nextPhase = planningPhase;
-                            nextPhase = new PlanningPhase(this.controller);
                             break;
                         case ACTION_PHASE_1:
                             nextPhase = new ActionPhase1(this.controller);
