@@ -30,6 +30,7 @@ public class AsciiIsland {
     public int draw(int line){
         int size;
         String string = "";
+        boolean pawn = false,mn = false,tower = false;
         switch (line){
             case 0:
                 string = "     _________";
@@ -52,6 +53,7 @@ public class AsciiIsland {
                 if(size>0 && !isMerged){
                     string = "  |     "+AnsiColor.BLUE.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x"+size+"     |";
                     System.out.print(string);
+                    pawn = true;
                 }else{
                     string = "  |             | ";
                     System.out.print(string);
@@ -62,6 +64,7 @@ public class AsciiIsland {
                 if(size>0 && !isMerged){
                     string = " -      "+AnsiColor.RED.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x"+size+"      -";
                     System.out.print(string);
+                    pawn = true;
                 }else{
                     string = " -               -";
                     System.out.print(string);
@@ -72,6 +75,7 @@ public class AsciiIsland {
                 if(size>0 && !isMerged){
                     string = "|       "+AnsiColor.GREEN.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x"+size+"       |";
                     System.out.print(string);
+                    pawn = true;
                 }else{
                     string = "|                 |";
                     System.out.print(string);
@@ -82,6 +86,7 @@ public class AsciiIsland {
                 if(size>0 && !isMerged){
                     string = " -      "+AnsiColor.PURPLE.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x"+size+"      -";
                     System.out.print(string);
+                    pawn = true;
                 }else{
                     string = " -               -";
                     System.out.print(string);
@@ -92,6 +97,7 @@ public class AsciiIsland {
                 if(size>0 && !isMerged){
                     string = "  |     "+AnsiColor.YELLOW.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x"+size+"     |";
                     System.out.print(string);
+                    pawn = true;
                 }else{
                     string = "  |             |";
                     System.out.print(string);
@@ -102,6 +108,7 @@ public class AsciiIsland {
                 if(this.island.isMotherNaturePresent()){
                     string = "   -     "+AnsiChar.MOTHER_NATURE+"     -";
                     System.out.print(string);
+                    mn = true;
                 }else{
                     string = "   -           -  ";
                     System.out.print(string);
@@ -111,6 +118,7 @@ public class AsciiIsland {
                 if(this.island.isTowerPresent()){
                     string = "    |   "+AnsiChar.TOWER+"("+this.island.getTowersColor().getAcronym()+")  |";
                     System.out.print(string);
+                    tower = true;
                 }else{
                     string = "    |         |";
                     System.out.print(string);
@@ -121,7 +129,15 @@ public class AsciiIsland {
                 System.out.print(string);
                 break;
         }
-        return string.length();
+        if(pawn){
+            return (string.length()-9);
+        }else if(tower){
+            return string.length()-1;
+        }else if(mn){
+            return string.length()-1;
+        }else{
+            return string.length();
+        }
     }
 
     /**

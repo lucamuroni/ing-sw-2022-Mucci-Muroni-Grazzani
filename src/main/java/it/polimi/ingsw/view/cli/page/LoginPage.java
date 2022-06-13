@@ -39,7 +39,7 @@ public class LoginPage implements Page {
     public void handle() throws UndoException{
         System.out.println(AnsiColor.GREEN +"Found a Server"+ AnsiColor.RESET);
         String nick = this.cli.readString("Please insert your nickName: ");
-        this.game.getSelf().setUsername(nick);
+        this.game.getSelf().setUsername(nick, true);
         ArrayList<String> opt = new ArrayList<>();
         opt.add("Normal");
         opt.add("Expert");

@@ -9,15 +9,17 @@ import it.polimi.ingsw.view.asset.game.DashBoard;
  */
 public class AsciiDashBoard {
     private final DashBoard dashBoard;
+    private static Cli cli ;
     private final static int width = 80;
-    private final static int height = 10;
+    private final static int height = 11;
 
     /**
      * Class constructor
      * @param dashBoard represents the dashboard to show
      */
-    public AsciiDashBoard(DashBoard dashBoard){
+    public AsciiDashBoard(Cli c,DashBoard dashBoard){
         this.dashBoard = dashBoard;
+        cli = c;
     }
 
     /**
@@ -177,6 +179,12 @@ public class AsciiDashBoard {
             case 9:
                 System.out.print("------------------------------------------------------------------------------");
                 break;
+            case 10:
+                String name = this.dashBoard.getUsername();
+                int spaces = (width/2)-(name.length()/2);
+                cli.printSpace(spaces);
+                System.out.print(name);
+                cli.printSpace((width/2)-(name.length()/2));
         }
     }
 
@@ -188,5 +196,13 @@ public class AsciiDashBoard {
             this.draw(i);
             System.out.print("\n");
         }
+    }
+
+    public static int getWidth(){
+        return width;
+    }
+
+    public static int getHeight(){
+        return height;
     }
 }

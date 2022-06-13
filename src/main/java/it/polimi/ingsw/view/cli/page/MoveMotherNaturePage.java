@@ -30,6 +30,7 @@ public class MoveMotherNaturePage implements Page {
             options.add("Island " + island.getId());
         }
         Menù menù = new Menù(options);
+        this.cli.drawArchipelago();
         menù.setContext("Which island do you want to choose?");
         int choice = this.cli.readInt(options.size(), menù, false);
         options.clear();

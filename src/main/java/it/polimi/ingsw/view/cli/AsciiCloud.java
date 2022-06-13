@@ -34,7 +34,7 @@ public class AsciiCloud {
                 System.out.print(string);
                 break;
             case 1:
-                string = " __|     |__";
+                string = " __|  "+cloud.getId()+"  |__";
                 System.out.print(string);
                 break;
             case 2:
@@ -79,5 +79,13 @@ public class AsciiCloud {
             }
         }
         return null;
+    }
+
+    public static int getHeight(){
+        return height;
+    }
+
+    public static int getWidth(){
+        return width;
     }
 }

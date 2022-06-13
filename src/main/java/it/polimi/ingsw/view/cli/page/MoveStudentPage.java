@@ -43,6 +43,7 @@ public class MoveStudentPage implements Page {
         menù.setContext("Where do you want to move your player?");
         int choice = this.cli.readInt(options.size(), menù, false);
         if(choice==2){
+            this.cli.drawArchipelago();
             options.clear();
             for(Island island : this.assetGame.getIslands()){
                 options.add("Island " + island.getId());
@@ -54,6 +55,7 @@ public class MoveStudentPage implements Page {
             choice = this.cli.readInt(options.size(), menù, true);
             assetGame.setChosenIsland(this.assetGame.getIslands().get(choice-1));
         }
+        this.cli.drawDashboard();
         options.clear();
         ArrayList<PawnColor> possibleColors = new ArrayList<>(this.assetGame.getPossibleColors(choice));
         for (PawnColor color : possibleColors) {

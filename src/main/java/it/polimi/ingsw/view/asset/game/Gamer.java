@@ -25,7 +25,7 @@ public class Gamer {
     public Gamer(int id) {
         this.id = id;
         this.cards = new ArrayList<>();
-        this.dashBoard = new DashBoard(this.id);
+        this.dashBoard = new DashBoard();
     }
 
     /**
@@ -81,8 +81,13 @@ public class Gamer {
         return color;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(String username, boolean self) {
         this.username = username;
+        if(self){
+            this.dashBoard.setUsername("yours");
+        }else{
+            this.dashBoard.setUsername(username);
+        }
     }
 
     public void setColor(TowerColor color) {

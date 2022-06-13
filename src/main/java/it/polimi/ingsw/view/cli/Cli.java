@@ -5,11 +5,9 @@ import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.pawn.Student;
 import it.polimi.ingsw.view.ViewHandler;
-import it.polimi.ingsw.view.asset.game.Cloud;
-import it.polimi.ingsw.view.asset.game.Game;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
+import it.polimi.ingsw.view.asset.game.*;
 import it.polimi.ingsw.view.Page;
-import it.polimi.ingsw.view.asset.game.Island;
-import it.polimi.ingsw.view.asset.game.Results;
 import it.polimi.ingsw.view.cli.page.*;
 
 import java.util.ArrayList;
@@ -28,6 +26,9 @@ public class Cli implements ViewHandler {
     private final Object pageLock = new Object();
     private final Scanner scanner;
     private Game game;
+    private AsciiArchipelago archipelago;
+    private ArrayList<AsciiDashBoard> dashBoards;
+    private ArrayList<AsciiCloud> clouds;
 
     /**
      * Class constructor
@@ -167,6 +168,10 @@ public class Cli implements ViewHandler {
         System.out.println("Please retry"+AnsiColor.RESET);
         System.out.print("\n");
     }
+
+    public ClientController getController(){
+        return this.controller;
+    }
     /**
      * Method that returns the assistant card the player chooses (?)
      * @param cards represents the arrayList of possible cards
@@ -300,8 +305,17 @@ public class Cli implements ViewHandler {
 
     @Override
     public void goToIdle() {
-        // TODO : placeholder
-        System.out.println(" you are in idle");
+        Page p = new IdlePage(this,this.archipelago,this.clouds,this.dashBoards);
+        this.changePage(p);
+        while(!p.isReadyToProceed()){
+            synchronized (this){
+                try{
+                    this.wait(100);
+                }catch(InterruptedException e){
+                    this.controller.handleError("Could not wait for user to complete registration");
+                }
+            }
+        }
     }
 
     @Override
@@ -312,5 +326,60 @@ public class Cli implements ViewHandler {
     @Override
     public void lobbyFounded() {
         this.changePage(new LobbyFounded(this));
+    }
+
+    public void init(){
+        ArrayList<AsciiIsland> islands = new ArrayList<AsciiIsland>();
+        for(Island island : this.game.getIslands()){
+            AsciiIsland asciiIsland = new AsciiIsland(island);
+            islands.add(asciiIsland);
+        }
+        this.archipelago = new AsciiArchipelago(islands);
+        this.clouds = new ArrayList<AsciiCloud>();
+        for(Cloud cloud : this.game.getClouds()){
+            this.clouds.add(new AsciiCloud(cloud));
+        }
+        this.dashBoards = new ArrayList<AsciiDashBoard>();
+        this.dashBoards.add(new AsciiDashBoard(this,this.game.getSelf().getDashBoard()));
+        for(Gamer gamer : this.game.getGamers()){
+            if(!gamer.equals(this.game.getSelf())){
+                this.dashBoards.add(new AsciiDashBoard(this,gamer.getDashBoard()));
+            }
+        }
+    }
+
+    public void drawClouds(){
+        for(int i = 0; i < AsciiCloud.getHeight(); i++){
+            for(AsciiCloud cloud : this.clouds){
+                int space = cloud.draw(i);
+                this.printSpace(AsciiCloud.getWidth()-space);
+                this.printSpace(AsciiCloud.getWidth()/2);
+            }
+            System.out.print("\n");
+        }
+    }
+
+    public void drawDashboard(){
+        for(int i = 0; i < AsciiDashBoard.getHeight(); i++){
+            for(AsciiDashBoard dashBoard : this.dashBoards){
+                dashBoard.draw(i);
+                this.printSpace(5);
+            }
+            System.out.print("\n");
+        }
+    }
+
+    public void printSpace(int number){
+        for(int i = 0;i < number ; i++){
+            System.out.print(" ");
+        }
+    }
+
+    public void drawArchipelago(){
+        try {
+            this.archipelago.draw();
+        } catch (AssetErrorException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

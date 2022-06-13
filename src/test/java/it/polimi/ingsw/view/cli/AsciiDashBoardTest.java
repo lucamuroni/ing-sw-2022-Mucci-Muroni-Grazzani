@@ -9,8 +9,9 @@ class AsciiDashBoardTest {
 
     @Test
     void draw() {
-        DashBoard d = new DashBoard(1);
-        AsciiDashBoard asciiDashBoard = new AsciiDashBoard(d);
+        DashBoard d = new DashBoard();
+
+        AsciiDashBoard asciiDashBoard = new AsciiDashBoard(new Cli(),d);
         asciiDashBoard.draw();
     }
 }

@@ -31,7 +31,7 @@ public class GetUsernames {
         this.messageHandler.write(message);
         this.messageHandler.writeOut();
         Gamer gamer = new Gamer(id);
-        gamer.setUsername(username);
+        gamer.setUsername(username,false);
         this.game.getGamers().add(gamer);
     }
 }
