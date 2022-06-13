@@ -50,6 +50,8 @@ public class SelectFigurePhase implements GamePhase{
 
     @Override
     public GamePhase next() {
-        return new Idle(this.controller);
+        Idle phase = new Idle(this.controller);
+        phase.isGameStarted(false);
+        return phase;
     }
 }
