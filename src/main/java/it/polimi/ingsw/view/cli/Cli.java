@@ -19,7 +19,8 @@ import java.util.Scanner;
  * Class that represents the cli for the game
  */
 public class Cli implements ViewHandler {
-    // TODO non viene visualizzata madre natura su nessuna isola-> setMotherNaturePresent di Island non viene mai chiamato, modelerror lato server quando bisogna spostare le pedine??,manca il merging delle isole
+    // TODO: modelError lato server quando bisogna spostare le pedine??
+    //TODO: il merge delle isole lo deve decidere Grazza
     private final String os;
     private ClientController controller;
     private boolean pageHasChanged;
