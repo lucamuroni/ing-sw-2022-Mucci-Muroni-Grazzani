@@ -2,16 +2,12 @@ package it.polimi.ingsw.controller.client.game;
 
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.client.networkHandler.Network;
-import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
-import it.polimi.ingsw.view.asset.game.Island;
-
-import java.util.ArrayList;
 
 public class Start implements GamePhase {
     private final Game game;
@@ -114,7 +110,9 @@ public class Start implements GamePhase {
 
     @Override
     public GamePhase next() {
-        return new Idle(this.controller);
+        Idle phase = new Idle(this.controller);
+        phase.isGameStarted(false);
+        return phase;
     }
 
 }

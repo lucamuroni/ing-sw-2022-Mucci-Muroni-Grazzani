@@ -16,16 +16,21 @@ public class PlanningPhase implements GamePhase {
     private final ViewHandler view;
     private final Network network;
     private final ClientController controller;
+    private boolean initView;
 
     public PlanningPhase(ClientController controller) {
         this.controller = controller;
         this.game = controller.getGame();
         this.view = controller.getViewHandler();
         this.network = this.controller.getNetwork();
+        this.initView = false;
     }
 
     @Override
     public void handle() {
+        if(this.initView){
+            this.view.init();
+        }
         try {
             try {
                 this.network.getPossibleCards(this.game);
@@ -67,5 +72,9 @@ public class PlanningPhase implements GamePhase {
     @Override
     public GamePhase next() {
         return new Idle(this.controller);
+    }
+
+    public void initView(){
+        this.initView = true;
     }
 }

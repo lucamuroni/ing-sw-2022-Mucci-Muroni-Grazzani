@@ -51,4 +51,6 @@ public interface ViewHandler {
     void setController(ClientController controller);
 
     void lobbyFounded();
+
+    void init();
 }

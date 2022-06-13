@@ -19,17 +19,21 @@ public class Idle implements GamePhase{
     private final ViewHandler view;
     private final Game game;
     private GamePhase nextPhase;
+    private boolean isGameStarted;
 
     public Idle(ClientController controller) {
         this.controller = controller;
         this.game = this.controller.getGame();
         this.network = this.controller.getNetwork();
         this.view = this.controller.getViewHandler();
+        this.isGameStarted = true;
     }
 
     @Override
     public void handle() {
-        this.view.goToIdle();
+        if(isGameStarted){
+            this.view.goToIdle();
+        }
         boolean stop = false;
         while (!stop) {
             MessageFragment context = null;
@@ -137,12 +141,29 @@ public class Idle implements GamePhase{
                         this.controller.handleError("Doesn't found phase");
                     }
                     switch (Objects.requireNonNull(phase)) {
-                        case DECK_PHASE -> nextPhase = new SelectFigurePhase(this.controller);
-                        case PLANNING_PHASE -> nextPhase = new PlanningPhase(this.controller);
-                        case ACTION_PHASE_1 -> nextPhase = new ActionPhase1(this.controller);
-                        case MOTHER_NATURE_PHASE -> nextPhase = new MotherNaturePhase(this.controller);
-                        case ACTION_PHASE_3 -> nextPhase = new ActionPhase3(this.controller);
-                        case END_GAME_PHASE -> nextPhase = new EndGame(this.controller);
+                        case DECK_PHASE:
+                            nextPhase = new SelectFigurePhase(this.controller);
+                            break;
+                        case PLANNING_PHASE:
+                            PlanningPhase planningPhase = new PlanningPhase(this.controller);
+                            if(!isGameStarted){
+                                planningPhase.initView();
+                            }
+                            nextPhase = planningPhase;
+                            nextPhase = new PlanningPhase(this.controller);
+                            break;
+                        case ACTION_PHASE_1:
+                            nextPhase = new ActionPhase1(this.controller);
+                            break;
+                        case MOTHER_NATURE_PHASE:
+                            nextPhase = new MotherNaturePhase(this.controller);
+                            break;
+                        case ACTION_PHASE_3:
+                            nextPhase = new ActionPhase3(this.controller);
+                            break;
+                        case END_GAME_PHASE:
+                            nextPhase = new EndGame(this.controller);
+                            break;
                     }
                     stop = true;
                     break;
@@ -179,5 +200,9 @@ public class Idle implements GamePhase{
     @Override
     public GamePhase next() {
         return nextPhase;
+    }
+
+    public void isGameStarted (boolean value){
+        this.isGameStarted = value;
     }
 }
