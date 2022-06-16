@@ -28,9 +28,7 @@ public class PlanningPhase implements GamePhase {
 
     @Override
     public void handle() {
-        System.out.print("Valore dell init view :" + this.initView);
         if(this.initView){
-            System.out.print("Init eseguita");
             this.view.init();
         }
         try {
