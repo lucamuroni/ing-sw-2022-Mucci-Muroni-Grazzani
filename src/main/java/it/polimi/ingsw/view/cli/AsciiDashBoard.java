@@ -58,11 +58,11 @@ public class AsciiDashBoard {
                 }
                 System.out.print("|      ");
                 if(this.dashBoard.getProfessors().stream().anyMatch(x -> x == PawnColor.RED)){
-                    System.out.print(AnsiColor.RED.toString()+"⚝"+AnsiColor.RESET.toString());
-                    System.out.print("     ");
+                    System.out.print(AnsiColor.RED.toString()+AnsiChar.WIZARD.toString()+AnsiColor.RESET.toString());
                 }else{
-                    System.out.print("      ");
+                    System.out.print(AnsiChar.MISSING_WIZARD.toString());
                 }
+                System.out.print("     ");
                 System.out.print("|        |");
                 break;
             case 4:
@@ -85,11 +85,11 @@ public class AsciiDashBoard {
                 }
                 System.out.print("|      ");
                 if(this.dashBoard.getProfessors().stream().anyMatch(x -> x == PawnColor.YELLOW)){
-                    System.out.print(AnsiColor.YELLOW.toString()+"⚝"+AnsiColor.RESET.toString());
-                    System.out.print("     ");
+                    System.out.print(AnsiColor.YELLOW.toString()+AnsiChar.WIZARD.toString()+AnsiColor.RESET.toString());
                 }else{
-                    System.out.print("      ");
+                    System.out.print(AnsiChar.MISSING_WIZARD.toString());
                 }
+                System.out.print("     ");
                 System.out.print("|   "+AnsiChar.TOWER+"x"+this.dashBoard.getNumTower()+"  |");
                 break;
             case 5:
@@ -112,11 +112,11 @@ public class AsciiDashBoard {
                 }
                 System.out.print("|      ");
                 if(this.dashBoard.getProfessors().stream().anyMatch(x -> x == PawnColor.BLUE)){
-                    System.out.print(AnsiColor.BLUE.toString()+"⚝"+AnsiColor.RESET.toString());
-                    System.out.print("     ");
+                    System.out.print(AnsiColor.BLUE.toString()+AnsiChar.WIZARD.toString()+AnsiColor.RESET.toString());
                 }else{
-                    System.out.print("      ");
+                    System.out.print(AnsiChar.MISSING_WIZARD.toString());
                 }
+                System.out.print("     ");
                 System.out.print("|        |");
                 break;
             case 6:
@@ -139,11 +139,11 @@ public class AsciiDashBoard {
                 }
                 System.out.print("|      ");
                 if(this.dashBoard.getProfessors().stream().anyMatch(x -> x == PawnColor.PINK)){
-                    System.out.print(AnsiColor.PURPLE.toString()+"⚝"+AnsiColor.RESET.toString());
-                    System.out.print("     ");
+                    System.out.print(AnsiColor.PURPLE.toString()+AnsiChar.WIZARD.toString()+AnsiColor.RESET.toString());
                 }else{
-                    System.out.print("      ");
+                    System.out.print(AnsiChar.MISSING_WIZARD.toString());
                 }
+                System.out.print("     ");
                 System.out.print("|        |");
                 break;
             case 7:
@@ -166,11 +166,11 @@ public class AsciiDashBoard {
                 }
                 System.out.print("|      ");
                 if(this.dashBoard.getProfessors().stream().anyMatch(x -> x == PawnColor.GREEN)){
-                    System.out.print(AnsiColor.GREEN.toString()+"⚝"+AnsiColor.RESET.toString());
-                    System.out.print("     ");
+                    System.out.print(AnsiColor.GREEN.toString()+AnsiChar.WIZARD.toString()+AnsiColor.RESET.toString());
                 }else{
-                    System.out.print("      ");
+                    System.out.print(AnsiChar.MISSING_WIZARD.toString());
                 }
+                System.out.print("     ");
                 System.out.print("|        |");
                 break;
             case 8:

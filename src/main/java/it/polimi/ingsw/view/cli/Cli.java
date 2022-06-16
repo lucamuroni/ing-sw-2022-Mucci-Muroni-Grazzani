@@ -19,7 +19,8 @@ import java.util.Scanner;
  * Class that represents the cli for the game
  */
 public class Cli implements ViewHandler {
-    // TODO: modelError lato server quando bisogna spostare le pedine??
+    // TODO : fix dashboard semicolumn offset
+    //TODO : non viene chiamato il metodo per settare la torre su un'isola / non viene aggiornata
     //TODO: il merge delle isole lo deve decidere Grazza
     private final String os;
     private ClientController controller;
