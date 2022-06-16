@@ -38,6 +38,8 @@ public class Island {
      */
     public void updateIsland(ArrayList<Student> students, int numTowers, TowerColor towersColor) {
         this.numTowers = numTowers;
+        if (numTowers>0)
+            this.isTowerPresent = true;
         this.students.clear();
         this.students.addAll(students);
         this.towersColor = towersColor;
@@ -46,6 +48,8 @@ public class Island {
 
     public void updateIsland(ArrayList<Student> students, int numTowers) {
         this.numTowers = numTowers;
+        if (numTowers>0)
+            this.isTowerPresent = true;
         this.students.clear();
         this.students.addAll(students);
     }
