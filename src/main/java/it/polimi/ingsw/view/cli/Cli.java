@@ -202,7 +202,7 @@ public class Cli implements ViewHandler {
     @Override
     public Student chooseStudentToMove() {
         this.moveStudent();
-        System.out.println("colore selezionato per il controller :"+game.getSelf().getDashBoard().getWaitingRoom().stream().filter(x -> x.getColor().equals(this.game.getChosenColor())).findFirst().get().toString());
+        System.out.println("colore selezionato per il controller :"+game.getSelf().getDashBoard().getWaitingRoom().stream().filter(x -> x.getColor().equals(this.game.getChosenColor())).findFirst().get().getColor().toString());
         return game.getSelf().getDashBoard().getWaitingRoom().stream().filter(x -> x.getColor().equals(this.game.getChosenColor())).findFirst().get();
     }
 
