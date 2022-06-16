@@ -102,7 +102,7 @@ public class AsciiArchipelago {
     }
 
     private ArrayList<Integer> closestIsland(ArrayList<Integer> attachedIsland,Integer islandId){
-        
+        return null;
     }
 
     private boolean isAttached(int id1, int id2){
