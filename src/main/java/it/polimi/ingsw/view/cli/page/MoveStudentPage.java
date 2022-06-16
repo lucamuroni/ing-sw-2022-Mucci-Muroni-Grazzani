@@ -74,6 +74,7 @@ public class MoveStudentPage implements Page {
             throw new UndoException();
         }
         //cli.clearConsole();
+        System.out.println("colore selezionato : "+ possibleColors.get(choice-1).toString());
         assetGame.setChosenColor(possibleColors.get(choice-1));
         this.setReadyToProcede();
     }
