@@ -83,7 +83,7 @@ public class InfluenceCalculator {
     private Optional<Gamer> checkIslandOwner(){
         Optional<Gamer> result = Optional.empty();;
         ArrayList<Gamer> gamersToCheck;
-        //boolean first = false;
+        boolean first = false;
         int oldOwnerScore = this.getOldOwnerScore();
         if(oldOwnerScore!=0){
             result = this.island.getOwner();
@@ -91,7 +91,7 @@ public class InfluenceCalculator {
             gamersToCheck.remove(this.island.getOwner().get());
         }else{
             gamersToCheck = this.gamers;
-            //first = true;
+            first = true;
         }
         for(Gamer gamer : gamersToCheck){
             if(getPlayerScore(gamer)>oldOwnerScore){
@@ -99,10 +99,13 @@ public class InfluenceCalculator {
                 result = Optional.of(gamer);
             }
         }
-        /*if (first) {
-            result.get().getDashboard().moveTower(-1);
-            this.island.addTower();
-        }*/
+        if (oldOwnerScore!=0) {
+            if (first) {
+                result.get().getDashboard().moveTower(-1);
+                this.island.addTower();
+            }
+            this.island.setOwner(result.get());
+        }
         return result;
     }
 }
