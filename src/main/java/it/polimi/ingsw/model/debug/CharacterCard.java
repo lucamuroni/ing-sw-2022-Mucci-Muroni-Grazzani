@@ -11,4 +11,8 @@ public class CharacterCard {
 
     public void activate() {
     }
+
+    public String getName() {
+        return null;
+    }
 }
