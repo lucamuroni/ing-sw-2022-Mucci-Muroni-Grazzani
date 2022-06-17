@@ -1,25 +1,21 @@
 package it.polimi.ingsw.controller.server.game;
 
-import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
-import it.polimi.ingsw.controller.networking.messageParts.MessageFragment;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.model.debug.CharacterCard;
 import it.polimi.ingsw.model.game.ExpertGame;
-import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 
 import java.util.ArrayList;
 
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CONTEXT_FIGURE;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CONTEXT_PHASE;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 public class CharcterCardPhase implements GamePhase{
     private final ExpertGame game;
@@ -37,7 +33,7 @@ public class CharcterCardPhase implements GamePhase{
     public void handle() {
         Player player = null;
         try {
-            player = this.controller.getPlayer(this.game.getCurrentPlayer();
+            player = this.controller.getPlayer(this.game.getCurrentPlayer());
         } catch (ModelErrorException e) {
             throw new RuntimeException(e);
         }
@@ -58,10 +54,10 @@ public class CharcterCardPhase implements GamePhase{
         try {
             try {
                 doPhase = this.view.getAnswer();
-            } catch (MalformedMessageException | FlowErrorException e) {
+            } catch (MalformedMessageException | TimeHasEndedException e) {
                 doPhase = this.view.getAnswer();
             }
-        } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+        } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
             this.controller.handlePlayerError(player,"Error while getting answer");
         }
         if (doPhase) {
@@ -85,12 +81,14 @@ public class CharcterCardPhase implements GamePhase{
         CharacterCard card = null;
         try{
             try{
-                card = this.view.getChosenCharacterCard();
+                card = this.view.getChosenCharacterCard(game);
             }catch (MalformedMessageException e){
-                card = this.view.getChosenCharacterCard();
+                card = this.view.getChosenCharacterCard(game);
             }
-        }catch (MalformedMessageException | ClientDisconnectedException e){
+        }catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException e){
             this.controller.handlePlayerError(player, "Error while getting chosen character card");
+        }catch (ModelErrorException e) {
+            this.controller.handlePlayerError(player, "Error: doesn't exist card seleted");
         }
         return card;
     }

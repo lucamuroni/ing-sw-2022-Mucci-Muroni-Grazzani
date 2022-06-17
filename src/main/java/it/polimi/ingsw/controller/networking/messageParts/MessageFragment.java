@@ -5,14 +5,17 @@ package it.polimi.ingsw.controller.networking.messageParts;
  * Enum used to define standard messages' headers and payloads
  */
 public enum MessageFragment {
+    ANSWER("answer"),
     ASSISTANT_CARD("assistantCard"),
     ASSISTANT_CARD_DECK("assistantCardDeck"),
     AUTH("auth"),
     AUTH_ID("auth_id"),
+    CHARACTER("character"),
     CLOUD("cloud"),
     CLOUD_ID("cloud_id"),
     CONTEXT("context"),
     CONTEXT_CARD("cardSelection"),
+    CONTEXT_CHARACTER("characterSelection"),
     CONTEXT_CLOUD("fillCloud"),
     CONTEXT_COLOR("towerColor"),
     CONTEXT_DASHBOARD("dashboardUpdate"),

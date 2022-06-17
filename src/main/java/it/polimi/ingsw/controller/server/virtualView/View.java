@@ -7,9 +7,12 @@ import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
+import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.Island;
+import it.polimi.ingsw.model.debug.CharacterCard;
+import it.polimi.ingsw.model.game.ExpertGame;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
@@ -94,6 +97,10 @@ public interface View{
      * @throws FlowErrorException launched when the client sends an unexpected response
      */
     public void updateMotherNaturePlace(Island island) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException;
+
+    public boolean getAnswer() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+
+    public CharacterCard getChosenCharacterCard(ExpertGame game) throws ModelErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
 
     /**
      * Method that handles the messages to get the assistant card deck the current player chooses
