@@ -11,6 +11,7 @@ import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.model.debug.CharacterCard;
 import it.polimi.ingsw.model.game.ExpertGame;
+import it.polimi.ingsw.model.gamer.ExpertGamer;
 import it.polimi.ingsw.model.gamer.Gamer;
 
 import java.util.ArrayList;
@@ -102,10 +103,10 @@ public class CharcterCardPhase implements GamePhase{
         try{
             try{
                 this.view.sendContext(CONTEXT_CHARACTER.getFragment());
-                this.view.sendChosenCharacterCard(card, currentGamer);
+                this.view.sendChosenCharacterCard(card, (ExpertGamer) currentGamer);
             }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
                 this.view.sendContext(CONTEXT_CHARACTER.getFragment());
-                this.view.sendChosenCharacterCard(card, currentGamer);
+                this.view.sendChosenCharacterCard(card, (ExpertGamer) currentGamer);
             }
         }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
             this.controller.handlePlayerError(player, "Error while updating chosen card deck figure");

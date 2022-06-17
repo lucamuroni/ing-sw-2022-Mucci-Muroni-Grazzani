@@ -14,6 +14,7 @@ import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.debug.CharacterCard;
 import it.polimi.ingsw.model.game.ExpertGame;
 import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.model.gamer.ExpertGamer;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.TowerColor;
@@ -159,6 +160,8 @@ public interface View{
      * @throws ClientDisconnectedException launched if the client disconnects
      */
     public Cloud getChosenCloud(ArrayList<Cloud> clouds) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException;
+
+    public void sendChosenCharacterCard(CharacterCard card, ExpertGamer currentGamer) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException ;
 
     /**
      * Method that handles the messages to send the assistant card deck chosen by the current player

@@ -15,6 +15,7 @@ import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.debug.CharacterCard;
 import it.polimi.ingsw.model.game.ExpertGame;
 import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.model.gamer.ExpertGamer;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.TowerColor;
@@ -224,6 +225,11 @@ public class VirtualViewHandler implements View {
     public AssistantCardDeckFigures getChosenAssistantCardDeck(ArrayList<AssistantCardDeckFigures> cardDeck) throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
         GetChosenAssistantCardDeck func = new GetChosenAssistantCardDeck(cardDeck, messageHandler);
         return func.handle();
+    }
+
+    public void sendChosenCharacterCard(CharacterCard card, ExpertGamer currentGamer) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+        SendChosenCharacterCard func = new SendChosenCharacterCard(card, currentGamer, messageHandler);
+        func.handle();
     }
 
     /**
