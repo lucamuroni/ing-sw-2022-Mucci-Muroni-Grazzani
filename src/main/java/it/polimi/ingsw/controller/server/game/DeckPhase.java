@@ -43,7 +43,7 @@ public class DeckPhase implements GamePhase {
                         this.view.sendNewPhase(Phase.DECK_PHASE);
                     }
                 }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
-                    this.controller.handlePlayerError(player,"Error while sending PLANNING PHASE");
+                    this.controller.handlePlayerError(player,"Error while sending DECK PHASE");
                 }
                 AssistantCardDeckFigures figure = this.getChosenAssistantCardDeck(player);
                 ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
