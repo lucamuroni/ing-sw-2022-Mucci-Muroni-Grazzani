@@ -22,10 +22,15 @@ public class AsciiArchipelago {
         int counter = 0;
         for(int i = 0; i<row;i++){
             for(int j = 0; j<column;j++){
-                if(i != 1 && j%2==0){
+                if(i ==0 && j%2==0){
                     positionalMatrix[j][i] = this.asciiIslands.get(counter).getIsland().getId();
                     counter ++;
-                }else{
+                } else if (i==2 && j%2==0) {
+                    positionalMatrix[j][i] = this.asciiIslands.get(counter).getIsland().getId();
+                    counter --;
+                } else if (i ==1) {
+                    counter = 11;
+                } else{
                     positionalMatrix[j][i] = 0;
                 }
             }
@@ -35,7 +40,7 @@ public class AsciiArchipelago {
     private void print(int line,int row) throws AssetErrorException {
         for(int i=0; i < column;i++){
             if(positionalMatrix[i][row]==0){
-                printSpace(AsciiIsland.getWidth()/2);
+                printSpace(AsciiIsland.getWidth());
             }else {
                 AsciiIsland island = null;
                 for(AsciiIsland island1 : this.asciiIslands){
@@ -68,64 +73,95 @@ public class AsciiArchipelago {
     }
 
     public void mergeIsland(int id1, int id2){
+        this.asciiIslands.get(id2).setMerged(true);
         ArrayList<Integer> attachedIsland = new ArrayList<>();
-        for(int x = 0;x< row; x++) {
-            for (int y = 0; y < column; y++) {
-                if(isAttached(id1,positionalMatrix[x][y])){
-                    attachedIsland.add(positionalMatrix[x][y]);
-                }
+        for(AsciiIsland island : this.asciiIslands){
+            if(isAttached(id1,island.getIsland().getId(),null)){
+                attachedIsland.add(island.getIsland().getId());
             }
         }
         ArrayList<Integer> nearIsland = closestIsland(attachedIsland,id2);
+        if(nearIsland.isEmpty()){
+            nearIsland = getIslandPosition(id1);
+        }
         int x1 = nearIsland.get(0);
         int y1 = nearIsland.get(1);
-        nearIsland.clear();
-        nearIsland = getIslandPosition(id2);
-        int x2 = nearIsland.get(0);
-        int y2 = nearIsland.get(1);
-        int id = positionalMatrix[x2][y2];
-        positionalMatrix[x2][y2] = 0;
-        if(x1 == x2){
-            if(y1-y2>0){
-                positionalMatrix[x2][y2+1] = id;
-                //TODO settare ismerged sull'isola
+        int island = positionalMatrix[y1][x1];
+        while (!isAttached(island,id2,null)){
+            nearIsland = getIslandPosition(id2);
+            int x2 = nearIsland.get(0);
+            int y2 = nearIsland.get(1);
+            nearIsland.clear();
+            int id = positionalMatrix[y2][x2];
+            positionalMatrix[y2][x2] = 0;
+            if(x1 == x2){
+                if(y1-y2>0){
+                    positionalMatrix[y2+1][x2] = id;
+                }else{
+                    positionalMatrix[y2-1][x2] = id;
+
+                }
             }else{
-                positionalMatrix[x2][y2-1] = id;
-            }
-        }else{
-            if(x1-x2>0){
-                positionalMatrix[x1-1][y1] = id;
-            }else{
-                positionalMatrix[x1+1][y1] = id;
+                if(x1-x2>0){
+                    positionalMatrix[y1][x1-1] = id;
+                }else{
+                    positionalMatrix[y1][x1+1] = id;
+                }
             }
         }
     }
 
     private ArrayList<Integer> closestIsland(ArrayList<Integer> attachedIsland,Integer islandId){
-        return null;
+        int dist = 0;
+        int x,y;
+        ArrayList<Integer> results = new ArrayList<>();
+        results = getIslandPosition(islandId);
+        x = results.get(0);
+        y = results.get(1);
+        results.clear();
+        for(Integer island : attachedIsland){
+            int difference = 0, distance = 0;
+            ArrayList<Integer> coordinates = getIslandPosition(island);
+            distance =  x -coordinates.get(0);
+            if(distance<0){
+                distance = -distance;
+            }
+            distance = distance*2;
+            difference = distance;
+            distance = y -coordinates.get(1);
+            if(distance<0){
+                distance = -distance;
+            }
+            difference = difference + distance;
+            if(difference<dist || dist == 0){
+                dist = difference;
+                results.clear();
+                results.add(coordinates.get(0));
+                results.add(coordinates.get(1));
+            }
+        }
+        return results;
     }
 
-    private boolean isAttached(int id1, int id2){
-        ArrayList<Integer> position;
-        int x1,x2,y1,y2;
-        position = getIslandPosition(id1);
-        x1 = position.get(0);
-        y1 = position.get(1);
-        position = getIslandPosition(id2);
-        x2 = position.get(0);
-        y2 = position.get(1);
-        if((x1-x2)<=1 && (x1-x2)>=-1){
-            return true;
+    private boolean isAttached(int id1, int id2,ArrayList<Integer> alreadyProbed){
+        if(alreadyProbed == null){
+            alreadyProbed = new ArrayList<>();
         }
-        if((y1-y2)<=1 && (y1-y2)>=-1){
-            return true;
+        ArrayList<Integer> nearestIsland = new ArrayList<>(getNearIslands(id1));
+        if(nearestIsland.isEmpty()){
+            return false;
         }
-        ArrayList<Integer> nearIslands;
-        nearIslands = getNearIslands(id1);
-        for(Integer island : nearIslands){
-            boolean result = isAttached(island,id2);
-            if(result){
-                return true;
+        if(nearestIsland.contains(id2)){
+            return true;
+        }else{
+            alreadyProbed.add(id1);
+            for(Integer island : nearestIsland){
+                if(!alreadyProbed.contains(island)){
+                    boolean result = isAttached(island,id2,alreadyProbed);
+                    if(result){
+                        return true;
+                    }
+                }
             }
         }
         return false;
@@ -135,7 +171,7 @@ public class AsciiArchipelago {
         ArrayList<Integer> result = new ArrayList<>();
         for(int x = 0;x< row; x++){
             for(int y = 0;y <column;y++){
-                if(positionalMatrix[x][y] == id){
+                if(positionalMatrix[y][x] == id){
                     result.add(x);
                     result.add(y);
                     return result;
@@ -147,29 +183,29 @@ public class AsciiArchipelago {
 
     private ArrayList<Integer> getNearIslands(int id){
         int x,y;
-        ArrayList<Integer> result = new ArrayList<>();
-        result = getIslandPosition(id);
+        ArrayList<Integer> result = getIslandPosition(id);
         x = result.get(0);
         y = result.get(1);
         result.clear();
+        result = new ArrayList<>();
         if(x-1>0){
-            if(positionalMatrix[x-1][y]!=0){
-                result.add(positionalMatrix[x-1][y]);
+            if(positionalMatrix[y][x-1]!=0){
+                result.add(positionalMatrix[y][x-1]);
             }
         }
         if(y-1>0){
-            if(positionalMatrix[x][y-1]!=0){
-                result.add(positionalMatrix[x][y-1]);
+            if(positionalMatrix[y-1][x]!=0){
+                result.add(positionalMatrix[y-1][x]);
             }
         }
         if(x+1<row){
-            if(positionalMatrix[x+1][y]!=0){
-                result.add(positionalMatrix[x+1][y]);
+            if(positionalMatrix[y][x+1]!=0){
+                result.add(positionalMatrix[y][x+1]);
             }
         }
-        if(y+1>column){
-            if(positionalMatrix[x][y+1]!=0){
-                result.add(positionalMatrix[x][y+1]);
+        if(y+1<column){
+            if(positionalMatrix[y+1][x]!=0){
+                result.add(positionalMatrix[y+1][x]);
             }
         }
         return result;

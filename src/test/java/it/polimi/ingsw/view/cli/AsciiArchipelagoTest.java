@@ -36,5 +36,41 @@ class AsciiArchipelagoTest {
         } catch (AssetErrorException e) {
             System.out.println("Errore");
         }
+        asciiArchipelago.mergeIsland(2,3);
+        try {
+            asciiArchipelago.draw();
+        } catch (AssetErrorException e) {
+            System.out.println("Errore");
+        }
+        asciiArchipelago.mergeIsland(2,4);
+        try {
+            asciiArchipelago.draw();
+        } catch (AssetErrorException e) {
+            System.out.println("Errore");
+        }
+        asciiArchipelago.mergeIsland(5,6);
+        try {
+            asciiArchipelago.draw();
+        } catch (AssetErrorException e) {
+            System.out.println("Errore");
+        }
+        asciiArchipelago.mergeIsland(6,7);
+        try {
+            asciiArchipelago.draw();
+        } catch (AssetErrorException e) {
+            System.out.println("Errore");
+        }
+        asciiArchipelago.mergeIsland(5,8);
+        try {
+            asciiArchipelago.draw();
+        } catch (AssetErrorException e) {
+            System.out.println("Errore");
+        }
+        asciiArchipelago.mergeIsland(5,9);
+        try {
+            asciiArchipelago.draw();
+        } catch (AssetErrorException e) {
+            System.out.println("Errore");
+        }
     }
 }
