@@ -43,9 +43,10 @@ public class IdlePage implements Page {
                 this.cli.drawDashboard();
                 synchronized (this){
                     try {
-                        this.wait(1000);
+                        this.wait(500);
                     } catch (InterruptedException e) {}
                 }
+                this.cli.clearConsole();
             }
         });
         t.start();
