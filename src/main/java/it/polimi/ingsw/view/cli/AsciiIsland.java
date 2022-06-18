@@ -132,9 +132,9 @@ public class AsciiIsland {
         if(pawn){
             return (string.length()-9);
         }else if(tower){
-            return string.length()-1;
+            return string.length();
         }else if(mn){
-            return string.length()-2;
+            return string.length()-1;
         }else{
             return string.length();
         }
