@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Gamer;
@@ -22,8 +21,8 @@ public class GetUsernames {
         this.game = game;
     }
 
-    public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
-        this.messageHandler.read(ConnectionTimings.INFINITE.getTiming());
+    public void handle() throws ClientDisconnectedException, MalformedMessageException {
+        this.messageHandler.read();
         int id = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PLAYER_ID.getFragment()));
         String username = this.messageHandler.getMessagePayloadFromStream(PLAYER_NAME.getFragment());
         int topicId = this.messageHandler.getMessagesUniqueTopic();

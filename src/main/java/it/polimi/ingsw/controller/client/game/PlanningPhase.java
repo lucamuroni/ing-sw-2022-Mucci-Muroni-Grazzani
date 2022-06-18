@@ -5,7 +5,7 @@ import it.polimi.ingsw.controller.client.networkHandler.Network;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
+
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
@@ -37,7 +37,7 @@ public class PlanningPhase implements GamePhase {
             } catch (MalformedMessageException e) {
                 this.network.getPossibleCards(this.game);
             }
-        } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+        } catch (MalformedMessageException | ClientDisconnectedException e) {
             this.controller.handleError();
         } catch (AssetErrorException e) {
             this.controller.handleError("Doesn't found card");
@@ -49,7 +49,7 @@ public class PlanningPhase implements GamePhase {
             } catch (MalformedMessageException e) {
                 this.network.sendCard(chosenCard);
             }
-        } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
+        } catch (MalformedMessageException | FlowErrorException e) {
             this.controller.handleError();
         }
     }

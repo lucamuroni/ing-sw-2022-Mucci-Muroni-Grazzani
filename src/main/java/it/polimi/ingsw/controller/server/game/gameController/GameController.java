@@ -69,11 +69,11 @@ public class GameController extends Thread{
     }
 
     public void shutdown(String s){
-        //TODO : scrivere per chiamare la fase di vittoria ed inviarla
+        // TODO : scrivere per chiamare la fase di vittoria ed inviarla
         System.out.println(AnsiColor.RED.toString()+s+AnsiColor.RESET.toString());
         for(Player player : this.players){
             this.view.setCurrentPlayer(player);
-            this.view.haltOnError();
+            //this.view.haltOnError(); -->funzione non esiste più
         }
         this.isOK = false;
     }

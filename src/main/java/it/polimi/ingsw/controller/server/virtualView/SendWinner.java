@@ -6,7 +6,6 @@ import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 import java.util.ArrayList;
 
@@ -32,11 +31,10 @@ public class SendWinner {
     /**
      * Method that handles the message exchange
      * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws TimeHasEndedException launched when the available time for the response ends
      * @throws ClientDisconnectedException launched if the client disconnects
      * @throws FlowErrorException launched when the client sends an unexpected response
      */
-    public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
+    public void handle() throws MalformedMessageException, ClientDisconnectedException, FlowErrorException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
         int size = this.usernames.size();
         Message message = new Message(PAYLOAD_SIZE.getFragment(), String.valueOf(size),topicId);
@@ -47,7 +45,7 @@ public class SendWinner {
             this.messageHandler.write(message);
             this.messageHandler.writeOut();
         }
-        this.messageHandler.read(ConnectionTimings.RESPONSE.getTiming());
+        this.messageHandler.read();
         if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
             throw new MalformedMessageException();
         }

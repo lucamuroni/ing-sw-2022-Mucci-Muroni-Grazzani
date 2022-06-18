@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
@@ -22,8 +21,8 @@ public class GetCurrentPlayer {
         this.game = game;
     }
 
-    public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException, AssetErrorException {
-        this.messageHandler.read(ConnectionTimings.RESPONSE.getTiming());
+    public void handle() throws ClientDisconnectedException, MalformedMessageException, AssetErrorException {
+        this.messageHandler.read();
         String player = this.messageHandler.getMessagePayloadFromStream(PLAYER_NAME.getFragment());
         boolean check = false;
         for (Gamer gamer : this.game.getGamers()) {

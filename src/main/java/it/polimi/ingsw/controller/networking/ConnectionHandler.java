@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller.networking;
 
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -81,6 +80,13 @@ class ConnectionHandler {
                     hasConnectionBeenLost = true;
                     this.shutDown();
                 }
+                synchronized (this){
+                    try {
+                        this.wait(100);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
             }
         });
         t.start();
@@ -88,15 +94,11 @@ class ConnectionHandler {
 
     /**
      * Method used to get a message from other clients
-     * @param actionTimeOutMs is the maximum time allowed to read the message
      * @return the first messages that has already been read or the first message that this client receives in the timing window
-     * @throws TimeHasEndedException if no messages where founded on this lapse of time
      * @throws ClientDisconnectedException if a disconnection is revealed
      */
-    public String getInputMessage(int actionTimeOutMs) throws TimeHasEndedException, ClientDisconnectedException {
+    public String getInputMessage() throws ClientDisconnectedException {
         boolean isInputEmpty = true;
-        MessageTimer msgTimer = new MessageTimer(actionTimeOutMs);
-        msgTimer.start();
         while(isInputEmpty){
             synchronized (this.inputMessages){
                 isInputEmpty = this.inputMessages.isEmpty();
@@ -104,11 +106,7 @@ class ConnectionHandler {
             if(hasConnectionBeenLost){
                 throw new ClientDisconnectedException("Found disconnection");
             }
-            if(msgTimer.isTimeEnded()){
-                throw new TimeHasEndedException("Time to respond ended");
-            }
         }
-        msgTimer.kill();
         String s;
         synchronized (this.inputMessages){
             s = this.inputMessages.get(0);

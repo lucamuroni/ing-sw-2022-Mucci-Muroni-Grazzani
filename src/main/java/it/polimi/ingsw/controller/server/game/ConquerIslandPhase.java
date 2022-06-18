@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.model.Island;
@@ -60,11 +59,11 @@ public class ConquerIslandPhase implements GamePhase{
                 try {
                     this.view.sendContext(CONTEXT_ISLAND.getFragment());
                     this.view.updateIslandStatus(this.game.getMotherNature().getPlace());
-                } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
+                } catch (MalformedMessageException  | FlowErrorException e) {
                     this.view.sendContext(CONTEXT_ISLAND.getFragment());
                     this.view.updateIslandStatus(this.game.getMotherNature().getPlace());
                 }
-            } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
+            } catch (MalformedMessageException | ClientDisconnectedException | FlowErrorException e){
                 this.controller.handlePlayerError(pl,"Error while updating islands status");
             }
             try {
@@ -79,7 +78,7 @@ public class ConquerIslandPhase implements GamePhase{
                         this.view.updateDashboards(gamer, game);
                     }
                 }
-            } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException | FlowErrorException e) {
+            } catch (MalformedMessageException | ClientDisconnectedException | FlowErrorException e) {
                 this.controller.handlePlayerError(pl,"Error while updating dashboard status");
             }
         }
@@ -119,11 +118,11 @@ public class ConquerIslandPhase implements GamePhase{
                     try {
                         this.view.sendContext(CONTEXT_MERGE.getFragment());
                         this.view.sendMergedIslands(islands);
-                    }catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e){
+                    }catch (MalformedMessageException | FlowErrorException e){
                         this.view.sendContext(CONTEXT_MERGE.getFragment());
                         this.view.sendMergedIslands(islands);
                     }
-                }catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
+                }catch (MalformedMessageException | ClientDisconnectedException | FlowErrorException e){
                     this.controller.handlePlayerError(player,"Could not send merged Islands");
                 }
             }

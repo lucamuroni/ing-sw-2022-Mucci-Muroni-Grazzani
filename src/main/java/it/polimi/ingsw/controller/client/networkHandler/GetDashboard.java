@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
@@ -42,12 +41,11 @@ public class GetDashboard {
 
     /**
      * Method that handles the update of the dashboards in the view
-     * @throws TimeHasEndedException launched when the available time for the response has ended
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
-    public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException, AssetErrorException {
-        this.messageHandler.read(PLAYER_MOVE.getTiming());
+    public void handle() throws ClientDisconnectedException, MalformedMessageException, AssetErrorException {
+        this.messageHandler.read();
         int result = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(OWNER.getFragment()));
         Gamer gamer = null;
         for (Gamer gm : game.getGamers()) {

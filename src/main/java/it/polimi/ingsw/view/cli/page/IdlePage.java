@@ -31,6 +31,7 @@ public class IdlePage implements Page {
     @Override
     public void handle() throws UndoException {
         Thread t = new Thread(()->{
+            int i = 0;
             while(!this.isKilled()){
                 try {
                     this.archipelago.draw();
@@ -46,7 +47,10 @@ public class IdlePage implements Page {
                         this.wait(500);
                     } catch (InterruptedException e) {}
                 }
-                this.cli.clearConsole();
+                if(i%5==0){
+                    this.cli.clearConsole();
+                }
+                i++;
             }
         });
         t.start();

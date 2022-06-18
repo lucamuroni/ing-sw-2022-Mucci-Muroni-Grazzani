@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Island;
@@ -26,11 +25,11 @@ public class GetMergedIslands {
         this.game = game;
     }
 
-    public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException, AssetErrorException {
-        this.messageHandler.read(UPDATE.getTiming());
+    public void handle() throws ClientDisconnectedException, MalformedMessageException, AssetErrorException {
+        this.messageHandler.read();
         int num = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAYLOAD_SIZE.getFragment()));
         for (int i = 0; i<num; i++) {
-            this.messageHandler.read(UPDATE.getTiming());
+            this.messageHandler.read();
             int id = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(ISLAND_ID.getFragment()));
             boolean check = false;
             for (Island island : this.game.getIslands()) {

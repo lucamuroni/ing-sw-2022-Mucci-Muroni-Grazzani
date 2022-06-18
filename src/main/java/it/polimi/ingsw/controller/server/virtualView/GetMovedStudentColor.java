@@ -5,7 +5,6 @@ import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
@@ -29,11 +28,10 @@ public class GetMovedStudentColor {
      * Method that handles the message exchange
      * @return the color of the chosen student
      * @throws MalformedMessageException launched if the message isn't created in the correct way
-     * @throws TimeHasEndedException launched when the available time for the response has ended
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      */
-    public PawnColor handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
-        this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
+    public PawnColor handle() throws MalformedMessageException, ClientDisconnectedException {
+        this.messageHandler.read();
         String studentColor = this.messageHandler.getMessagePayloadFromStream(STUDENT_COLOR.getFragment());
         PawnColor result = null;
         for (PawnColor color : PawnColor.values()) {

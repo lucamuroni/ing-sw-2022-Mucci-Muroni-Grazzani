@@ -3,7 +3,6 @@ package it.polimi.ingsw.controller.networking;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import java.io.IOException;
@@ -81,14 +80,12 @@ public class MessageHandler {
     /**
      * Method used to flush a message to a socket and await for the response. This method automatically topic-secures the message throwing an error
      * in case a client responded wrongly to a request
-     * @param milliSeconds are the milliseconds given to a Client to perform a certain action
-     * @throws TimeHasEndedException if the client does not respond in time
      * @throws ClientDisconnectedException if the client disconnects
      */
-    public void writeOutAndWait(int milliSeconds) throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
+    public void writeOutAndWait() throws ClientDisconnectedException, MalformedMessageException {
         int topicID = (int)this.encoder.get(this.topKeyWord);
         writeOut();
-        this.read(milliSeconds);
+        this.read();
         if(this.incomingMessages.get(0).getUniqueTopicID()!=topicID){
             clearIncomingMessages();
             throw new MalformedMessageException();
@@ -97,14 +94,12 @@ public class MessageHandler {
 
     /**
      * Method used for reading an incoming message from client/server
-     * @param maxActionTimeOut are the milliseconds given to a Client to perform a certain action
-     * @throws TimeHasEndedException if the client does not respond in time
      * @throws ClientDisconnectedException if the client disconnects
      */
-    public void read(int maxActionTimeOut) throws TimeHasEndedException, ClientDisconnectedException {
+    public void read() throws ClientDisconnectedException {
         int i = 0,uniqueID = 0;
         JSONObject decoder = new JSONObject();
-        String messages = this.connectionHandler.getInputMessage(maxActionTimeOut);
+        String messages = this.connectionHandler.getInputMessage();
         /* Object messagesParsed = JSONValue.parse(messages);
         this.decoder = (JSONObject) messagesParsed; */
         decoder = (JSONObject) JSONValue.parse(messages);

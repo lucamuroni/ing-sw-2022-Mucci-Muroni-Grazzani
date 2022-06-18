@@ -6,7 +6,6 @@ import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Gamer;
@@ -38,7 +37,7 @@ public class ConnectionPhase implements GamePhase{
             }catch (MalformedMessageException e){
                 this.network.getConnection(this.controller);
             }
-        }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e){
+        }catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e){
             this.controller.handleError("Error while starting the connection");
         }
         this.view.getPlayerInfo();
@@ -58,7 +57,7 @@ public class ConnectionPhase implements GamePhase{
             }catch (MalformedMessageException e){
                 this.network.awaitForLobby();
             }
-        }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e){
+        }catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e){
             this.controller.handleError("Error while inserting player into the lobby");
         }
         this.view.lobbyFounded();

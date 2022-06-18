@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
@@ -33,12 +32,11 @@ public class GetChosenAssistantCard {
 
     /**
      * Method that handles the messages to get the chosen assistant card
-     * @throws TimeHasEndedException launched when the available time for the response has ended
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
-    public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException, AssetErrorException {
-        this.messageHandler.read(PLAYER_MOVE.getTiming());
+    public void handle() throws ClientDisconnectedException, MalformedMessageException, AssetErrorException {
+        this.messageHandler.read();
         int id = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(OWNER.getFragment()));
         Gamer owner = null;
         for (Gamer gamer : game.getGamers()) {

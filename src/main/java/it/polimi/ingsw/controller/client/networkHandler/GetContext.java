@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
 import it.polimi.ingsw.controller.networking.messageParts.MessageFragment;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
@@ -19,8 +18,8 @@ public class GetContext {
         this.messageHandler = messageHandler;
     }
 
-    public String handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException, AssetErrorException {
-        this.messageHandler.read(ConnectionTimings.INFINITE.getTiming());
+    public String handle() throws ClientDisconnectedException, MalformedMessageException, AssetErrorException {
+        this.messageHandler.read();
         String context = this.messageHandler.getMessagePayloadFromStream(CONTEXT.getFragment());
         boolean check = false;
         for (MessageFragment fragment : MessageFragment.values()) {

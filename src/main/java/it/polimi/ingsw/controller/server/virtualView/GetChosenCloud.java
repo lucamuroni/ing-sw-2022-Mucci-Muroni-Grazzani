@@ -5,7 +5,6 @@ import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.Cloud;
 import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
@@ -34,10 +33,9 @@ public class GetChosenCloud {
      * Method that handles the message exchange
      * @return the chosen cloud
      * @throws MalformedMessageException launched if the message isn't created in the correct way
-     * @throws TimeHasEndedException launched when the available time for the response has ended
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      */
-    public Cloud handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+    public Cloud handle() throws MalformedMessageException, ClientDisconnectedException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
         int size = this.clouds.size();
         Message message = new Message(PAYLOAD_SIZE.getFragment(), String.valueOf(size),topicId);
@@ -48,7 +46,7 @@ public class GetChosenCloud {
             this.messageHandler.write(message);
             this.messageHandler.writeOut();
         }
-        this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
+        this.messageHandler.read();
         if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
             throw new MalformedMessageException();
         }

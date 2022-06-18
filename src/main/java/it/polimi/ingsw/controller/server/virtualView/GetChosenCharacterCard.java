@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.model.debug.CharacterCard;
 import it.polimi.ingsw.model.game.ExpertGame;
@@ -21,8 +20,8 @@ public class GetChosenCharacterCard {
         this.game = game;
     }
 
-    public CharacterCard handle() throws TimeHasEndedException, ClientDisconnectedException, ModelErrorException, MalformedMessageException {
-        this.messageHandler.read(PLAYER_MOVE.getTiming());
+    public CharacterCard handle() throws ClientDisconnectedException, ModelErrorException, MalformedMessageException {
+        this.messageHandler.read();
         String cardName = this.messageHandler.getMessagePayloadFromStream(CHARACTER.getFragment());
         CharacterCard result = null;
         for (CharacterCard card : this.game.getGameCards()) {

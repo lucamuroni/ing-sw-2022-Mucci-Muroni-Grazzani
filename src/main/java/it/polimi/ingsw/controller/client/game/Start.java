@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.client.networkHandler.Network;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
@@ -44,11 +43,10 @@ public class Start implements GamePhase {
                 } catch (MalformedMessageException e) {
                     this.network.getUsernames(this.game);
                 }
-            }catch (TimeHasEndedException e){
-                this.controller.handleError("No other players were founded");
             }catch (MalformedMessageException | ClientDisconnectedException e) {
                 this.controller.handleError("Could not receive info about other players");
             }
+            //TODO controllare la correttezza della correzione
         }
     }
 
@@ -59,7 +57,7 @@ public class Start implements GamePhase {
             } catch (MalformedMessageException e) {
                 this.network.getMotherNaturePlace(this.game);
             }
-        } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+        } catch (MalformedMessageException  | ClientDisconnectedException e) {
             this.controller.handleError();
         } catch (AssetErrorException e) {
             this.controller.handleError("Doesn't found island of mother nature");
@@ -73,7 +71,7 @@ public class Start implements GamePhase {
             } catch (MalformedMessageException e) {
                 this.network.getIslandStatus(this.game);
             }
-        } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+        } catch (MalformedMessageException | ClientDisconnectedException e) {
             this.controller.handleError();
         } catch (AssetErrorException e) {
             this.controller.handleError("Doesn't found island");
@@ -87,7 +85,7 @@ public class Start implements GamePhase {
             } catch (MalformedMessageException e) {
                 this.network.getDashboard(this.game);
             }
-        } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+        } catch (MalformedMessageException | ClientDisconnectedException e) {
             this.controller.handleError();
         } catch (AssetErrorException e) {
             this.controller.handleError("Doesn't found dashboard");
@@ -101,7 +99,7 @@ public class Start implements GamePhase {
             } catch (MalformedMessageException e) {
                 this.network.getTowerColor(this.game);
             }
-        } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+        } catch (MalformedMessageException | ClientDisconnectedException e) {
             this.controller.handleError();
         } catch (AssetErrorException e) {
             this.controller.handleError("Doesn't found tower color/gamer");

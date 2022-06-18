@@ -1,7 +1,7 @@
 package it.polimi.ingsw.controller.networking;
 
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
+
 import org.junit.jupiter.api.Test;
 
 import javax.swing.event.CaretListener;

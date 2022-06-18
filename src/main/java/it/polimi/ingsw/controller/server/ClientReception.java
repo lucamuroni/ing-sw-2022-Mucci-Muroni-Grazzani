@@ -4,8 +4,6 @@ import it.polimi.ingsw.controller.networking.*;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
-import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
 import it.polimi.ingsw.controller.networking.messageParts.MessageFragment;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -66,21 +64,21 @@ class ClientReception extends Thread{
                 }
             }
             try {
-                player.getMessageHandler().writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming());
+                player.getMessageHandler().writeOutAndWait();
                 player.getMessageHandler().assertOnEquals(MessageFragment.OK.getFragment(), MessageFragment.GREETINGS.getFragment());
                 msgs.clear();
                 Integer uniquePlayerID = this.generateUniquePlayerID();
                 msgs.add(new Message(MessageFragment.AUTH_ID.getFragment(), uniquePlayerID.toString(),uniqueMsgID));
                 player.getMessageHandler().write(msgs);
                 msgs.clear();
-                player.getMessageHandler().writeOutAndWait(ConnectionTimings.INFINITE.getTiming());
+                player.getMessageHandler().writeOutAndWait();
                 player.getMessageHandler().assertOnEquals(uniquePlayerID.toString(), MessageFragment.AUTH_ID.getFragment());
                 String name = player.getMessageHandler().getMessagePayloadFromStream(MessageFragment.PLAYER_NAME.getFragment());
                 player.createGamer(name,uniquePlayerID);
                 String gameType = player.getMessageHandler().getMessagePayloadFromStream(MessageFragment.GAME_TYPE.getFragment());
                 String lobbySize = player.getMessageHandler().getMessagePayloadFromStream(MessageFragment.LOBBY_SIZE.getFragment());
                 insertPlayerIntoLobby(gameType,lobbySize,player);
-            } catch (TimeHasEndedException | ClientDisconnectedException | MalformedMessageException | FlowErrorException e) {
+            } catch (ClientDisconnectedException | MalformedMessageException | FlowErrorException e) {
                 e.printStackTrace();
             }
         });
@@ -131,9 +129,9 @@ class ClientReception extends Thread{
         messages.add(new Message(MessageFragment.GREETINGS.getFragment(), MessageFragment.GREETINGS_STATUS_SUCCESFULL.getFragment(),uniqueMsgID));
         try{
             player.getMessageHandler().write(messages);
-            player.getMessageHandler().writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming());
+            player.getMessageHandler().writeOutAndWait();
             player.getMessageHandler().assertOnEquals(MessageFragment.OK.getFragment(), MessageFragment.GREETINGS.getFragment());
-        }catch (TimeHasEndedException | ClientDisconnectedException | MalformedMessageException | FlowErrorException e){
+        }catch (ClientDisconnectedException | MalformedMessageException | FlowErrorException e){
             synchronized (this.lobbies){
                 for(Lobby lobby : this.lobbies){
                     if(lobby.contains(player)){

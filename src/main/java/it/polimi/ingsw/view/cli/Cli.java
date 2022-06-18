@@ -87,7 +87,7 @@ public class Cli implements ViewHandler {
         synchronized (this.pageLock){
             this.currentPage.kill();
             try {
-                this.pageLock.wait(600);
+                this.pageLock.wait(1000);
             } catch (InterruptedException e) {
                 this.controller.handleError("Error while changing page");
             }

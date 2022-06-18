@@ -5,7 +5,6 @@ import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
 import it.polimi.ingsw.model.Island;
 
@@ -22,7 +21,7 @@ public class SendMergedIslands {
         this.mergedIslands = new ArrayList<>(mergedIslands);
     }
 
-    public void handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException, FlowErrorException {
+    public void handle() throws MalformedMessageException, ClientDisconnectedException, FlowErrorException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
         int size = this.mergedIslands.size();
         Message message = new Message(PAYLOAD_SIZE.getFragment(), String.valueOf(size), topicId);
@@ -33,7 +32,7 @@ public class SendMergedIslands {
             this.messageHandler.write(message);
             this.messageHandler.writeOut();
         }
-        this.messageHandler.read(ConnectionTimings.RESPONSE.getTiming());
+        this.messageHandler.read();
         if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
             throw new MalformedMessageException();
         }

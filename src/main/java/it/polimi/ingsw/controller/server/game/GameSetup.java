@@ -105,11 +105,11 @@ public class GameSetup implements GamePhase{
             try{
                 //this.view.sendContext(CONTEXT_MOTHER.getFragment());
                 this.view.updateMotherNaturePlace(this.game.getMotherNature().getPlace());
-            }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+            }catch (MalformedMessageException | FlowErrorException e){
                 //this.view.sendContext(CONTEXT_MOTHER.getFragment());
                 this.view.updateMotherNaturePlace(this.game.getMotherNature().getPlace());
             }
-        }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
+        }catch (FlowErrorException | MalformedMessageException | ClientDisconnectedException e){
             e.printStackTrace();
             this.controller.handlePlayerError(player,"Error while updating Mother Nature place");
         }
@@ -126,11 +126,11 @@ public class GameSetup implements GamePhase{
                 try{
                     //this.view.sendContext(CONTEXT_ISLAND.getFragment());
                     this.view.updateIslandStatus(this.game.getIslands().get(i));
-                }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                }catch (MalformedMessageException | FlowErrorException  e){
                     //this.view.sendContext(CONTEXT_ISLAND.getFragment());
                     this.view.updateIslandStatus(this.game.getIslands().get(i));
                 }
-            }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
+            }catch (FlowErrorException | MalformedMessageException  | ClientDisconnectedException e){
                 e.printStackTrace();
                 this.controller.handlePlayerError(player,"Error while syncing islands");
             }
@@ -142,11 +142,11 @@ public class GameSetup implements GamePhase{
             try {
                 //this.view.sendContext(CONTEXT_COLOR.getFragment());
                 this.view.sendTowerColor(player.getGamer(this.game.getGamers()));
-            } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e) {
+            } catch (MalformedMessageException | FlowErrorException e) {
                 //this.view.sendContext(CONTEXT_COLOR.getFragment());
                 this.view.sendTowerColor(player.getGamer(this.game.getGamers()));
             }
-        } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
+        } catch (MalformedMessageException | FlowErrorException  | ClientDisconnectedException e) {
             this.controller.handlePlayerError(currentPlayer,"Error while updating color");
         } catch (ModelErrorException e) {
             this.controller.shutdown("Error founded in model : shutting down this game");
@@ -162,11 +162,11 @@ public class GameSetup implements GamePhase{
             try{
                 //this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
                 this.view.updateDashboards(player.getGamer(this.game.getGamers()), this.game);
-            }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+            }catch (MalformedMessageException | FlowErrorException e){
                 //this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
                 this.view.updateDashboards(player.getGamer(this.game.getGamers()), this.game);
             }
-        }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException | ModelErrorException e){
+        }catch (FlowErrorException | MalformedMessageException | ClientDisconnectedException | ModelErrorException e){
             e.printStackTrace();
             this.controller.handlePlayerError(currentPlayer,"Error while updating dashboard");
         }
@@ -181,10 +181,10 @@ public class GameSetup implements GamePhase{
                     try {
                         try {
                             this.view.sendUsername(player2);
-                        } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e) {
+                        } catch (MalformedMessageException | FlowErrorException e) {
                             this.view.sendUsername(player2);
                         }
-                    } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
+                    } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
                         e.printStackTrace();
                         this.controller.handlePlayerError(player1,"Error while uploading usernames");
                     }
