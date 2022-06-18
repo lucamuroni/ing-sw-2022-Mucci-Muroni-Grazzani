@@ -33,22 +33,22 @@ public class IdlePage implements Page {
         Thread t = new Thread(()->{
             int i = 0;
             while(!this.isKilled()){
-                try {
-                    this.archipelago.draw();
-                } catch (AssetErrorException e) {
-                    this.cli.getController().handleError("Could not print archipelago");
+                if(i%5==0){
+                    this.cli.clearConsole();
+                    try {
+                        this.archipelago.draw();
+                    } catch (AssetErrorException e) {
+                        this.cli.getController().handleError("Could not print archipelago");
+                    }
+                    System.out.print("\n");
+                    this.cli.drawClouds();
+                    System.out.print("\n");
+                    this.cli.drawDashboard();
                 }
-                System.out.print("\n");
-                this.cli.drawClouds();
-                System.out.print("\n");
-                this.cli.drawDashboard();
                 synchronized (this){
                     try {
                         this.wait(500);
                     } catch (InterruptedException e) {}
-                }
-                if(i%5==0){
-                    this.cli.clearConsole();
                 }
                 i++;
             }

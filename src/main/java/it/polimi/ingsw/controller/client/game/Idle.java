@@ -181,9 +181,9 @@ public class Idle implements GamePhase{
                 case CONTEXT_MERGE:
                     try {
                         try {
-                            this.network.getMergedIslands(this.game);
+                            this.network.getMergedIslands(this.view);
                         } catch (MalformedMessageException e) {
-                            this.network.getMergedIslands(this.game);
+                            this.network.getMergedIslands(this.view);
                         }
                     } catch (MalformedMessageException | ClientDisconnectedException e) {
                         this.controller.handleError();

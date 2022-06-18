@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
+import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Island;
@@ -17,33 +18,21 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
 public class GetMergedIslands {
     private MessageHandler messageHandler;
     private ArrayList<Island> mergedIslands;
-    private Game game;
+    private ViewHandler viewHandler;
 
-    public GetMergedIslands(MessageHandler messageHandler, Game game) {
+    public GetMergedIslands(MessageHandler messageHandler, ViewHandler viewHandler) {
         this.messageHandler = messageHandler;
         this.mergedIslands = new ArrayList<>();
-        this.game = game;
+        this.viewHandler = viewHandler;
     }
 
     public void handle() throws ClientDisconnectedException, MalformedMessageException, AssetErrorException {
         this.messageHandler.read();
-        int num = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAYLOAD_SIZE.getFragment()));
-        for (int i = 0; i<num; i++) {
-            this.messageHandler.read();
-            int id = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(ISLAND_ID.getFragment()));
-            boolean check = false;
-            for (Island island : this.game.getIslands()) {
-                if (island.getId() == id) {
-                    this.mergedIslands.add(island);
-                    check = true;
-                }
-            }
-            if (!check)
-                throw new AssetErrorException();
-        }
+        int islandId1 = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(MERGED_ISLAND_1.getFragment()));
+        int islandId2 = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(MERGED_ISLAND_2.getFragment()));
         Message message = new Message(OK.getFragment(), ISLAND.getFragment(), this.messageHandler.getMessagesUniqueTopic());
         this.messageHandler.write(message);
         this.messageHandler.writeOut();
-
+        viewHandler.setMergedIsland(islandId1,islandId2);
     }
 }

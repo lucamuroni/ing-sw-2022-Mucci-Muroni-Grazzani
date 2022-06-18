@@ -23,19 +23,11 @@ public class SendMergedIslands {
 
     public void handle() throws MalformedMessageException, ClientDisconnectedException, FlowErrorException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
-        int size = this.mergedIslands.size();
-        Message message = new Message(PAYLOAD_SIZE.getFragment(), String.valueOf(size), topicId);
-        this.messageHandler.write(message);
-        this.messageHandler.writeOut();
-        for (Island island : this.mergedIslands) {
-            message = new Message(ISLAND_ID.getFragment(), String.valueOf(island.getId()), topicId);
-            this.messageHandler.write(message);
-            this.messageHandler.writeOut();
-        }
-        this.messageHandler.read();
-        if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
-            throw new MalformedMessageException();
-        }
+        ArrayList<Message> messages = new ArrayList<>();
+        messages.add(new Message(MERGED_ISLAND_1.getFragment(),String.valueOf(this.mergedIslands.get(0).getId()),topicId));
+        messages.add(new Message(MERGED_ISLAND_2.getFragment(),String.valueOf(this.mergedIslands.get(1).getId()),topicId));
+        this.messageHandler.write(messages);
+        this.messageHandler.writeOutAndWait();
         this.messageHandler.assertOnEquals(OK.getFragment(), ISLAND.getFragment());
     }
 }

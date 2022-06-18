@@ -11,6 +11,7 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.TowerColor;
+import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.*;
 import java.util.ArrayList;
@@ -89,7 +90,7 @@ public interface Network {
      */
     void getCloudStatus(Game game) throws MalformedMessageException, ClientDisconnectedException, AssetErrorException;
 
-    void getMergedIslands(Game game) throws AssetErrorException, MalformedMessageException, ClientDisconnectedException;
+    void getMergedIslands(ViewHandler viewHandler) throws AssetErrorException, MalformedMessageException, ClientDisconnectedException;
 
     /**
      * Method that updates the dashboards' status in the view

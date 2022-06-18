@@ -43,6 +43,8 @@ public enum MessageFragment {
     LOBBY_JOIN("join lobby"),
     LOBBY_SIZE("LobbySize"),
     MN_LOCATION("MNLocation"),
+    MERGED_ISLAND_1("mergedIsland1"),
+    MERGED_ISLAND_2("mergedIsland2"),
     NUM_TOWERS("numTowers"),
     OK("ok"),
     OWNER("Owner"),

@@ -356,6 +356,11 @@ public class Cli implements ViewHandler {
         }
     }
 
+    @Override
+    public void setMergedIsland(int islandId1, int islandId2) {
+        this.archipelago.mergeIsland(islandId1,islandId2);
+    }
+
     public void drawClouds(){
         for(int i = 0; i < AsciiCloud.getHeight(); i++){
             for(AsciiCloud cloud : this.clouds){

@@ -53,4 +53,6 @@ public interface ViewHandler {
     void lobbyFounded();
 
     void init();
+
+    void setMergedIsland(int islandId1, int islandId2);
 }

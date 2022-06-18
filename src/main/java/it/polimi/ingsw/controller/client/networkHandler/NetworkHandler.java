@@ -9,6 +9,7 @@ import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.pawn.PawnColor;
+import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.*;
 import java.util.ArrayList;
@@ -153,8 +154,8 @@ public class NetworkHandler implements Network {
     }
 
     @Override
-    public void getMergedIslands(Game game) throws AssetErrorException, MalformedMessageException, ClientDisconnectedException {
-        GetMergedIslands func = new GetMergedIslands(messageHandler, game);
+    public void getMergedIslands(ViewHandler viewHandler) throws AssetErrorException, MalformedMessageException, ClientDisconnectedException {
+        GetMergedIslands func = new GetMergedIslands(messageHandler, viewHandler);
         func.handle();
     }
 
