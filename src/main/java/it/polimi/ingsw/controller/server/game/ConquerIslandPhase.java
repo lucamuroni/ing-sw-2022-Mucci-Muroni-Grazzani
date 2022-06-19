@@ -113,17 +113,13 @@ public class ConquerIslandPhase implements GamePhase{
             ArrayList<Island> islands = new ArrayList<Island>();
             islands.add(this.game.getIslands().get(id1));
             islands.add(this.game.getIslands().get(id2));
-            System.out.println("sono in mergeIsland");
             for(Player player : this.controller.getPlayers()){
-                System.out.println(player.getUsername());
                 this.view.setCurrentPlayer(player);
                 try {
                     try {
-                        System.out.println("Fatto primo try");
                         this.view.sendContext(CONTEXT_MERGE.getFragment());
                         this.view.sendMergedIslands(islands);
                     }catch (MalformedMessageException | FlowErrorException e){
-                        System.out.println("Fatto secondo try");
                         this.view.sendContext(CONTEXT_MERGE.getFragment());
                         this.view.sendMergedIslands(islands);
                     }
