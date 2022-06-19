@@ -102,7 +102,11 @@ public class ActionPhase1 implements GamePhase{
                 try {
                     try {
                         this.view.updateDashboards(this.game.getCurrentPlayer(), this.game);
+                        if (place>0)
+                            this.view.updateIslandStatus(this.game.getIslands().get(place-1));
                     } catch (MalformedMessageException | FlowErrorException e) {
+                        if (place>0)
+                            this.view.updateIslandStatus(this.game.getIslands().get(place-1));
                         this.view.updateDashboards(this.game.getCurrentPlayer(), this.game);
                     }
                 } catch (MalformedMessageException | ClientDisconnectedException  | FlowErrorException e){

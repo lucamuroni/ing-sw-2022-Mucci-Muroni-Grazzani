@@ -49,8 +49,12 @@ public class ActionPhase1 implements GamePhase{
             try {
                 try {
                     this.network.getDashboard(this.game);
+                    if (location>0)
+                        this.network.getIslandStatus(this.game);
                 } catch (MalformedMessageException e) {
                     this.network.getDashboard(this.game);
+                    if (location>0)
+                        this.network.getIslandStatus(this.game);
                 }
             } catch (MalformedMessageException | ClientDisconnectedException e) {
                 this.controller.handleError();
