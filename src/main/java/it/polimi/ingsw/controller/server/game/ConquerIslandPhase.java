@@ -42,15 +42,15 @@ public class ConquerIslandPhase implements GamePhase{
     public void handle() {
         this.game.checkIslandOwner();
         int id = this.game.getIslands().indexOf(this.game.getMotherNature().getPlace());
-        if(id-1 >= 0){
-            this.mergeIsland(id,id-1);
+        if(this.game.getIslands().get(id).getId() != this.game.getIslands().get(this.findFirst()).getId()){
+            this.mergeIsland(id,this.findPrevious(id));
         }else{
-            this.mergeIsland(id,this.game.getIslands().size()-1);
+            this.mergeIsland(id,this.findLast());
         }
-        if(id+1<this.game.getIslands().size()){
-            this.mergeIsland(id,id+1);
+        if(this.game.getIslands().get(id).getId() != this.game.getIslands().get(this.findLast()).getId()){
+            this.mergeIsland(id,this.findNext(id));
         }else{
-            this.mergeIsland(id,0);
+            this.mergeIsland(id,this.findFirst());
         }
         ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
         for (Player pl : players) {
@@ -127,6 +127,28 @@ public class ConquerIslandPhase implements GamePhase{
                     this.controller.handlePlayerError(player,"Could not send merged Islands");
                 }
             }
+            //TODO controllo
+            this.game.getIslands().remove(this.game.getIslands().get(id2));
         }
+    }
+
+    private int findPrevious(int idCurrent) {
+        int ind = this.game.getIslands().indexOf(this.game.getIslands().get(idCurrent-1));
+        return ind;
+    }
+
+    private int findNext(int idCurrent) {
+        int ind = this.game.getIslands().indexOf(this.game.getIslands().get(idCurrent+1));
+        return ind;
+    }
+
+    private int findLast() {
+        int ind = this.game.getIslands().indexOf(this.game.getIslands().get(this.game.getIslands().size()-1));
+        return ind;
+    }
+
+    private int findFirst() {
+        int ind = this.game.getIslands().indexOf(this.game.getIslands().stream().findFirst().get());
+        return ind;
     }
 }
