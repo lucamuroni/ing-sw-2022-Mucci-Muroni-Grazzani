@@ -42,7 +42,7 @@ public class ConquerIslandPhase implements GamePhase{
     public void handle() {
         this.game.checkIslandOwner();
         int id = this.game.getIslands().indexOf(this.game.getMotherNature().getPlace());
-        if(id-1 > 0){
+        if(id-1 >= 0){
             this.mergeIsland(id,id-1);
         }else{
             this.mergeIsland(id,this.game.getIslands().size()-1);
@@ -57,6 +57,7 @@ public class ConquerIslandPhase implements GamePhase{
             this.view.setCurrentPlayer(pl);
             try {
                 try {
+                    //System.out.println("qui");
                     this.view.sendContext(CONTEXT_ISLAND.getFragment());
                     this.view.updateIslandStatus(this.game.getMotherNature().getPlace());
                 } catch (MalformedMessageException  | FlowErrorException e) {
@@ -107,18 +108,22 @@ public class ConquerIslandPhase implements GamePhase{
     }
 
     private void mergeIsland(int id1, int id2){
-        if(this.game.getIslands().get(id1).getOwner().equals(this.game.getIslands().get(id2).getOwner()) && this.game.getIslands().get(id1).getOwner().isPresent()){
+        if(this.game.getIslands().get(id1).getOwner().isPresent() && this.game.getIslands().get(id1).getOwner().equals(this.game.getIslands().get(id2).getOwner())){
             this.game.getIslands().get(id1).mergeIsland(this.game.getIslands().get(id2));
             ArrayList<Island> islands = new ArrayList<Island>();
             islands.add(this.game.getIslands().get(id1));
             islands.add(this.game.getIslands().get(id2));
+            System.out.println("sono in mergeIsland");
             for(Player player : this.controller.getPlayers()){
+                System.out.println(player.getUsername());
                 this.view.setCurrentPlayer(player);
                 try {
                     try {
+                        System.out.println("Fatto primo try");
                         this.view.sendContext(CONTEXT_MERGE.getFragment());
                         this.view.sendMergedIslands(islands);
                     }catch (MalformedMessageException | FlowErrorException e){
+                        System.out.println("Fatto secondo try");
                         this.view.sendContext(CONTEXT_MERGE.getFragment());
                         this.view.sendMergedIslands(islands);
                     }

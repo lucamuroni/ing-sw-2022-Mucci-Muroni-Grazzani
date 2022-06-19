@@ -30,7 +30,7 @@ public class GetMergedIslands {
         this.messageHandler.read();
         int islandId1 = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(MERGED_ISLAND_1.getFragment()));
         int islandId2 = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(MERGED_ISLAND_2.getFragment()));
-        Message message = new Message(OK.getFragment(), ISLAND.getFragment(), this.messageHandler.getMessagesUniqueTopic());
+        Message message = new Message(ISLAND.getFragment(), OK.getFragment(), this.messageHandler.getMessagesUniqueTopic());
         this.messageHandler.write(message);
         this.messageHandler.writeOut();
         viewHandler.setMergedIsland(islandId1,islandId2);
