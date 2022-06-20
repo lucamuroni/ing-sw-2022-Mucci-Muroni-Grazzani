@@ -42,12 +42,12 @@ public class LoadingPage implements Page {
                 "\n"+AnsiColor.RESET.toString());
         System.out.print("Please wait until a connection with the server is established\n"+padding);
         this.loadingBar.print();
-        this.cli.clearConsole();
         synchronized (this){
             try {
                 this.wait(100);
             } catch (InterruptedException e) {}
         }
+        this.cli.clearConsole();
     }
 
     /**

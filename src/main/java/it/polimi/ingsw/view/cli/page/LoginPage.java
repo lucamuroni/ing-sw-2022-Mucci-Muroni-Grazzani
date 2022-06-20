@@ -70,12 +70,12 @@ public class LoginPage implements Page {
             while (!this.isKilled()){
                 System.out.println("Please wait unit we reach the server");
                 loadingBar.print();
-                this.cli.clearConsole();
                 synchronized (this){
                     try {
                         this.wait(100);
                     } catch (InterruptedException e) {}
                 }
+                this.cli.clearConsole();
             }
         });
         t.start();
