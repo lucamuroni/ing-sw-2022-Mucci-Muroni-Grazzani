@@ -17,6 +17,7 @@ public class Island {
     private TowerColor towersColor;
     private boolean isMotherNaturePresent;
     private boolean isTowerPresent;
+    private boolean isMerged;
 
     /**
      * Constructor of the class
@@ -27,6 +28,7 @@ public class Island {
         this.numTowers = 0;
         this.isMotherNaturePresent = false;
         this.isTowerPresent = false;
+        this.isMerged = false;
         this.students = new ArrayList<Student>();
     }
 
@@ -96,5 +98,13 @@ public class Island {
 
     public void setTowerPresent() {
         isTowerPresent = true;
+    }
+
+    public boolean isMerged() {
+        return isMerged;
+    }
+
+    public void setMerged() {
+        isMerged = true;
     }
 }

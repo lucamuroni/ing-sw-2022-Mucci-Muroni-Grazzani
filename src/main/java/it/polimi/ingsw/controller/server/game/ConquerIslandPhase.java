@@ -127,7 +127,7 @@ public class ConquerIslandPhase implements GamePhase{
                 }
             }
             //TODO controllo
-            this.game.getIslands().remove(this.game.getIslands().get(id2));
+            //this.game.getIslands().remove(this.game.getIslands().get(id2));
         }
     }
 }

@@ -27,7 +27,8 @@ public class MoveMotherNaturePage implements Page {
     public void handle() throws UndoException {
         ArrayList<String> options = new ArrayList<>();
         for (Island island : this.islands) {
-            options.add("Island " + island.getId());
+            if (!island.isMerged())
+                options.add("Island " + island.getId());
         }
         Menù menù = new Menù(options);
         this.cli.drawArchipelago();
