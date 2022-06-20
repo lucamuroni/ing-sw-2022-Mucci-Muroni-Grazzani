@@ -16,6 +16,7 @@ public class DashBoard {
     private int numTower;
     private ArrayList<PawnColor> professors;
     private String username;
+    private String towerColor;
 
     /**
      * Constructor of the class
@@ -93,5 +94,13 @@ public class DashBoard {
 
     public ArrayList<PawnColor> getProfessors() {
         return professors;
+    }
+
+    public String getTowerColor() {
+        return this.towerColor;
+    }
+
+    public void setTowerColor(String color){
+        this.towerColor = color;
     }
 }

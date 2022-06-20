@@ -47,5 +47,6 @@ public class GetTowerColor {
         this.messageHandler.write(message);
         this.messageHandler.writeOut();
         owner.setColor(col);
+        owner.getDashBoard().setTowerColor(col.toString());
     }
 }

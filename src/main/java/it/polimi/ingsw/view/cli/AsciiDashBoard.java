@@ -117,7 +117,7 @@ public class AsciiDashBoard {
                     System.out.print(AnsiChar.MISSING_WIZARD.toString());
                 }
                 System.out.print("     ");
-                System.out.print("|        |");
+                System.out.print("|  ("+dashBoard.getTowerColor()+")   |");
                 break;
             case 6:
                 System.out.print("|     "+AnsiColor.PURPLE.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x");

@@ -42,9 +42,8 @@ public class Cloud {
      * @param students is the array containing the new students that are on the cloud
      */
     public void update(ArrayList<Student> students) {
-        if (students.isEmpty()) {
-            this.students.clear();
-        } else {
+        this.students.clear();
+        if(!students.isEmpty()){
             this.students.addAll(students);
         }
     }
