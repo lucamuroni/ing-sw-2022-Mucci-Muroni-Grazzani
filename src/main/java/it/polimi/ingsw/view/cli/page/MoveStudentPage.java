@@ -33,6 +33,8 @@ public class MoveStudentPage implements Page {
      */
     @Override
     public void handle() throws UndoException {
+        this.cli.drawArchipelago();
+        this.cli.drawDashboard();
         ArrayList<String> options = new ArrayList<>();
         int possiblePlace = this.assetGame.getPossiblePlace();
         if (possiblePlace == 2) {

@@ -72,9 +72,9 @@ public class AsciiArchipelago {
         }
     }
 
-    public void mergeIsland(int id1, int id2){
+    public void mergeIsland(int id2, int id1){
         for (AsciiIsland island : this.asciiIslands) {
-            if (island.getIsland().getId() == id2) {
+            if (island.getIsland().getId() == id1) {
                 island.setMerged(true);
                 island.getIsland().setMerged();
             }
