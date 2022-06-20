@@ -103,6 +103,9 @@ public class InfluenceCalculator {
             if (first) {
                 result.get().getDashboard().moveTower(-1);
                 this.island.addTower();
+            } else {
+                result.get().getDashboard().moveTower(-this.island.getNumTowers());
+                this.island.getOwner().get().getDashboard().moveTower(this.island.getNumTowers());
             }
             this.island.setOwner(result.get());
         }
