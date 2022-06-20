@@ -41,16 +41,17 @@ public class ConquerIslandPhase implements GamePhase{
     @Override
     public void handle() {
         this.game.checkIslandOwner();
-        int id = this.game.getIslands().indexOf(this.game.getMotherNature().getPlace());
-        if(!this.game.getIslands().get(id).getId().equals(this.game.getIslands().get(0).getId())){
-            this.mergeIsland(id, id-1);
+        int index = this.game.getIslands().indexOf(this.game.getMotherNature().getPlace());
+        if(!this.game.getIslands().get(index).getId().equals(this.game.getIslands().get(0).getId())){
+            this.mergeIsland(index, index-1);
         }else{
-            this.mergeIsland(id, this.game.getIslands().size()-1);
+            this.mergeIsland(index, this.game.getIslands().size()-1);
         }
-        if(!this.game.getIslands().get(id).getId().equals(this.game.getIslands().get(this.game.getIslands().size()-1).getId())){
-            this.mergeIsland(id, id+1);
+        index = this.game.getIslands().indexOf(this.game.getMotherNature().getPlace());
+        if(!this.game.getIslands().get(index).getId().equals(this.game.getIslands().get(this.game.getIslands().size()-1).getId())){
+            this.mergeIsland(index, index+1);
         }else{
-            this.mergeIsland(id, 0);
+            this.mergeIsland(index, 0);
         }
         ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
         for (Player pl : players) {
