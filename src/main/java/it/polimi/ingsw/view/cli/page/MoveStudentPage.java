@@ -48,7 +48,8 @@ public class MoveStudentPage implements Page {
             this.cli.drawArchipelago();
             options.clear();
             for(Island island : this.assetGame.getIslands()){
-                options.add("Island " + island.getId());
+                if (!island.isMerged())
+                    options.add("Island " + island.getId());
             }
             options.add("Back");
             menù.clear();
