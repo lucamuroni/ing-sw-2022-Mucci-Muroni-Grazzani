@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.game.influenceCalculator;
 
 import it.polimi.ingsw.model.Island;
+import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Professor;
@@ -9,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-// TODO : nel game getTowerCOlor
 public class InfluenceCalculator {
     private final ArrayList<Gamer> gamers;
     private ArrayList<Professor> professors;
@@ -43,7 +43,7 @@ public class InfluenceCalculator {
     }
 
     private int getOldOwnerScore(){
-        if(!island.getOwner().isPresent()){
+        if(island.getOwner().isEmpty()){
             return 0;
         }
         int result = scoreCalculator(this.getProfessorsOwnedByPlayer(island.getOwner().get()));
@@ -81,7 +81,7 @@ public class InfluenceCalculator {
     }
 
     private Optional<Gamer> checkIslandOwner(){
-        Optional<Gamer> result = Optional.empty();;
+        Optional<Gamer> result = Optional.empty();
         ArrayList<Gamer> gamersToCheck;
         boolean first = false;
         int oldOwnerScore = this.getOldOwnerScore();
@@ -92,11 +92,27 @@ public class InfluenceCalculator {
         }else{
             gamersToCheck = this.gamers;
             first = true;
+
         }
-        for(Gamer gamer : gamersToCheck){
-            if(getPlayerScore(gamer)>oldOwnerScore){
-                oldOwnerScore = getPlayerScore(gamer);
-                result = Optional.of(gamer);
+        if(first){
+            for(Gamer gamer1 : gamersToCheck){
+                boolean owner = true;
+                for(Gamer gamer2 : gamersToCheck){
+                    if(!gamer1.equals(gamer2) && getPlayerScore(gamer1)<=getPlayerScore(gamer2)){
+                        owner = false;
+                    }
+                }
+                if(owner){
+                    result = Optional.of(gamer1);
+                    oldOwnerScore = getPlayerScore(gamer1);
+                }
+            }
+        }else{
+            for(Gamer gamer : gamersToCheck){
+                if(getPlayerScore(gamer)>oldOwnerScore){
+                    oldOwnerScore = getPlayerScore(gamer);
+                    result = Optional.of(gamer);
+                }
             }
         }
         if (oldOwnerScore!=0) {

@@ -328,7 +328,15 @@ public class Cli implements ViewHandler {
 
     @Override
     public void showEndGamePage(Results win) {
-
+        Page p = new EndGamePage(this,win);
+        this.changePage(p);
+        synchronized (this){
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     @Override
