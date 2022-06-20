@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.pawn.Student;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
+import it.polimi.ingsw.view.asset.game.Gamer;
 
 public class ActionPhase1 implements GamePhase{
     private final Game game;
@@ -48,11 +49,15 @@ public class ActionPhase1 implements GamePhase{
             }
             try {
                 try {
-                    this.network.getDashboard(this.game);
+                    for (Gamer gamer : this.game.getGamers()) {
+                        this.network.getDashboard(this.game);
+                    }
                     if (location>0)
                         this.network.getIslandStatus(this.game);
                 } catch (MalformedMessageException e) {
-                    this.network.getDashboard(this.game);
+                    for (Gamer gamer : this.game.getGamers()) {
+                        this.network.getDashboard(this.game);
+                    }
                     if (location>0)
                         this.network.getIslandStatus(this.game);
                 }

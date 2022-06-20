@@ -11,6 +11,7 @@ import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
 
@@ -101,13 +102,17 @@ public class ActionPhase1 implements GamePhase{
                 this.view.setCurrentPlayer(this.controller.getPlayer(this.game.getCurrentPlayer()));
                 try {
                     try {
-                        this.view.updateDashboards(this.game.getCurrentPlayer(), this.game);
+                        for (Gamer gamer : this.game.getGamers()) {
+                            this.view.updateDashboards(gamer, this.game);
+                        }
                         if (place>0)
                             this.view.updateIslandStatus(this.game.getIslands().get(place-1));
                     } catch (MalformedMessageException | FlowErrorException e) {
+                        for (Gamer gamer : this.game.getGamers()) {
+                            this.view.updateDashboards(gamer, this.game);
+                        }
                         if (place>0)
                             this.view.updateIslandStatus(this.game.getIslands().get(place-1));
-                        this.view.updateDashboards(this.game.getCurrentPlayer(), this.game);
                     }
                 } catch (MalformedMessageException | ClientDisconnectedException  | FlowErrorException e){
                     this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()),"Error while uploading dashboards");
@@ -180,8 +185,10 @@ public class ActionPhase1 implements GamePhase{
             this.view.sendContext(CONTEXT_ISLAND.getFragment());
             this.view.updateIslandStatus(this.game.getIslands().get(place-1));
         }
-        this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
-        this.view.updateDashboards(this.game.getCurrentPlayer(), this.game);
+        for (Gamer gamer : this.game.getGamers()) {
+            this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
+            this.view.updateDashboards(gamer, this.game);
+        }
     }
 
     /**
