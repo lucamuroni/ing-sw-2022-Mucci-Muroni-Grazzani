@@ -23,14 +23,13 @@ public class ConnectionPhase implements GamePhase{
 
     @Override
     public void handle() {
-        // TODO : rimuovere i commenti una volta finito il debug
-        /*synchronized (this){
+        synchronized (this){
             try{
                 this.wait(3000);
             }catch (InterruptedException e){
                 this.controller.handleError();
             }
-        }*/
+        }
         try{
             try{
                 this.network.getConnection(this.controller);
