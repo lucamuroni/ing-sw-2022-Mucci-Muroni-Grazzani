@@ -102,6 +102,9 @@ class ConnectionHandler {
         while(isInputEmpty){
             synchronized (this.inputMessages){
                 isInputEmpty = this.inputMessages.isEmpty();
+                try {
+                    this.inputMessages.wait(100);
+                } catch (InterruptedException e) {}
             }
             if(hasConnectionBeenLost){
                 throw new ClientDisconnectedException("Found disconnection");
@@ -122,7 +125,6 @@ class ConnectionHandler {
     public void setOutputMessage(String string){
         synchronized (this.outputMessages){
             this.outputMessages.add(string);
-            this.outputMessages.notifyAll();
         }
     }
 
@@ -142,7 +144,7 @@ class ConnectionHandler {
                     }
                     try {
                         synchronized (this.outputMessages){
-                            this.outputMessages.wait(50);
+                            this.outputMessages.wait(100);
                         }
                     } catch (InterruptedException e) {
                         System.out.println("Could not wait for new output message");

@@ -96,8 +96,9 @@ public class ConquerIslandPhase implements GamePhase{
             thereIsAWinner = true;
         }else{
             for(Gamer gamer :this.game.getGamers()){
-                if(gamer.getDashboard().getNumTowers()==0){
+                if (gamer.getDashboard().getNumTowers() == 0) {
                     thereIsAWinner = true;
+                    break;
                 }
             }
         }

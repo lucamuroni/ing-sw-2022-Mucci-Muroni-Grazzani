@@ -154,8 +154,9 @@ public class ActionPhase3 implements GamePhase{
             mustEndGame = true;
         }else{
             for(Gamer gamer : this.game.getGamers()){
-                if(gamer.getDeck().getCardList().isEmpty()){
+                if (gamer.getDeck().getCardList().isEmpty()) {
                     mustEndGame = true;
+                    break;
                 }
             }
         }

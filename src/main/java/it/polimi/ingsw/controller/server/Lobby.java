@@ -38,19 +38,15 @@ public class Lobby {
             return false;
         }
     }
-    // TODO : fare partire i controller
+
     public void startGame(Server server){
-        Thread t = new Thread(()->{
-            System.out.println("A new game is about to start");
-            if(this.type==GameType.NORMAL){
-                GameController gameController = new GameController(server,this.players);
-                gameController.start();
-            }else{
-                ExpertGameController gameController = new ExpertGameController(server,this.players);
-                gameController.start();
-            }
-        });
-        t.start();
+        if(this.type==GameType.NORMAL){
+            GameController gameController = new GameController(server,this.players);
+            gameController.start();
+        }else{
+            ExpertGameController gameController = new ExpertGameController(server,this.players);
+            gameController.start();
+        }
     }
 
     public void removePlayer(Player player){

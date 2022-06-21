@@ -37,9 +37,7 @@ public class GameController extends Thread{
 
     private ArrayList<Gamer> createGamers(ArrayList<Player> players){
         ArrayList<TowerColor> colors = new ArrayList<TowerColor>();
-        for(TowerColor color : TowerColor.values()){
-            colors.add(color);
-        }
+        colors.addAll(Arrays.asList(TowerColor.values()));
         ArrayList<Gamer> gamers = new ArrayList<Gamer>();
         for(Player player : players){
             Gamer gamer = new Gamer(player.getToken(), player.getUsername(), colors.get(0));
