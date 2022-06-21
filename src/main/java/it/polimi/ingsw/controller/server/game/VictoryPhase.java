@@ -13,6 +13,8 @@ import it.polimi.ingsw.model.gamer.Gamer;
 
 import java.util.ArrayList;
 
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CONTEXT_PHASE;
+
 /**
  * This class represents the winning phase, and the GameController goes into this phase only if a winningCondition has been checked
  */
@@ -46,8 +48,10 @@ public class VictoryPhase implements GamePhase{
                 this.view.setCurrentPlayer(player);
                 try {
                     try{
+                        this.view.sendContext(CONTEXT_PHASE.getFragment());
                         this.view.sendNewPhase(Phase.END_GAME_PHASE);
                     }catch (MalformedMessageException | FlowErrorException e){
+                        this.view.sendContext(CONTEXT_PHASE.getFragment());
                         this.view.sendNewPhase(Phase.END_GAME_PHASE);
                     }
                 }catch (MalformedMessageException | FlowErrorException  | ClientDisconnectedException e) {

@@ -153,9 +153,6 @@ public class Idle implements GamePhase{
                         case ACTION_PHASE_1:
                             nextPhase = new ActionPhase1(this.controller);
                             break;
-                        case MOTHER_NATURE_PHASE:
-                            nextPhase = new MotherNaturePhase(this.controller);
-                            break;
                         case ACTION_PHASE_3:
                             nextPhase = new ActionPhase3(this.controller);
                             break;
