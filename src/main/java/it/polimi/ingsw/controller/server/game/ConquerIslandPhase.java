@@ -123,10 +123,14 @@ public class ConquerIslandPhase implements GamePhase{
         }
         return new ActionPhase3(this.game,this.controller);
     }
-
+    
     private void mergeIsland(int id1, int id2){
+        System.out.println("Isola: "+this.game.getIslands().get(id1).getId()+", index: "+id1);
+        System.out.println("Isola: "+this.game.getIslands().get(id2).getId()+", index: "+id2);
         if(this.game.getIslands().get(id1).getOwner().isPresent() && this.game.getIslands().get(id1).getOwner().equals(this.game.getIslands().get(id2).getOwner())){
+            System.out.println("Chiamo funzione model");
             this.game.getIslands().get(id1).mergeIsland(this.game.getIslands().get(id2));
+            System.out.println("Finito chiamata al model");
             ArrayList<Island> islands = new ArrayList<Island>();
             islands.add(this.game.getIslands().get(id1));
             islands.add(this.game.getIslands().get(id2));
@@ -134,10 +138,14 @@ public class ConquerIslandPhase implements GamePhase{
                 this.view.setCurrentPlayer(player);
                 try {
                     try {
+                        System.out.println("Invio isola");
                         this.view.sendContext(CONTEXT_MERGE.getFragment());
+                        System.out.println("Finito invio isola");
                         this.view.sendMergedIslands(islands);
                     }catch (MalformedMessageException | FlowErrorException e){
+                        System.out.println("Invio isola");
                         this.view.sendContext(CONTEXT_MERGE.getFragment());
+                        System.out.println("Finito invio isola");
                         this.view.sendMergedIslands(islands);
                     }
                 }catch (MalformedMessageException | ClientDisconnectedException | FlowErrorException e){
@@ -145,7 +153,9 @@ public class ConquerIslandPhase implements GamePhase{
                 }
             }
             //TODO controllo
+            System.out.println("Chiamo remove");
             this.game.getIslands().remove(this.game.getIslands().get(id2));
+            System.out.println("Finito remove");
         }
     }
 }
