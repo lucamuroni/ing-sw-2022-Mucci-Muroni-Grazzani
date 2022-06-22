@@ -11,16 +11,14 @@ import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.Island;
-import it.polimi.ingsw.model.debug.CharacterCard;
+import it.polimi.ingsw.model.expert.CharacterCard;
 import it.polimi.ingsw.model.game.ExpertGame;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.ExpertGamer;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
-import it.polimi.ingsw.model.pawn.TowerColor;
-import java.util.ArrayList;
 
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CONTEXT_CLOUD;
+import java.util.ArrayList;
 
 /**
  * @author Davide Grazzani

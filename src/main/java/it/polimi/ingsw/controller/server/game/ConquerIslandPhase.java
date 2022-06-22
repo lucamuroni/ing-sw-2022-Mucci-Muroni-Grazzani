@@ -123,7 +123,7 @@ public class ConquerIslandPhase implements GamePhase{
         }
         return new ActionPhase3(this.game,this.controller);
     }
-    
+
     private void mergeIsland(int id1, int id2){
         System.out.println("Isola: "+this.game.getIslands().get(id1).getId()+", index: "+id1);
         System.out.println("Isola: "+this.game.getIslands().get(id2).getId()+", index: "+id2);

@@ -1,9 +1,11 @@
 package it.polimi.ingsw.model.game;
 
 import it.polimi.ingsw.model.Island;
-import it.polimi.ingsw.model.debug.CharacterCard;
-import it.polimi.ingsw.model.debug.CharacterCardDeck;
+import it.polimi.ingsw.model.expert.CharacterCard;
+import it.polimi.ingsw.model.expert.CharacterCardDeck;
 import it.polimi.ingsw.model.gamer.ExpertGamer;
+import it.polimi.ingsw.model.pawn.Student;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -64,11 +66,11 @@ public class ExpertGame extends Game {
      * @param coins represents the card cost
      * @param card represents the card to be played
      */
-    public void playCard(int coins, CharacterCard card){
+    public void playCard(int coins, CharacterCard card, Island island, Student student){
         //TODO: metodo da rivedere per quanto riguarda l'attivazione dell'effetto della carta (mancano i parametri)
         this.currentPlayer.getDashboard().setCoins(-coins);
         //DUBBIO: non si dovrebbe anche aggiornare la coinBank con i coin pagati dal giocatore?
-        card.activate();
+        card.activate(this, island, student);
     }
 
     /**

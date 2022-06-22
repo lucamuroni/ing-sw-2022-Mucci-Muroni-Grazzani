@@ -5,10 +5,9 @@ import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
-import it.polimi.ingsw.model.debug.CharacterCard;
+import it.polimi.ingsw.model.expert.CharacterCard;
 import it.polimi.ingsw.model.game.ExpertGame;
 
-import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 public class GetChosenCharacterCard {

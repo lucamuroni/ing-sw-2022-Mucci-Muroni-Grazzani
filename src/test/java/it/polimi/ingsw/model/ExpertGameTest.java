@@ -1,13 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.debug.CharacterCard;
-import it.polimi.ingsw.model.game.ExpertGame;
-import it.polimi.ingsw.model.gamer.ExpertGamer;
-import it.polimi.ingsw.model.pawn.TowerColor;
-import org.junit.jupiter.api.Test;
-import java.util.ArrayList;
-import static org.junit.jupiter.api.Assertions.*;
-
 //TODO: da risolvere perchè non va
 class ExpertGameTest {
 

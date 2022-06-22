@@ -8,7 +8,7 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
-import it.polimi.ingsw.model.debug.CharacterCard;
+import it.polimi.ingsw.model.expert.CharacterCard;
 import it.polimi.ingsw.model.game.ExpertGame;
 import it.polimi.ingsw.model.gamer.ExpertGamer;
 import it.polimi.ingsw.model.gamer.Gamer;
