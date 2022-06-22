@@ -73,6 +73,18 @@ class AsciiArchipelagoTest {
         } catch (AssetErrorException e) {
             System.out.println("Errore");
         }
+        asciiArchipelago.mergeIsland(2,9);
+        try {
+            asciiArchipelago.draw();
+        } catch (AssetErrorException e) {
+            System.out.println("Errore");
+        }
+        //asciiArchipelago.mergeIsland(9,1);
+        try {
+            asciiArchipelago.draw();
+        } catch (AssetErrorException e) {
+            System.out.println("Errore");
+        }
     }
     @Test
     void allineamento() {

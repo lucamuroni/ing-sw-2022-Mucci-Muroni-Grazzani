@@ -161,7 +161,8 @@ public class AsciiIsland {
         return width;
     }
 
-    public void setMerged(boolean flip){
-        this.isMerged = flip;
+    public void setMerged(){
+        this.isMerged = true;
+        this.island.setMerged();
     }
 }
