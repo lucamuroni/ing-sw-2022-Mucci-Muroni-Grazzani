@@ -15,6 +15,7 @@ public class InfluenceCalculator {
     private ArrayList<Professor> professors;
     private ArrayList<PawnColor> notIncludedPawnColor;
     private boolean areTowersConsidered;
+    private Gamer moreInfluence;
     private Island island;
     public InfluenceCalculator(ArrayList<Gamer> gamers,ArrayList<Professor> professors){
         this.gamers = gamers;
@@ -43,10 +44,14 @@ public class InfluenceCalculator {
     }
 
     private int getOldOwnerScore(){
+        int result = 0;
         if(island.getOwner().isEmpty()){
             return 0;
+        } else if (moreInfluence!=null) {
+            if (island.getOwner().get().getToken() == this.moreInfluence.getToken())
+                result += 2;
         }
-        int result = scoreCalculator(this.getProfessorsOwnedByPlayer(island.getOwner().get()));
+        result += scoreCalculator(this.getProfessorsOwnedByPlayer(island.getOwner().get()));
         if(areTowersConsidered){
             return result+this.island.getNumTowers();
         }
@@ -54,7 +59,13 @@ public class InfluenceCalculator {
     }
 
     private int getPlayerScore(Gamer gamer){
-        return scoreCalculator(this.getProfessorsOwnedByPlayer(gamer));
+        int influence = 0;
+        if (moreInfluence!=null) {
+            if (gamer.getToken() == this.moreInfluence.getToken())
+                influence += 2;
+        }
+        influence += scoreCalculator(this.getProfessorsOwnedByPlayer(gamer));
+        return influence;
     }
 
     private int scoreCalculator(ArrayList<Professor> professors){
@@ -75,8 +86,12 @@ public class InfluenceCalculator {
         this.areTowersConsidered = inclusion;
     }
 
+    public void setMoreInfluence(Gamer gamer) {
+        this.moreInfluence = gamer;
+    }
+
     public void addColorExclusion(ArrayList<PawnColor> colors){
-        this.notIncludedPawnColor.clear();
+        //this.notIncludedPawnColor.clear();
         this.notIncludedPawnColor.addAll(colors);
     }
 
@@ -92,7 +107,6 @@ public class InfluenceCalculator {
         }else{
             gamersToCheck = this.gamers;
             first = true;
-
         }
         if(first){
             for(Gamer gamer1 : gamersToCheck){
@@ -125,6 +139,8 @@ public class InfluenceCalculator {
             }
             this.island.setOwner(result.get());
         }
+        this.notIncludedPawnColor.clear();
+        this.areTowersConsidered = true;
         return result;
     }
 }

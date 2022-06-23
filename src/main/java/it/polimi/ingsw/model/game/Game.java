@@ -26,6 +26,7 @@ public class Game {
     private final ArrayList<Gamer> gamers;
     private Gamer currentPlayer;
     private int turnNumber;
+    private InfluenceCalculator influenceCalculator;
 
     /**
      * Class constructor
@@ -52,6 +53,7 @@ public class Game {
         this.bag = new Bag();
         initiatePlayersOrder();
         this.turnNumber = 0;
+        this.influenceCalculator = new InfluenceCalculator(this.gamers, this.professors);
     }
 
     Game(int playersNumber) {
@@ -175,8 +177,8 @@ public class Game {
      * @return the owner of the Island
      */
     public Optional<Gamer> checkIslandOwner (Island islandToCheck){
-        InfluenceCalculator influenceCalculator = new InfluenceCalculator(this.gamers,this.professors);
-        return influenceCalculator.execute(islandToCheck);
+        //InfluenceCalculator influenceCalculator = new InfluenceCalculator(this.gamers,this.professors);
+        return this.influenceCalculator.execute(islandToCheck);
 
     }
     /**
@@ -267,6 +269,10 @@ public class Game {
      */
     public int getTurnNumber() {
         return turnNumber;
+    }
+
+    public InfluenceCalculator getInfluenceCalculator() {
+        return influenceCalculator;
     }
 
     /**
