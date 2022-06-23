@@ -21,7 +21,9 @@ public class CharacterCardPhase implements GamePhase{
     private final GameController controller;
     private final View view;
     private final GamePhase nextPhase;
-
+    //TODO controllare i messaggi
+    // TODO chiamata a model da riorganizzare
+    //TODO metodo per inviare le monete
     public CharacterCardPhase(ExpertGame game, GameController controller, GamePhase nextPhase) {
         this.game = game;
         this.controller = controller;

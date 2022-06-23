@@ -44,6 +44,12 @@ public class ExpertGame extends Game {
         this.gameCards = new ArrayList<CharacterCard>(this.deck.drawCards());
     }
 
+    @Override
+    public void setTurnNumber() {
+        super.setTurnNumber();
+        super.getInfluenceCalculator().reset();
+    }
+
     /**
      * Method that decides a new order for the players
      */

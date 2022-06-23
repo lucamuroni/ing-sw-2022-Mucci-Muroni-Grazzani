@@ -139,8 +139,12 @@ public class InfluenceCalculator {
             }
             this.island.setOwner(result.get());
         }
+        return result;
+    }
+
+    public void reset(){
         this.notIncludedPawnColor.clear();
         this.areTowersConsidered = true;
-        return result;
+        this.moreInfluence = null;
     }
 }
