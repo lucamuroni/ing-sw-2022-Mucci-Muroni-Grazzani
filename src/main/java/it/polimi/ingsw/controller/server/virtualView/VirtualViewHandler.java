@@ -130,8 +130,8 @@ public class VirtualViewHandler implements View {
         return func.handle();
     }
 
-    public CharacterCard getChosenCharacterCard(ExpertGame game) throws ModelErrorException, MalformedMessageException, ClientDisconnectedException {
-        GetChosenCharacterCard func = new GetChosenCharacterCard(game, messageHandler);
+    public CharacterCard getChosenCharacterCard(ExpertGame game, ArrayList<CharacterCard> cards) throws ModelErrorException, MalformedMessageException, ClientDisconnectedException {
+        GetChosenCharacterCard func = new GetChosenCharacterCard(game, messageHandler, cards);
         return func.handle();
     }
 
@@ -319,6 +319,12 @@ public class VirtualViewHandler implements View {
 
     public void sendMergedIslands(ArrayList<Island> mergedIslands) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
         SendMergedIslands func = new SendMergedIslands(messageHandler, mergedIslands);
+        func.handle();
+    }
+
+    @Override
+    public void sendCoins(int coins) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
+        SendCoins func = new SendCoins(messageHandler, coins);
         func.handle();
     }
 

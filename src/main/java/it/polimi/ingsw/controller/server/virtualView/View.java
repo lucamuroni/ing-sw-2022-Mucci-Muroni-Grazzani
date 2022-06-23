@@ -93,7 +93,7 @@ public interface View{
 
     public boolean getAnswer() throws MalformedMessageException, ClientDisconnectedException;
 
-    public CharacterCard getChosenCharacterCard(ExpertGame game) throws ModelErrorException, MalformedMessageException, ClientDisconnectedException;
+    public CharacterCard getChosenCharacterCard(ExpertGame game, ArrayList<CharacterCard> cards) throws ModelErrorException, MalformedMessageException, ClientDisconnectedException;
 
     /**
      * Method that handles the messages to get the assistant card deck the current player chooses
@@ -219,6 +219,6 @@ public interface View{
 
     public void sendMergedIslands(ArrayList<Island> mergedislands) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
 
-
+    public void sendCoins(int coins) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
 
 }

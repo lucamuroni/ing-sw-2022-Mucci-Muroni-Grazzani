@@ -62,7 +62,7 @@ public class CharacterCardPhase implements GamePhase{
             this.controller.handlePlayerError(player,"Error while getting answer");
         }
         if (doPhase) {
-            CharacterCard card = this.getChosenCharacterCard(player);
+            CharacterCard card = this.getChosenCharacterCard(game.getCurrentPlayer(), player);
             this.playCard(card);
             ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
             players.remove(player);
@@ -78,13 +78,19 @@ public class CharacterCardPhase implements GamePhase{
         }
     }
 
-    private CharacterCard getChosenCharacterCard(Player player) {
+    private CharacterCard getChosenCharacterCard(ExpertGamer gamer, Player player) {
         CharacterCard card = null;
+        int coins = gamer.getDashboard().getCoins();
+        ArrayList<CharacterCard> cards = new ArrayList<>();
+        for (CharacterCard card1 : game.getGameCards()) {
+            if (card1.getMoneyCost() <= coins)
+                cards.add(card1);
+        }
         try{
             try{
-                card = this.view.getChosenCharacterCard(game);
+                card = this.view.getChosenCharacterCard(game, cards);
             }catch (MalformedMessageException e){
-                card = this.view.getChosenCharacterCard(game);
+                card = this.view.getChosenCharacterCard(game, cards);
             }
         }catch (MalformedMessageException | ClientDisconnectedException e){
             this.controller.handlePlayerError(player, "Error while getting chosen character card");
