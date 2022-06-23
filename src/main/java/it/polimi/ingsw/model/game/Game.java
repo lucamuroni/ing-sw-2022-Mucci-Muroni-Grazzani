@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class Game {
     final MotherNature motherNature;
     private final ArrayList<Cloud> clouds;
-    private final ArrayList<Professor> professors;
+    final ArrayList<Professor> professors;
     final ArrayList<Island> islands;
     private final Bag bag;
     private final ArrayList<Gamer> gamers;
