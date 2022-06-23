@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.*;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
-import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Cloud;

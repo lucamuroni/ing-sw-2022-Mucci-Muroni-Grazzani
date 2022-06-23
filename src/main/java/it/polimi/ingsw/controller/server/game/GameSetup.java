@@ -1,21 +1,15 @@
 package it.polimi.ingsw.controller.server.game;
 
-import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.*;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
-import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.model.game.Game;
-import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
-import it.polimi.ingsw.model.pawn.TowerColor;
 
 import java.util.ArrayList;
 import java.util.Random;
-
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
  * This class is the setup phase of the game, where all the info to start a game are initialized and sent to the players

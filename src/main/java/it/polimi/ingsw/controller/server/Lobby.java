@@ -2,8 +2,7 @@ package it.polimi.ingsw.controller.server;
 
 import it.polimi.ingsw.controller.networking.GameType;
 import it.polimi.ingsw.controller.networking.Player;
-import it.polimi.ingsw.controller.server.game.gameController.ExpertGameController;
-import it.polimi.ingsw.controller.server.game.gameController.GameController;
+import it.polimi.ingsw.controller.server.game.GameController;
 import java.util.ArrayList;
 
 //TOOD: javadoc
@@ -40,13 +39,8 @@ public class Lobby {
     }
 
     public void startGame(Server server){
-        if(this.type==GameType.NORMAL){
-            GameController gameController = new GameController(server,this.players);
-            gameController.start();
-        }else{
-            ExpertGameController gameController = new ExpertGameController(server,this.players);
-            gameController.start();
-        }
+        GameController gameController = new GameController(this.players,this.type);
+        gameController.start();
     }
 
     public void removePlayer(Player player){

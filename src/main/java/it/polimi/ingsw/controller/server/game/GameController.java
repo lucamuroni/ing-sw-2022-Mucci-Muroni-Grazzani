@@ -1,14 +1,16 @@
-package it.polimi.ingsw.controller.server.game.gameController;
+package it.polimi.ingsw.controller.server.game;
 
+import it.polimi.ingsw.controller.networking.GameType;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.server.game.GameSetup;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
-import it.polimi.ingsw.controller.server.Server;
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.controller.server.game.GamePhase;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.controller.server.virtualView.VirtualViewHandler;
+import it.polimi.ingsw.model.game.ExpertGame;
 import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.model.gamer.ExpertGamer;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.TowerColor;
 import it.polimi.ingsw.view.cli.AnsiColor;
@@ -17,25 +19,32 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class GameController extends Thread{
-    private final Server server;
-    private ArrayList<Player> players;
-    private final Game game;
+    ArrayList<Player> players;
+    private final Game normalGame;
+    private final ExpertGame expertGame;
     private GamePhase gamePhase;
-    private View view;
-    private boolean isOK;
+    private final View view;
+    private boolean isGameNotEnded;
     private ArrayList<AssistantCardDeckFigures> cardDesks;
+    private final GameType gameType;
 
-    public GameController(Server server, ArrayList<Player> players){
-        this.server = server;
+    public GameController(ArrayList<Player> players, GameType gameType){
         this.players = new ArrayList<>(players);
-        this.game = new Game(createGamers(players));
+        this.gameType = gameType;
+        if(gameType == GameType.NORMAL){
+            this.normalGame = new Game(createNormalGamers(players));
+            this.expertGame = null;
+        }else{
+            this.normalGame = null;
+            this.expertGame = new ExpertGame(createExpertGamers(players));
+        }
         this.view = new VirtualViewHandler();
-        this.isOK = true;
+        this.isGameNotEnded = true;
         this.cardDesks = new ArrayList<AssistantCardDeckFigures>();
         this.cardDesks.addAll(Arrays.asList(AssistantCardDeckFigures.values()));
     }
 
-    private ArrayList<Gamer> createGamers(ArrayList<Player> players){
+    private ArrayList<Gamer> createNormalGamers(ArrayList<Player> players){
         ArrayList<TowerColor> colors = new ArrayList<TowerColor>();
         colors.addAll(Arrays.asList(TowerColor.values()));
         ArrayList<Gamer> gamers = new ArrayList<Gamer>();
@@ -47,11 +56,23 @@ public class GameController extends Thread{
         return gamers;
     }
 
+    private ArrayList<ExpertGamer> createExpertGamers(ArrayList<Player> players){
+        ArrayList<TowerColor> colors = new ArrayList<TowerColor>();
+        colors.addAll(Arrays.asList(TowerColor.values()));
+        ArrayList<ExpertGamer> gamers = new ArrayList<ExpertGamer>();
+        for(Player player : players){
+            ExpertGamer gamer = new ExpertGamer(player.getToken(), player.getUsername(), colors.get(0));
+            gamers.add(gamer);
+            colors.remove(0);
+        }
+        return gamers;
+    }
+
     @Override
     public void run() {
-        this.gamePhase = new GameSetup(this,this.game);
+        this.gamePhase = new GameSetup(this,this.normalGame);
         this.gamePhase.handle();
-        while (this.isOK){
+        while (this.isGameNotEnded){
             this.gamePhase = this.gamePhase.next();
             this.gamePhase.handle();
         }
@@ -73,7 +94,7 @@ public class GameController extends Thread{
             this.view.setCurrentPlayer(player);
             //this.view.haltOnError(); -->funzione non esiste più
         }
-        this.isOK = false;
+        this.isGameNotEnded = false;
     }
 
     public ArrayList<AssistantCardDeckFigures> getCardDesks(){
@@ -104,7 +125,7 @@ public class GameController extends Thread{
     public void updatePlayersOrder(){
         ArrayList<Player> cp = new ArrayList<>(this.players);
         this.players.clear();
-        for(Gamer gamer : this.game.getGamers()){
+        for(Gamer gamer : this.normalGame.getGamers()){
             try {
                 this.players.add(this.getPlayer(gamer,cp));
             } catch (ModelErrorException e) {
