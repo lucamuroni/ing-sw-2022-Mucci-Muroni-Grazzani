@@ -79,7 +79,7 @@ public class Server {
                     }
                 }
                 if(lobbyToStart != null){
-                    lobbyToStart.startGame(this);
+                    lobbyToStart.startGame();
                     System.out.println(AnsiColor.GREEN.toString()+"A new Game Has started"+AnsiColor.RESET.toString());
                 }
             }

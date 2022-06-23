@@ -2,10 +2,8 @@ package it.polimi.ingsw.controller.server.game;
 
 import it.polimi.ingsw.controller.networking.GameType;
 import it.polimi.ingsw.controller.networking.Player;
-import it.polimi.ingsw.controller.server.game.GameSetup;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
-import it.polimi.ingsw.controller.server.game.GamePhase;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.controller.server.virtualView.VirtualViewHandler;
 import it.polimi.ingsw.model.game.ExpertGame;
@@ -20,8 +18,8 @@ import java.util.Arrays;
 
 public class GameController extends Thread{
     ArrayList<Player> players;
-    private final Game normalGame;
-    private final ExpertGame expertGame;
+    private final Game game;
+
     private GamePhase gamePhase;
     private final View view;
     private boolean isGameNotEnded;
@@ -32,11 +30,9 @@ public class GameController extends Thread{
         this.players = new ArrayList<>(players);
         this.gameType = gameType;
         if(gameType == GameType.NORMAL){
-            this.normalGame = new Game(createNormalGamers(players));
-            this.expertGame = null;
+            this.game = new Game(createNormalGamers(players));
         }else{
-            this.normalGame = null;
-            this.expertGame = new ExpertGame(createExpertGamers(players));
+            this.game = new ExpertGame(createExpertGamers(players));
         }
         this.view = new VirtualViewHandler();
         this.isGameNotEnded = true;
@@ -70,7 +66,7 @@ public class GameController extends Thread{
 
     @Override
     public void run() {
-        this.gamePhase = new GameSetup(this,this.normalGame);
+        this.gamePhase = new GameSetup(this,this.game);
         this.gamePhase.handle();
         while (this.isGameNotEnded){
             this.gamePhase = this.gamePhase.next();
@@ -125,12 +121,16 @@ public class GameController extends Thread{
     public void updatePlayersOrder(){
         ArrayList<Player> cp = new ArrayList<>(this.players);
         this.players.clear();
-        for(Gamer gamer : this.normalGame.getGamers()){
+        for(Gamer gamer : this.game.getGamers()){
             try {
                 this.players.add(this.getPlayer(gamer,cp));
             } catch (ModelErrorException e) {
                 this.shutdown("Could not find player in model while updating their order");
             }
         }
+    }
+
+    public GameType getGameType(){
+        return this.gameType;
     }
 }

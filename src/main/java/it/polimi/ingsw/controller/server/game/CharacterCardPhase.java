@@ -16,21 +16,21 @@ import java.util.ArrayList;
 
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
-public class CharcterCardPhase implements GamePhase{
+public class CharacterCardPhase implements GamePhase{
     private final ExpertGame game;
     private final GameController controller;
     private final View view;
-    private final Phase phase;
+    private final GamePhase nextPhase;
 
-    public CharcterCardPhase(ExpertGame game, GameController controller, Phase phase) {
+    public CharacterCardPhase(ExpertGame game, GameController controller, GamePhase nextPhase) {
         this.game = game;
         this.controller = controller;
         this.view = this.controller.getView();
-        this.phase = phase;
+        this.nextPhase = nextPhase;
     }
 
     public void handle() {
-        Player player = null;
+        Player player;
         try {
             player = this.controller.getPlayer(this.game.getCurrentPlayer());
         } catch (ModelErrorException e) {
@@ -61,7 +61,7 @@ public class CharcterCardPhase implements GamePhase{
         }
         if (doPhase) {
             CharacterCard card = this.getChosenCharacterCard(player);
-            this.playcard(card);
+            this.playCard(card);
             ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
             players.remove(player);
             Gamer currentPlayer = null;
@@ -92,7 +92,7 @@ public class CharcterCardPhase implements GamePhase{
         return card;
     }
 
-    private void playcard(CharacterCard card) {
+    private void playCard(CharacterCard card) {
 
     }
 
@@ -112,18 +112,6 @@ public class CharcterCardPhase implements GamePhase{
     }
 
     public GamePhase next() {
-        GamePhase nextPhase = null;
-        switch (phase) {
-            case ACTION_PHASE_1:
-                nextPhase = new ActionPhase1(this.game, this.controller);
-                break;
-            case MOTHER_NATURE_PHASE:
-                nextPhase = new MotherNaturePhase(this.game, this.controller);
-                break;
-            case ACTION_PHASE_3:
-                nextPhase = new ActionPhase3(this.game, this.controller);
-                break;
-        }
-        return nextPhase;
+        return this.nextPhase;
     }
 }

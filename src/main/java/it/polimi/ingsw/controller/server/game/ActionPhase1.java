@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.server.game;
 
+import it.polimi.ingsw.controller.networking.GameType;
 import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
@@ -9,6 +10,7 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.model.Island;
+import it.polimi.ingsw.model.game.ExpertGame;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
@@ -217,6 +219,9 @@ public class ActionPhase1 implements GamePhase{
      */
     @Override
     public GamePhase next() {
+        if(controller.getGameType()== GameType.EXPERT){
+            return new CharacterCardPhase((ExpertGame) this.game,this.controller,new MotherNaturePhase(this.game, this.controller));
+        }
         return new MotherNaturePhase(this.game, this.controller);
     }
 }

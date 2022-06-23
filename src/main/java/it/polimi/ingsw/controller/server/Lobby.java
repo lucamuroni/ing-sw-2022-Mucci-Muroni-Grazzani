@@ -38,7 +38,7 @@ public class Lobby {
         }
     }
 
-    public void startGame(Server server){
+    public void startGame(){
         GameController gameController = new GameController(this.players,this.type);
         gameController.start();
     }
