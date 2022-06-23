@@ -53,9 +53,12 @@ public class ExpertDashboard extends Dashboard{
      * Method used to check if the insertion generates a new coin
      * @param student is the student that has been added
      */
-    private void checkCoins(Student student){
+    private boolean checkCoins(Student student){
         int number = Math.toIntExact(hall.stream().filter(stud -> stud.getColor().equals(student.getColor())).count());
-        if(number%3==0)
+        if(number%3==0) {
             setCoins(1);
+            return true;
+        }
+        return false;
     }
 }

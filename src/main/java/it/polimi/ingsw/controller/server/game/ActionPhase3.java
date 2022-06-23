@@ -119,8 +119,8 @@ public class ActionPhase3 implements GamePhase{
         } catch (MalformedMessageException | ClientDisconnectedException e) {
             this.controller.handlePlayerError(player, "Error while getting the chosen cloud");
         }
-        //TODO controllare la correttezza della correzione
-        currentPlayer.getDashboard().addStudentsWaitingRoom(chosenCloud.pullStudent());
+        currentPlayer.selectCloud(chosenCloud);
+        //currentPlayer.getDashboard().addStudentsWaitingRoom(chosenCloud.pullStudent());
     }
 
     private ArrayList<Cloud> calculateChoices() {

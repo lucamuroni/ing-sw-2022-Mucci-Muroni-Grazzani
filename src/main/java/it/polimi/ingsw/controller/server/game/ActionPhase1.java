@@ -26,12 +26,13 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
  * from his waitingRoom to an island or his hall
  */
 public class ActionPhase1 implements GamePhase{
-    //TODO: Bisogna risolvere questo problema: se il game è in modalità esperta, non si possono gestire le monete
+
     private final Game game;
     private final GameController controller;
     private final int numOfMovements;
     private final View view;
 
+    //TODO: Bisogna risolvere questo problema: se il game è in modalità esperta, non si possono gestire le monete
 
     /**
      * Constructor of the class
@@ -155,8 +156,8 @@ public class ActionPhase1 implements GamePhase{
             }
         }catch (MalformedMessageException | ClientDisconnectedException e){
             this.controller.handlePlayerError(player,"Error while getting the location of  moved the student");
-        }//TODO controllare correttezza soluzione
-        modelHandler(place,color);
+        }
+        modelHandler(place, color, player);
         return place;
     }
 
@@ -165,7 +166,7 @@ public class ActionPhase1 implements GamePhase{
      * @param place is the location where the student must be moved to
      * @param color is the color of the student
      */
-    private void modelHandler(int place, PawnColor color){
+    private void modelHandler(int place, PawnColor color, Player player){
         Student stud = this.game.getCurrentPlayer().getDashboard().getWaitingRoom().stream().filter(x -> x.getColor().equals(color)).findFirst().get();
         if (place == 0) {
             this.game.getCurrentPlayer().getDashboard().moveStudent(stud);
@@ -174,10 +175,26 @@ public class ActionPhase1 implements GamePhase{
             }catch (Exception e) {
                 this.controller.shutdown("Error founded in model : shutting down this game");
             }
+            boolean check = this.game.getCurrentPlayer().getDashboard().checkCoins(stud);
+            if (check) {
+                this.sendCoins(player);
+            }
         }
         else {
             Island isl = this.game.getIslands().get(place-1);
             this.game.getCurrentPlayer().getDashboard().moveStudent(stud, isl);
+        }
+    }
+
+    private void sendCoins(Player player) {
+        try {
+            try {
+                this.view.sendCoins(this.game.getCurrentPlayer().getDashboard().getCoins());
+            } catch (MalformedMessageException e) {
+                this.view.sendCoins(this.game.getCurrentPlayer().getDashboard().getCoins());
+            }
+        } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+            this.controller.handlePlayerError(player, "Error while sending coins");
         }
     }
 
