@@ -10,7 +10,6 @@ import java.util.ArrayList;
  */
 public class ExpertDashboard extends Dashboard{
     private int coins;
-    private boolean changed;
 
     /**
      * Class constructor
@@ -20,7 +19,6 @@ public class ExpertDashboard extends Dashboard{
     public ExpertDashboard(ArrayList<Student> students, int numTowers){
         super(students, numTowers);
         this.coins = 0;
-        changed = true;
     }
 
     /**
@@ -28,12 +26,7 @@ public class ExpertDashboard extends Dashboard{
      * @return the coins possessed by the player
      */
     public int getCoins(){
-        if(changed){
-            changed = false;
-            return this.coins;
-        }else{
-            return -1;
-        }
+        return this.coins;
     }
 
     /**
@@ -64,7 +57,6 @@ public class ExpertDashboard extends Dashboard{
         int number = Math.toIntExact(hall.stream().filter(stud -> stud.getColor().equals(student.getColor())).count());
         if(number%3==0) {
             setCoins(1);
-            this.changed = true;
         }
     }
 }

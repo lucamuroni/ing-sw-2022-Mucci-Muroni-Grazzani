@@ -19,6 +19,7 @@ public enum MessageFragment {
     CONTEXT_CARD("cardSelection"),
     CONTEXT_CHARACTER("characterSelection"),
     CONTEXT_CLOUD("fillCloud"),
+    CONTEXT_COIN("sendingCoin"),
     CONTEXT_COLOR("towerColor"),
     CONTEXT_DASHBOARD("dashboardUpdate"),
     CONTEXT_FIGURE("figureSelection"),

@@ -33,8 +33,6 @@ public class ActionPhase1 implements GamePhase{
     private final int numOfMovements;
     private final View view;
 
-    //TODO: Bisogna risolvere questo problema: se il game è in modalità esperta, non si possono gestire le monete
-
     /**
      * Constructor of the class
      * @param game represents the current game
@@ -179,9 +177,7 @@ public class ActionPhase1 implements GamePhase{
             if(controller.getGameType()==GameType.EXPERT){
                 ExpertGame expertGame = (ExpertGame) game;
                 int coins = expertGame.getCurrentPlayer().getDashboard().getCoins();
-                if(coins != -1){
-                    this.sendCoins(player,coins);
-                }
+                this.sendCoins(player,coins);
             }
         }
         else {

@@ -357,6 +357,5 @@ public class VirtualViewHandler implements View {
         SendCharacterCard func = new SendCharacterCard(messageHandler, card);
         func.handle();
     }
-
 }
 

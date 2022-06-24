@@ -4,7 +4,10 @@ import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.client.networkHandler.Network;
 import it.polimi.ingsw.controller.networking.GameType;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
+import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
+import it.polimi.ingsw.model.expert.CharacterCard;
+import it.polimi.ingsw.model.game.ExpertGame;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
@@ -31,12 +34,41 @@ public class Start implements GamePhase {
             this.updateIslandStatus();
         }
         if(this.game.getGameType().equals(GameType.EXPERT.getName())){
-            //TODO metodo privato per ricevere le carte Expert
             //TODO metodo privato per ricevere le monete
+            this.getCharacterCards();
+            this.getCoins();
         }
         for (int i = 0; i<this.game.getGamers().size(); i++) {
             this.updateColor();
             this.updateDashboards();
+        }
+    }
+
+    private void getCharacterCards() {
+        for (int i = 0; i<3; i++) {
+            try {
+                try {
+                    this.network.getCharacterCard(game);
+                } catch (MalformedMessageException e) {
+                    this.network.getCharacterCard(game);
+                }
+            } catch (MalformedMessageException | ClientDisconnectedException e) {
+                this.controller.handleError();
+            } catch (AssetErrorException e) {
+                this.controller.handleError("Doesn't found character card");
+            }
+        }
+    }
+
+    private void getCoins() {
+        try {
+            try {
+                this.network.getCoins(game);
+            } catch (MalformedMessageException e) {
+                this.network.getCoins(game);
+            }
+        } catch (MalformedMessageException | ClientDisconnectedException e) {
+            this.controller.handleError();
         }
     }
 

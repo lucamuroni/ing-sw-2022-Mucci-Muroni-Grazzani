@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.virtualView.View;
+import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.expert.CharacterCard;
 import it.polimi.ingsw.model.game.ExpertGame;
 import it.polimi.ingsw.model.gamer.ExpertGamer;
@@ -69,10 +70,50 @@ public class CharacterCardPhase implements GamePhase{
             } catch (ModelErrorException e) {
                 this.controller.shutdown("Error founded in model : shutting down this game");
             }
-            for(Player player1 : players){
+            for (Player player1 : players){
                 this.updateChosenCharacterCard(player1, currentPlayer, card);
             }
-            //TODO update delle isole e delle dashboard e delle monete del currentPlayer
+            for (Player player1 : this.controller.getPlayers()) {
+                this.view.setCurrentPlayer(player1);
+                for (Island island : this.game.getIslands()) {
+                    try {
+                        try {
+                            this.view.sendContext(CONTEXT_ISLAND.getFragment());
+                            this.view.updateIslandStatus(island);
+                        } catch (MalformedMessageException e) {
+                            this.view.sendContext(CONTEXT_ISLAND.getFragment());
+                            this.view.updateIslandStatus(island);
+                        }
+                    } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                        this.controller.handlePlayerError(player1, "Error while updating islands");
+                    }
+                }
+                for (Gamer gamer : this.game.getGamers()) {
+                    try {
+                        try {
+                            this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
+                            this.view.updateDashboards(gamer, game);
+                        } catch (MalformedMessageException e) {
+                            this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
+                            this.view.updateDashboards(gamer, game);
+                        }
+                    } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                        this.controller.handlePlayerError(player1, "Error while updating dashboards");
+                    }
+                }
+                try {
+                    try {
+                        this.view.sendContext(CONTEXT_COIN.getFragment());
+                        this.view.sendCoins(this.game.getCurrentPlayer().getDashboard().getCoins());
+                    } catch (MalformedMessageException e) {
+                        this.view.sendContext(CONTEXT_COIN.getFragment());
+                        this.view.sendCoins(this.game.getCurrentPlayer().getDashboard().getCoins());
+                    }
+                } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                    this.controller.handlePlayerError(player1, "Error while sending coins");
+                }
+
+            }
         }
     }
 

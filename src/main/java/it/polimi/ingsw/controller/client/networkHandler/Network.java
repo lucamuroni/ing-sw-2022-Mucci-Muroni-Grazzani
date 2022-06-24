@@ -134,6 +134,10 @@ public interface Network {
      */
     ArrayList<AssistantCardDeckFigures> getPossibleDecks() throws MalformedMessageException, ClientDisconnectedException, AssetErrorException;
 
+    void getCharacterCard(Game game) throws AssetErrorException, MalformedMessageException, ClientDisconnectedException;
+
+    void getCoins(Game game) throws MalformedMessageException, ClientDisconnectedException;
+
     void sendInfo(Gamer gamer, String gameType, int players, String lobby) throws MalformedMessageException;
 
     /**

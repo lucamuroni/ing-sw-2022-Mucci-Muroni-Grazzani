@@ -5,21 +5,24 @@ import java.util.List;
 
 
 import it.polimi.ingsw.controller.networking.GameType;
+import it.polimi.ingsw.model.expert.CharacterCard;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.view.asset.game.Island;
 
 public class Game {
-    private ArrayList<Gamer> gamers;
-    private ArrayList<Island> islands;
-    private ArrayList<Cloud> clouds;
+    private final ArrayList<Gamer> gamers;
+    private final ArrayList<Island> islands;
+    private final ArrayList<Cloud> clouds;
     private Island motherNaturePosition;
-    private Gamer self;
+    private final Gamer self;
     private String currentPlayer;
     private GameType type;
     private int lobbySize;
     private Island chosenIsland;
     private PawnColor chosenColor;
     private Cloud chosenCloud;
+    private final ArrayList<CharacterCard> cards;
+    private int coins;
 
     public Game(Gamer gamer) {
         this.gamers = new ArrayList<>();
@@ -28,6 +31,8 @@ public class Game {
         this.self = gamer;
         this.gamers.add(self);
         this.createIslands();
+        this.cards = new ArrayList<>();
+        this.coins = -1;
     }
 
     private void createIslands() {
@@ -84,6 +89,22 @@ public class Game {
 
     public String getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    public ArrayList<CharacterCard> getCards() {
+        return this.cards;
+    }
+
+    public int getCoins() {
+        return this.coins;
+    }
+
+    public void setCoins(int coins) {
+        this.coins = coins;
+    }
+
+    public void addCard(CharacterCard card) {
+        this.cards.add(card);
     }
 
     public void setMotherNaturePosition(Island motherNaturePosition) {
