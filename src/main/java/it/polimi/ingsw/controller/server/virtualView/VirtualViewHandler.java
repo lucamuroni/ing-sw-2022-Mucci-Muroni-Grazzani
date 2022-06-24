@@ -143,7 +143,8 @@ public class VirtualViewHandler implements View {
                 island = game.getIslands().get(islandIndex-1);
             }
             case BARD -> {
-                //TODO messaggio custom + fix a broken model
+                colors.addAll(this.getChosenColors());
+                //TODO fix a broken model
             }
             case MERCHANT,THIEF -> {
                 colors.add(this.getMovedStudentColor());
@@ -151,6 +152,11 @@ public class VirtualViewHandler implements View {
         }
         game.getDeck().setParameters(colors.stream().map(Student::new).collect(Collectors.toCollection(ArrayList::new)),island);
         return result;
+    }
+
+    private ArrayList<PawnColor> getChosenColors() throws MalformedMessageException, ClientDisconnectedException {
+        GetChosenColors func = new GetChosenColors(messageHandler);
+        return func.handle();
     }
 
     /**

@@ -14,6 +14,7 @@ public enum MessageFragment {
     CLOUD("cloud"),
     CLOUD_ID("cloud_id"),
     COIN("coin"),
+    COLOR("color"),
     CONTEXT("context"),
     CONTEXT_CARD("cardSelection"),
     CONTEXT_CHARACTER("characterSelection"),
