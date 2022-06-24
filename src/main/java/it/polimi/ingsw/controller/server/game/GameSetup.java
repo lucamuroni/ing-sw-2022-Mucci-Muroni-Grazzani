@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.server.game;
 
+import it.polimi.ingsw.controller.networking.GameType;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.*;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
@@ -59,6 +60,10 @@ public class GameSetup implements GamePhase{
         ArrayList<Player> pl = new ArrayList<>(this.controller.getPlayers());
         for (Player player : this.controller.getPlayers()) {
             this.view.setCurrentPlayer(player);
+            if(this.controller.getGameType()== GameType.EXPERT){
+                //TODO metodo privato per inviare le carte exp
+                // TODO metodo privato per inviare le monete di un giocatore solo al giocatore stesso
+            }
             for (Player player1 : pl) {
                 this.updateTowerColor(player1,player);
                 this.updateDashboards(player1,player);

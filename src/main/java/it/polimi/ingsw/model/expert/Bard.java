@@ -19,6 +19,7 @@ public class Bard extends CharacterCardInterface{
 
     @Override
     public void handle() {
+        //TODO fix del bardo
         ExpertGamer gamer = this.getGame().getCurrentPlayer();
         for(PawnColor color: this.colors){
             Student s = gamer.getDashboard().getWaitingRoom().stream().filter(x-> x.getColor() == color).findFirst().orElse(null);

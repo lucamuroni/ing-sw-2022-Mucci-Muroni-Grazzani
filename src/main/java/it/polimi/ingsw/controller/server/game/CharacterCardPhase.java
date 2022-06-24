@@ -21,9 +21,6 @@ public class CharacterCardPhase implements GamePhase{
     private final GameController controller;
     private final View view;
     private final GamePhase nextPhase;
-    //TODO controllare i messaggi
-    // TODO chiamata a model da riorganizzare
-    //TODO metodo per inviare le monete
     public CharacterCardPhase(ExpertGame game, GameController controller, GamePhase nextPhase) {
         this.game = game;
         this.controller = controller;
@@ -63,7 +60,7 @@ public class CharacterCardPhase implements GamePhase{
         }
         if (doPhase) {
             CharacterCard card = this.getChosenCharacterCard(game.getCurrentPlayer(), player);
-            this.playCard(card);
+            this.game.getDeck().playCard(card,this.game);
             ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
             players.remove(player);
             Gamer currentPlayer = null;
@@ -75,6 +72,7 @@ public class CharacterCardPhase implements GamePhase{
             for(Player player1 : players){
                 this.updateChosenCharacterCard(player1, currentPlayer, card);
             }
+            //TODO update delle isole e delle dashboard e delle monete del currentPlayer
         }
     }
 
@@ -88,6 +86,7 @@ public class CharacterCardPhase implements GamePhase{
         }
         try{
             try{
+                //TODO guardare nel viewHandler
                 card = this.view.getChosenCharacterCard(game, cards);
             }catch (MalformedMessageException e){
                 card = this.view.getChosenCharacterCard(game, cards);
@@ -98,10 +97,6 @@ public class CharacterCardPhase implements GamePhase{
             this.controller.handlePlayerError(player, "Error: doesn't exist card seleted");
         }
         return card;
-    }
-
-    private void playCard(CharacterCard card) {
-
     }
 
     private void updateChosenCharacterCard(Player player, Gamer currentGamer, CharacterCard card) {

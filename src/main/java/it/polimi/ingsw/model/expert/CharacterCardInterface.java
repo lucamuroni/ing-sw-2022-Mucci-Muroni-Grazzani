@@ -14,9 +14,7 @@ public abstract class CharacterCardInterface {
     public abstract void handle();
 
     public void payCardCost(){
-        ExpertGamer gamer = this.game.getCurrentPlayer();
-        int coins = gamer.getDashboard().getCoins();
-        gamer.getDashboard().setCoins(coins- card.getMoneyCost());
+        this.game.getCurrentPlayer().getDashboard().setCoins(-card.getMoneyCost());
     }
 
     public ExpertGame getGame(){

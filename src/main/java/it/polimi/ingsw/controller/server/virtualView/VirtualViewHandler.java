@@ -17,8 +17,10 @@ import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.ExpertGamer;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
+import it.polimi.ingsw.model.pawn.Student;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * @author Davide Grazzani
@@ -132,7 +134,23 @@ public class VirtualViewHandler implements View {
 
     public CharacterCard getChosenCharacterCard(ExpertGame game, ArrayList<CharacterCard> cards) throws ModelErrorException, MalformedMessageException, ClientDisconnectedException {
         GetChosenCharacterCard func = new GetChosenCharacterCard(game, messageHandler, cards);
-        return func.handle();
+        CharacterCard result =  func.handle();
+        Island island = null;
+        ArrayList<PawnColor> colors = new ArrayList<>();
+        switch (result){
+            case AMBASSADOR -> {
+                int islandIndex = this.getMovedStudentLocation();
+                island = game.getIslands().get(islandIndex-1);
+            }
+            case BARD -> {
+                //TODO messaggio custom + fix a broken model
+            }
+            case MERCHANT,THIEF -> {
+                colors.add(this.getMovedStudentColor());
+            }
+        }
+        game.getDeck().setParameters(colors.stream().map(Student::new).collect(Collectors.toCollection(ArrayList::new)),island);
+        return result;
     }
 
     /**

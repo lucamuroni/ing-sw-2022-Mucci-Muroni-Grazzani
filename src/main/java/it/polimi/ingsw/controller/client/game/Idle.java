@@ -30,6 +30,7 @@ public class Idle implements GamePhase{
 
     @Override
     public void handle() {
+        //TODO aggiunta fase CharacterPhase
         if(isGameStarted){
             this.view.goToIdle();
         }

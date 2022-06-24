@@ -10,6 +10,7 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.model.Island;
+import it.polimi.ingsw.model.dashboard.ExpertDashboard;
 import it.polimi.ingsw.model.game.ExpertGame;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
@@ -175,9 +176,12 @@ public class ActionPhase1 implements GamePhase{
             }catch (Exception e) {
                 this.controller.shutdown("Error founded in model : shutting down this game");
             }
-            boolean check = this.game.getCurrentPlayer().getDashboard().checkCoins(stud);
-            if (check) {
-                this.sendCoins(player);
+            if(controller.getGameType()==GameType.EXPERT){
+                ExpertGame expertGame = (ExpertGame) game;
+                int coins = expertGame.getCurrentPlayer().getDashboard().getCoins();
+                if(coins != -1){
+                    this.sendCoins(player,coins);
+                }
             }
         }
         else {
@@ -186,12 +190,12 @@ public class ActionPhase1 implements GamePhase{
         }
     }
 
-    private void sendCoins(Player player) {
+    private void sendCoins(Player player,int coins) {
         try {
             try {
-                this.view.sendCoins(this.game.getCurrentPlayer().getDashboard().getCoins());
+                this.view.sendCoins(coins);
             } catch (MalformedMessageException e) {
-                this.view.sendCoins(this.game.getCurrentPlayer().getDashboard().getCoins());
+                this.view.sendCoins(coins);
             }
         } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
             this.controller.handlePlayerError(player, "Error while sending coins");

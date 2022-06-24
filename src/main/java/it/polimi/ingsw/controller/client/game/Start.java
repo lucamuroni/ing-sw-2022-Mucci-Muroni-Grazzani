@@ -29,6 +29,8 @@ public class Start implements GamePhase {
         for(int i = 0; i< 12;i++){
             this.updateIslandStatus();
         }
+        //TODO metodo privato per ricevere le carte Expert
+        //TODO metodo privato per ricevere le monete
         for (int i = 0; i<this.game.getGamers().size(); i++) {
             this.updateColor();
             this.updateDashboards();
@@ -46,7 +48,6 @@ public class Start implements GamePhase {
             }catch (MalformedMessageException | ClientDisconnectedException e) {
                 this.controller.handleError("Could not receive info about other players");
             }
-            //TODO controllare la correttezza della correzione
         }
     }
 
