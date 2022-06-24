@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.client.networkHandler.Network;
 import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
+import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.messageParts.MessageFragment;
 import it.polimi.ingsw.view.ViewHandler;
@@ -30,7 +31,6 @@ public class Idle implements GamePhase{
 
     @Override
     public void handle() {
-        //TODO aggiunta fase CharacterPhase
         if(isGameStarted){
             this.view.goToIdle();
         }
@@ -160,6 +160,9 @@ public class Idle implements GamePhase{
                         case END_GAME_PHASE:
                             nextPhase = new EndGame(this.controller);
                             break;
+                        case CHARACTER_PHASE:
+                            nextPhase = new ExpertPhase(this.controller);
+                            break;
                     }
                     stop = true;
                     break;
@@ -187,6 +190,19 @@ public class Idle implements GamePhase{
                         this.controller.handleError();
                     } catch (AssetErrorException e) {
                         this.controller.handleError("Doesn't found island");
+                    }
+                    break;
+                case CONTEXT_CHARACTER:
+                    try {
+                        try {
+                            this.network.getChosenCharacterCard(this.game);
+                        } catch (MalformedMessageException e) {
+                            this.network.getChosenCharacterCard(this.game);
+                        }
+                    } catch (MalformedMessageException | ClientDisconnectedException e) {
+                        this.controller.handleError();
+                    } catch (AssetErrorException e) {
+                        this.controller.handleError("Error while getting character card");
                     }
                     break;
             }

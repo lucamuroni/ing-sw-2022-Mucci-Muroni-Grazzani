@@ -65,46 +65,45 @@ public class ExpertPhase implements GamePhase{
             } catch (MalformedMessageException e) {
                 this.controller.handleError();
             }
-        }
-        //TODO: switch-case
-        switch (this.game.getSelf().getCurrentExpertCardSelection()) {
-            case AMBASSADOR -> {
-                Island island = this.view.chooseIsland(this.game.getIslands());
-                //int ind = island.getId();
-                int ind = this.game.getIslands().indexOf(island) + 1;
-                try {
+            switch (this.game.getSelf().getCurrentExpertCardSelection()) {
+                case AMBASSADOR -> {
+                    Island island = this.view.chooseIsland(this.game.getIslands());
+                    //int ind = island.getId();
+                    int ind = this.game.getIslands().indexOf(island) + 1;
                     try {
-                        this.network.sendLocation(ind);
-                    } catch (MalformedMessageException e) {
-                        this.network.sendLocation(ind);
+                        try {
+                            this.network.sendLocation(ind);
+                        } catch (MalformedMessageException e) {
+                            this.network.sendLocation(ind);
+                        }
+                    } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                        this.controller.handleError();
                     }
-                } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
-                    this.controller.handleError();
                 }
-            }
-            case BARD -> {
-                ArrayList<PawnColor> students = this.view.choseStudentsToMove();
-                try {
+                case BARD -> {
+                    ArrayList<PawnColor> students = this.view.choseStudentsToMove();
                     try {
-                        this.network.sendChosenColors(students);
-                    } catch (MalformedMessageException e) {
-                        this.network.sendChosenColors(students);
+                        try {
+                            this.network.sendChosenColors(students);
+                        } catch (MalformedMessageException e) {
+                            this.network.sendChosenColors(students);
+                        }
+                    } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                        this.controller.handleError();
                     }
-                } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
-                    this.controller.handleError();
                 }
-            }
-            case MERCHANT, THIEF -> {
-                Student student = this.view.chooseStudentToMove();
-                PawnColor color = student.getColor();
-                try {
+                case MERCHANT, THIEF -> {
+                    Student student = this.view.chooseStudentToMove();
+                    PawnColor color = student.getColor();
                     try {
-                        this.network.sendColor(color);
-                    } catch (MalformedMessageException e) {
-                        this.network.sendColor(color);
+                        try {
+                            this.network.sendColor(color);
+                        } catch (MalformedMessageException e) {
+                            this.network.sendColor(color);
+                        }
+                    } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                        this.controller.handleError();
                     }
-                } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
-                    this.controller.handleError();
                 }
             }
         }
@@ -112,6 +111,6 @@ public class ExpertPhase implements GamePhase{
 
     @Override
     public GamePhase next() {
-        return null;
+        return new Idle(this.controller);
     }
 }

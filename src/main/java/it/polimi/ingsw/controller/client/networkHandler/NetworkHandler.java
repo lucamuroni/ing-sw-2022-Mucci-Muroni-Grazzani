@@ -240,6 +240,11 @@ public class NetworkHandler implements Network {
         return func.handle();
     }
 
+    public void getChosenCharacterCard(Game game) throws AssetErrorException, MalformedMessageException, ClientDisconnectedException {
+        GetChosenCharacterCard func = new GetChosenCharacterCard(messageHandler, game);
+        func.handle();
+    }
+
     public void sendCharacterCard(CharacterCard card) throws MalformedMessageException {
         SendCharacterCard func = new SendCharacterCard(messageHandler, card);
         func.handle();

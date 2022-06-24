@@ -19,6 +19,7 @@ public class Gamer {
     private AssistantCardDeckFigures figure;
     private final DashBoard dashBoard;
     private TowerColor color;
+    private CharacterCard playedCard;
 
     /**
      * Constructor of the class
@@ -81,6 +82,14 @@ public class Gamer {
 
     public TowerColor getColor() {
         return color;
+    }
+
+    public CharacterCard getPlayedCard() {
+        return playedCard;
+    }
+
+    public void setPlayedCard(CharacterCard playedCard) {
+        this.playedCard = playedCard;
     }
 
     public void setUsername(String username, boolean self) {

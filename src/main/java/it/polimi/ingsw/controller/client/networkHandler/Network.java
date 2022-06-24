@@ -141,6 +141,8 @@ public interface Network {
 
     ArrayList<CharacterCard> getPossibleCharacters(Game game) throws AssetErrorException, MalformedMessageException, ClientDisconnectedException;
 
+    void getChosenCharacterCard(Game game) throws AssetErrorException, MalformedMessageException, ClientDisconnectedException;
+
     void sendCharacterCard(CharacterCard card) throws MalformedMessageException;
 
     void sendChosenColors(ArrayList<PawnColor> colors) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
