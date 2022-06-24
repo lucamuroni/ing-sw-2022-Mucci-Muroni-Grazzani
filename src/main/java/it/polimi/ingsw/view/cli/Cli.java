@@ -435,8 +435,10 @@ public class Cli implements ViewHandler {
         return this.game.getSelf().getCurrentExpertCardSelection();
     }
 
-    public ArrayList<PawnColor> chooseStudentsToMove() {
+    @Override
+    public ArrayList<PawnColor> choseStudentsToMove() {
         //TODO: page per chiedere colori studenti
         return null;
     }
+
 }

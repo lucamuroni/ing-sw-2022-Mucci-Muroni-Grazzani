@@ -27,9 +27,9 @@ public class SendChosenCharacterCard {
         int topicId = this.messageHandler.getNewUniqueTopicID();
         ArrayList<Message> messages = new ArrayList<>();
         messages.add(new Message(PLAYER_ID.getFragment(), String.valueOf(this.gamer.getToken()), topicId));
-        messages.add(new Message(CHARACTER.getFragment(), this.card.getName(), topicId));
+        messages.add(new Message(CHARACTER_CARD.getFragment(), this.card.getName(), topicId));
         this.messageHandler.write(messages);
         this.messageHandler.writeOutAndWait();
-        this.messageHandler.assertOnEquals(OK.getFragment(), CHARACTER.getFragment());
+        this.messageHandler.assertOnEquals(OK.getFragment(), CHARACTER_CARD.getFragment());
     }
 }

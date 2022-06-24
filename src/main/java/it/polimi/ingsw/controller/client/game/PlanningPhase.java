@@ -54,21 +54,6 @@ public class PlanningPhase implements GamePhase {
         }
     }
 
-    //Metodo che si userà in Idle
-    /*
-    public void updateCard() {
-        try {
-            try {
-                this.network.getChosenAssistantCard(this.game);
-            } catch (MalformedMessageException  e) {
-                this.network.getChosenAssistantCard(this.game);
-            }
-        } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
-            this.controller.handleError();
-        }
-    }*/
-
-
     @Override
     public GamePhase next() {
         return new Idle(this.controller);

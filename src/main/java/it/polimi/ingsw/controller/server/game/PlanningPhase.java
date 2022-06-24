@@ -13,7 +13,6 @@ import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
@@ -138,8 +137,8 @@ public class PlanningPhase implements GamePhase{
     private void sendInfo(Player currentPlayer, AssistantCard chosenCard) {
         ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
         players.remove(currentPlayer);
-        for (int i = 0; i<players.size(); i++) {
-            this.view.setCurrentPlayer(players.get(i));
+        for (Player player : players) {
+            this.view.setCurrentPlayer(player);
             try {
                 try {
                     this.view.sendContext(CONTEXT_CARD.getFragment());
@@ -149,20 +148,9 @@ public class PlanningPhase implements GamePhase{
                     this.view.sendChosenAssistantCard(chosenCard, currentPlayer.getToken());
                 }
             } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
-                this.controller.handlePlayerError(players.get(i),"Error while uploading chosen assistant card");
+                this.controller.handlePlayerError(player, "Error while uploading chosen assistant card");
             }
         }
-    }
-
-    /**
-     * This method is called by getChoseAssistantCard() and it picks a random AssistantCard when the player doesn't reply in time
-     * @param cards is the ArrayList of possible choices
-     * @return a random AssistantCard
-     */
-    private AssistantCard getRandomAssistantCard(ArrayList<AssistantCard> cards){
-        Random random = new Random();
-        int rand = random.nextInt(0, cards.size());
-        return cards.get(rand);
     }
 
     /**

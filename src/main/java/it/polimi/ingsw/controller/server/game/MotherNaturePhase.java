@@ -1,6 +1,5 @@
 package it.polimi.ingsw.controller.server.game;
 
-import it.polimi.ingsw.controller.networking.GameType;
 import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
@@ -9,11 +8,9 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.model.Island;
-import it.polimi.ingsw.model.game.ExpertGame;
 import it.polimi.ingsw.model.game.Game;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CONTEXT_MOTHER;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CONTEXT_PHASE;
@@ -95,19 +92,8 @@ public class MotherNaturePhase implements GamePhase{
             }
         } catch (MalformedMessageException | ClientDisconnectedException e) {
             this.controller.handlePlayerError(player,"Error while getting mother nature location");
-        } //TODO controllare correttezza
+        }
         this.game.moveMotherNature(place);
-    }
-
-    /**
-     * This method is called by moveMotherNature() and it picks a random island when the player doesn't reply in time
-     * @param choices is the ArrayList of possible islands to choose from
-     * @return a random island
-     */
-    private Island getRandomIsland(ArrayList<Island> choices) {
-        Random random = new Random();
-        int rand = random.nextInt(0, choices.size());
-        return choices.get(rand);
     }
 
     /**

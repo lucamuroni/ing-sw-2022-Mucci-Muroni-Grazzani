@@ -138,7 +138,7 @@ public class CharacterCardPhase implements GamePhase{
         }catch (MalformedMessageException | ClientDisconnectedException e){
             this.controller.handlePlayerError(player, "Error while getting chosen character card");
         }catch (ModelErrorException e) {
-            this.controller.handlePlayerError(player, "Error: doesn't exist card seleted");
+            this.controller.handlePlayerError(player, "Error: doesn't exist card selected");
         }
         return card;
     }

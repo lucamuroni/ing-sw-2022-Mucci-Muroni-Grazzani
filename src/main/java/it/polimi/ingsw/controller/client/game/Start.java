@@ -34,7 +34,6 @@ public class Start implements GamePhase {
             this.updateIslandStatus();
         }
         if(this.game.getGameType().equals(GameType.EXPERT.getName())){
-            //TODO metodo privato per ricevere le monete
             this.getCharacterCards();
             this.getCoins();
         }

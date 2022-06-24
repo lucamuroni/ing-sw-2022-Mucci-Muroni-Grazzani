@@ -23,7 +23,7 @@ public class GameController extends Thread{
     private GamePhase gamePhase;
     private final View view;
     private boolean isGameNotEnded;
-    private ArrayList<AssistantCardDeckFigures> cardDesks;
+    private final ArrayList<AssistantCardDeckFigures> cardDesks;
     private final GameType gameType;
 
     public GameController(ArrayList<Player> players, GameType gameType){

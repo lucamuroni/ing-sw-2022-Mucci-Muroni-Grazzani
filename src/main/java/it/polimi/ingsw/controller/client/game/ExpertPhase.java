@@ -15,7 +15,6 @@ import it.polimi.ingsw.view.asset.game.Island;
 
 import java.util.ArrayList;
 
-import static it.polimi.ingsw.model.expert.CharacterCard.AMBASSADOR;
 
 public class ExpertPhase implements GamePhase{
 

@@ -83,7 +83,7 @@ public class GameSetup implements GamePhase{
                     this.view.sendCharacterCard(card);
                 }
             } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
-                this.controller.handlePlayerError(player, "Error while updating cards");
+                this.controller.handlePlayerError(player, "Error while updating  expert cards");
             }
         }
     }
