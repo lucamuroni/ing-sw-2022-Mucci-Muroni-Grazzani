@@ -50,6 +50,15 @@ public class ActionPhase1 implements GamePhase{
             }
             try {
                 try {
+                    this.network.getCoins(game);
+                } catch (MalformedMessageException e) {
+                    this.network.getCoins(game);
+                }
+            } catch (MalformedMessageException | ClientDisconnectedException e) {
+                this.controller.handleError();
+            }
+            try {
+                try {
                     for (Gamer gamer : this.game.getGamers()) {
                         this.network.getDashboard(this.game);
                     }
@@ -72,7 +81,6 @@ public class ActionPhase1 implements GamePhase{
 
     @Override
     public GamePhase next() {
-        //TODO rewire to expert
-        return new MotherNaturePhase(this.controller);
+        return new Idle(this.controller);
     }
 }
