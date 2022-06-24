@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.model.expert.CharacterCard;
 import it.polimi.ingsw.model.pawn.PawnColor;
+import it.polimi.ingsw.model.pawn.Student;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
@@ -67,7 +68,7 @@ public class ExpertPhase implements GamePhase{
         }
         //TODO: switch-case
         switch (this.game.getSelf().getCurrentExpertCardSelection()) {
-            case AMBASSADOR:
+            case AMBASSADOR -> {
                 Island island = this.view.chooseIsland(this.game.getIslands());
                 //int ind = island.getId();
                 int ind = this.game.getIslands().indexOf(island) + 1;
@@ -80,8 +81,8 @@ public class ExpertPhase implements GamePhase{
                 } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
                     this.controller.handleError();
                 }
-                break;
-            case BARD:
+            }
+            case BARD -> {
                 ArrayList<PawnColor> students = this.view.choseStudentsToMove();
                 try {
                     try {
@@ -92,6 +93,20 @@ public class ExpertPhase implements GamePhase{
                 } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
                     this.controller.handleError();
                 }
+            }
+            case MERCHANT, THIEF -> {
+                Student student = this.view.chooseStudentToMove();
+                PawnColor color = student.getColor();
+                try {
+                    try {
+                        this.network.sendColor(color);
+                    } catch (MalformedMessageException e) {
+                        this.network.sendColor(color);
+                    }
+                } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                    this.controller.handleError();
+                }
+            }
         }
     }
 
