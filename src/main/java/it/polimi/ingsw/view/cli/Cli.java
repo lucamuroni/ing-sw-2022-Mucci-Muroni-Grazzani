@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.cli;
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.model.AssistantCard;
+import it.polimi.ingsw.model.expert.CharacterCard;
 import it.polimi.ingsw.model.pawn.Student;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
@@ -19,8 +20,6 @@ import java.util.Scanner;
  * Class that represents the cli for the game
  */
 public class Cli implements ViewHandler {
-    //TODO : non viene chiamato il metodo per settare la torre su un'isola / non viene aggiornata
-    //TODO: il merge delle isole lo deve decidere Grazza
     //TODO : capita ogni tanto modelErrorException lato server action Phase 1 riga 100
     private final String os;
     private ClientController controller;
@@ -402,5 +401,36 @@ public class Cli implements ViewHandler {
         } catch (AssetErrorException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public boolean askToPlayExpertCard(){
+        ExpertGameSelectionPage p = new ExpertGameSelectionPage(this);
+        this.changePage(p);
+        while(!p.isReadyToProceed()){
+            synchronized (this){
+                try{
+                    this.wait(100);
+                }catch(InterruptedException e){
+                    this.controller.handleError("Could not wait for user to complete registration");
+                }
+            }
+        }
+        return p.getAnswer();
+    }
+
+    @Override
+    public CharacterCard choseCharacterCard(ArrayList<CharacterCard> cards) {
+        Page p = new CharacterCardPage(this,cards,this.game);
+        this.changePage(p);
+        while(!p.isReadyToProceed()){
+            synchronized (this){
+                try{
+                    this.wait(100);
+                }catch(InterruptedException e){
+                    this.controller.handleError("Could not wait for user to complete registration");
+                }
+            }
+        }
+        return this.game.getSelf().getCurrentExpertCardSelection();
     }
 }

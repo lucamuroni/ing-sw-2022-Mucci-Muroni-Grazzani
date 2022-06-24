@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.model.AssistantCard;
+import it.polimi.ingsw.model.expert.CharacterCard;
 import it.polimi.ingsw.view.asset.game.Cloud;
 import it.polimi.ingsw.view.asset.game.Gamer;
 import it.polimi.ingsw.view.asset.game.Island;
@@ -55,4 +56,6 @@ public interface ViewHandler {
     void init();
 
     void setMergedIsland(int islandId1, int islandId2);
+    boolean askToPlayExpertCard();
+    CharacterCard choseCharacterCard(ArrayList<CharacterCard> cards);
 }

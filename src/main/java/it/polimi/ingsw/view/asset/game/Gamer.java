@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.asset.game;
 
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.model.AssistantCard;
+import it.polimi.ingsw.model.expert.CharacterCard;
 import it.polimi.ingsw.model.pawn.TowerColor;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class Gamer {
     private String username;
     private final ArrayList<AssistantCard> cards;
     private AssistantCard currentSelection;
+    private CharacterCard currentExpertCardSelection;
     private AssistantCardDeckFigures figure;
     private final DashBoard dashBoard;
     private TowerColor color;
@@ -96,5 +98,13 @@ public class Gamer {
 
     public void setCurrentSelection(AssistantCard currentSelection) {
         this.currentSelection = currentSelection;
+    }
+
+    public void setCurrentExpertCardSelection(CharacterCard card){
+        this.currentExpertCardSelection = card;
+    }
+
+    public CharacterCard getCurrentExpertCardSelection(){
+        return this.currentExpertCardSelection;
     }
 }
