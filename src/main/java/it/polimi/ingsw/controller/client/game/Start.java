@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller.client.game;
 
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.client.networkHandler.Network;
+import it.polimi.ingsw.controller.networking.GameType;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.view.ViewHandler;
@@ -29,8 +30,10 @@ public class Start implements GamePhase {
         for(int i = 0; i< 12;i++){
             this.updateIslandStatus();
         }
-        //TODO metodo privato per ricevere le carte Expert
-        //TODO metodo privato per ricevere le monete
+        if(this.game.getGameType().equals(GameType.EXPERT.getName())){
+            //TODO metodo privato per ricevere le carte Expert
+            //TODO metodo privato per ricevere le monete
+        }
         for (int i = 0; i<this.game.getGamers().size(); i++) {
             this.updateColor();
             this.updateDashboards();

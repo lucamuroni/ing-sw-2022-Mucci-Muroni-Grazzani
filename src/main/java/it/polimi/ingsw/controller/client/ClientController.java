@@ -22,7 +22,6 @@ public class ClientController {
     private GamePhase phase;
     private Game game;
     private boolean isGameFinished;
-    private GameType type;
 
     public ClientController(MessageHandler messageHandler,ViewHandler viewHandler) {
         try {
@@ -41,13 +40,8 @@ public class ClientController {
         this.phase = new ConnectionPhase(this);
         while (this.getGameStatus()){
             phase.handle();
-            if(this.type == GameType.EXPERT){
-                GamePhase expertPhase = new ExpertPhase(this);
-                expertPhase.handle();
-            }
             phase = phase.next();
         }
-        // TODO : fare qualcosa per far ricominciare il gioco
     }
 
     public Network getNetwork() {
@@ -84,7 +78,4 @@ public class ClientController {
         return !this.isGameFinished;
     }
 
-    public void setGameType(GameType type){
-        this.type = type;
-    }
 }
