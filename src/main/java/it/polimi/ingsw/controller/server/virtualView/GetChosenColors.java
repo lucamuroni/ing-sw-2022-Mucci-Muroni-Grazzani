@@ -21,7 +21,9 @@ public class GetChosenColors {
     }
 
     public ArrayList<PawnColor> handle() throws ClientDisconnectedException, MalformedMessageException {
-        for (int i = 0; i<4; i++) {
+        this.messageHandler.read();
+        int size = this.messageHandler.getMessagesUniqueTopic();
+        for (int i = 0; i<size; i++) {
             this.messageHandler.read();
             String col = this.messageHandler.getMessagePayloadFromStream(COLOR.getFragment());
             for (PawnColor color : PawnColor.values()) {

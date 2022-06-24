@@ -245,6 +245,11 @@ public class NetworkHandler implements Network {
         func.handle();
     }
 
+    public void sendChosenColors(ArrayList<PawnColor> colors) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
+        SendChosenColors func = new SendChosenColors(messageHandler, colors);
+        func.handle();
+    }
+
     public void sendAnswer(boolean answer) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
         SendAnswer func = new SendAnswer(messageHandler, answer);
         func.handle();

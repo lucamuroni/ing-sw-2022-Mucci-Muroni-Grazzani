@@ -6,11 +6,15 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.model.expert.CharacterCard;
+import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
+import it.polimi.ingsw.view.asset.game.Island;
 
 import java.util.ArrayList;
+
+import static it.polimi.ingsw.model.expert.CharacterCard.AMBASSADOR;
 
 public class ExpertPhase implements GamePhase{
 
@@ -41,16 +45,16 @@ public class ExpertPhase implements GamePhase{
             ArrayList<CharacterCard> cards = null;
             try {
                 try {
-                     cards = this.network.getPossibleCharacters(this.game)
+                     cards = this.network.getPossibleCharacters(this.game);
                 } catch (MalformedMessageException e) {
-                     cards = this.network.getPossibleCharacters(this.game)
+                     cards = this.network.getPossibleCharacters(this.game);
                 }
             } catch (MalformedMessageException | ClientDisconnectedException e) {
                 this.controller.handleError();
             } catch (AssetErrorException e) {
                 this.controller.handleError("Doesn't found character cards");
             }
-            CharacterCard card = this.view.chooseCharacterCard(cards);
+            CharacterCard card = this.view.choseCharacterCard(cards);
             try {
                 try {
                     this.network.sendCharacterCard(card);
@@ -60,6 +64,34 @@ public class ExpertPhase implements GamePhase{
             } catch (MalformedMessageException e) {
                 this.controller.handleError();
             }
+        }
+        //TODO: switch-case
+        switch (this.game.getSelf().getCurrentExpertCardSelection()) {
+            case AMBASSADOR:
+                Island island = this.view.chooseIsland(this.game.getIslands());
+                //int ind = island.getId();
+                int ind = this.game.getIslands().indexOf(island) + 1;
+                try {
+                    try {
+                        this.network.sendLocation(ind);
+                    } catch (MalformedMessageException e) {
+                        this.network.sendLocation(ind);
+                    }
+                } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                    this.controller.handleError();
+                }
+                break;
+            case BARD:
+                ArrayList<PawnColor> students = this.view.choseStudentsToMove();
+                try {
+                    try {
+                        this.network.sendChosenColors(students);
+                    } catch (MalformedMessageException e) {
+                        this.network.sendChosenColors(students);
+                    }
+                } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                    this.controller.handleError();
+                }
         }
     }
 

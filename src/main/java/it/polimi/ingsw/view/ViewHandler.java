@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.expert.CharacterCard;
+import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.view.asset.game.Cloud;
 import it.polimi.ingsw.view.asset.game.Gamer;
 import it.polimi.ingsw.view.asset.game.Island;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
  * Class that represents the viewHandler with the methods to implement in the cli and the gui
  */
 public interface ViewHandler {
-    //TODO : definire un utilizzo del timer
+
     /**
      * Method that returns the assistant card the player chooses
      * @param cards represents the possible cards to choose from
@@ -43,12 +44,17 @@ public interface ViewHandler {
      * @return the chosen island
      */
     Island chooseIsland(ArrayList<Island> islands);
+
     Cloud chooseCloud(ArrayList<Cloud> clouds);
+
     AssistantCardDeckFigures chooseFigure(ArrayList<AssistantCardDeckFigures> figures);
+
     void getPlayerInfo();
+
     void goToIdle();
 
     void showEndGamePage(Results win);
+
     void setController(ClientController controller);
 
     void lobbyFounded();
@@ -56,6 +62,10 @@ public interface ViewHandler {
     void init();
 
     void setMergedIsland(int islandId1, int islandId2);
+
     boolean askToPlayExpertCard();
+
     CharacterCard choseCharacterCard(ArrayList<CharacterCard> cards);
+
+    ArrayList<PawnColor> choseStudentsToMove();
 }

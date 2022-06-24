@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.expert.CharacterCard;
+import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
@@ -432,5 +433,10 @@ public class Cli implements ViewHandler {
             }
         }
         return this.game.getSelf().getCurrentExpertCardSelection();
+    }
+
+    public ArrayList<PawnColor> chooseStudentsToMove() {
+        //TODO: page per chiedere colori studenti
+        return null;
     }
 }

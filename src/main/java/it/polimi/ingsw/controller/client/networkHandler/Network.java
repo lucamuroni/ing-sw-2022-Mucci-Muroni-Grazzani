@@ -143,6 +143,8 @@ public interface Network {
 
     void sendCharacterCard(CharacterCard card) throws MalformedMessageException;
 
+    void sendChosenColors(ArrayList<PawnColor> colors) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
+
     void sendAnswer(boolean answer) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
 
     void sendInfo(Gamer gamer, String gameType, int players, String lobby) throws MalformedMessageException;

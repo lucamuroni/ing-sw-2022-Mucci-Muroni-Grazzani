@@ -37,6 +37,7 @@ public class ActionPhase1 implements GamePhase{
             int location = this.view.choosePlace();
             try {
                 try {
+                    //TODO: modificare sendLocation
                     this.network.sendColor(stud.getColor());
                     this.network.sendLocation(location);
                 } catch (MalformedMessageException e) {
