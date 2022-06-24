@@ -221,4 +221,6 @@ public interface View{
 
     public void sendCoins(int coins) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
 
+    public void sendCharacterCard(CharacterCard card) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
+
 }

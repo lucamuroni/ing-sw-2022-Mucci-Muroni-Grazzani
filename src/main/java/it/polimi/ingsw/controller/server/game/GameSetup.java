@@ -5,7 +5,10 @@ import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.*;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.virtualView.View;
+import it.polimi.ingsw.model.expert.CharacterCard;
+import it.polimi.ingsw.model.game.ExpertGame;
 import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.model.gamer.ExpertGamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
 
@@ -61,13 +64,40 @@ public class GameSetup implements GamePhase{
         for (Player player : this.controller.getPlayers()) {
             this.view.setCurrentPlayer(player);
             if(this.controller.getGameType()== GameType.EXPERT){
-                //TODO metodo privato per inviare le carte exp
-                // TODO metodo privato per inviare le monete di un giocatore solo al giocatore stesso
+                this.sendCharacterCards(player);
+                this.sendCoins(player);
             }
             for (Player player1 : pl) {
                 this.updateTowerColor(player1,player);
                 this.updateDashboards(player1,player);
             }
+        }
+    }
+
+    private void sendCharacterCards(Player player) {
+        for (CharacterCard card : ((ExpertGame) this.game).getGameCards()) {
+            try {
+                try {
+                    this.view.sendCharacterCard(card);
+                } catch (MalformedMessageException e) {
+                    this.view.sendCharacterCard(card);
+                }
+            } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                this.controller.handlePlayerError(player, "Error while updating cards");
+            }
+        }
+    }
+
+    private void sendCoins(Player player) {
+        ExpertGamer gamer = (ExpertGamer) this.game.getCurrentPlayer();
+        try {
+            try {
+                this.view.sendCoins(gamer.getDashboard().getCoins());
+            } catch (MalformedMessageException e) {
+                this.view.sendCoins(gamer.getDashboard().getCoins());
+            }
+        } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+            this.controller.handlePlayerError(player, "Error while sending coins");
         }
     }
 

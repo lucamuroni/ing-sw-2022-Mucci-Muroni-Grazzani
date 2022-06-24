@@ -12,8 +12,8 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
 
 public class GetChosenColors {
-    private MessageHandler messageHandler;
-    private ArrayList<PawnColor> colors;
+    private final MessageHandler messageHandler;
+    private final ArrayList<PawnColor> colors;
 
     public GetChosenColors(MessageHandler messageHandler) {
         this.messageHandler = messageHandler;

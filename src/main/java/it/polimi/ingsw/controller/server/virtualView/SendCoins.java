@@ -9,8 +9,8 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 public class SendCoins {
-    private MessageHandler messageHandler;
-    private int coins;
+    private final MessageHandler messageHandler;
+    private final int coins;
 
     public SendCoins(MessageHandler messageHandler, int coins) {
         this.messageHandler = messageHandler;

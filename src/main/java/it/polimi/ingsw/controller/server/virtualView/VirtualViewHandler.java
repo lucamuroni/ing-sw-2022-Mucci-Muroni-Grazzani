@@ -352,5 +352,11 @@ public class VirtualViewHandler implements View {
         func.handle();
     }
 
+    @Override
+    public void sendCharacterCard(CharacterCard card) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
+        SendCharacterCard func = new SendCharacterCard(messageHandler, card);
+        func.handle();
+    }
+
 }
 
