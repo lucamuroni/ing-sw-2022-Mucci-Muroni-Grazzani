@@ -21,11 +21,12 @@ public class Bard extends CharacterCardInterface{
     public void handle() {
         //TODO fix del bardo
         ExpertGamer gamer = this.getGame().getCurrentPlayer();
-        for(PawnColor color: this.colors){
-            Student s = gamer.getDashboard().getWaitingRoom().stream().filter(x-> x.getColor() == color).findFirst().orElse(null);
-            gamer.getDashboard().getWaitingRoom().remove(s);
-            this.getGame().getBag().pushStudent(s);
-            gamer.getDashboard().getWaitingRoom().add(this.getGame().getBag().pullStudents(1).get(0));
+        for(int i = 0;i<colors.size();i= i+2){
+            final Integer index = i;
+            Student student = gamer.getDashboard().getWaitingRoom().stream().filter(x->x.getColor()==colors.get(index)).findFirst().orElse(null);
+            gamer.getDashboard().getWaitingRoom().remove(student);
+            gamer.getDashboard().moveStudent(student);
+            gamer.getDashboard().removeStudentFromHall(colors.get(i+1));
         }
     }
 
