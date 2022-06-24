@@ -9,7 +9,7 @@ import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimin
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 public class GetAnswer {
-    private MessageHandler messageHandler;
+    private final MessageHandler messageHandler;
     public GetAnswer(MessageHandler messageHandler) {
         this.messageHandler = messageHandler;
     }

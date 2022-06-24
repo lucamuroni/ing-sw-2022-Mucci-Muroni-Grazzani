@@ -8,6 +8,7 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.model.AssistantCard;
+import it.polimi.ingsw.model.expert.CharacterCard;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
@@ -231,6 +232,21 @@ public class NetworkHandler implements Network {
 
     public void getCoins(Game game) throws MalformedMessageException, ClientDisconnectedException {
         GetCoins func = new GetCoins(messageHandler, game);
+        func.handle();
+    }
+
+    public ArrayList<CharacterCard> getPossibleCharacters(Game game) throws AssetErrorException, MalformedMessageException, ClientDisconnectedException {
+        GetPossibleCharacters func = new GetPossibleCharacters(messageHandler, game);
+        return func.handle();
+    }
+
+    public void sendCharacterCard(CharacterCard card) throws MalformedMessageException {
+        SendCharacterCard func = new SendCharacterCard(messageHandler, card);
+        func.handle();
+    }
+
+    public void sendAnswer(boolean answer) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
+        SendAnswer func = new SendAnswer(messageHandler, answer);
         func.handle();
     }
 

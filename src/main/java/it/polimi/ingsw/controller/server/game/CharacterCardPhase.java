@@ -127,7 +127,6 @@ public class CharacterCardPhase implements GamePhase{
         }
         try{
             try{
-                //TODO guardare nel viewHandler
                 card = this.view.getChosenCharacterCard(game, cards);
             }catch (MalformedMessageException e){
                 card = this.view.getChosenCharacterCard(game, cards);

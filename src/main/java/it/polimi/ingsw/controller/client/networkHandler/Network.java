@@ -9,6 +9,7 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.model.AssistantCard;
+import it.polimi.ingsw.model.expert.CharacterCard;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.TowerColor;
 import it.polimi.ingsw.view.ViewHandler;
@@ -137,6 +138,12 @@ public interface Network {
     void getCharacterCard(Game game) throws AssetErrorException, MalformedMessageException, ClientDisconnectedException;
 
     void getCoins(Game game) throws MalformedMessageException, ClientDisconnectedException;
+
+    ArrayList<CharacterCard> getPossibleCharacters(Game game) throws AssetErrorException, MalformedMessageException, ClientDisconnectedException;
+
+    void sendCharacterCard(CharacterCard card) throws MalformedMessageException;
+
+    void sendAnswer(boolean answer) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
 
     void sendInfo(Gamer gamer, String gameType, int players, String lobby) throws MalformedMessageException;
 
