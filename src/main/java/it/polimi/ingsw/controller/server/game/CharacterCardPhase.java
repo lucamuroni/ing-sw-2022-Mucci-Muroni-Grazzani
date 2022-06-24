@@ -101,18 +101,22 @@ public class CharacterCardPhase implements GamePhase{
                         this.controller.handlePlayerError(player1, "Error while updating dashboards");
                     }
                 }
+            }
+            Player current = null;
+            try {
+                current = this.controller.getPlayer(this.game.getCurrentPlayer());
+            } catch (ModelErrorException e) {
+                throw new RuntimeException(e);
+            }
+            this.view.setCurrentPlayer(current);
+            try {
                 try {
-                    try {
-                        this.view.sendContext(CONTEXT_COIN.getFragment());
-                        this.view.sendCoins(this.game.getCurrentPlayer().getDashboard().getCoins());
-                    } catch (MalformedMessageException e) {
-                        this.view.sendContext(CONTEXT_COIN.getFragment());
-                        this.view.sendCoins(this.game.getCurrentPlayer().getDashboard().getCoins());
-                    }
-                } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
-                    this.controller.handlePlayerError(player1, "Error while sending coins");
+                    this.view.sendCoins(this.game.getCurrentPlayer().getDashboard().getCoins());
+                } catch (MalformedMessageException e) {
+                    this.view.sendCoins(this.game.getCurrentPlayer().getDashboard().getCoins());
                 }
-
+            } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                this.controller.handlePlayerError(current, "Error while sending coins");
             }
         }
     }

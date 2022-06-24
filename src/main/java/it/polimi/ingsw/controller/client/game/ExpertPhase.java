@@ -106,6 +106,15 @@ public class ExpertPhase implements GamePhase{
                     }
                 }
             }
+            try {
+                try {
+                    this.network.getCoins(game);
+                } catch (MalformedMessageException e) {
+                    this.network.getCoins(game);
+                }
+            } catch (MalformedMessageException | ClientDisconnectedException e) {
+                this.controller.handleError();
+            }
         }
     }
 
