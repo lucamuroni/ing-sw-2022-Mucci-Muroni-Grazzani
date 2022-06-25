@@ -42,6 +42,6 @@ public class GetChosenCharacterCard {
         }
         if (current == null)
             throw new AssetErrorException();
-        current.setPlayedCard(card);
+        current.setCurrentExpertCardSelection(card);
     }
 }

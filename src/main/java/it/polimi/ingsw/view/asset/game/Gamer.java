@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.asset.game;
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.expert.CharacterCard;
+import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.TowerColor;
 
 import java.util.ArrayList;
@@ -15,11 +16,13 @@ public class Gamer {
     private String username;
     private final ArrayList<AssistantCard> cards;
     private AssistantCard currentSelection;
-    private CharacterCard currentExpertCardSelection;
     private AssistantCardDeckFigures figure;
     private final DashBoard dashBoard;
     private TowerColor color;
-    private CharacterCard playedCard;
+    private CharacterCard currentExpertCardSelection;
+    private ArrayList<PawnColor> selectedColors;
+    private PawnColor selectedColor;
+    private Island selectedisland;
 
     /**
      * Constructor of the class
@@ -29,6 +32,7 @@ public class Gamer {
         this.id = id;
         this.cards = new ArrayList<>();
         this.dashBoard = new DashBoard();
+        this.selectedColors = new ArrayList<>();
     }
 
     /**
@@ -57,11 +61,11 @@ public class Gamer {
     }
 
     public DashBoard getDashBoard() {
-        return this.dashBoard;
+        return dashBoard;
     }
 
     public ArrayList<AssistantCard> getCards() {
-        return this.cards;
+        return cards;
     }
 
     public int getId() {
@@ -84,12 +88,20 @@ public class Gamer {
         return color;
     }
 
-    public CharacterCard getPlayedCard() {
-        return playedCard;
+    public CharacterCard getCurrentExpertCardSelection(){
+        return currentExpertCardSelection;
     }
 
-    public void setPlayedCard(CharacterCard playedCard) {
-        this.playedCard = playedCard;
+    public ArrayList<PawnColor> getSelectedColors() {
+        return selectedColors;
+    }
+
+    public PawnColor getSelectedColor() {
+        return selectedColor;
+    }
+
+    public Island getSelectedisland() {
+        return selectedisland;
     }
 
     public void setUsername(String username, boolean self) {
@@ -113,7 +125,16 @@ public class Gamer {
         this.currentExpertCardSelection = card;
     }
 
-    public CharacterCard getCurrentExpertCardSelection(){
-        return this.currentExpertCardSelection;
+    public void setSelectedColors(ArrayList<PawnColor> colors) {
+        this.selectedColors.clear();
+        this.selectedColors.addAll(colors);
+    }
+
+    public void setSelectedColor(PawnColor color) {
+        this.selectedColor = color;
+    }
+
+    public void setSelectedisland(Island island) {
+        this.selectedisland = island;
     }
 }

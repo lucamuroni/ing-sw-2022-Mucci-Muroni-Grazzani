@@ -43,7 +43,7 @@ public interface ViewHandler {
      * @param islands represents the available islands
      * @return the chosen island
      */
-    Island chooseIsland(ArrayList<Island> islands);
+    Island chooseIsland(ArrayList<Island> islands, boolean expert);
 
     Cloud chooseCloud(ArrayList<Cloud> clouds);
 
@@ -68,4 +68,6 @@ public interface ViewHandler {
     CharacterCard choseCharacterCard(ArrayList<CharacterCard> cards);
 
     ArrayList<PawnColor> choseStudentsToMove();
+
+    PawnColor chooseColor(String name);
 }

@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class SelectAssistantCardDeckPage implements Page {
-    private ArrayList<AssistantCardDeckFigures> figures;
-    private Gamer self;
-    private Cli cli;
+    private final ArrayList<AssistantCardDeckFigures> figures;
+    private final Gamer self;
+    private final Cli cli;
     private boolean killed;
     private boolean readyToProceed = false;
     

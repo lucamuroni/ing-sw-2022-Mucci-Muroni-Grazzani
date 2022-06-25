@@ -8,7 +8,7 @@ import it.polimi.ingsw.view.cli.Cli;
 public class EndGamePage implements Page {
     private final Cli cli;
     private boolean killed = false;
-    private Results results;
+    private final Results results;
 
     public EndGamePage(Cli cli, Results results){
         this.cli = cli;

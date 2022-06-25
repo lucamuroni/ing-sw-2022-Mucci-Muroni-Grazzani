@@ -14,9 +14,9 @@ import java.util.Scanner;
  * Class that represents the assistant card page
  */
 public class SelectAssistantCardPage implements Page {
-    private ArrayList<AssistantCard> cards;
-    private Game game;
-    private Cli cli;
+    private final ArrayList<AssistantCard> cards;
+    private final Game game;
+    private final Cli cli;
     private boolean killed;
     private boolean readyToProceed = false;
 

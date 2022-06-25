@@ -157,6 +157,33 @@ public class Game {
         return colors;
     }
 
+    public ArrayList<PawnColor> getWaitingColors(PawnColor col) {
+        ArrayList<PawnColor> colors = new ArrayList<>(List.of(PawnColor.values()));
+        for (PawnColor color : PawnColor.values()) {
+            int num = Math.toIntExact(this.self.getDashBoard().getWaitingRoom().stream().filter(x -> x.getColor().equals(color)).count());
+            if (num == 0) {
+                colors.remove(color);
+            } else {
+                num = Math.toIntExact(this.self.getDashBoard().getHall().stream().filter(x -> x.getColor().equals(color)).count());
+                if (num == 10 && !col.equals(color)) {
+                    colors.remove(color);
+                }
+            }
+        }
+        return colors;
+    }
+
+    public ArrayList<PawnColor> getHallColors() {
+        ArrayList<PawnColor> colors = new ArrayList<>(List.of(PawnColor.values()));
+        for (PawnColor color : PawnColor.values()) {
+            int num = Math.toIntExact(this.self.getDashBoard().getHall().stream().filter(x -> x.getColor().equals(color)).count());
+            if (num == 0) {
+                colors.remove(color);
+            }
+        }
+        return colors;
+    }
+
     public int getPossiblePlace() {
         int num = this.self.getDashBoard().getHall().size();
         if (num == 50)

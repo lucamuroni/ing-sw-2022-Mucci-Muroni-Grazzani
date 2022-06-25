@@ -249,8 +249,8 @@ public class Cli implements ViewHandler {
      * @return the chosen island
      */
     @Override
-    public Island chooseIsland(ArrayList<Island> islands) {
-        Page p = new MoveMotherNaturePage(this, game, islands);
+    public Island chooseIsland(ArrayList<Island> islands, boolean expert) {
+        Page p = new MoveMotherNaturePage(this, game, islands, expert);
         this.changePage(p);
         while (!p.isReadyToProceed()) {
             synchronized (this) {
@@ -261,6 +261,8 @@ public class Cli implements ViewHandler {
                 }
             }
         }
+        if (expert)
+            return this.game.getSelf().getSelectedisland();
         return this.game.getMotherNaturePosition();
     }
 
@@ -437,8 +439,32 @@ public class Cli implements ViewHandler {
 
     @Override
     public ArrayList<PawnColor> choseStudentsToMove() {
-        //TODO: page per chiedere colori studenti
-        return null;
+        Page p = new SelectColorsPage(this, this.game);
+        this.changePage(p);
+        while(!p.isReadyToProceed()){
+            synchronized (this){
+                try{
+                    this.wait(100);
+                }catch(InterruptedException e){
+                    this.controller.handleError("Could not wait for user to complete registration");
+                }
+            }
+        }
+        return this.game.getSelf().getSelectedColors();
     }
 
+    public PawnColor chooseColor(String name) {
+        Page p = new SelectColorPage(this, this.game, name);
+        this.changePage(p);
+        while(!p.isReadyToProceed()){
+            synchronized (this){
+                try{
+                    this.wait(100);
+                }catch(InterruptedException e){
+                    this.controller.handleError("Could not wait for user to complete registration");
+                }
+            }
+        }
+        return this.game.getSelf().getSelectedColor();
+    }
 }

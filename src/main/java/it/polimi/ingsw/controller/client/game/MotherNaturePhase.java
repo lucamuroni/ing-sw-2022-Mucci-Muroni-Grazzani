@@ -39,7 +39,7 @@ public class MotherNaturePhase implements GamePhase{
         } catch (AssetErrorException e) {
             this.controller.handleError("Doesn't found island");
         }
-        Island island = this.view.chooseIsland(islands);
+        Island island = this.view.chooseIsland(islands, false);
         try {
             try {
                 this.network.sendIsland(island);

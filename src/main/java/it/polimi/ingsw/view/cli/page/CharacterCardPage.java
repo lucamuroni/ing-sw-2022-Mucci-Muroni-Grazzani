@@ -9,7 +9,6 @@ import it.polimi.ingsw.view.cli.Menù;
 import java.util.ArrayList;
 
 public class CharacterCardPage implements Page {
-
     private final Cli cli;
     private final ArrayList<CharacterCard> cards;
     private final Game game;

@@ -1,39 +1,44 @@
 package it.polimi.ingsw.view.cli.page;
 
+import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.view.Page;
-import it.polimi.ingsw.view.asset.game.Cloud;
 import it.polimi.ingsw.view.asset.game.Game;
-import it.polimi.ingsw.view.cli.AnsiColor;
 import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.Menù;
 
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.List;
 
-public class SelectCloudPage implements Page {
-    private final ArrayList<Cloud> clouds;
-    private final Game game;
-    private final Cli cli;
+public class SelectColorPage implements Page {
     private boolean killed;
     private boolean readyToProceed = false;
+    private final Cli cli;
+    private final Game game;
+    private final String name;
 
-    public SelectCloudPage(Cli cli, Game game, ArrayList<Cloud> clouds) {
+    public SelectColorPage(Cli cli, Game game, String name) {
         this.cli = cli;
         this.game = game;
-        this.clouds = clouds;
-        killed = false;
+        this.name = name;
+        this.killed = false;
     }
+
 
     @Override
     public void handle() throws UndoException {
+        ArrayList<PawnColor> colors = new ArrayList<>(List.of(PawnColor.values()));
+        if (name.equals("Merchant")) {
+            this.cli.drawArchipelago();
+        }
+        this.cli.drawDashboard();
         ArrayList<String> options = new ArrayList<>();
-        for(Cloud cloud : this.clouds){
-                options.add("Cloud " + cloud.getId());
+        for (PawnColor color : colors) {
+            options.add(color.name());
         }
         Menù menù = new Menù(options);
-        this.cli.drawClouds();
-        menù.setContext("Which cloud do you want to choose?");
+        menù.setContext("Choose a color: ");
         int choice = this.cli.readInt(options.size(), menù, false);
+        PawnColor color = colors.get(choice-1);
         options.clear();
         options.add("y");
         options.add("n");
@@ -41,18 +46,17 @@ public class SelectCloudPage implements Page {
         if(input.equals("n")){
             throw new UndoException();
         }
-        //cli.clearConsole();
-        game.setChosenCloud(clouds.get(choice-1));
+        this.game.getSelf().setSelectedColor(color);
         this.setReadyToProcede();
     }
 
     @Override
     public boolean isReadyToProceed() {
-        if(!this.readyToProceed){
-            return false;
-        }else {
-            this.readyToProceed = false;
+        if(readyToProceed){
+            readyToProceed = false;
             return true;
+        }else{
+            return false;
         }
     }
 

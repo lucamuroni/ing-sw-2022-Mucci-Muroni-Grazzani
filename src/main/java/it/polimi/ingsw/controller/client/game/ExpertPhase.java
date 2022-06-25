@@ -66,7 +66,7 @@ public class ExpertPhase implements GamePhase{
             }
             switch (this.game.getSelf().getCurrentExpertCardSelection()) {
                 case AMBASSADOR -> {
-                    Island island = this.view.chooseIsland(this.game.getIslands());
+                    Island island = this.view.chooseIsland(this.game.getIslands(), true);
                     //int ind = island.getId();
                     int ind = this.game.getIslands().indexOf(island) + 1;
                     try {
@@ -92,8 +92,7 @@ public class ExpertPhase implements GamePhase{
                     }
                 }
                 case MERCHANT, THIEF -> {
-                    Student student = this.view.chooseStudentToMove();
-                    PawnColor color = student.getColor();
+                    PawnColor color = this.view.chooseColor(this.game.getSelf().getCurrentExpertCardSelection().getName());
                     try {
                         try {
                             this.network.sendColor(color);

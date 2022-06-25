@@ -15,8 +15,8 @@ import java.util.ArrayList;
 public class MoveStudentPage implements Page {
     private boolean killed;
     private boolean readyToProceed = false;
-    private Cli cli;
-    private Game assetGame;
+    private final Cli cli;
+    private final Game assetGame;
 
     /**
      * Class constructor

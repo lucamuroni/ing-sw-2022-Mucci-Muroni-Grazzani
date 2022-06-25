@@ -11,10 +11,12 @@ public class ExpertGameSelectionPage implements Page {
     private final Cli cli;
     private boolean response;
     private boolean readyToProcede;
+    private boolean killed;
 
     public ExpertGameSelectionPage(Cli cli){
         this.cli = cli;
         this.readyToProcede = false;
+        this.killed = false;
     }
     @Override
     public void handle() throws UndoException {
@@ -37,7 +39,7 @@ public class ExpertGameSelectionPage implements Page {
 
     @Override
     public void kill() {
-
+        this.killed = true;
     }
 
     public boolean getAnswer(){

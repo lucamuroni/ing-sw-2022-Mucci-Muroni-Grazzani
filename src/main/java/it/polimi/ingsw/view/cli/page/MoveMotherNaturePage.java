@@ -9,18 +9,19 @@ import it.polimi.ingsw.view.cli.Menù;
 import java.util.ArrayList;
 
 public class MoveMotherNaturePage implements Page {
-    private Menù menù;
-    private Game game;
-    private Cli cli;
-    private ArrayList<Island> islands;
+    private final Game game;
+    private final Cli cli;
+    private final ArrayList<Island> islands;
     private boolean readyToProceed = false;
     private boolean killed;
+    private final boolean expert;
 
-    public MoveMotherNaturePage(Cli cli, Game game, ArrayList<Island> islands) {
+    public MoveMotherNaturePage(Cli cli, Game game, ArrayList<Island> islands, boolean expert) {
         this.cli = cli;
         this.game = game;
         this.killed = false;
         this.islands = islands;
+        this.expert = expert;
     }
 
     @Override
@@ -42,7 +43,10 @@ public class MoveMotherNaturePage implements Page {
             throw new UndoException();
         }
         //cli.clearConsole();
-        game.setMotherNaturePosition(this.islands.get(choice-1));
+        if (expert)
+            game.getSelf().setSelectedisland(this.islands.get(choice-1));
+        else
+            game.setMotherNaturePosition(this.islands.get(choice-1));
         this.setReadyToProcede();
     }
 
