@@ -46,6 +46,7 @@ public class MotherNaturePhase implements GamePhase{
         } catch (ModelErrorException e) {
             this.controller.shutdown("Error while getting current player");
         }
+        this.view.setCurrentPlayer(current);
         try {
             try {
                 this.view.sendContext(CONTEXT_PHASE.getFragment());

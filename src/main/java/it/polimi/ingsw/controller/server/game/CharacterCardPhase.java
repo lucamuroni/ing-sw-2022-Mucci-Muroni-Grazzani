@@ -12,6 +12,7 @@ import it.polimi.ingsw.model.expert.CharacterCard;
 import it.polimi.ingsw.model.game.ExpertGame;
 import it.polimi.ingsw.model.gamer.ExpertGamer;
 import it.polimi.ingsw.model.gamer.Gamer;
+import it.polimi.ingsw.model.pawn.PawnColor;
 
 import java.util.ArrayList;
 
@@ -30,105 +31,109 @@ public class CharacterCardPhase implements GamePhase{
     }
 
     public void handle() {
-        Player player;
-        try {
-            player = this.controller.getPlayer(this.game.getCurrentPlayer());
-        } catch (ModelErrorException e) {
-            throw new RuntimeException(e);
-        }
-        this.view.setCurrentPlayer(player);
-        try {
-            try{
-                this.view.sendContext(CONTEXT_PHASE.getFragment());
-                this.view.sendNewPhase(Phase.CHARACTER_PHASE);
-            }catch (MalformedMessageException | FlowErrorException e){
-                this.view.sendContext(CONTEXT_PHASE.getFragment());
-                this.view.sendNewPhase(Phase.CHARACTER_PHASE);
-            }
-        }catch (MalformedMessageException | FlowErrorException |
-                ClientDisconnectedException e) {
-            this.controller.handlePlayerError(player,"Error while sending CHARACTERCARD PHASE");
-        }
-        boolean doPhase = false;
-        try {
-            try {
-                doPhase = this.view.getAnswer();
-            } catch (MalformedMessageException e) {
-                doPhase = this.view.getAnswer();
-            }
-        } catch (MalformedMessageException | ClientDisconnectedException e) {
-            this.controller.handlePlayerError(player,"Error while getting answer");
-        }
-        if (doPhase) {
-            CharacterCard card = this.getChosenCharacterCard(game.getCurrentPlayer(), player);
-            this.game.getDeck().playCard(card,this.game);
-            ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
-            players.remove(player);
-            Gamer currentPlayer = null;
-            try {
-                currentPlayer = player.getGamer(this.game.getGamers());
-            } catch (ModelErrorException e) {
-                this.controller.shutdown("Error founded in model : shutting down this game");
-            }
-            for (Player player1 : players){
-                this.updateChosenCharacterCard(player1, currentPlayer, card);
-            }
-            for (Player player1 : this.controller.getPlayers()) {
-                this.view.setCurrentPlayer(player1);
-                for (Island island : this.game.getIslands()) {
-                    try {
-                        try {
-                            this.view.sendContext(CONTEXT_ISLAND.getFragment());
-                            this.view.updateIslandStatus(island);
-                        } catch (MalformedMessageException e) {
-                            this.view.sendContext(CONTEXT_ISLAND.getFragment());
-                            this.view.updateIslandStatus(island);
-                        }
-                    } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
-                        this.controller.handlePlayerError(player1, "Error while updating islands");
-                    }
-                }
-                for (Gamer gamer : this.game.getGamers()) {
-                    try {
-                        try {
-                            this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
-                            this.view.updateDashboards(gamer, game);
-                        } catch (MalformedMessageException e) {
-                            this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
-                            this.view.updateDashboards(gamer, game);
-                        }
-                    } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
-                        this.controller.handlePlayerError(player1, "Error while updating dashboards");
-                    }
-                }
-            }
-            Player current = null;
-            try {
-                current = this.controller.getPlayer(this.game.getCurrentPlayer());
-            } catch (ModelErrorException e) {
-                throw new RuntimeException(e);
-            }
-            this.view.setCurrentPlayer(current);
-            try {
-                try {
-                    this.view.sendCoins(this.game.getCurrentPlayer().getDashboard().getCoins());
-                } catch (MalformedMessageException e) {
-                    this.view.sendCoins(this.game.getCurrentPlayer().getDashboard().getCoins());
-                }
-            } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
-                this.controller.handlePlayerError(current, "Error while sending coins");
-            }
-        }
-    }
-
-    private CharacterCard getChosenCharacterCard(ExpertGamer gamer, Player player) {
-        CharacterCard card = null;
-        int coins = gamer.getDashboard().getCoins();
+        int coins = this.game.getCurrentPlayer().getDashboard().getCoins();
         ArrayList<CharacterCard> cards = new ArrayList<>();
         for (CharacterCard card1 : game.getGameCards()) {
             if (card1.getMoneyCost() <= coins)
                 cards.add(card1);
         }
+        this.check(cards);
+        System.out.println(cards.size());
+        if (!cards.isEmpty()) {
+            Player player;
+            try {
+                player = this.controller.getPlayer(this.game.getCurrentPlayer());
+            } catch (ModelErrorException e) {
+                throw new RuntimeException(e);
+            }
+            this.view.setCurrentPlayer(player);
+            try {
+                try{
+                    this.view.sendContext(CONTEXT_PHASE.getFragment());
+                    this.view.sendNewPhase(Phase.CHARACTER_PHASE);
+                }catch (MalformedMessageException | FlowErrorException e){
+                    this.view.sendContext(CONTEXT_PHASE.getFragment());
+                    this.view.sendNewPhase(Phase.CHARACTER_PHASE);
+                }
+            }catch (MalformedMessageException | FlowErrorException |
+                    ClientDisconnectedException e) {
+                this.controller.handlePlayerError(player,"Error while sending CHARACTERCARD PHASE");
+            }
+            boolean doPhase = false;
+            try {
+                try {
+                    doPhase = this.view.getAnswer();
+                } catch (MalformedMessageException e) {
+                    doPhase = this.view.getAnswer();
+                }
+            } catch (MalformedMessageException | ClientDisconnectedException e) {
+                this.controller.handlePlayerError(player,"Error while getting answer");
+            }
+            if (doPhase) {
+                CharacterCard card = this.getChosenCharacterCard(cards, player);
+                this.game.getDeck().playCard(card,this.game);
+                ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
+                players.remove(player);
+                Gamer currentPlayer = null;
+                try {
+                    currentPlayer = player.getGamer(this.game.getGamers());
+                } catch (ModelErrorException e) {
+                    this.controller.shutdown("Error founded in model : shutting down this game");
+                }
+                for (Player player1 : players){
+                    this.updateChosenCharacterCard(player1, currentPlayer, card);
+                }
+                for (Player player1 : this.controller.getPlayers()) {
+                    this.view.setCurrentPlayer(player1);
+                    for (Island island : this.game.getIslands()) {
+                        try {
+                            try {
+                                this.view.sendContext(CONTEXT_ISLAND.getFragment());
+                                this.view.updateIslandStatus(island);
+                            } catch (MalformedMessageException e) {
+                                this.view.sendContext(CONTEXT_ISLAND.getFragment());
+                                this.view.updateIslandStatus(island);
+                            }
+                        } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                            this.controller.handlePlayerError(player1, "Error while updating islands");
+                        }
+                    }
+                    for (Gamer gamer : this.game.getGamers()) {
+                        try {
+                            try {
+                                this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
+                                this.view.updateDashboards(gamer, game);
+                            } catch (MalformedMessageException e) {
+                                this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
+                                this.view.updateDashboards(gamer, game);
+                            }
+                        } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                            this.controller.handlePlayerError(player1, "Error while updating dashboards");
+                        }
+                    }
+                }
+                Player current;
+                try {
+                    current = this.controller.getPlayer(this.game.getCurrentPlayer());
+                } catch (ModelErrorException e) {
+                    throw new RuntimeException(e);
+                }
+                this.view.setCurrentPlayer(current);
+                try {
+                    try {
+                        this.view.sendCoins(this.game.getCurrentPlayer().getDashboard().getCoins());
+                    } catch (MalformedMessageException e) {
+                        this.view.sendCoins(this.game.getCurrentPlayer().getDashboard().getCoins());
+                    }
+                } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                    this.controller.handlePlayerError(current, "Error while sending coins");
+                }
+            }
+        }
+    }
+
+    private CharacterCard getChosenCharacterCard(ArrayList<CharacterCard> cards, Player player) {
+        CharacterCard card = null;
         try{
             try{
                 card = this.view.getChosenCharacterCard(game, cards);
@@ -155,6 +160,17 @@ public class CharacterCardPhase implements GamePhase{
             }
         }catch (FlowErrorException | MalformedMessageException | ClientDisconnectedException e){
             this.controller.handlePlayerError(player, "Error while updating chosen card deck figure");
+        }
+    }
+
+    private void check(ArrayList<CharacterCard> cards) {
+        for (CharacterCard card : cards) {
+            if (card == CharacterCard.BARD) {
+                int num = this.game.getCurrentPlayer().getDashboard().getHall().size();
+                if (num == 0)
+                    cards.remove(card);
+                break;
+            }
         }
     }
 
