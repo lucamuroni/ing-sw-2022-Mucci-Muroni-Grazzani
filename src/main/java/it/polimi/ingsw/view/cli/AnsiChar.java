@@ -11,8 +11,8 @@ public enum AnsiChar {
     MISSING_PAWN("♙"),
     MOTHER_NATURE("\uD83D\uDCA9"),
     MISSING_WIZARD("♕"),
-    WIZARD("♛");
-
+    WIZARD("♛"),
+    MONEY("\uD83D\uDCB0");
 // 💩
     private final String ansiText;
 

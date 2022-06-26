@@ -19,7 +19,6 @@ public class Bard extends CharacterCardInterface{
 
     @Override
     public void handle() {
-        //TODO fix del bardo
         ExpertGamer gamer = this.getGame().getCurrentPlayer();
         for(int i = 0;i<colors.size();i= i+2){
             final Integer index = i;
