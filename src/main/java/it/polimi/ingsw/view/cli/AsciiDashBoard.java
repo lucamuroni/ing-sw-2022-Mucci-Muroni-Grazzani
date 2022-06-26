@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
+import it.polimi.ingsw.controller.networking.GameType;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.view.asset.game.DashBoard;
 
@@ -30,7 +31,7 @@ public class AsciiDashBoard {
         int num;
         switch (line){
             case 0:
-                System.out.print(" ____________________________________________________________________________");
+                System.out.print(" _____________________________________________________________________________");
                 break;
             case 1:
                 System.out.print("| Waiting Room | Hall                                  | Professors | Towers |");
@@ -144,7 +145,11 @@ public class AsciiDashBoard {
                     System.out.print(AnsiChar.MISSING_WIZARD.toString());
                 }
                 System.out.print("     ");
-                System.out.print("|        |");
+                if(cli.getController().getGame().getGameType().equals(GameType.EXPERT.getName()) && this.dashBoard.getUsername().equals(cli.getController().getGame().getSelf().getUsername())){
+                    System.out.print("|  "+AnsiChar.MONEY.toString()+"x"+cli.getController().getGame().getCoins()+"  |");
+                }else{
+                    System.out.print("|        |");
+                }
                 break;
             case 7:
                 System.out.print("|     "+AnsiColor.GREEN.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x");

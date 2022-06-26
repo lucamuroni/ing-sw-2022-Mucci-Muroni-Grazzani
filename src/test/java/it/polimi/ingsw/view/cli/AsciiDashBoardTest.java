@@ -14,6 +14,6 @@ class AsciiDashBoardTest {
 
         AsciiDashBoard asciiDashBoard = new AsciiDashBoard(new Cli(),d);
         d.setUsername("bro");
-        asciiDashBoard.draw();
+        //asciiDashBoard.draw();
     }
 }

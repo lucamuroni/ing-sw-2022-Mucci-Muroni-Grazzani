@@ -11,5 +11,6 @@ public class Villager extends CharacterCardInterface {
     @Override
     public void handle() {
         this.getGame().setEqualProfessorFlag();
+        this.getGame().checkIslandOwner();
     }
 }
