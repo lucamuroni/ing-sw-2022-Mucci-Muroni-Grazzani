@@ -35,8 +35,8 @@ class ExpertDashboardTest {
         assertEquals(3, expertDashboard.getCoins());
         expertDashboard.setCoins(-2);
         assertEquals(1, expertDashboard.getCoins());
-        expertDashboard.setCoins(-1);
-        assertEquals(0, expertDashboard.getCoins());
+        expertDashboard.setCoins(-2);
+        assertEquals(-1, expertDashboard.getCoins());
     }
 
     @Test
