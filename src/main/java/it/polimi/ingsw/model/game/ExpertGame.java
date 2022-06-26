@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.gamer.ExpertGamer;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
+import org.ietf.jgss.GSSManager;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -17,9 +18,7 @@ import java.util.Random;
  * Class that represents an Expert Game
  */
 public class ExpertGame extends Game {
-    private final int coinBank;
-    private final ArrayList<ExpertGamer> expertGamers;
-    private ExpertGamer currentPlayer;
+    private int coinBank;
     private final CharacterCardDeck deck;
     private ArrayList<CharacterCard> gameCards;
     private boolean moreSteps;
@@ -29,14 +28,13 @@ public class ExpertGame extends Game {
      * Class constructor
      * @param expertGamers represents the gamers of the game
      */
-    public ExpertGame(ArrayList<ExpertGamer> expertGamers){
-        super(expertGamers.size());
+    public ExpertGame(ArrayList<Gamer> expertGamers){
+        super(expertGamers);
         this.coinBank = 20;
-        this.expertGamers = new ArrayList<>(expertGamers);
         this.deck = new CharacterCardDeck();
         this.moreSteps = false;
         this.villagerCard = false;
-        initiateGamersOrder();
+        //initiateGamersOrder();
         initDeck();
     }
 
@@ -53,16 +51,16 @@ public class ExpertGame extends Game {
         if(oldOwner==null){
             throw new Exception();
         }
-        else if(oldOwner.isEmpty() || oldOwner.equals(currentPlayer)) {
-            this.professors.stream().filter(x->x.getColor().equals(color)).findFirst().orElse(null).setOwner(currentPlayer);
-            return currentPlayer;
+        else if(oldOwner.isEmpty() || oldOwner.equals(this.getCurrentPlayer())) {
+            this.professors.stream().filter(x->x.getColor().equals(color)).findFirst().orElse(null).setOwner(this.getCurrentPlayer());
+            return this.getCurrentPlayer();
         }
         else {
             int oldInfluence = oldOwner.get().getDashboard().checkInfluence(color);
-            int currentInfluence = currentPlayer.getDashboard().checkInfluence(color);
+            int currentInfluence = this.getCurrentPlayer().getDashboard().checkInfluence(color);
             if (currentInfluence > oldInfluence || (villagerCard && currentInfluence >= oldInfluence)) {
-                this.professors.stream().filter(x->x.getColor().equals(color)).findFirst().orElse(null).setOwner(currentPlayer);
-                return currentPlayer;
+                this.professors.stream().filter(x->x.getColor().equals(color)).findFirst().orElse(null).setOwner(this.getCurrentPlayer());
+                return this.getCurrentPlayer();
             }else{
                 return oldOwner.get();
             }
@@ -81,20 +79,20 @@ public class ExpertGame extends Game {
     /**
      * Method that decides a new order for the players
      */
-    private void initiateGamersOrder() {
+    /*private void initiateGamersOrder() {
         ArrayList<ExpertGamer> players = new ArrayList<>(this.expertGamers);
         this.expertGamers.clear();
         Random rand = new Random();
-        this.currentPlayer = players.get(rand.nextInt(players.size()));
-        this.expertGamers.add(currentPlayer);
-        players.remove(currentPlayer);
+        this.this.getCurrentPlayer() = players.get(rand.nextInt(players.size()));
+        this.expertGamers.add(this.getCurrentPlayer());
+        players.remove(this.getCurrentPlayer());
         int size = players.size();
         for (int i = 0;i<size;i++) {
             ExpertGamer player = players.get(rand.nextInt(players.size()));
             this.expertGamers.add(player);
             players.remove(player);
         }
-    }
+    }*/
 
     /**
      * Method that returns the coin bank
@@ -108,9 +106,14 @@ public class ExpertGame extends Game {
      * Method that returns the gamers
      * @return the gamers in the game
      */
-    @Override
-    public ArrayList<Gamer> getGamers() {
-        return new ArrayList<>(this.expertGamers);
+
+    public ArrayList<ExpertGamer> getExpertGamers() {
+        ArrayList<Gamer> gamers = this.getGamers();
+        ArrayList<ExpertGamer> expertGamers = new ArrayList<>();
+        for(Gamer gamer : gamers){
+            expertGamers.add((ExpertGamer) gamer);
+        }
+        return expertGamers;
     }
 
     /**
@@ -119,7 +122,8 @@ public class ExpertGame extends Game {
      */
     @Override
     public ExpertGamer getCurrentPlayer() {
-        return this.currentPlayer;
+        Gamer gamer = super.getCurrentPlayer();
+        return (ExpertGamer) gamer;
     }
 
     /**

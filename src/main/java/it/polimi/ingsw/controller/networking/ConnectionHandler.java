@@ -98,10 +98,14 @@ class ConnectionHandler {
      * @throws ClientDisconnectedException if a disconnection is revealed
      */
     public String getInputMessage() throws ClientDisconnectedException {
-        boolean isInputEmpty = true;
-        while(isInputEmpty){
+        String result;
+        while(true){
             synchronized (this.inputMessages){
-                isInputEmpty = this.inputMessages.isEmpty();
+                if(!this.inputMessages.isEmpty()){
+                    result = this.inputMessages.get(0);
+                    this.inputMessages.remove(0);
+                    return result;
+                }
                 try {
                     this.inputMessages.wait(100);
                 } catch (InterruptedException e) {}
@@ -110,12 +114,6 @@ class ConnectionHandler {
                 throw new ClientDisconnectedException("Found disconnection");
             }
         }
-        String s;
-        synchronized (this.inputMessages){
-            s = this.inputMessages.get(0);
-            this.inputMessages.remove(0);
-        }
-        return s;
     }
 
     /**

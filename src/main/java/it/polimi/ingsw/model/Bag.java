@@ -37,12 +37,10 @@ public class Bag {
         Random randomIndexGen = new Random();
         int selectedIndex;
         for(int i = 0; i<number;i++){
-            try{
+            if(students.size()>0){
                 selectedIndex = randomIndexGen.nextInt(students.size());
                 results.add(this.students.get(selectedIndex));
                 students.remove(selectedIndex);
-            }catch (java.lang.IllegalArgumentException e){
-                e.printStackTrace();
             }
         }
         return results;
