@@ -83,6 +83,22 @@ public class CharacterCardPhase implements GamePhase{
                 for (Player player1 : players){
                     this.updateChosenCharacterCard(player1, currentPlayer, card);
                 }
+                Player current;
+                try {
+                    current = this.controller.getPlayer(this.game.getCurrentPlayer());
+                } catch (ModelErrorException e) {
+                    throw new RuntimeException(e);
+                }
+                this.view.setCurrentPlayer(current);
+                try {
+                    try {
+                        this.view.sendCoins(this.game.getCurrentPlayer().getDashboard().getCoins());
+                    } catch (MalformedMessageException e) {
+                        this.view.sendCoins(this.game.getCurrentPlayer().getDashboard().getCoins());
+                    }
+                } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                    this.controller.handlePlayerError(current, "Error while sending coins");
+                }
                 for (Player player1 : this.controller.getPlayers()) {
                     this.view.setCurrentPlayer(player1);
                     for (Island island : this.game.getIslands()) {
@@ -111,22 +127,6 @@ public class CharacterCardPhase implements GamePhase{
                             this.controller.handlePlayerError(player1, "Error while updating dashboards");
                         }
                     }
-                }
-                Player current;
-                try {
-                    current = this.controller.getPlayer(this.game.getCurrentPlayer());
-                } catch (ModelErrorException e) {
-                    throw new RuntimeException(e);
-                }
-                this.view.setCurrentPlayer(current);
-                try {
-                    try {
-                        this.view.sendCoins(this.game.getCurrentPlayer().getDashboard().getCoins());
-                    } catch (MalformedMessageException e) {
-                        this.view.sendCoins(this.game.getCurrentPlayer().getDashboard().getCoins());
-                    }
-                } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
-                    this.controller.handlePlayerError(current, "Error while sending coins");
                 }
             }
         }
