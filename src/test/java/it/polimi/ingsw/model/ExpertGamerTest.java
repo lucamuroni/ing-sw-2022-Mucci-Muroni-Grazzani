@@ -45,13 +45,13 @@ class ExpertGamerTest {
         ArrayList<Student> students = new ArrayList<Student>(bag.pullStudents(1));
         expertGamer.initGamer(students, 6);
         assertTrue(expertGamer.getDashboard() instanceof ExpertDashboard);
-        assertEquals(expertGamer.getDashboard().getCoins(), 0);
+        assertEquals(expertGamer.getDashboard().getCoins(), 1);
         expertGamer.getDashboard().setCoins(2);
-        assertEquals(expertGamer.getDashboard().getCoins(), 2);
+        assertEquals(expertGamer.getDashboard().getCoins(), 3);
         expertGamer.getDashboard().moveStudent(new Student(PawnColor.BLUE));
-        expertGamer.getDashboard().moveStudent(new Student(PawnColor.BLUE));
-        assertEquals(expertGamer.getDashboard().getCoins(), 2);
         expertGamer.getDashboard().moveStudent(new Student(PawnColor.BLUE));
         assertEquals(expertGamer.getDashboard().getCoins(), 3);
+        expertGamer.getDashboard().moveStudent(new Student(PawnColor.BLUE));
+        assertEquals(expertGamer.getDashboard().getCoins(), 4);
     }
 }
