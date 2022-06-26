@@ -61,6 +61,8 @@ class ExpertGamerTest {
         gamers.add(gamer1);
         gamers.add(gamer2);
         ExpertGame game = new ExpertGame(gamers);
+        gamer1.getDashboard().setGame(game);
+        gamer2.getDashboard().setGame(game);
         assertEquals(1,gamer1.getDashboard().getCoins());
         gamer1.getDashboard().moveStudent(new Student(PawnColor.RED));
         gamer1.getDashboard().moveStudent(new Student(PawnColor.RED));
