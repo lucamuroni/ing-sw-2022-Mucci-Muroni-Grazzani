@@ -78,14 +78,12 @@ public class CharacterCardDeck {
     }
 
     public void initDeck() {
-        ArrayList<CharacterCard> playableCards = new ArrayList<>();
-        for (int i = 0; i<3; i++) {
+        //ArrayList<CharacterCard> playableCards = new ArrayList<>();
+        for (int i = 0; i<5; i++) {
             Random random = new Random();
             int rand = random.nextInt(0, this.cards.size());
-            playableCards.add(this.cards.get(rand));
+            this.cards.remove(this.cards.get(rand));
         }
-        this.cards.clear();
-        this.cards.addAll(playableCards);
     }
 
     public ArrayList<CharacterCard> getCards() {

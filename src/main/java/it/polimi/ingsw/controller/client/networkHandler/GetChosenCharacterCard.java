@@ -36,9 +36,10 @@ public class GetChosenCharacterCard {
         this.messageHandler.writeOut();
         Gamer current = null;
         for (Gamer gamer : this.game.getGamers()) {
-            if (gamer.getUsername().equals(this.game.getCurrentPlayer()))
+            if (gamer.getUsername().equals(this.game.getCurrentPlayer())) {
                 current = gamer;
-            break;
+                break;
+            }
         }
         if (current == null)
             throw new AssetErrorException();
