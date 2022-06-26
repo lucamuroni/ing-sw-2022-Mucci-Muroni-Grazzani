@@ -30,9 +30,9 @@ public class GameController extends Thread{
         this.players = new ArrayList<>(players);
         this.gameType = gameType;
         if(gameType == GameType.NORMAL){
-            this.game = new Game(createNormalGamers(players));
+            this.game = new Game(createGamers(players));
         }else{
-            this.game = new ExpertGame(createNormalGamers(players));
+            this.game = new ExpertGame(createGamers(players));
         }
         this.view = new VirtualViewHandler();
         this.isGameNotEnded = true;
@@ -40,7 +40,7 @@ public class GameController extends Thread{
         this.cardDesks.addAll(Arrays.asList(AssistantCardDeckFigures.values()));
     }
 
-    private ArrayList<Gamer> createNormalGamers(ArrayList<Player> players){
+    private ArrayList<Gamer> createGamers(ArrayList<Player> players){
         ArrayList<TowerColor> colors = new ArrayList<TowerColor>();
         colors.addAll(Arrays.asList(TowerColor.values()));
         ArrayList<Gamer> gamers = new ArrayList<Gamer>();
@@ -56,18 +56,6 @@ public class GameController extends Thread{
         }
         return gamers;
     }
-
-    /*private ArrayList<ExpertGamer> createExpertGamers(ArrayList<Player> players){
-        ArrayList<TowerColor> colors = new ArrayList<TowerColor>();
-        colors.addAll(Arrays.asList(TowerColor.values()));
-        ArrayList<ExpertGamer> gamers = new ArrayList<ExpertGamer>();
-        for(Player player : players){
-            ExpertGamer gamer = new ExpertGamer(player.getToken(), player.getUsername(), colors.get(0));
-            gamers.add(gamer);
-            colors.remove(0);
-        }
-        return gamers;
-    }*/
 
     @Override
     public void run() {
