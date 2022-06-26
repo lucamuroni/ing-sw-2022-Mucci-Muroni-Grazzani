@@ -60,6 +60,10 @@ public class GameSetup implements GamePhase{
                 this.controller.shutdown("Error founded in model : shutting down this game");
             }
         }
+        if(controller.getGameType()==GameType.EXPERT){
+            ExpertGame game = (ExpertGame) this.game;
+            game.initiateExpertDashboards();
+        }
         ArrayList<Player> pl = new ArrayList<>(this.controller.getPlayers());
         for (Player player : this.controller.getPlayers()) {
             this.view.setCurrentPlayer(player);
