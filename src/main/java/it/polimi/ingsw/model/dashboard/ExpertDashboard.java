@@ -19,7 +19,7 @@ public class ExpertDashboard extends Dashboard{
      */
     public ExpertDashboard(ArrayList<Student> students, int numTowers){
         super(students, numTowers);
-        this.coins = 0;
+        this.coins = 1;
     }
 
     /**

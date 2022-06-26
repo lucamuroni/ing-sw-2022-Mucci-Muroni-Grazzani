@@ -106,6 +106,7 @@ public class ExpertGame extends Game {
      * Method that returns the gamers
      * @return the gamers in the game
      */
+
     public ArrayList<ExpertGamer> getExpertGamers() {
         ArrayList<Gamer> gamers = this.getGamers();
         ArrayList<ExpertGamer> expertGamers = new ArrayList<>();

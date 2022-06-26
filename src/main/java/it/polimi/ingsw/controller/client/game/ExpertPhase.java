@@ -43,7 +43,7 @@ public class ExpertPhase implements GamePhase{
         } catch (AssetErrorException e) {
             this.controller.handleError("Doesn't found character cards");
         }
-        System.out.println(cards.size());
+        //System.out.println(cards.size());
         CharacterCard card = this.view.choseCharacterCard(cards);
         try {
             try {
@@ -99,6 +99,7 @@ public class ExpertPhase implements GamePhase{
                 this.network.getCoins(game);
             } catch (MalformedMessageException e) {
                 this.network.getCoins(game);
+
             }
         } catch (MalformedMessageException | ClientDisconnectedException e) {
             this.controller.handleError();

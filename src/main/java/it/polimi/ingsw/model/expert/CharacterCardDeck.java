@@ -88,7 +88,7 @@ public class CharacterCardDeck {
         this.cards.addAll(playableCards);
     }
 
-    public ArrayList<CharacterCard> getCards(){
+    public ArrayList<CharacterCard> getCards() {
         return this.cards;
     }
 }

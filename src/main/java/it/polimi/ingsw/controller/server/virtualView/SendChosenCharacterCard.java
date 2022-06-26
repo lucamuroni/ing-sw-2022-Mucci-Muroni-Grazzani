@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 public class SendChosenCharacterCard {
-    private ExpertGamer gamer;
-    private CharacterCard card;
-    private MessageHandler messageHandler;
+    private final ExpertGamer gamer;
+    private final CharacterCard card;
+    private final MessageHandler messageHandler;
 
     public SendChosenCharacterCard(CharacterCard card, ExpertGamer gamer, MessageHandler messageHandler) {
         this.gamer = gamer;
@@ -26,7 +26,7 @@ public class SendChosenCharacterCard {
     public void handle() throws MalformedMessageException, ClientDisconnectedException, FlowErrorException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
         ArrayList<Message> messages = new ArrayList<>();
-        messages.add(new Message(PLAYER_ID.getFragment(), String.valueOf(this.gamer.getToken()), topicId));
+        //messages.add(new Message(PLAYER_ID.getFragment(), String.valueOf(this.gamer.getToken()), topicId));
         messages.add(new Message(CHARACTER_CARD.getFragment(), this.card.getName(), topicId));
         this.messageHandler.write(messages);
         this.messageHandler.writeOutAndWait();

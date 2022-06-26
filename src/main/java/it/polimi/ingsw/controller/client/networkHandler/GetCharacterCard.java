@@ -28,6 +28,7 @@ public class GetCharacterCard {
             if (card.getName().equals(name)) {
                 this.game.addCard(card);
                 check = true;
+                break;
             }
         }
         if (!check)
