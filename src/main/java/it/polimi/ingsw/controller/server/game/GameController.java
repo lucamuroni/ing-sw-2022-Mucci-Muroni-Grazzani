@@ -32,7 +32,7 @@ public class GameController extends Thread{
         if(gameType == GameType.NORMAL){
             this.game = new Game(createNormalGamers(players));
         }else{
-            this.game = new ExpertGame(createExpertGamers(players));
+            this.game = new ExpertGame(createNormalGamers(players));
         }
         this.view = new VirtualViewHandler();
         this.isGameNotEnded = true;
@@ -45,14 +45,19 @@ public class GameController extends Thread{
         colors.addAll(Arrays.asList(TowerColor.values()));
         ArrayList<Gamer> gamers = new ArrayList<Gamer>();
         for(Player player : players){
-            Gamer gamer = new Gamer(player.getToken(), player.getUsername(), colors.get(0));
+            Gamer gamer;
+            if(this.gameType == GameType.NORMAL){
+                gamer = new Gamer(player.getToken(), player.getUsername(), colors.get(0));
+            }else {
+                gamer = new ExpertGamer(player.getToken(),player.getUsername(),colors.get(0));
+            }
             gamers.add(gamer);
             colors.remove(0);
         }
         return gamers;
     }
 
-    private ArrayList<ExpertGamer> createExpertGamers(ArrayList<Player> players){
+    /*private ArrayList<ExpertGamer> createExpertGamers(ArrayList<Player> players){
         ArrayList<TowerColor> colors = new ArrayList<TowerColor>();
         colors.addAll(Arrays.asList(TowerColor.values()));
         ArrayList<ExpertGamer> gamers = new ArrayList<ExpertGamer>();
@@ -62,7 +67,7 @@ public class GameController extends Thread{
             colors.remove(0);
         }
         return gamers;
-    }
+    }*/
 
     @Override
     public void run() {
