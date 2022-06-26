@@ -30,20 +30,24 @@ public class ExpertGame extends Game {
     public ExpertGame(ArrayList<Gamer> expertGamers){
         //TODO fix gestione banca monete
         super(expertGamers);
-        this.coinBank = 20;
+        if(this.getGamers().size()==2){
+            this.coinBank = 18;
+        }else{
+            this.coinBank = 17;
+        }
         this.deck = new CharacterCardDeck();
         this.moreSteps = false;
         this.villagerCard = false;
-        //initiateGamersOrder();
-        initDeck();
+        this.deck.initDeck();
+        this.initiateExpertDashboards();
     }
 
-    /**
-     * Method that creates a new deck for the game
-     */
-    private void initDeck() {
-        this.deck.initDeck();
+    private void initiateExpertDashboards(){
+        for(ExpertGamer gamer : this.getExpertGamers()){
+            gamer.getDashboard().setGame(this);
+        }
     }
+
 
     @Override
     public Gamer changeProfessorOwner(PawnColor color) throws Exception {
@@ -77,29 +81,15 @@ public class ExpertGame extends Game {
     }
 
     /**
-     * Method that decides a new order for the players
-     */
-    /*private void initiateGamersOrder() {
-        ArrayList<ExpertGamer> players = new ArrayList<>(this.expertGamers);
-        this.expertGamers.clear();
-        Random rand = new Random();
-        this.this.getCurrentPlayer() = players.get(rand.nextInt(players.size()));
-        this.expertGamers.add(this.getCurrentPlayer());
-        players.remove(this.getCurrentPlayer());
-        int size = players.size();
-        for (int i = 0;i<size;i++) {
-            ExpertGamer player = players.get(rand.nextInt(players.size()));
-            this.expertGamers.add(player);
-            players.remove(player);
-        }
-    }*/
-
-    /**
      * Method that returns the coin bank
      * @return the coin bank of the game
      */
     public int getCoinBank() {
         return this.coinBank;
+    }
+
+    public void setCoinBank(int value){
+        this.coinBank += value;
     }
 
     /**

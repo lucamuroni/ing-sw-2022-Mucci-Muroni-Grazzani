@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.dashboard;
 
+import it.polimi.ingsw.model.game.ExpertGame;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
  */
 public class ExpertDashboard extends Dashboard{
     private int coins;
+    private ExpertGame game;
 
     /**
      * Class constructor
@@ -19,7 +21,7 @@ public class ExpertDashboard extends Dashboard{
      */
     public ExpertDashboard(ArrayList<Student> students, int numTowers){
         super(students, numTowers);
-        this.coins = 0;
+        this.coins = 1;
     }
 
     /**
@@ -57,12 +59,20 @@ public class ExpertDashboard extends Dashboard{
     private void checkCoins(Student student){
         int number = Math.toIntExact(hall.stream().filter(stud -> stud.getColor().equals(student.getColor())).count());
         if(number%3==0) {
-            setCoins(1);
+            if(this.game.getCoinBank()>0){
+                setCoins(1);
+                this.game.setCoinBank(-1);
+            }
+
         }
     }
 
     public void removeStudentFromHall(PawnColor color) {
         Student student = this.hall.stream().filter(x->x.getColor()==color).findFirst().orElse(null);
         this.hall.remove(student);
+    }
+
+    public void setGame(ExpertGame game){
+        this.game = game;
     }
 }
