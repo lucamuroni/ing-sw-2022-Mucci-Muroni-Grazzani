@@ -19,6 +19,9 @@ public class IdlePage implements Page {
     private final Cli cli;
     private final ArrayList<AsciiCloud> clouds;
     private final ArrayList<AsciiDashBoard> dashBoards;
+    private String popUp;
+    private boolean popUpSettled;
+    private final Object popUpLock = new Object();
 
     public IdlePage(Cli cli, AsciiArchipelago archipelago, ArrayList<AsciiCloud> clouds, ArrayList<AsciiDashBoard> dashBoards){
         this.cli = cli;
@@ -26,12 +29,15 @@ public class IdlePage implements Page {
         this.clouds = clouds;
         this.dashBoards = dashBoards;
         this.killed = false;
+        this.popUp = "";
+        this.popUpSettled = false;
     }
 
     @Override
     public void handle() throws UndoException {
         Thread t = new Thread(()->{
             int i = 0;
+            int popUpCounter = 0;
             while(!this.isKilled()){
                 if(i%5==0){
                     this.cli.clearConsole();
@@ -44,6 +50,13 @@ public class IdlePage implements Page {
                     this.cli.drawClouds();
                     System.out.print("\n");
                     this.cli.drawDashboard();
+                    System.out.print("\n");
+                    if(getPopUpPresence()){
+                        System.out.println("Event : "+this.popUp);
+                        if(i%60 == 0){
+                            setPopUpOff();
+                        }
+                    }
                 }
                 synchronized (this){
                     try {
@@ -72,6 +85,27 @@ public class IdlePage implements Page {
 
     private synchronized boolean isKilled(){
         return this.killed;
+    }
+
+    public void setPopUp(String event){
+        synchronized (popUpLock){
+            this.popUp = event;
+            this.popUpSettled = true;
+        }
+    }
+
+    private boolean getPopUpPresence(){
+        boolean result;
+        synchronized (popUpLock){
+            result = popUpSettled;
+        }
+        return result;
+    }
+
+    private void setPopUpOff(){
+        synchronized (popUpLock){
+            this.popUpSettled = false;
+        }
     }
 
 }

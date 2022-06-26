@@ -467,4 +467,10 @@ public class Cli implements ViewHandler {
         }
         return this.game.getSelf().getSelectedColor();
     }
+
+    @Override
+    public void popUp(String s) {
+        IdlePage page = (IdlePage) currentPage;
+        page.setPopUp(s);
+    }
 }
