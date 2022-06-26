@@ -19,9 +19,9 @@ class ExpertDashboardTest {
         students.add(new Student(PawnColor.PINK));
         students.add(new Student(PawnColor.RED));
         ExpertDashboard expertDashboard = new ExpertDashboard(students, towers);
-        assertEquals(0, expertDashboard.getCoins());
+        assertEquals(1, expertDashboard.getCoins());
         expertDashboard.setCoins(2);
-        assertEquals(2, expertDashboard.getCoins());
+        assertEquals(3, expertDashboard.getCoins());
     }
 
     @Test
@@ -32,11 +32,11 @@ class ExpertDashboardTest {
         students.add(new Student(PawnColor.RED));
         ExpertDashboard expertDashboard = new ExpertDashboard(students, towers);
         expertDashboard.setCoins(2);
-        assertEquals(2, expertDashboard.getCoins());
+        assertEquals(3, expertDashboard.getCoins());
         expertDashboard.setCoins(-2);
-        assertEquals(0, expertDashboard.getCoins());
+        assertEquals(1, expertDashboard.getCoins());
         expertDashboard.setCoins(-2);
-        assertEquals(-2, expertDashboard.getCoins());
+        assertEquals(-1, expertDashboard.getCoins());
     }
 
     @Test
@@ -49,8 +49,6 @@ class ExpertDashboardTest {
         expertDashboard.moveStudent(students.get(0));
         expertDashboard.moveStudent(students.get(1));
         expertDashboard.moveStudent(students.get(2));
-        assertEquals(0, expertDashboard.getCoins());
-        expertDashboard.moveStudent(students.get(3));
         assertEquals(1, expertDashboard.getCoins());
 
     }
