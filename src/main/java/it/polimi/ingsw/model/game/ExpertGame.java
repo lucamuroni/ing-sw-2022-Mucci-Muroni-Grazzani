@@ -39,10 +39,9 @@ public class ExpertGame extends Game {
         this.moreSteps = false;
         this.villagerCard = false;
         this.deck.initDeck();
-        this.initiateExpertDashboards();
     }
 
-    private void initiateExpertDashboards(){
+    public void initiateExpertDashboards(){
         for(ExpertGamer gamer : this.getExpertGamers()){
             gamer.getDashboard().setGame(this);
         }
