@@ -35,6 +35,7 @@ public class GetPossibleCharacters {
                 if (card.getName().equals(name)) {
                     cards.add(card);
                     check = true;
+                    break;
                 }
             }
             if (!check) {
