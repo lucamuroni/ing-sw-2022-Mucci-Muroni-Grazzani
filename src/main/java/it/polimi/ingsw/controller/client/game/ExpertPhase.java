@@ -32,16 +32,16 @@ public class ExpertPhase implements GamePhase{
     @Override
     public void handle() {
         boolean answer = this.view.askToPlayExpertCard();
-        if (answer) {
+        try {
             try {
-                try {
-                    this.network.sendAnswer(true);
-                } catch (MalformedMessageException e) {
-                    this.network.sendAnswer(true);
-                }
-            } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
-                this.controller.handleError();
+                this.network.sendAnswer(answer);
+            } catch (MalformedMessageException e) {
+                this.network.sendAnswer(answer);
             }
+        } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+            this.controller.handleError();
+        }
+        if (answer) {
             ArrayList<CharacterCard> cards = new ArrayList<>();
             try {
                 try {
