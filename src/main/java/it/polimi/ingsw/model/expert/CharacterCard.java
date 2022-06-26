@@ -1,14 +1,5 @@
 package it.polimi.ingsw.model.expert;
 
-import it.polimi.ingsw.model.Island;
-import it.polimi.ingsw.model.game.ExpertGame;
-import it.polimi.ingsw.model.gamer.ExpertGamer;
-import it.polimi.ingsw.model.gamer.Gamer;
-import it.polimi.ingsw.model.pawn.PawnColor;
-import it.polimi.ingsw.model.pawn.Student;
-
-import java.util.ArrayList;
-
 public enum CharacterCard {
     THIEF("Thief", 3, GamePhase.ALL),
     VILLAGER("Villager", 2, GamePhase.PROFESSORSINFLUENCE),

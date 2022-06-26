@@ -10,8 +10,8 @@ import java.util.Collections;
 import java.util.Random;
 
 public class CharacterCardDeck {
-    private ArrayList<CharacterCard> cards;
-    private ArrayList<Student> studentsParameters;
+    private final ArrayList<CharacterCard> cards;
+    private final ArrayList<Student> studentsParameters;
     private Island islandParameter;
 
 
@@ -69,7 +69,6 @@ public class CharacterCardDeck {
             }
             case POSTMAN -> {
                 choice = new Postman(CharacterCard.AMBASSADOR,game);
-
             }
             case THIEF -> {
                 ArrayList<PawnColor> colors = new ArrayList<>();
@@ -79,7 +78,6 @@ public class CharacterCardDeck {
                     }
                 }
                 choice = new Thief(CharacterCard.AMBASSADOR,game,colors.get(0));
-
             }
             case VILLAGER -> {
                  choice = new Villager(CharacterCard.AMBASSADOR,game);

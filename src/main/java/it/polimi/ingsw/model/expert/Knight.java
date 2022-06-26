@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.expert;
 import it.polimi.ingsw.model.game.ExpertGame;
 
 public class Knight extends CharacterCardInterface{
-
     public Knight(CharacterCard card, ExpertGame game) {
         super(card, game);
     }

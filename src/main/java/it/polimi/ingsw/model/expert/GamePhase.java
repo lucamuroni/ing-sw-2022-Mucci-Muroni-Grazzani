@@ -6,7 +6,7 @@ public enum GamePhase {
     ISLANDINFLUENCE(2),
     MOTHERNATURE(3);
 
-    private int value;
+    private final int value;
 
     private GamePhase(int value) {
         this.value = value;
