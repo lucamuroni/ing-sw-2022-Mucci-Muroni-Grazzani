@@ -145,7 +145,7 @@ public class AsciiDashBoard {
                     System.out.print(AnsiChar.MISSING_WIZARD.toString());
                 }
                 System.out.print("     ");
-                if(cli.getController().getGame().getGameType().equals(GameType.EXPERT.getName()) && this.dashBoard.getUsername().equals(cli.getController().getGame().getSelf().getUsername())){
+                if(cli.getController().getGame().getGameType().equals(GameType.EXPERT.getName()) && this.dashBoard.getUsername().equals("yours")){
                     System.out.print("|  "+AnsiChar.MONEY.toString()+"x"+cli.getController().getGame().getCoins()+"  |");
                 }else{
                     System.out.print("|        |");

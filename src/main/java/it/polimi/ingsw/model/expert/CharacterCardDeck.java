@@ -40,13 +40,13 @@ public class CharacterCardDeck {
                         colors.add(color);
                     }
                 }
-                choice = new Bard(CharacterCard.AMBASSADOR,game,colors);
+                choice = new Bard(CharacterCard.BARD,game,colors);
             }
             case CENTAUR -> {
-                choice = new Centaur(CharacterCard.AMBASSADOR,game);
+                choice = new Centaur(CharacterCard.CENTAUR,game);
             }
             case KNIGHT -> {
-                choice = new Knight(CharacterCard.AMBASSADOR,game);
+                choice = new Knight(CharacterCard.KNIGHT,game);
             }
             case MERCHANT -> {
                 ArrayList<PawnColor> colors = new ArrayList<>();
@@ -55,10 +55,10 @@ public class CharacterCardDeck {
                         colors.add(color);
                     }
                 }
-                choice = new Merchant(CharacterCard.AMBASSADOR,game,colors.get(0));
+                choice = new Merchant(CharacterCard.MERCHANT,game,colors.get(0));
             }
             case POSTMAN -> {
-                choice = new Postman(CharacterCard.AMBASSADOR,game);
+                choice = new Postman(CharacterCard.POSTMAN,game);
             }
             case THIEF -> {
                 ArrayList<PawnColor> colors = new ArrayList<>();
@@ -67,10 +67,10 @@ public class CharacterCardDeck {
                         colors.add(color);
                     }
                 }
-                choice = new Thief(CharacterCard.AMBASSADOR,game,colors.get(0));
+                choice = new Thief(CharacterCard.THIEF,game,colors.get(0));
             }
             case VILLAGER -> {
-                 choice = new Villager(CharacterCard.AMBASSADOR,game);
+                 choice = new Villager(CharacterCard.VILLAGER,game);
             }
         }
         choice.payCardCost();
