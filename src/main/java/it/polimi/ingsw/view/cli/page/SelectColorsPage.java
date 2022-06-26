@@ -55,7 +55,7 @@ public class SelectColorsPage implements Page {
             }
             colors.add(waitingColors.get(choice-1));
             colors.add(hallColor);
-            if (cont+1 == 2 ) {
+            if (cont+1 == 2 && (long) this.game.getSelf().getDashBoard().getHall().size() > 0) {
                 options.clear();
                 options.add("y");
                 options.add("n");

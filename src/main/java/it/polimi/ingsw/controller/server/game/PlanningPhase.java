@@ -74,6 +74,23 @@ public class PlanningPhase implements GamePhase{
             }
             alreadyPlayedCards.add(card);
         }
+        ArrayList<Player> pls = new ArrayList<>(this.controller.getPlayers());
+        for (Player player : pls) {
+            this.view.setCurrentPlayer(player);
+            try {
+                try {
+                    this.view.sendContext(CONTEXT_USERNAME.getFragment());
+                    this.view.sendActiveUsername(this.controller.getPlayer(this.game.getCurrentPlayer()));
+                } catch (MalformedMessageException | FlowErrorException e) {
+                    this.view.sendContext(CONTEXT_USERNAME.getFragment());
+                    this.view.sendActiveUsername(this.controller.getPlayer(this.game.getCurrentPlayer()));
+                }
+            } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                this.controller.handlePlayerError(player,"Error while uploading current player to other gamers");
+            } catch (ModelErrorException e) {
+                this.controller.shutdown("Error founded in model : shutting down this game");
+            }
+        }
     }
 
     /**

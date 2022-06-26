@@ -13,9 +13,9 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.PAYLOAD_SIZE;
 
 public class GetPossibleCharacters {
-    private MessageHandler messageHandler;
-    private Game game;
-    private ArrayList<CharacterCard> cards;
+    private final MessageHandler messageHandler;
+    private final Game game;
+    private final ArrayList<CharacterCard> cards;
 
     public GetPossibleCharacters(MessageHandler messageHandler, Game game) {
         this.messageHandler = messageHandler;
@@ -35,6 +35,7 @@ public class GetPossibleCharacters {
                 if (card.getName().equals(name)) {
                     cards.add(card);
                     check = true;
+                    break;
                 }
             }
             if (!check) {

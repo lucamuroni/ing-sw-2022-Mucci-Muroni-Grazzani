@@ -34,7 +34,7 @@ public class GameSetup implements GamePhase{
         this.game = game;
         this.controller = controller;
         this.view = this.controller.getView();
-        if(game.getGamers().size() == 2){
+        if(this.game.getGamers().size() == 2){
             this.numStudents = 7;
             this.numTowers = 8;
         }else{

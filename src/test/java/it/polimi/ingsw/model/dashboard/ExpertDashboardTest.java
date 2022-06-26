@@ -50,6 +50,5 @@ class ExpertDashboardTest {
         expertDashboard.moveStudent(students.get(1));
         expertDashboard.moveStudent(students.get(2));
         assertEquals(1, expertDashboard.getCoins());
-
     }
 }
