@@ -23,16 +23,16 @@ public class GetCharacterCard {
     public void handle() throws AssetErrorException, MalformedMessageException, ClientDisconnectedException {
         this.messageHandler.read();
         String name = this.messageHandler.getMessagePayloadFromStream(CHARACTER_CARD.getFragment());
-        boolean check;
+        boolean check = false;
         for (CharacterCard card : CharacterCard.values()) {
-            check = false;
             if (card.getName().equals(name)) {
                 this.game.addCard(card);
                 check = true;
+                break;
             }
-            if (!check)
-                throw new AssetErrorException();
         }
+        if (!check)
+            throw new AssetErrorException();
         Message message = new Message(CHARACTER_CARD.getFragment(), OK.getFragment(), this.messageHandler.getMessagesUniqueTopic());
         this.messageHandler.write(message);
         this.messageHandler.writeOut();

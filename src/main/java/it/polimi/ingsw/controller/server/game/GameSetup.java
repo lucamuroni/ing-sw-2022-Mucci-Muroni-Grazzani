@@ -34,7 +34,7 @@ public class GameSetup implements GamePhase{
         this.game = game;
         this.controller = controller;
         this.view = this.controller.getView();
-        if(game.getGamers().size() == 2){
+        if(this.game.getGamers().size() == 2){
             this.numStudents = 7;
             this.numTowers = 8;
         }else{
@@ -76,6 +76,7 @@ public class GameSetup implements GamePhase{
 
     private void sendCharacterCards(Player player) {
         for (CharacterCard card : ((ExpertGame) this.game).getGameCards()) {
+            System.out.println(card.getName());
             try {
                 try {
                     this.view.sendCharacterCard(card);

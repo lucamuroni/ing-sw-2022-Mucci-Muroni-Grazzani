@@ -129,6 +129,7 @@ public class CharacterCardPhase implements GamePhase{
             if (card1.getMoneyCost() <= coins)
                 cards.add(card1);
         }
+        System.out.println(cards.size());
         try{
             try{
                 card = this.view.getChosenCharacterCard(game, cards);

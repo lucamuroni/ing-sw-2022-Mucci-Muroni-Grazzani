@@ -17,8 +17,8 @@ import java.util.Random;
  * Class that represents an Expert Game
  */
 public class ExpertGame extends Game {
-    private int coinBank;
-    private ArrayList<ExpertGamer> expertGamers;
+    private final int coinBank;
+    private final ArrayList<ExpertGamer> expertGamers;
     private ExpertGamer currentPlayer;
     private final CharacterCardDeck deck;
     private ArrayList<CharacterCard> gameCards;
@@ -32,7 +32,7 @@ public class ExpertGame extends Game {
     public ExpertGame(ArrayList<ExpertGamer> expertGamers){
         super(expertGamers.size());
         this.coinBank = 20;
-        this.expertGamers = new ArrayList<ExpertGamer>(expertGamers);
+        this.expertGamers = new ArrayList<>(expertGamers);
         this.deck = new CharacterCardDeck();
         this.moreSteps = false;
         this.villagerCard = false;
@@ -44,7 +44,7 @@ public class ExpertGame extends Game {
      * Method that creates a new deck for the game
      */
     private void initDeck() {
-        this.gameCards = new ArrayList<CharacterCard>(this.deck.drawCards());
+        this.gameCards = new ArrayList<>(this.deck.drawCards());
     }
 
     @Override
@@ -108,8 +108,9 @@ public class ExpertGame extends Game {
      * Method that returns the gamers
      * @return the gamers in the game
      */
-    public ArrayList<ExpertGamer> getExpertGamers() {
-        return this.expertGamers;
+    @Override
+    public ArrayList<Gamer> getGamers() {
+        return new ArrayList<>(this.expertGamers);
     }
 
     /**
@@ -126,7 +127,7 @@ public class ExpertGame extends Game {
      * @return the cards of the game
      */
     public ArrayList<CharacterCard> getGameCards() {
-        return gameCards;
+        return this.deck.getCards();
     }
 
     /**
