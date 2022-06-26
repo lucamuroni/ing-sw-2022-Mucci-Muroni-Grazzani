@@ -4,7 +4,8 @@ import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
+
 import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.ASSISTANT_CARD_DECK;
@@ -31,21 +32,24 @@ public class GetPossibleDecks {
     /**
      * Method that handles the messages to get the possible deck figures
      * @return the possible decks
-     * @throws TimeHasEndedException launched when the available time for the response has ended
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created the correct way
      */
-    public ArrayList<AssistantCardDeckFigures> handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
-        this.messageHandler.read(PLAYER_MOVE.getTiming());
+    public ArrayList<AssistantCardDeckFigures> handle() throws ClientDisconnectedException, MalformedMessageException, AssetErrorException {
+        this.messageHandler.read();
         int num = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAYLOAD_SIZE.getFragment()));
         for (int i = 0; i<num; i++) {
-            this.messageHandler.read(PLAYER_MOVE.getTiming());
+            this.messageHandler.read();
             String string = this.messageHandler.getMessagePayloadFromStream(ASSISTANT_CARD_DECK.getFragment());
+            boolean check = false;
             for (AssistantCardDeckFigures assistantCardDeck: AssistantCardDeckFigures.values()) {
                 if (string.equals(assistantCardDeck.name())) {
                     decks.add(assistantCardDeck);
+                    check = true;
                 }
             }
+            if (!check)
+                throw new AssetErrorException();
         }
         return decks;
     }

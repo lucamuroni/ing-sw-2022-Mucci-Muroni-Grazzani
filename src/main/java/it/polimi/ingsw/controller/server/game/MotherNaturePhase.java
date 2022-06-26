@@ -1,20 +1,19 @@
 package it.polimi.ingsw.controller.server.game;
 
+import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
-import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.game.Game;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CONTEXT_MOTHER;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CONTEXT_PHASE;
 
 /**
  * This class implements the first part of the third phase of the game, which is the MotherNaturePhase, and in particular this part
@@ -41,26 +40,39 @@ public class MotherNaturePhase implements GamePhase{
      */
     @Override
     public void handle() {
+        Player current = null;
         try {
-            this.moveMotherNature(this.controller.getPlayer(this.game.getCurrentPlayer()));
-            ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
-            players.remove(this.controller.getPlayer(this.game.getCurrentPlayer()));
-            for (Player pl : players) {
-                this.view.setCurrentPlayer(pl);
-                try {
-                    try {
-                        this.view.sendContext(CONTEXT_MOTHER.getFragment());
-                        this.view.updateMotherNaturePlace(this.game.getMotherNature().getPlace());
-                    } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
-                        this.view.sendContext(CONTEXT_MOTHER.getFragment());
-                        this.view.updateMotherNaturePlace(this.game.getMotherNature().getPlace());
-                    }
-                } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
-                    this.controller.handlePlayerError(pl);
-                }
-            }
+            current = this.controller.getPlayer(this.game.getCurrentPlayer());
         } catch (ModelErrorException e) {
-            this.controller.shutdown();
+            this.controller.shutdown("Error while getting current player");
+        }
+        try {
+            try {
+                this.view.sendContext(CONTEXT_PHASE.getFragment());
+                this.view.sendNewPhase(Phase.MOTHER_NATURE_PHASE);
+            } catch (MalformedMessageException e) {
+                this.view.sendContext(CONTEXT_PHASE.getFragment());
+                this.view.sendNewPhase(Phase.MOTHER_NATURE_PHASE);
+            }
+        } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+            this.controller.handlePlayerError(current,"Error while sending mother nature phase");
+        }
+        this.moveMotherNature(current);
+        ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
+        players.remove(current);
+        for (Player pl : players) {
+            this.view.setCurrentPlayer(pl);
+            try {
+                try {
+                    this.view.sendContext(CONTEXT_MOTHER.getFragment());
+                    this.view.updateMotherNaturePlace(this.game.getMotherNature().getPlace());
+                } catch (MalformedMessageException | FlowErrorException e) {
+                    this.view.sendContext(CONTEXT_MOTHER.getFragment());
+                    this.view.updateMotherNaturePlace(this.game.getMotherNature().getPlace());
+                }
+            } catch (MalformedMessageException | ClientDisconnectedException | FlowErrorException e){
+                this.controller.handlePlayerError(pl,"Error while updating mother nature place");
+            }
         }
     }
 
@@ -79,23 +91,9 @@ public class MotherNaturePhase implements GamePhase{
                 place = this.view.getMNLocation(possibleChoices);
             }
         } catch (MalformedMessageException | ClientDisconnectedException e) {
-            this.controller.handlePlayerError(player);
-        } catch (TimeHasEndedException e) {
-            place = this.getRandomIsland(possibleChoices);
-            this.game.moveMotherNature(place);
+            this.controller.handlePlayerError(player,"Error while getting mother nature location");
         }
         this.game.moveMotherNature(place);
-    }
-
-    /**
-     * This method is called by moveMotherNature() and it picks a random island when the player doesn't reply in time
-     * @param choices is the ArrayList of possible islands to choose from
-     * @return a random island
-     */
-    private Island getRandomIsland(ArrayList<Island> choices) {
-        Random random = new Random();
-        int rand = random.nextInt(0, choices.size());
-        return choices.get(rand);
     }
 
     /**

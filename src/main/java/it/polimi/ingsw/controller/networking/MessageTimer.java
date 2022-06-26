@@ -32,24 +32,28 @@ class MessageTimer extends Thread{
                     e.printStackTrace();
                 }
             }
-            if(killed){
+            if(this.getKillStatus()){
                 i = cycles;
             }
         }
-        if(!killed){
+        if(!this.getKillStatus()){
             this.timerIsEnded();
         }
     }
 
-    public boolean isTimeEnded(){
+    public synchronized boolean isTimeEnded(){
         return this.timeEnded;
     }
 
-    private void timerIsEnded(){
+    private synchronized void timerIsEnded(){
         this.timeEnded = true;
     }
 
-    public void kill(){
+    public synchronized void kill(){
         this.killed = true;
+    }
+
+    private synchronized boolean getKillStatus(){
+        return this.killed;
     }
 }

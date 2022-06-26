@@ -42,6 +42,11 @@ public class LoadingPage implements Page {
                 "\n"+AnsiColor.RESET.toString());
         System.out.print("Please wait until a connection with the server is established\n"+padding);
         this.loadingBar.print();
+        synchronized (this){
+            try {
+                this.wait(100);
+            } catch (InterruptedException e) {}
+        }
         this.cli.clearConsole();
     }
 
@@ -53,8 +58,6 @@ public class LoadingPage implements Page {
         Thread t = new Thread(()->{
             while(!this.isKilled()){
                 this.draw();
-                //TODO : rimuovere linea
-                this.kill();
             }
         });
         t.start();

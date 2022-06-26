@@ -39,15 +39,14 @@ public class LoginPage implements Page {
     public void handle() throws UndoException{
         System.out.println(AnsiColor.GREEN +"Found a Server"+ AnsiColor.RESET);
         String nick = this.cli.readString("Please insert your nickName: ");
-        this.game.getSelf().setUsername(nick);
+        this.game.getSelf().setUsername(nick, true);
         ArrayList<String> opt = new ArrayList<>();
         opt.add("Normal");
         opt.add("Expert");
         opt.add("Go back");
         Menù menù = new Menù(opt);
         menù.setContext("Do you want to play a Standard game or an Expert one: ");
-        int choice;
-        choice =  this.cli.readInt(opt.size(),menù, true);
+        int choice =  this.cli.readInt(opt.size(),menù,true);
         switch (choice){
             case 1 -> this.game.setType(GameType.NORMAL);
             case 2 -> this.game.setType(GameType.EXPERT);
@@ -71,6 +70,11 @@ public class LoginPage implements Page {
             while (!this.isKilled()){
                 System.out.println("Please wait unit we reach the server");
                 loadingBar.print();
+                synchronized (this){
+                    try {
+                        this.wait(100);
+                    } catch (InterruptedException e) {}
+                }
                 this.cli.clearConsole();
             }
         });

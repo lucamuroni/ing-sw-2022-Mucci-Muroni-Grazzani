@@ -10,7 +10,8 @@ public enum AnsiChar {
     PAWN("♟"),
     MISSING_PAWN("♙"),
     MOTHER_NATURE("\uD83D\uDCA9"),
-    WIZARD("⚝");
+    MISSING_WIZARD("♕"),
+    WIZARD("♛");
 
 // 💩
     private final String ansiText;

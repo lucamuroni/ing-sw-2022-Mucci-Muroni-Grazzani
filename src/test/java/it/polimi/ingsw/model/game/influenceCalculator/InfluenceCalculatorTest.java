@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class InfluenceCalculatorTest {
-    Island island = new Island(2);
+    /*Island island = new Island(2);
     Gamer gamer1 = new Gamer(111,"bufu", TowerColor.GREY);
     Gamer gamer2 = new Gamer(111,"babbo",TowerColor.GREY);
     ArrayList<Gamer> gamers = new ArrayList<>();
@@ -78,5 +78,5 @@ class InfluenceCalculatorTest {
 
     @Test
     void addColorExclusion() {
-    }
+    }*/
 }

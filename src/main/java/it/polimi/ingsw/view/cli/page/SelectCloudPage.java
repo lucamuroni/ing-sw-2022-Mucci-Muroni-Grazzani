@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class SelectCloudPage implements Page {
-    private ArrayList<Cloud> clouds;
-    private Game game;
-    private Cli cli;
+    private final ArrayList<Cloud> clouds;
+    private final Game game;
+    private final Cli cli;
     private boolean killed;
     private boolean readyToProceed = false;
 
@@ -30,13 +30,10 @@ public class SelectCloudPage implements Page {
         for(Cloud cloud : this.clouds){
                 options.add("Cloud " + cloud.getId());
         }
-        int choice;
         Menù menù = new Menù(options);
-        menù.clear();
-        menù.addOptions(options);
+        this.cli.drawClouds();
         menù.setContext("Which cloud do you want to choose?");
-        menù.print();
-        choice = this.cli.readInt(options.size(), menù, false);
+        int choice = this.cli.readInt(options.size(), menù, false);
         options.clear();
         options.add("y");
         options.add("n");

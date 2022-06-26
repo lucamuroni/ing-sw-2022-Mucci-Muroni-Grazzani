@@ -3,8 +3,9 @@ package it.polimi.ingsw.controller.client.networkHandler;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import java.util.ArrayList;
+
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Cloud;
 import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CLOUD_ID;
@@ -35,21 +36,24 @@ public class GetPossibleClouds {
     /**
      * Method that handles the messages to get the available clouds
      * @return the arraylist of possible clouds
-     * @throws TimeHasEndedException launched when the available time for the response has ended
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created the correct way
      */
-    public ArrayList<Cloud> handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
-        this.messageHandler.read(PLAYER_MOVE.getTiming());
+    public ArrayList<Cloud> handle() throws ClientDisconnectedException, MalformedMessageException, AssetErrorException {
+        this.messageHandler.read();
         int num = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAYLOAD_SIZE.getFragment()));
         for (int i = 0; i<num; i++) {
-            this.messageHandler.read(PLAYER_MOVE.getTiming());
+            this.messageHandler.read();
             int result = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(CLOUD_ID.getFragment()));
+            boolean check = false;
             for (Cloud cloud: game.getClouds()) {
                 if (result == cloud.getId()) {
                     clouds.add(cloud);
+                    check = true;
                 }
             }
+            if (!check)
+                throw new AssetErrorException();
         }
         return clouds;
     }

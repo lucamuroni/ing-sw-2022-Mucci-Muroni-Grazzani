@@ -4,9 +4,9 @@ import it.polimi.ingsw.controller.networking.*;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
-import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
 import it.polimi.ingsw.controller.networking.messageParts.MessageFragment;
+import it.polimi.ingsw.view.cli.AnsiColor;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
@@ -16,18 +16,16 @@ import java.util.Random;
 class ClientReception extends Thread{
     private final ServerSocket serverSocket;
     private final ArrayList<Lobby> lobbies;
-    private boolean isON;
 
     public ClientReception(ServerSocket socket){
         this.serverSocket = socket;
         this.lobbies = new ArrayList<Lobby>();
-        this.isON = true;
     }
 
     @Override
     public void run() {
         MessageHandler messageHandler;
-        while(this.isON){
+        while(true){
             try {
                 messageHandler = new MessageHandler(this.serverSocket.accept());
                 messageHandler.startConnection();
@@ -38,20 +36,12 @@ class ClientReception extends Thread{
                 e.printStackTrace();
             }
         }
-        try {
-            this.serverSocket.close();
-        } catch (IOException e) {
-            System.out.println("Could not close Server Socket");
-            e.printStackTrace();
-        }
-        System.out.println("Connection closed");
     }
     //TODO :sistemare la funzione per renderla catch safe
     private void playerHandShake(Player player){
         Thread t = new Thread(() -> {
             int uniqueMsgID = player.getMessageHandler().getNewUniqueTopicID();
-            ArrayList<Message> msgs = new ArrayList<Message>();
-
+            ArrayList<Message> messages = new ArrayList<Message>();
             Message m0 = new Message(MessageFragment.GREETINGS.getFragment(), "",uniqueMsgID);
             try {
                 player.getMessageHandler().write(m0);
@@ -66,22 +56,21 @@ class ClientReception extends Thread{
                 }
             }
             try {
-                player.getMessageHandler().writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming());
+                player.getMessageHandler().writeOutAndWait();
                 player.getMessageHandler().assertOnEquals(MessageFragment.OK.getFragment(), MessageFragment.GREETINGS.getFragment());
-                msgs.clear();
+                messages.clear();
                 Integer uniquePlayerID = this.generateUniquePlayerID();
-                msgs.add(new Message(MessageFragment.AUTH_ID.getFragment(), uniquePlayerID.toString(),uniqueMsgID));
-                player.getMessageHandler().write(msgs);
-                msgs.clear();
-                System.out.println("unique msg id :"+ uniqueMsgID);
-                player.getMessageHandler().writeOutAndWait(ConnectionTimings.INFINITE.getTiming());
+                messages.add(new Message(MessageFragment.AUTH_ID.getFragment(), uniquePlayerID.toString(),uniqueMsgID));
+                player.getMessageHandler().write(messages);
+                messages.clear();
+                player.getMessageHandler().writeOutAndWait();
                 player.getMessageHandler().assertOnEquals(uniquePlayerID.toString(), MessageFragment.AUTH_ID.getFragment());
                 String name = player.getMessageHandler().getMessagePayloadFromStream(MessageFragment.PLAYER_NAME.getFragment());
                 player.createGamer(name,uniquePlayerID);
                 String gameType = player.getMessageHandler().getMessagePayloadFromStream(MessageFragment.GAME_TYPE.getFragment());
                 String lobbySize = player.getMessageHandler().getMessagePayloadFromStream(MessageFragment.LOBBY_SIZE.getFragment());
                 insertPlayerIntoLobby(gameType,lobbySize,player);
-            } catch (TimeHasEndedException | ClientDisconnectedException | MalformedMessageException | FlowErrorException e) {
+            } catch (ClientDisconnectedException | MalformedMessageException | FlowErrorException e) {
                 e.printStackTrace();
             }
         });
@@ -96,9 +85,9 @@ class ClientReception extends Thread{
 
     private void insertPlayerIntoLobby(String gameType,String lobbySize, Player player) throws MalformedMessageException {
         GameType type;
-        Integer numOfPlayers;
+        int numOfPlayers;
         try{
-            numOfPlayers = Integer.valueOf(lobbySize);
+            numOfPlayers = Integer.parseInt(lobbySize);
         }catch (NumberFormatException e){
             throw new MalformedMessageException("payload lobbySize not an integer");
         }
@@ -132,12 +121,12 @@ class ClientReception extends Thread{
         messages.add(new Message(MessageFragment.GREETINGS.getFragment(), MessageFragment.GREETINGS_STATUS_SUCCESFULL.getFragment(),uniqueMsgID));
         try{
             player.getMessageHandler().write(messages);
-            player.getMessageHandler().writeOutAndWait(ConnectionTimings.CONNECTION_STARTUP.getTiming());
+            player.getMessageHandler().writeOutAndWait();
             player.getMessageHandler().assertOnEquals(MessageFragment.OK.getFragment(), MessageFragment.GREETINGS.getFragment());
-            synchronized (this.lobbies){
-                this.lobbies.notifyAll();
-            }
-        }catch (TimeHasEndedException | ClientDisconnectedException | MalformedMessageException | FlowErrorException e){
+        }catch (ClientDisconnectedException | MalformedMessageException | FlowErrorException e){
+            System.out.println(AnsiColor.RED.toString());
+            e.printStackTrace();
+            System.out.println(AnsiColor.RESET.toString());
             synchronized (this.lobbies){
                 for(Lobby lobby : this.lobbies){
                     if(lobby.contains(player)){
@@ -153,10 +142,6 @@ class ClientReception extends Thread{
         synchronized (this.lobbies){
             return this.lobbies;
         }
-    }
-
-    public void shutdown(){
-        this.isON = false;
     }
 
 

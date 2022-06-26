@@ -1,11 +1,12 @@
 package it.polimi.ingsw.controller.client.networkHandler;
 
+import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
 import it.polimi.ingsw.model.pawn.TowerColor;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Gamer;
 
@@ -20,8 +21,8 @@ public class GetTowerColor {
         this.game = game;
     }
 
-    public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
-        this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
+    public void handle() throws ClientDisconnectedException, MalformedMessageException, AssetErrorException {
+        this.messageHandler.read();
         String result = this.messageHandler.getMessagePayloadFromStream(OWNER.getFragment());
         int id = Integer.parseInt(result);
         Gamer owner = null;
@@ -30,6 +31,9 @@ public class GetTowerColor {
                 owner = gamer;
             }
         }
+        if (owner == null){
+            throw new AssetErrorException();
+        }
         result = this.messageHandler.getMessagePayloadFromStream(TOWER_COLOR.getFragment());
         TowerColor col = null;
         for (TowerColor color : TowerColor.values()) {
@@ -37,6 +41,12 @@ public class GetTowerColor {
                 col = color;
             }
         }
+        if (col == null)
+            throw new AssetErrorException();
+        Message message = new Message(TOWER_COLOR.getFragment(), OK.getFragment(), this.messageHandler.getMessagesUniqueTopic());
+        this.messageHandler.write(message);
+        this.messageHandler.writeOut();
         owner.setColor(col);
+        owner.getDashBoard().setTowerColor(col.getAcronym());
     }
 }

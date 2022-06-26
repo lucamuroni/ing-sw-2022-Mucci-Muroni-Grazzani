@@ -41,7 +41,9 @@ public class Bag {
                 selectedIndex = randomIndexGen.nextInt(students.size());
                 results.add(this.students.get(selectedIndex));
                 students.remove(selectedIndex);
-            }catch (java.lang.IllegalArgumentException e){}
+            }catch (java.lang.IllegalArgumentException e){
+                e.printStackTrace();
+            }
         }
         return results;
     }

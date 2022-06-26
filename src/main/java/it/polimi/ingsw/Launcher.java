@@ -57,7 +57,7 @@ public class Launcher {
             }else{
                 MessageHandler messageHandler = null;
                 try {
-                    messageHandler = new MessageHandler(new Socket("192.168.1.78",17894));
+                    messageHandler = new MessageHandler(new Socket("localhost",17894));
                 } catch (IOException e) {
                     System.out.println("could not initiate client");
                 }

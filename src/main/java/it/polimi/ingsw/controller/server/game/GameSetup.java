@@ -1,21 +1,19 @@
 package it.polimi.ingsw.controller.server.game;
 
-import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
+import it.polimi.ingsw.controller.networking.GameType;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.*;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
-import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
+import it.polimi.ingsw.model.expert.CharacterCard;
+import it.polimi.ingsw.model.game.ExpertGame;
 import it.polimi.ingsw.model.game.Game;
-import it.polimi.ingsw.model.gamer.Gamer;
+import it.polimi.ingsw.model.gamer.ExpertGamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
-import it.polimi.ingsw.model.pawn.TowerColor;
 
 import java.util.ArrayList;
 import java.util.Random;
-
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
  * This class is the setup phase of the game, where all the info to start a game are initialized and sent to the players
@@ -23,7 +21,6 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
 public class GameSetup implements GamePhase{
     private final int numTowers;
     private final int numStudents;
-    private final ArrayList<TowerColor> colors;
     private final Game game;
     private final GameController controller;
     private final View view;
@@ -37,16 +34,12 @@ public class GameSetup implements GamePhase{
         this.game = game;
         this.controller = controller;
         this.view = this.controller.getView();
-        this.colors = new ArrayList<>();
-        this.colors.add(TowerColor.WHITE);
-        this.colors.add(TowerColor.BLACK);
         if(game.getGamers().size() == 2){
             this.numStudents = 7;
             this.numTowers = 8;
         }else{
             this.numStudents = 9;
             this.numTowers = 6;
-            this.colors.add(TowerColor.GREY);
         }
     }
 
@@ -54,6 +47,7 @@ public class GameSetup implements GamePhase{
      * This is the main method that handles the GameSetup
      */
     public void handle(){
+        this.updateUsernames();
         this.initIslands(this.game);
         for(Player player : this.controller.getPlayers()){
             this.updateMotherNaturePlace(player);
@@ -63,31 +57,47 @@ public class GameSetup implements GamePhase{
             try {
                 player.getGamer(this.game.getGamers()).initGamer(this.game.getBag().pullStudents(this.numStudents),this.numTowers);
             } catch (ModelErrorException e) {
-                System.out.println("Error founded in model : shutting down this game");
-                this.controller.shutdown();
+                this.controller.shutdown("Error founded in model : shutting down this game");
             }
         }
+        ArrayList<Player> pl = new ArrayList<>(this.controller.getPlayers());
         for (Player player : this.controller.getPlayers()) {
-            ArrayList<Player> pl = new ArrayList<>(this.controller.getPlayers());
+            this.view.setCurrentPlayer(player);
+            if(this.controller.getGameType()== GameType.EXPERT){
+                this.sendCharacterCards(player);
+                this.sendCoins(player);
+            }
             for (Player player1 : pl) {
-                this.updateTowerColor(player1);
-                this.updateDashboards(player1);
+                this.updateTowerColor(player1,player);
+                this.updateDashboards(player1,player);
             }
         }
-        for(Player player : this.controller.getPlayers()){
-            AssistantCardDeckFigures figure = this.getChosenAssistantCardDeck(player);
-            ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
-            players.remove(player);
-            Gamer currentPlayer = null;
+    }
+
+    private void sendCharacterCards(Player player) {
+        for (CharacterCard card : ((ExpertGame) this.game).getGameCards()) {
             try {
-                currentPlayer = player.getGamer(this.game.getGamers());
-            } catch (ModelErrorException e) {
-                this.controller.shutdown();
+                try {
+                    this.view.sendCharacterCard(card);
+                } catch (MalformedMessageException e) {
+                    this.view.sendCharacterCard(card);
+                }
+            } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                this.controller.handlePlayerError(player, "Error while updating  expert cards");
             }
-            for(Player player1 : players){
-                this.updateChosenCardDeck(player1, currentPlayer, figure);
+        }
+    }
+
+    private void sendCoins(Player player) {
+        ExpertGamer gamer = (ExpertGamer) this.game.getCurrentPlayer();
+        try {
+            try {
+                this.view.sendCoins(gamer.getDashboard().getCoins());
+            } catch (MalformedMessageException e) {
+                this.view.sendCoins(gamer.getDashboard().getCoins());
             }
-            players.clear();
+        } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+            this.controller.handlePlayerError(player, "Error while sending coins");
         }
     }
 
@@ -124,12 +134,13 @@ public class GameSetup implements GamePhase{
             try{
                 //this.view.sendContext(CONTEXT_MOTHER.getFragment());
                 this.view.updateMotherNaturePlace(this.game.getMotherNature().getPlace());
-            }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+            }catch (MalformedMessageException | FlowErrorException e){
                 //this.view.sendContext(CONTEXT_MOTHER.getFragment());
                 this.view.updateMotherNaturePlace(this.game.getMotherNature().getPlace());
             }
-        }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
-            this.controller.handlePlayerError(player);
+        }catch (FlowErrorException | MalformedMessageException | ClientDisconnectedException e){
+            e.printStackTrace();
+            this.controller.handlePlayerError(player,"Error while updating Mother Nature place");
         }
     }
 
@@ -144,30 +155,30 @@ public class GameSetup implements GamePhase{
                 try{
                     //this.view.sendContext(CONTEXT_ISLAND.getFragment());
                     this.view.updateIslandStatus(this.game.getIslands().get(i));
-                }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                }catch (MalformedMessageException | FlowErrorException  e){
                     //this.view.sendContext(CONTEXT_ISLAND.getFragment());
                     this.view.updateIslandStatus(this.game.getIslands().get(i));
                 }
-            }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
-                this.controller.handlePlayerError(player);
+            }catch (FlowErrorException | MalformedMessageException  | ClientDisconnectedException e){
+                e.printStackTrace();
+                this.controller.handlePlayerError(player,"Error while syncing islands");
             }
         }
     }
 
-    private void updateTowerColor(Player player) {
-        this.view.setCurrentPlayer(player);
+    private void updateTowerColor(Player player,Player currentPlayer) {
         try {
             try {
                 //this.view.sendContext(CONTEXT_COLOR.getFragment());
                 this.view.sendTowerColor(player.getGamer(this.game.getGamers()));
-            } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e) {
+            } catch (MalformedMessageException | FlowErrorException e) {
                 //this.view.sendContext(CONTEXT_COLOR.getFragment());
                 this.view.sendTowerColor(player.getGamer(this.game.getGamers()));
             }
-        } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
-            this.controller.handlePlayerError(player);
+        } catch (MalformedMessageException | FlowErrorException  | ClientDisconnectedException e) {
+            this.controller.handlePlayerError(currentPlayer,"Error while updating color");
         } catch (ModelErrorException e) {
-            this.controller.shutdown();
+            this.controller.shutdown("Error founded in model : shutting down this game");
         }
     }
 
@@ -175,80 +186,40 @@ public class GameSetup implements GamePhase{
      * This method is called by handle() and it sends to a player the information about of all dashboards
      * @param player is the player whose view will be adjourned
      */
-    private void updateDashboards(Player player){
-        this.view.setCurrentPlayer(player);
-        for (int i = 0; i<this.game.getGamers().size(); i++) {
+    private void updateDashboards(Player player,Player currentPlayer){
+        try{
             try{
-                try{
-                    //this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
-                    this.view.updateDashboards(this.game.getGamers().get(i), this.game);
-                }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
-                    //this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
-                    this.view.updateDashboards(this.game.getGamers().get(i), this.game);
+                //this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
+                this.view.updateDashboards(player.getGamer(this.game.getGamers()), this.game);
+            }catch (MalformedMessageException | FlowErrorException e){
+                //this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
+                this.view.updateDashboards(player.getGamer(this.game.getGamers()), this.game);
+            }
+        }catch (FlowErrorException | MalformedMessageException | ClientDisconnectedException | ModelErrorException e){
+            e.printStackTrace();
+            this.controller.handlePlayerError(currentPlayer,"Error while updating dashboard");
+        }
+    }
+
+    private void updateUsernames(){
+        ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
+        for (Player player1 : players){
+            this.view.setCurrentPlayer(player1);
+            for(Player player2 : players){
+                if(!player1.equals(player2)){
+                    try {
+                        try {
+                            this.view.sendUsername(player2);
+                        } catch (MalformedMessageException | FlowErrorException e) {
+                            this.view.sendUsername(player2);
+                        }
+                    } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                        e.printStackTrace();
+                        this.controller.handlePlayerError(player1,"Error while uploading usernames");
+                    }
                 }
-            }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
-                this.controller.handlePlayerError(player);
             }
         }
-
-
-    }
-
-    /**
-     * This method is called by handle() and it asks a player which AssistantCardDeckFigure he wants to take
-     * @param player is the player currently playing
-     * @return the figure chosen by the player
-     */
-    private AssistantCardDeckFigures getChosenAssistantCardDeck(Player player){
-        this.view.setCurrentPlayer(player);
-        AssistantCardDeckFigures card = null;
-        try{
-            try{
-                card = this.view.getChosenAssistantCardDeck(this.controller.getCardDesks());
-            }catch (MalformedMessageException e){
-                card = this.view.getChosenAssistantCardDeck(this.controller.getCardDesks());
-            }
-        }catch (MalformedMessageException | ClientDisconnectedException e){
-            this.controller.handlePlayerError(player);
-        }catch (TimeHasEndedException e) {
-            card = this.randomFigurePicker();
-            this.controller.getCardDesks().remove(card);
-            return card;
-        }
-        this.controller.getCardDesks().remove(card);
-        return card;
-    }
-
-    /**
-     * This method is called by handle() and it sends to a player the AssistantCardDeckFigure chosen by the currentPlayer
-     * @param player is the player whose view will be adjourned
-     * @param currentPlayer is the current player
-     * @param figure is the figure chosen by the currentPlayer
-     */
-    private void updateChosenCardDeck(Player player, Gamer currentPlayer, AssistantCardDeckFigures figure){
-        this.view.setCurrentPlayer(player);
-        try{
-            try{
-                //this.view.sendContext(CONTEXT_FIGURE.getFragment());
-                this.view.sendChosenAssistantCardDeck(figure, currentPlayer.getToken(), currentPlayer);
-            }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
-                //this.view.sendContext(CONTEXT_FIGURE.getFragment());
-                this.view.sendChosenAssistantCardDeck(figure, currentPlayer.getToken(), currentPlayer);
-            }
-        }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
-            this.controller.handlePlayerError(player);
-        }
-    }
-
-    /**
-     * This method is called by getChosenAssistantCardDeck() when the player doesn't reply in time. It chooses a random
-     * figure for the cards of the player
-     * @return a random AssistantCardDeckFigure
-     */
-    private AssistantCardDeckFigures randomFigurePicker() {
-        Random random = new Random();
-        int rand = random.nextInt(0, AssistantCardDeckFigures.values().length);
-        return AssistantCardDeckFigures.values()[rand];
     }
 
     /**
@@ -256,6 +227,6 @@ public class GameSetup implements GamePhase{
      * @return the next GamePhase
      */
     public GamePhase next(){
-        return new PlanningPhase(this.game,this.controller);
+        return new DeckPhase(this.game,this.controller);
     }
 }

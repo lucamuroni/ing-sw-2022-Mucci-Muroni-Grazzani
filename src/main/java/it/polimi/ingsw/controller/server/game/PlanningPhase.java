@@ -1,18 +1,18 @@
 package it.polimi.ingsw.controller.server.game;
 
+import it.polimi.ingsw.controller.networking.GameType;
 import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.*;
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
-import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Cloud;
+import it.polimi.ingsw.model.game.ExpertGame;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
@@ -53,34 +53,26 @@ public class PlanningPhase implements GamePhase{
             this.updateCloudsStatus(player);
         }
         ArrayList<AssistantCard> alreadyPlayedCards = new ArrayList<>();
-        //TODO: aggiungere ordinamento array di player dentro il GameController
         for(Player player : this.controller.getPlayers()){
-            try {
-                this.game.setCurrentPlayer(player.getGamer(this.game.getGamers()));
                 this.view.setCurrentPlayer(player);
                 try {
                     try{
+                        this.view.sendContext(CONTEXT_PHASE.getFragment());
                         this.view.sendNewPhase(Phase.PLANNING_PHASE);
-                    }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+                    }catch (MalformedMessageException | FlowErrorException e){
+                        this.view.sendContext(CONTEXT_PHASE.getFragment());
                         this.view.sendNewPhase(Phase.PLANNING_PHASE);
                     }
-                }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
-                    try {
-                        this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()));
-                    } catch (ModelErrorException i) {
-                        this.controller.shutdown();
-                    }
+                }catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                        this.controller.handlePlayerError(player,"Error while sending PLANNING PHASE");
                 }
-                AssistantCard card = this.getChoseAssistantCard(player, alreadyPlayedCards);
-                alreadyPlayedCards.add(card);
+            AssistantCard card = null;
+            try {
+                card = this.getChoseAssistantCard(player, alreadyPlayedCards);
             } catch (ModelErrorException e) {
-                this.controller.shutdown();
+                this.controller.shutdown("Error founded in model : shutting down this game");
             }
-        }
-        try {
-            this.game.setCurrentPlayer(this.controller.getPlayers().get(0).getGamer(this.game.getGamers()));
-        } catch (ModelErrorException e) {
-            this.controller.shutdown();
+            alreadyPlayedCards.add(card);
         }
     }
 
@@ -90,17 +82,20 @@ public class PlanningPhase implements GamePhase{
      */
     private void updateCloudsStatus(Player player){
         this.view.setCurrentPlayer(player);
-        try{
+        for (Cloud cloud : this.game.getClouds()) {
             try{
-                this.view.sendContext(CONTEXT_CLOUD.getFragment());
-                this.view.updateCloudsStatus(this.game.getClouds());
-            }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
-                this.view.sendContext(CONTEXT_CLOUD.getFragment());
-                this.view.updateCloudsStatus(this.game.getClouds());
+                try{
+                    this.view.sendContext(CONTEXT_CLOUD.getFragment());
+                    this.view.updateCloudsStatus(cloud);
+                }catch (MalformedMessageException | FlowErrorException e){
+                    this.view.sendContext(CONTEXT_CLOUD.getFragment());
+                    this.view.updateCloudsStatus(cloud);
+                }
+            }catch (FlowErrorException | MalformedMessageException | ClientDisconnectedException e){
+                this.controller.handlePlayerError(player,"Error while updating clouds status");
             }
-        }catch (FlowErrorException | MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e){
-            this.controller.handlePlayerError(player);
         }
+
     }
 
     /**
@@ -109,9 +104,9 @@ public class PlanningPhase implements GamePhase{
      * @param alreadyPlayedCards are all the cards played till this moment
      * @return the card chosen by the player
      */
-    private AssistantCard getChoseAssistantCard(Player player, ArrayList<AssistantCard> alreadyPlayedCards){
+    private AssistantCard getChoseAssistantCard(Player player, ArrayList<AssistantCard> alreadyPlayedCards) throws ModelErrorException {
         this.view.setCurrentPlayer(player);
-        Gamer currentPlayer = this.game.getCurrentPlayer();
+        Gamer currentPlayer = player.getGamer(this.game.getGamers());
         AssistantCard result = null;
         ArrayList<AssistantCard> cardsOfPlayer = new ArrayList<>(currentPlayer.getDeck().getCardList());
         if(alreadyPlayedCards.size()>=1){
@@ -126,10 +121,8 @@ public class PlanningPhase implements GamePhase{
                 result = this.view.getChosenAssistantCard(cardsOfPlayer);
             }
         }catch (MalformedMessageException | ClientDisconnectedException e){
-            this.controller.handlePlayerError(player);
-        }catch (TimeHasEndedException e){
-            result = this.getRandomAssistantCard(cardsOfPlayer);
-        }
+            this.controller.handlePlayerError(player,"Error while getting the chose assistant card");
+        }//TODO controllare correttezza
         this.sendInfo(player, result);
         currentPlayer.getDeck().setPastSelection();
         currentPlayer.getDeck().setCurrentSelection(result);
@@ -144,31 +137,20 @@ public class PlanningPhase implements GamePhase{
     private void sendInfo(Player currentPlayer, AssistantCard chosenCard) {
         ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
         players.remove(currentPlayer);
-        for (int i = 0; i<players.size(); i++) {
-            this.view.setCurrentPlayer(players.get(i));
+        for (Player player : players) {
+            this.view.setCurrentPlayer(player);
             try {
                 try {
                     this.view.sendContext(CONTEXT_CARD.getFragment());
                     this.view.sendChosenAssistantCard(chosenCard, currentPlayer.getToken());
-                } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e) {
+                } catch (MalformedMessageException | FlowErrorException e) {
                     this.view.sendContext(CONTEXT_CARD.getFragment());
                     this.view.sendChosenAssistantCard(chosenCard, currentPlayer.getToken());
                 }
-            } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
-                this.controller.handlePlayerError(players.get(i));
+            } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                this.controller.handlePlayerError(player, "Error while uploading chosen assistant card");
             }
         }
-    }
-
-    /**
-     * This method is called by getChoseAssistantCard() and it picks a random AssistantCard when the player doesn't reply in time
-     * @param cards is the ArrayList of possible choices
-     * @return a random AssistantCard
-     */
-    private AssistantCard getRandomAssistantCard(ArrayList<AssistantCard> cards){
-        Random random = new Random();
-        int rand = random.nextInt(0, cards.size());
-        return cards.get(rand);
     }
 
     /**
@@ -176,6 +158,9 @@ public class PlanningPhase implements GamePhase{
      * @return the next GamePhase
      */
     public GamePhase next(){
+        if(controller.getGameType()== GameType.EXPERT){
+            return new CharacterCardPhase((ExpertGame) this.game,this.controller,new ActionPhase1(this.game, this.controller));
+        }
         return new ActionPhase1(this.game, this.controller);
     }
 }

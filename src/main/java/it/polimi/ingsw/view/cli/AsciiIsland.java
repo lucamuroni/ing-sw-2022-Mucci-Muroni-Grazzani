@@ -9,6 +9,7 @@ import it.polimi.ingsw.view.asset.game.Island;
  */
 public class AsciiIsland {
     private final Island island;
+    private boolean isMerged;
     private final static int height = 11;
     private final static int width = 19;
 
@@ -18,6 +19,7 @@ public class AsciiIsland {
      */
     public AsciiIsland(Island island){
         this.island = island;
+        this.isMerged = false;
     }
 
     /**
@@ -28,13 +30,18 @@ public class AsciiIsland {
     public int draw(int line){
         int size;
         String string = "";
+        boolean pawn = false,mn = false,tower = false;
         switch (line){
             case 0:
                 string = "     _________";
                 System.out.print(string);
                 break;
             case 1:
-                string = "    |    "+island.getId()+"    |";
+                if(island.getId()>=10){
+                    string = "    |    "+island.getId()+"   |";
+                }else{
+                    string = "    |    "+island.getId()+"    |";
+                }
                 System.out.print(string);
                 break;
             case 2:
@@ -43,9 +50,10 @@ public class AsciiIsland {
                 break;
             case 3:
                 size = (int) this.island.getStudents().stream().filter(x -> x.getColor() == PawnColor.BLUE).count();
-                if(size>0){
+                if(size>0 && !isMerged){
                     string = "  |     "+AnsiColor.BLUE.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x"+size+"     |";
                     System.out.print(string);
+                    pawn = true;
                 }else{
                     string = "  |             | ";
                     System.out.print(string);
@@ -53,9 +61,10 @@ public class AsciiIsland {
                 break;
             case 4:
                 size = (int) this.island.getStudents().stream().filter(x -> x.getColor() == PawnColor.RED).count();
-                if(size>0){
+                if(size>0 && !isMerged){
                     string = " -      "+AnsiColor.RED.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x"+size+"      -";
                     System.out.print(string);
+                    pawn = true;
                 }else{
                     string = " -               -";
                     System.out.print(string);
@@ -63,9 +72,10 @@ public class AsciiIsland {
                 break;
             case 5:
                 size = (int) this.island.getStudents().stream().filter(x -> x.getColor() == PawnColor.GREEN).count();
-                if(size>0){
+                if(size>0 && !isMerged){
                     string = "|       "+AnsiColor.GREEN.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x"+size+"       |";
                     System.out.print(string);
+                    pawn = true;
                 }else{
                     string = "|                 |";
                     System.out.print(string);
@@ -73,9 +83,10 @@ public class AsciiIsland {
                 break;
             case 6:
                 size = (int) this.island.getStudents().stream().filter(x -> x.getColor() == PawnColor.PINK).count();
-                if(size>0){
+                if(size>0 && !isMerged){
                     string = " -      "+AnsiColor.PURPLE.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x"+size+"      -";
                     System.out.print(string);
+                    pawn = true;
                 }else{
                     string = " -               -";
                     System.out.print(string);
@@ -83,9 +94,10 @@ public class AsciiIsland {
                 break;
             case 7:
                 size = (int) this.island.getStudents().stream().filter(x -> x.getColor() == PawnColor.YELLOW).count();
-                if(size>0){
+                if(size>0 && !isMerged){
                     string = "  |     "+AnsiColor.YELLOW.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x"+size+"     |";
                     System.out.print(string);
+                    pawn = true;
                 }else{
                     string = "  |             |";
                     System.out.print(string);
@@ -96,6 +108,7 @@ public class AsciiIsland {
                 if(this.island.isMotherNaturePresent()){
                     string = "   -     "+AnsiChar.MOTHER_NATURE+"     -";
                     System.out.print(string);
+                    mn = true;
                 }else{
                     string = "   -           -  ";
                     System.out.print(string);
@@ -105,6 +118,7 @@ public class AsciiIsland {
                 if(this.island.isTowerPresent()){
                     string = "    |   "+AnsiChar.TOWER+"("+this.island.getTowersColor().getAcronym()+")  |";
                     System.out.print(string);
+                    tower = true;
                 }else{
                     string = "    |         |";
                     System.out.print(string);
@@ -115,7 +129,15 @@ public class AsciiIsland {
                 System.out.print(string);
                 break;
         }
-        return string.length();
+        if(pawn){
+            return (string.length()-9);
+        }else if(tower){
+            return string.length();
+        }else if(mn){
+            return string.length()-1;
+        }else{
+            return string.length();
+        }
     }
 
     /**
@@ -130,5 +152,17 @@ public class AsciiIsland {
 
     public Island getIsland() {
         return island;
+    }
+    public static int getHeight(){
+        return height;
+    }
+
+    public static int getWidth(){
+        return width;
+    }
+
+    public void setMerged(){
+        this.isMerged = true;
+        this.island.setMerged();
     }
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * @author Luca Muroni
@@ -19,9 +20,7 @@ public class AssistantCardDeck {
      */
     public AssistantCardDeck(){
         cardList = new ArrayList<AssistantCard>();
-        for( AssistantCard assistantCard : AssistantCard.values()){
-            cardList.add(assistantCard);
-        }
+        cardList.addAll(Arrays.asList(AssistantCard.values()));
     }
 
     /**

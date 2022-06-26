@@ -1,24 +1,29 @@
 package it.polimi.ingsw.model.game;
 
 import it.polimi.ingsw.model.Island;
-import it.polimi.ingsw.model.debug.CharacterCard;
-import it.polimi.ingsw.model.debug.CharacterCardDeck;
+import it.polimi.ingsw.model.expert.CharacterCard;
+import it.polimi.ingsw.model.expert.CharacterCardDeck;
 import it.polimi.ingsw.model.gamer.ExpertGamer;
+import it.polimi.ingsw.model.gamer.Gamer;
+import it.polimi.ingsw.model.pawn.PawnColor;
+import it.polimi.ingsw.model.pawn.Student;
+
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Random;
 
 /**
  * @author Luca Muroni
  * Class that represents an Expert Game
  */
-// TODO : come giocare le carte esperto
 public class ExpertGame extends Game {
     private int coinBank;
     private ArrayList<ExpertGamer> expertGamers;
     private ExpertGamer currentPlayer;
-    private CharacterCardDeck deck;
+    private final CharacterCardDeck deck;
     private ArrayList<CharacterCard> gameCards;
     private boolean moreSteps;
+    private boolean villagerCard;
 
     /**
      * Class constructor
@@ -30,6 +35,7 @@ public class ExpertGame extends Game {
         this.expertGamers = new ArrayList<ExpertGamer>(expertGamers);
         this.deck = new CharacterCardDeck();
         this.moreSteps = false;
+        this.villagerCard = false;
         initiateGamersOrder();
         initDeck();
     }
@@ -39,6 +45,37 @@ public class ExpertGame extends Game {
      */
     private void initDeck() {
         this.gameCards = new ArrayList<CharacterCard>(this.deck.drawCards());
+    }
+
+    @Override
+    public Gamer changeProfessorOwner(PawnColor color) throws Exception {
+        Optional<Gamer> oldOwner= this.professors.stream().filter(x->x.getColor().equals(color)).map(x->x.getOwner()).findFirst().orElse(Optional.empty());
+        if(oldOwner==null){
+            throw new Exception();
+        }
+        else if(oldOwner.isEmpty() || oldOwner.equals(currentPlayer)) {
+            this.professors.stream().filter(x->x.getColor().equals(color)).findFirst().orElse(null).setOwner(currentPlayer);
+            return currentPlayer;
+        }
+        else {
+            int oldInfluence = oldOwner.get().getDashboard().checkInfluence(color);
+            int currentInfluence = currentPlayer.getDashboard().checkInfluence(color);
+            if (currentInfluence > oldInfluence || (villagerCard && currentInfluence >= oldInfluence)) {
+                this.professors.stream().filter(x->x.getColor().equals(color)).findFirst().orElse(null).setOwner(currentPlayer);
+                return currentPlayer;
+            }else{
+                return oldOwner.get();
+            }
+            //else newOwner = oldOwner;
+        }
+    }
+
+    @Override
+    public void setTurnNumber() {
+        super.setTurnNumber();
+        super.getInfluenceCalculator().reset();
+        this.moreSteps = false;
+        this.villagerCard = false;
     }
 
     /**
@@ -57,18 +94,6 @@ public class ExpertGame extends Game {
             this.expertGamers.add(player);
             players.remove(player);
         }
-    }
-
-    /**
-     * Method that plays a card
-     * @param coins represents the card cost
-     * @param card represents the card to be played
-     */
-    public void playCard(int coins, CharacterCard card){
-        //TODO: metodo da rivedere per quanto riguarda l'attivazione dell'effetto della carta (mancano i parametri)
-        this.currentPlayer.getDashboard().setCoins(-coins);
-        //DUBBIO: non si dovrebbe anche aggiornare la coinBank con i coin pagati dal giocatore?
-        card.activate();
     }
 
     /**
@@ -131,5 +156,13 @@ public class ExpertGame extends Game {
             }
         }
         return result;
+    }
+
+    public void setEqualProfessorFlag() {
+        this.villagerCard = true;
+    }
+
+    public CharacterCardDeck getDeck() {
+        return deck;
     }
 }

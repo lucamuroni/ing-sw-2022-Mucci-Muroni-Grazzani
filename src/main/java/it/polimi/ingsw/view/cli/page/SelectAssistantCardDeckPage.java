@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class SelectAssistantCardDeckPage implements Page {
-    private ArrayList<AssistantCardDeckFigures> figures;
-    private Gamer self;
-    private Cli cli;
+    private final ArrayList<AssistantCardDeckFigures> figures;
+    private final Gamer self;
+    private final Cli cli;
     private boolean killed;
     private boolean readyToProceed = false;
     
@@ -36,9 +36,7 @@ public class SelectAssistantCardDeckPage implements Page {
         }
         Menù menù = new Menù(options);
         menù.setContext("Please select a deck ");
-        int choice;
-        //Controllo del back
-        choice = this.cli.readInt(options.size(), menù, false);
+        int choice = this.cli.readInt(options.size(), menù, false);
         options.clear();
         options.add("y");
         options.add("n");
@@ -47,7 +45,7 @@ public class SelectAssistantCardDeckPage implements Page {
             throw new UndoException();
         }
         //cli.clearConsole();
-        self.setFigure(this.figures.get(choice-1));
+        self.updateFigure(this.figures.get(choice-1));
         this.setReadyToProcede();
     }
 

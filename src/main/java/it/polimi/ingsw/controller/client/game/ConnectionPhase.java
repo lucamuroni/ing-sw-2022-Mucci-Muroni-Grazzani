@@ -2,19 +2,15 @@ package it.polimi.ingsw.controller.client.game;
 
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.client.networkHandler.Network;
-import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.view.ViewHandler;
-import it.polimi.ingsw.view.asset.game.Game;
-import it.polimi.ingsw.view.asset.game.Gamer;
 
 public class ConnectionPhase implements GamePhase{
-    private ClientController controller;
-    private ViewHandler view;
-    private Network network;
+    private final ClientController controller;
+    private final ViewHandler view;
+    private final Network network;
 
     public ConnectionPhase(ClientController controller){
         this.controller = controller;
@@ -24,21 +20,20 @@ public class ConnectionPhase implements GamePhase{
 
     @Override
     public void handle() {
-        // TODO : rimuovere i commenti una volta finito il debug
-        /*synchronized (this){
+        synchronized (this){
             try{
                 this.wait(3000);
             }catch (InterruptedException e){
                 this.controller.handleError();
             }
-        }*/
+        }
         try{
             try{
                 this.network.getConnection(this.controller);
             }catch (MalformedMessageException e){
                 this.network.getConnection(this.controller);
             }
-        }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e){
+        }catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e){
             this.controller.handleError("Error while starting the connection");
         }
         this.view.getPlayerInfo();
@@ -58,7 +53,7 @@ public class ConnectionPhase implements GamePhase{
             }catch (MalformedMessageException e){
                 this.network.awaitForLobby();
             }
-        }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e){
+        }catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e){
             this.controller.handleError("Error while inserting player into the lobby");
         }
         this.view.lobbyFounded();

@@ -4,9 +4,9 @@ import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Cloud;
 import it.polimi.ingsw.view.asset.game.Game;
 import java.util.ArrayList;
@@ -36,12 +36,11 @@ public class GetCloudStatus {
 
     /**
      * Method that handles the messages to update the clouds' status
-     * @throws TimeHasEndedException launched when the available time for the response has ended
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
-    public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
-        this.messageHandler.read(PLAYER_MOVE.getTiming());
+    public void handle() throws ClientDisconnectedException, MalformedMessageException, AssetErrorException {
+        this.messageHandler.read();
         String id = this.messageHandler.getMessagePayloadFromStream(CLOUD_ID.getFragment());
         int result = Integer.parseInt(id);
         Cloud cloud = null;
@@ -49,6 +48,10 @@ public class GetCloudStatus {
             if (cl.getId() == result) {
                 cloud = cl;
             }
+        }
+        if(cloud == null) {
+            System.out.println("Qui");
+            throw new AssetErrorException();
         }
         int colorRed = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_RED.getFragment()));
         if(colorRed > 0) {
@@ -89,7 +92,6 @@ public class GetCloudStatus {
         Message message = new Message(CLOUD.getFragment(), OK.getFragment(), topicId);
         this.messageHandler.write(message);
         this.messageHandler.writeOut();
-        assert cloud != null;
         cloud.update(students);
     }
 }

@@ -5,10 +5,11 @@ import it.polimi.ingsw.controller.client.networkHandler.Network;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.pawn.Student;
 import it.polimi.ingsw.view.ViewHandler;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
+import it.polimi.ingsw.view.asset.game.Gamer;
 
 public class ActionPhase1 implements GamePhase{
     private final Game game;
@@ -27,7 +28,6 @@ public class ActionPhase1 implements GamePhase{
         } else {
             this.numOfMoves = 4;
         }
-
     }
     @Override
     public void handle() {
@@ -41,29 +41,44 @@ public class ActionPhase1 implements GamePhase{
                 } catch (MalformedMessageException e) {
                     this.network.sendColor(stud.getColor());
                     this.network.sendLocation(location);
-                } catch (ClientDisconnectedException e) {
-                    throw new RuntimeException(e);
                 }
-            } catch (MalformedMessageException | FlowErrorException | TimeHasEndedException |
+            } catch (MalformedMessageException | FlowErrorException  |
                      ClientDisconnectedException e) {
+                this.controller.handleError("Could not sent move to server");
+            }
+            try {
+                try {
+                    this.network.getCoins(game);
+                } catch (MalformedMessageException e) {
+                    this.network.getCoins(game);
+                }
+            } catch (MalformedMessageException | ClientDisconnectedException e) {
                 this.controller.handleError();
             }
             try {
                 try {
-                    this.network.getDashboard(this.game);
-                    //TODO: pezzo che modifica la view
+                    for (Gamer gamer : this.game.getGamers()) {
+                        this.network.getDashboard(this.game);
+                    }
+                    if (location>0)
+                        this.network.getIslandStatus(this.game);
                 } catch (MalformedMessageException e) {
-                    this.network.getDashboard(this.game);
-                    //TODO: pezzo che modifica la view
+                    for (Gamer gamer : this.game.getGamers()) {
+                        this.network.getDashboard(this.game);
+                    }
+                    if (location>0)
+                        this.network.getIslandStatus(this.game);
                 }
-            } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+            } catch (MalformedMessageException | ClientDisconnectedException e) {
                 this.controller.handleError();
+            } catch (AssetErrorException e) {
+                this.controller.handleError("Doesn't found dashboard");
             }
         }
     }
 
     @Override
     public GamePhase next() {
-        return new MotherNaturePhase(this.controller);
+        return new Idle(this.controller);
     }
 }

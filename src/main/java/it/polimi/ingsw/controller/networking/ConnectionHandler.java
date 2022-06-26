@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller.networking;
 
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,8 +16,8 @@ class ConnectionHandler {
     private final Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
-    private ArrayList<String> inputMessages;
-    private ArrayList<String> outputMessages;
+    private final ArrayList<String> inputMessages;
+    private final ArrayList<String> outputMessages;
     private boolean isON;
     private boolean hasConnectionBeenLost;
 
@@ -64,20 +63,29 @@ class ConnectionHandler {
                 try {
                     this.clientSocket.setSoTimeout(20000);
                     s = this.in.readLine();
-                    if(s.equals("ping-ok")){
-                        this.ping(8000);
-                    }else if(s.equals("ping")){
-                        synchronized (this.out){
-                            this.out.println("ping-ok");
-                        }
-                    }else{
-                        synchronized (this.inputMessages){
-                            this.inputMessages.add(s);
+                    if(s != null){
+                        if(s.equals("ping-ok")){
+                            this.ping(8000);
+                        }else if(s.equals("ping")){
+                            synchronized (this.out){
+                                this.out.println("ping-ok");
+                            }
+                        }else{
+                            synchronized (this.inputMessages){
+                                this.inputMessages.add(s);
+                            }
                         }
                     }
                 } catch (IOException e) {
                     hasConnectionBeenLost = true;
                     this.shutDown();
+                }
+                synchronized (this){
+                    try {
+                        this.wait(100);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         });
@@ -86,27 +94,22 @@ class ConnectionHandler {
 
     /**
      * Method used to get a message from other clients
-     * @param actionTimeOutMs is the maximum time allowed to read the message
      * @return the first messages that has already been read or the first message that this client receives in the timing window
-     * @throws TimeHasEndedException if no messages where founded on this lapse of time
      * @throws ClientDisconnectedException if a disconnection is revealed
      */
-    public String getInputMessage(int actionTimeOutMs) throws TimeHasEndedException, ClientDisconnectedException {
+    public String getInputMessage() throws ClientDisconnectedException {
         boolean isInputEmpty = true;
-        MessageTimer msgTimer = new MessageTimer(actionTimeOutMs);
-        msgTimer.start();
         while(isInputEmpty){
             synchronized (this.inputMessages){
                 isInputEmpty = this.inputMessages.isEmpty();
+                try {
+                    this.inputMessages.wait(100);
+                } catch (InterruptedException e) {}
             }
             if(hasConnectionBeenLost){
                 throw new ClientDisconnectedException("Found disconnection");
             }
-            if(msgTimer.isTimeEnded()){
-                throw new TimeHasEndedException("Time to respond ended");
-            }
         }
-        msgTimer.kill();
         String s;
         synchronized (this.inputMessages){
             s = this.inputMessages.get(0);
@@ -122,7 +125,6 @@ class ConnectionHandler {
     public void setOutputMessage(String string){
         synchronized (this.outputMessages){
             this.outputMessages.add(string);
-            this.outputMessages.notifyAll();
         }
     }
 
@@ -142,7 +144,7 @@ class ConnectionHandler {
                     }
                     try {
                         synchronized (this.outputMessages){
-                            this.outputMessages.wait(50);
+                            this.outputMessages.wait(100);
                         }
                     } catch (InterruptedException e) {
                         System.out.println("Could not wait for new output message");

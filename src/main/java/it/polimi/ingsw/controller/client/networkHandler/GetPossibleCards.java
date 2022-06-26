@@ -3,8 +3,8 @@ package it.polimi.ingsw.controller.client.networkHandler;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.AssistantCard;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
 import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
@@ -34,21 +34,24 @@ public class GetPossibleCards {
 
     /**
      * Method that handles the messages to get the available assistant cards
-     * @throws TimeHasEndedException launched when the available time for the response has ended
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created the correct way
      */
-    public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
-        this.messageHandler.read(PLAYER_MOVE.getTiming());
+    public void handle() throws ClientDisconnectedException, MalformedMessageException, AssetErrorException {
+        this.messageHandler.read();
         int num = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAYLOAD_SIZE.getFragment()));
         for (int i = 0; i<num; i++) {
-            this.messageHandler.read(PLAYER_MOVE.getTiming());
+            this.messageHandler.read();
             String string = this.messageHandler.getMessagePayloadFromStream(ASSISTANT_CARD.getFragment());
+            boolean check = false;
             for (AssistantCard assistantCard: AssistantCard.values()) {
                 if (string.equals(assistantCard.getName())) {
                     cards.add(assistantCard);
+                    check = true;
                 }
             }
+            if (!check)
+                throw new AssetErrorException();
         }
         game.getSelf().updateCards(cards);
     }

@@ -4,8 +4,8 @@ import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.pawn.TowerColor;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
 import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
@@ -30,12 +30,11 @@ public class GetOwner {
 
     /**
      * Method that handles the messages to get the color of the island's new owner
-     * @throws TimeHasEndedException
-     * @throws ClientDisconnectedException
-     * @throws MalformedMessageException
+     * @throws ClientDisconnectedException launched if the client disconnects from the game
+     * @throws MalformedMessageException launched if the message isn't created the correct way
      */
-    public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
-        this.messageHandler.read(PLAYER_MOVE.getTiming());
+    public void handle() throws ClientDisconnectedException, MalformedMessageException, AssetErrorException {
+        this.messageHandler.read();
         String result = this.messageHandler.getMessagePayloadFromStream(TOWER_COLOR.getFragment());
         TowerColor color = null;
         for (TowerColor tc : TowerColor.values()) {
@@ -43,6 +42,8 @@ public class GetOwner {
                 color = tc;
             }
         }
+        if (color == null)
+            throw new AssetErrorException();
         int topicId = this.messageHandler.getMessagesUniqueTopic();
         Message message = new Message(TOWER_COLOR.getFragment(), OK.getFragment(), topicId);
         this.messageHandler.write(message);

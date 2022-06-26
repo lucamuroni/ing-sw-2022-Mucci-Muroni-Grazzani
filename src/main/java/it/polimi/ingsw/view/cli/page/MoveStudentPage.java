@@ -15,8 +15,8 @@ import java.util.ArrayList;
 public class MoveStudentPage implements Page {
     private boolean killed;
     private boolean readyToProceed = false;
-    private Cli cli;
-    private Game assetGame;
+    private final Cli cli;
+    private final Game assetGame;
 
     /**
      * Class constructor
@@ -33,41 +33,41 @@ public class MoveStudentPage implements Page {
      */
     @Override
     public void handle() throws UndoException {
+        this.cli.drawArchipelago();
+        this.cli.drawDashboard();
         ArrayList<String> options = new ArrayList<>();
-        options.add("Hall");
+        int possiblePlace = this.assetGame.getPossiblePlace();
+        if (possiblePlace == 2) {
+            options.add("Hall");
+        }
         options.add("Island");
         Menù menù= new Menù(options);
         menù.setContext("Where do you want to move your player?");
-        menù.print();
-        int choice;
-        //Controllo del back
-        choice = this.cli.readInt(options.size(), menù, false);
+        int choice = this.cli.readInt(options.size(), menù, false);
         if(choice==2){
+            this.cli.drawArchipelago();
             options.clear();
             for(Island island : this.assetGame.getIslands()){
-                options.add("Island " + island.getId());
+                if (!island.isMerged())
+                    options.add("Island " + island.getId());
             }
             options.add("Back");
             menù.clear();
             menù.addOptions(options);
             menù.setContext("Which island do you want to choose?");
-            menù.print();
-            //Back presente
             choice = this.cli.readInt(options.size(), menù, true);
             assetGame.setChosenIsland(this.assetGame.getIslands().get(choice-1));
         }
+        this.cli.drawDashboard();
         options.clear();
-        options.add("Red");
-        options.add("Blue");
-        options.add("Yellow");
-        options.add("Green");
-        options.add("Pink");
+        ArrayList<PawnColor> possibleColors = new ArrayList<>(this.assetGame.getPossibleColors(choice));
+        for (PawnColor color : possibleColors) {
+            options.add(color.name());
+        }
         options.add("Back");
         menù.clear();
         menù.addOptions(options);
         menù.setContext("Which type of student do you want to move?");
-        menù.print();
-        //Controllo del back
         choice = this.cli.readInt(options.size(), menù, true);
         options.clear();
         options.add("y");
@@ -77,13 +77,7 @@ public class MoveStudentPage implements Page {
             throw new UndoException();
         }
         //cli.clearConsole();
-        switch (choice) {
-            case 1 -> assetGame.setChosenColor(PawnColor.RED);
-            case 2 -> assetGame.setChosenColor(PawnColor.BLUE);
-            case 3 -> assetGame.setChosenColor(PawnColor.YELLOW);
-            case 4 -> assetGame.setChosenColor(PawnColor.GREEN);
-            case 5 -> assetGame.setChosenColor(PawnColor.PINK);
-        }
+        assetGame.setChosenColor(possibleColors.get(choice-1));
         this.setReadyToProcede();
     }
 

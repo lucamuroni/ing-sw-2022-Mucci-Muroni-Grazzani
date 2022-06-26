@@ -2,14 +2,15 @@ package it.polimi.ingsw.controller.client.game;
 
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.client.networkHandler.Network;
-import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
+import it.polimi.ingsw.controller.networking.GameType;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
+import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
+import it.polimi.ingsw.model.expert.CharacterCard;
+import it.polimi.ingsw.model.game.ExpertGame;
 import it.polimi.ingsw.view.ViewHandler;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
-
-import java.util.ArrayList;
 
 public class Start implements GamePhase {
     private final Game game;
@@ -26,31 +27,61 @@ public class Start implements GamePhase {
 
     @Override
     public void handle() {
+        this.view.setController(controller);
+        this.getUsernames();
         this.updateMNPlace();
-        this.updateIslandStatus();
+        for(int i = 0; i< 12;i++){
+            this.updateIslandStatus();
+        }
+        if(this.game.getGameType().equals(GameType.EXPERT.getName())){
+            this.getCharacterCards();
+            this.getCoins();
+        }
         for (int i = 0; i<this.game.getGamers().size(); i++) {
             this.updateColor();
             this.updateDashboards();
         }
-        ArrayList<AssistantCardDeckFigures> figures = new ArrayList<>();
+    }
+
+    private void getCharacterCards() {
+        for (int i = 0; i<3; i++) {
+            try {
+                try {
+                    this.network.getCharacterCard(game);
+                } catch (MalformedMessageException e) {
+                    this.network.getCharacterCard(game);
+                }
+            } catch (MalformedMessageException | ClientDisconnectedException e) {
+                this.controller.handleError();
+            } catch (AssetErrorException e) {
+                this.controller.handleError("Doesn't found character card");
+            }
+        }
+    }
+
+    private void getCoins() {
         try {
             try {
-                figures.addAll(this.network.getPossibleDecks());
+                this.network.getCoins(game);
             } catch (MalformedMessageException e) {
-                figures.addAll(this.network.getPossibleDecks());
+                this.network.getCoins(game);
             }
-        } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+        } catch (MalformedMessageException | ClientDisconnectedException e) {
             this.controller.handleError();
         }
-        AssistantCardDeckFigures figure = this.view.chooseFigure(figures);
-        try {
-            try {
-                this.network.sendAssistantCardDeck(figure);
-            } catch (MalformedMessageException e) {
-                this.network.sendAssistantCardDeck(figure);
+    }
+
+    private void getUsernames() {
+        for(int i = 0 ; i< this.game.getLobbySize()-1;i++) {
+            try{
+                try {
+                    this.network.getUsernames(this.game);
+                } catch (MalformedMessageException e) {
+                    this.network.getUsernames(this.game);
+                }
+            }catch (MalformedMessageException | ClientDisconnectedException e) {
+                this.controller.handleError("Could not receive info about other players");
             }
-        } catch (MalformedMessageException e) {
-            this.controller.handleError();
         }
     }
 
@@ -61,8 +92,10 @@ public class Start implements GamePhase {
             } catch (MalformedMessageException e) {
                 this.network.getMotherNaturePlace(this.game);
             }
-        } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+        } catch (MalformedMessageException  | ClientDisconnectedException e) {
             this.controller.handleError();
+        } catch (AssetErrorException e) {
+            this.controller.handleError("Doesn't found island of mother nature");
         }
     }
 
@@ -73,8 +106,10 @@ public class Start implements GamePhase {
             } catch (MalformedMessageException e) {
                 this.network.getIslandStatus(this.game);
             }
-        } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+        } catch (MalformedMessageException | ClientDisconnectedException e) {
             this.controller.handleError();
+        } catch (AssetErrorException e) {
+            this.controller.handleError("Doesn't found island");
         }
     }
 
@@ -85,8 +120,10 @@ public class Start implements GamePhase {
             } catch (MalformedMessageException e) {
                 this.network.getDashboard(this.game);
             }
-        } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+        } catch (MalformedMessageException | ClientDisconnectedException e) {
             this.controller.handleError();
+        } catch (AssetErrorException e) {
+            this.controller.handleError("Doesn't found dashboard");
         }
     }
 
@@ -97,14 +134,18 @@ public class Start implements GamePhase {
             } catch (MalformedMessageException e) {
                 this.network.getTowerColor(this.game);
             }
-        } catch (MalformedMessageException | TimeHasEndedException | ClientDisconnectedException e) {
+        } catch (MalformedMessageException | ClientDisconnectedException e) {
             this.controller.handleError();
+        } catch (AssetErrorException e) {
+            this.controller.handleError("Doesn't found tower color/gamer");
         }
     }
 
     @Override
     public GamePhase next() {
-        return new Idle(this.controller);
+        Idle phase = new Idle(this.controller);
+        phase.isGameStarted(false);
+        return phase;
     }
 
 }

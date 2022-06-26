@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.dashboard;
 
+import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
 import java.util.ArrayList;
 
@@ -55,7 +56,13 @@ public class ExpertDashboard extends Dashboard{
      */
     private void checkCoins(Student student){
         int number = Math.toIntExact(hall.stream().filter(stud -> stud.getColor().equals(student.getColor())).count());
-        if(number%3==0)
+        if(number%3==0) {
             setCoins(1);
+        }
+    }
+
+    public void removeStudentFromHall(PawnColor color) {
+        Student student = this.hall.stream().filter(x->x.getColor()==color).findFirst().orElse(null);
+        this.hall.remove(student);
     }
 }

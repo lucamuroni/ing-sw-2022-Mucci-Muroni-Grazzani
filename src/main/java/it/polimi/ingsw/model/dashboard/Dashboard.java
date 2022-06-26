@@ -15,7 +15,8 @@ import java.util.ArrayList;
 public class Dashboard {
     protected ArrayList<Student> waitingRoom;
     protected int towers;
-    public ArrayList<Student> hall;     //TODO: rimettere protected una volta finiti i test.
+    public ArrayList<Student> hall;
+    //TODO: rimettere protected una volta finiti i test
 
     /**
      * Class builder

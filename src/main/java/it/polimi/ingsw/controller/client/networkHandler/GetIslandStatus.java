@@ -4,13 +4,15 @@ import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
+import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Gamer;
 import it.polimi.ingsw.view.asset.game.Island;
 import java.util.ArrayList;
+
+import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.CONNECTION_STARTUP;
 import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
@@ -38,12 +40,11 @@ public class GetIslandStatus {
 
     /**
      * Method that handles the update of the island in the view
-     * @throws TimeHasEndedException       launched when the available time for the response has ended
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException   launched if the message isn't created in the correct way
      */
-    public void handle() throws TimeHasEndedException, ClientDisconnectedException, MalformedMessageException {
-        this.messageHandler.read(PLAYER_MOVE.getTiming());
+    public void handle() throws ClientDisconnectedException, MalformedMessageException, AssetErrorException {
+        this.messageHandler.read();
         int result = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(ISLAND_ID.getFragment()));
         Island island = null;
         for (Island isl : game.getIslands()) {
@@ -51,14 +52,20 @@ public class GetIslandStatus {
                 island = isl;
             }
         }
+        if (island==null)
+            throw new AssetErrorException();
         //Prendo owner dell'isola
         int owner = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(OWNER.getFragment()));
         Gamer gamer = null;
-        for (Gamer gm : game.getGamers()) {
-            if (gm.getId() == owner) {
-                gamer = gm;
+        if (owner!=0) {
+            for (Gamer gm : game.getGamers()) {
+                if (gm.getId() == owner) {
+                    gamer = gm;
+                }
             }
         }
+        if (owner!=0 && gamer==null)
+            throw new AssetErrorException();
         numTowers = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(NUM_TOWERS.getFragment()));
         //Prendo gli Student
         int colorRed = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_RED.getFragment()));
@@ -100,8 +107,10 @@ public class GetIslandStatus {
         Message message = new Message(ISLAND.getFragment(), OK.getFragment(), topicId);
         this.messageHandler.write(message);
         this.messageHandler.writeOut();
-        assert island != null;
-        assert gamer != null;
-        island.updateIsland(students, numTowers, gamer.getColor());
+        if (owner==0) {
+            island.updateIsland(students, numTowers);
+        } else {
+            island.updateIsland(students, numTowers, gamer.getColor());
+        }
     }
 }

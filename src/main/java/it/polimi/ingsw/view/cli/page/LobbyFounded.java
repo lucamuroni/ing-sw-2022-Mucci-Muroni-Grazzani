@@ -23,6 +23,14 @@ public class LobbyFounded implements Page {
                 System.out.print("\n"+ AnsiColor.GREEN.toString()+"A LOOBY WAS FOUND"+AnsiColor.RESET.toString()+"\n");
                 System.out.print("Please be patient while we initialize the game"+"\n"+"   ");
                 loadingBar.print();
+                synchronized (this){
+                    try {
+                        this.wait(500);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                this.cli.clearConsole();
             }
         });
         t.start();

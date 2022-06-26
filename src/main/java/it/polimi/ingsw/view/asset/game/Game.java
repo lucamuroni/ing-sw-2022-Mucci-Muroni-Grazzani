@@ -1,37 +1,50 @@
 package it.polimi.ingsw.view.asset.game;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 import it.polimi.ingsw.controller.networking.GameType;
+import it.polimi.ingsw.model.expert.CharacterCard;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.view.asset.game.Island;
 
 public class Game {
-    private ArrayList<Gamer> gamers;
-    private ArrayList<Island> islands;
-    private ArrayList<Cloud> clouds;
+    private final ArrayList<Gamer> gamers;
+    private final ArrayList<Island> islands;
+    private final ArrayList<Cloud> clouds;
     private Island motherNaturePosition;
-    private Gamer self;
+    private final Gamer self;
     private String currentPlayer;
     private GameType type;
     private int lobbySize;
     private Island chosenIsland;
     private PawnColor chosenColor;
     private Cloud chosenCloud;
+    private final ArrayList<CharacterCard> cards;
+    private int coins;
 
     public Game(Gamer gamer) {
         this.gamers = new ArrayList<>();
         this.islands = new ArrayList<>();
         this.clouds = new ArrayList<>();
         this.self = gamer;
+        this.gamers.add(self);
+        this.createIslands();
+        this.cards = new ArrayList<>();
+        this.coins = -1;
     }
 
-    public void updateGame(ArrayList<Gamer> gamers, ArrayList<Island> islands, ArrayList<Cloud> clouds, Island motherNaturePosition) {
-        this.gamers.addAll(gamers);
-        this.islands.addAll(islands);
-        this.clouds.addAll(clouds);
-        this.motherNaturePosition = motherNaturePosition;
+    private void createIslands() {
+        for (int i = 0; i<12; i++) {
+            this.islands.add(new Island(i+1));
+        }
+    }
+
+    private void createClouds(){
+        for (int i = 0; i<lobbySize; i++) {
+            this.clouds.add(new Cloud(i+1));
+        }
     }
 
     public Gamer getSelf() {
@@ -74,8 +87,31 @@ public class Game {
         return lobbySize;
     }
 
+    public String getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public ArrayList<CharacterCard> getCards() {
+        return this.cards;
+    }
+
+    public int getCoins() {
+        return this.coins;
+    }
+
+    public void setCoins(int coins) {
+        this.coins = coins;
+    }
+
+    public void addCard(CharacterCard card) {
+        this.cards.add(card);
+    }
+
     public void setMotherNaturePosition(Island motherNaturePosition) {
+        if (this.motherNaturePosition != null)
+            this.motherNaturePosition.setMotherNaturePresent(false);
         this.motherNaturePosition = motherNaturePosition;
+        motherNaturePosition.setMotherNaturePresent(true);
     }
 
     public void setChosenIsland(Island chosenIsland) {
@@ -84,10 +120,6 @@ public class Game {
 
     public void setChosenColor(PawnColor chosenColor) {
         this.chosenColor = chosenColor;
-    }
-
-    public String getCurrentPlayer() {
-        return currentPlayer;
     }
 
     public void setCurrentPlayer(String currentPlayer) {
@@ -104,6 +136,58 @@ public class Game {
 
     public void setLobbySize(int lobbySize) {
         this.lobbySize = lobbySize;
+        this.createClouds();
     }
 
+    public ArrayList<PawnColor> getPossibleColors(int place) {
+        ArrayList<PawnColor> colors = new ArrayList<>(List.of(PawnColor.values()));
+        int num;
+        for (PawnColor color : PawnColor.values()) {
+            num = Math.toIntExact(this.self.getDashBoard().getWaitingRoom().stream().filter(x -> x.getColor().equals(color)).count());
+            if (num == 0)
+                colors.remove(color);
+            else {
+                if (place == 1) {
+                    num = Math.toIntExact(this.self.getDashBoard().getHall().stream().filter(x -> x.getColor().equals(color)).count());
+                        if (num == 10)
+                            colors.remove(color);
+                }
+            }
+        }
+        return colors;
+    }
+
+    public ArrayList<PawnColor> getWaitingColors(PawnColor col) {
+        ArrayList<PawnColor> colors = new ArrayList<>(List.of(PawnColor.values()));
+        for (PawnColor color : PawnColor.values()) {
+            int num = Math.toIntExact(this.self.getDashBoard().getWaitingRoom().stream().filter(x -> x.getColor().equals(color)).count());
+            if (num == 0) {
+                colors.remove(color);
+            } else {
+                num = Math.toIntExact(this.self.getDashBoard().getHall().stream().filter(x -> x.getColor().equals(color)).count());
+                if (num == 10 && !col.equals(color)) {
+                    colors.remove(color);
+                }
+            }
+        }
+        return colors;
+    }
+
+    public ArrayList<PawnColor> getHallColors() {
+        ArrayList<PawnColor> colors = new ArrayList<>(List.of(PawnColor.values()));
+        for (PawnColor color : PawnColor.values()) {
+            int num = Math.toIntExact(this.self.getDashBoard().getHall().stream().filter(x -> x.getColor().equals(color)).count());
+            if (num == 0) {
+                colors.remove(color);
+            }
+        }
+        return colors;
+    }
+
+    public int getPossiblePlace() {
+        int num = this.self.getDashBoard().getHall().size();
+        if (num == 50)
+            return 1;
+        return 2;
+    }
 }

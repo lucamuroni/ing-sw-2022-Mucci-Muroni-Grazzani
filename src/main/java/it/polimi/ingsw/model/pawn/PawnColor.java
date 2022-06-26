@@ -6,5 +6,20 @@ package it.polimi.ingsw.model.pawn;
  * Class that represents the color that a pawn (student-professor) can have.
  */
 public enum PawnColor {
-    BLUE, PINK, YELLOW, RED, GREEN;
+    BLUE("blue"),
+    PINK("pink"),
+    YELLOW("yellow"),
+    RED("red"),
+    GREEN("green");
+
+    private String nameColor;
+    private PawnColor(String nameColor){
+        this.nameColor = nameColor;
+    }
+
+
+    @Override
+    public String toString() {
+        return nameColor;
+    }
 }

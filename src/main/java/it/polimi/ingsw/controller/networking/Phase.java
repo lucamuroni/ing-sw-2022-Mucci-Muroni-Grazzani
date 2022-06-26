@@ -5,7 +5,9 @@ package it.polimi.ingsw.controller.networking;
  * Class that represents the phases of a game
  */
 public enum Phase {
+    DECK_PHASE("Deck phase"),
     PLANNING_PHASE("Planning phase"),
+    CHARACTER_PHASE("Character phase"),
     ACTION_PHASE_1("Action phase 1"),
     MOTHER_NATURE_PHASE("Mother nature phase"),
     ACTION_PHASE_3("Action phase 3"),

@@ -2,46 +2,59 @@ package it.polimi.ingsw.view.cli.page;
 
 import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.asset.game.Results;
+import it.polimi.ingsw.view.cli.AnsiColor;
+import it.polimi.ingsw.view.cli.Cli;
 
 public class EndGamePage implements Page {
-    private Results result;
-    private boolean readyToProceed;
-    private boolean killed;
+    private final Cli cli;
+    private boolean killed = false;
+    private final Results results;
 
-    public EndGamePage(Results result) {
-        this.result = result;
-        this.killed = false;
+    public EndGamePage(Cli cli, Results results){
+        this.cli = cli;
+        this.results = results;
     }
+
     @Override
     public void handle() throws UndoException {
-        switch (result) {
-            case WIN -> System.out.println("Hai vinto la partita :)");
-            case TIE -> System.out.println("Hai pareggiato :|");
-            case LOSS -> System.out.println("Hai perso :(");
+        this.cli.clearConsole();
+        if(results == Results.WIN){
+            System.out.println(AnsiColor.GREEN.toString() +"\n" +
+                    "██╗    ██╗██╗███╗   ██╗███╗   ██╗███████╗██████╗ \n" +
+                    "██║    ██║██║████╗  ██║████╗  ██║██╔════╝██╔══██╗\n" +
+                    "██║ █╗ ██║██║██╔██╗ ██║██╔██╗ ██║█████╗  ██████╔╝\n" +
+                    "██║███╗██║██║██║╚██╗██║██║╚██╗██║██╔══╝  ██╔══██╗\n" +
+                    "╚███╔███╔╝██║██║ ╚████║██║ ╚████║███████╗██║  ██║\n" +
+                    " ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝"+"\n"+AnsiColor.RESET.toString());
+        }else if(results == Results.TIE){
+            System.out.println(AnsiColor.YELLOW.toString()+"\n" +
+                    "██████╗ ██████╗  █████╗ ██╗    ██╗\n" +
+                    "██╔══██╗██╔══██╗██╔══██╗██║    ██║\n" +
+                    "██║  ██║██████╔╝███████║██║ █╗ ██║\n" +
+                    "██║  ██║██╔══██╗██╔══██║██║███╗██║\n" +
+                    "██████╔╝██║  ██║██║  ██║╚███╔███╔╝\n" +
+                    "╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ "+"\n"+AnsiColor.RESET.toString());
+        }else{
+            System.out.println(AnsiColor.RED.toString()+"\n" +
+                    "██╗      ██████╗ ███████╗███████╗██████╗ \n" +
+                    "██║     ██╔═══██╗██╔════╝██╔════╝██╔══██╗\n" +
+                    "██║     ██║   ██║███████╗█████╗  ██████╔╝\n" +
+                    "██║     ██║   ██║╚════██║██╔══╝  ██╔══██╗\n" +
+                    "███████╗╚██████╔╝███████║███████╗██║  ██║\n" +
+                    "╚══════╝ ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝"+AnsiColor.RESET.toString());
         }
-        this.setReadyToProcede();
+        System.out.println("\n");
+        System.out.println("Thank you for playing this game");
+        System.exit(0);
     }
 
     @Override
     public boolean isReadyToProceed() {
-        if(!this.readyToProceed){
-            return false;
-        }else {
-            this.readyToProceed = false;
-            return true;
-        }
-    }
-
-    private synchronized void setReadyToProcede(){
-        this.readyToProceed = true;
+        return true;
     }
 
     @Override
-    public synchronized void kill() {
+    public void kill() {
         this.killed = true;
-    }
-
-    private synchronized boolean isKilled(){
-        return this.killed;
     }
 }

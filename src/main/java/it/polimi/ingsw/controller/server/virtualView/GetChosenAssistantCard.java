@@ -4,7 +4,7 @@ import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
+
 import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
 import it.polimi.ingsw.model.AssistantCard;
 import java.util.ArrayList;
@@ -33,10 +33,9 @@ class GetChosenAssistantCard {
      * Method that handles the message exchange
      * @return the chosen assistant card
      * @throws MalformedMessageException launched if the message isn't created in the correct way
-     * @throws TimeHasEndedException launched when the available time for the response has ended
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      */
-    public AssistantCard handle() throws MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+    public AssistantCard handle() throws MalformedMessageException, ClientDisconnectedException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
         int size = this.cards.size();
         Message message = new Message(PAYLOAD_SIZE.getFragment(), String.valueOf(size),topicId);
@@ -47,7 +46,7 @@ class GetChosenAssistantCard {
             this.messageHandler.write(message);
             this.messageHandler.writeOut();
         }
-        this.messageHandler.read(ConnectionTimings.PLAYER_MOVE.getTiming());
+        this.messageHandler.read();
         if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
             throw new MalformedMessageException();
         }

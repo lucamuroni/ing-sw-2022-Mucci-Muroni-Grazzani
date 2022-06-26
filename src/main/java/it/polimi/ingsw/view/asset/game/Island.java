@@ -17,6 +17,7 @@ public class Island {
     private TowerColor towersColor;
     private boolean isMotherNaturePresent;
     private boolean isTowerPresent;
+    private boolean isMerged;
 
     /**
      * Constructor of the class
@@ -27,6 +28,8 @@ public class Island {
         this.numTowers = 0;
         this.isMotherNaturePresent = false;
         this.isTowerPresent = false;
+        this.isMerged = false;
+        this.students = new ArrayList<Student>();
     }
 
     /**
@@ -37,9 +40,20 @@ public class Island {
      */
     public void updateIsland(ArrayList<Student> students, int numTowers, TowerColor towersColor) {
         this.numTowers = numTowers;
+        if (numTowers>0)
+            this.isTowerPresent = true;
         this.students.clear();
         this.students.addAll(students);
         this.towersColor = towersColor;
+        this.setTowerPresent();
+    }
+
+    public void updateIsland(ArrayList<Student> students, int numTowers) {
+        this.numTowers = numTowers;
+        if (numTowers>0)
+            this.isTowerPresent = true;
+        this.students.clear();
+        this.students.addAll(students);
     }
 
     public void updateOwner(TowerColor towersColor) {
@@ -84,5 +98,13 @@ public class Island {
 
     public void setTowerPresent() {
         isTowerPresent = true;
+    }
+
+    public boolean isMerged() {
+        return isMerged;
+    }
+
+    public void setMerged() {
+        isMerged = true;
     }
 }

@@ -34,25 +34,30 @@ public class AsciiCloud {
                 System.out.print(string);
                 break;
             case 1:
-                string = " __|     |__";
+                string = " __|  "+cloud.getId()+"  |__";
                 System.out.print(string);
                 break;
             case 2:
                 if(this.cloud.getStudents().isEmpty()){
-                    string = "|   "+AnsiChar.MISSING_PAWN.toString()+"    "+AnsiChar.MISSING_PAWN+toString()+"   |";
+                    string = "|           |";
                     System.out.print(string);
                 }else{
-                    string = "|   "+this.fromPawnToAnsi(this.cloud.getStudents().get(0).getColor())+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString()+"    "+this.fromPawnToAnsi(this.cloud.getStudents().get(1).getColor())+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString()+"   |";
+                    string = "|   "+this.fromPawnToAnsi(this.cloud.getStudents().get(0).getColor())+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString()+"    "+this.fromPawnToAnsi(this.cloud.getStudents().get(1).getColor())+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString()+"  |";
                     System.out.print(string);
                 }
                 break;
             case 3:
-                if(this.cloud.getStudents().size()==3){
-                    string = "|     "+this.fromPawnToAnsi(this.cloud.getStudents().get(2).getColor())+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString()+"     |";
+                if(this.cloud.getStudents().isEmpty()){
+                    string = "|           |";
                     System.out.print(string);
                 }else{
-                    string = "|   "+this.fromPawnToAnsi(this.cloud.getStudents().get(2).getColor())+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString()+"    "+this.fromPawnToAnsi(this.cloud.getStudents().get(3).getColor())+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString()+"   |";
-                    System.out.print(string);
+                    if(this.cloud.getStudents().size()==3){
+                        string = "|     "+this.fromPawnToAnsi(this.cloud.getStudents().get(2).getColor())+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString()+"     |";
+                        System.out.print(string);
+                    }else{
+                        string = "|   "+this.fromPawnToAnsi(this.cloud.getStudents().get(2).getColor())+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString()+"    "+this.fromPawnToAnsi(this.cloud.getStudents().get(3).getColor())+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString()+"  |";
+                        System.out.print(string);
+                    }
                 }
                 break;
             case 4:
@@ -64,7 +69,21 @@ public class AsciiCloud {
                 System.out.print(string);
                 break;
         }
-        return string.length();
+        if(cloud.getStudents().isEmpty()){
+            return string.length();
+        }else{
+            if(line == 2){
+                return (string.length()-18);
+            } else if (line == 3) {
+                if(cloud.getStudents().size() == 3){
+                    return (string.length() -9);
+                }else {
+                    return (string.length() -9);
+                }
+            }else{
+                return string.length();
+            }
+        }
     }
 
     /**
@@ -79,5 +98,13 @@ public class AsciiCloud {
             }
         }
         return null;
+    }
+
+    public static int getHeight(){
+        return height;
+    }
+
+    public static int getWidth(){
+        return width;
     }
 }

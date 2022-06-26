@@ -1,16 +1,19 @@
 package it.polimi.ingsw.controller.server.game;
 
+import it.polimi.ingsw.controller.networking.GameType;
 import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.networking.exceptions.TimeHasEndedException;
+
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
-import it.polimi.ingsw.controller.server.game.gameController.GameController;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.model.Island;
+import it.polimi.ingsw.model.dashboard.ExpertDashboard;
+import it.polimi.ingsw.model.game.ExpertGame;
 import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
 
@@ -24,12 +27,11 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
  * from his waitingRoom to an island or his hall
  */
 public class ActionPhase1 implements GamePhase{
-    //TODO: Bisogna risolvere questo problema: se il game è in modalità esperta, non si possono gestire le monete
+
     private final Game game;
     private final GameController controller;
     private final int numOfMovements;
     private final View view;
-
 
     /**
      * Constructor of the class
@@ -52,30 +54,32 @@ public class ActionPhase1 implements GamePhase{
      */
     @Override
     public void handle() {
-        this.game.setTurnNumber();
+        this.game.setCurrentPlayer(this.game.getGamers().get(this.game.getTurnNumber()%this.game.getGamers().size()));
         try {
             this.view.setCurrentPlayer(this.controller.getPlayer(this.game.getCurrentPlayer()));
         } catch (ModelErrorException e) {
-            this.controller.shutdown();
+            this.controller.shutdown("Error founded in model : shutting down this game");
         }
         try {
             try{
+                this.view.sendContext(CONTEXT_PHASE.getFragment());
                 this.view.sendNewPhase(Phase.ACTION_PHASE_1);
-            }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException e){
+            }catch (MalformedMessageException | FlowErrorException e){
+                this.view.sendContext(CONTEXT_PHASE.getFragment());
                 this.view.sendNewPhase(Phase.ACTION_PHASE_1);
             }
-        }catch (MalformedMessageException | FlowErrorException | TimeHasEndedException | ClientDisconnectedException e) {
+        }catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
             try {
-                this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()));
+                this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()),"Error while sending ACTION PHASE 1");
             } catch (ModelErrorException i) {
-                this.controller.shutdown();
+                this.controller.shutdown("Error founded in model : shutting down this game");
             }
         }
-        ArrayList<Player> players = this.controller.getPlayers();
+        ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
         try {
             players.remove(this.controller.getPlayer(this.game.getCurrentPlayer()));
         } catch (ModelErrorException e) {
-            this.controller.shutdown();
+            this.controller.shutdown("Error founded in model : shutting down this game");
         }
         for (Player player : players) {
             this.view.setCurrentPlayer(player);
@@ -83,14 +87,14 @@ public class ActionPhase1 implements GamePhase{
                 try {
                     this.view.sendContext(CONTEXT_USERNAME.getFragment());
                     this.view.sendActiveUsername(this.controller.getPlayer(this.game.getCurrentPlayer()));
-                } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
+                } catch (MalformedMessageException | FlowErrorException e) {
                     this.view.sendContext(CONTEXT_USERNAME.getFragment());
                     this.view.sendActiveUsername(this.controller.getPlayer(this.game.getCurrentPlayer()));
                 }
-            } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException | ClientDisconnectedException e) {
-                this.controller.handlePlayerError(player);
+            } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                this.controller.handlePlayerError(player,"Error while uploading current player to other gamers");
             } catch (ModelErrorException e) {
-                this.controller.shutdown();
+                this.controller.shutdown("Error founded in model : shutting down this game");
             }
         }
         try {
@@ -99,28 +103,36 @@ public class ActionPhase1 implements GamePhase{
                 this.view.setCurrentPlayer(this.controller.getPlayer(this.game.getCurrentPlayer()));
                 try {
                     try {
-                        this.view.updateDashboards(this.game.getCurrentPlayer(), this.game);
-                    } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
-                        this.view.updateDashboards(this.game.getCurrentPlayer(), this.game);
+                        for (Gamer gamer : this.game.getGamers()) {
+                            this.view.updateDashboards(gamer, this.game);
+                        }
+                        if (place>0)
+                            this.view.updateIslandStatus(this.game.getIslands().get(place-1));
+                    } catch (MalformedMessageException | FlowErrorException e) {
+                        for (Gamer gamer : this.game.getGamers()) {
+                            this.view.updateDashboards(gamer, this.game);
+                        }
+                        if (place>0)
+                            this.view.updateIslandStatus(this.game.getIslands().get(place-1));
                     }
-                } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
-                    this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()));
+                } catch (MalformedMessageException | ClientDisconnectedException  | FlowErrorException e){
+                    this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()),"Error while uploading dashboards");
                 }
                 for (Player pl : players) {
                     this.view.setCurrentPlayer(pl);
                     try {
                         try {
                             this.sendInfo(place);
-                        } catch (MalformedMessageException | TimeHasEndedException | FlowErrorException e) {
+                        } catch (MalformedMessageException | FlowErrorException e) {
                             this.sendInfo(place);
                         }
-                    } catch (MalformedMessageException | ClientDisconnectedException | TimeHasEndedException | FlowErrorException e){
-                        this.controller.handlePlayerError(pl);
+                    } catch (MalformedMessageException | ClientDisconnectedException | FlowErrorException e){
+                        this.controller.handlePlayerError(pl,"Error while updating islands and dashboards");
                     }
                 }
             }
         } catch (ModelErrorException e) {
-            this.controller.shutdown();
+            this.controller.shutdown("Error founded in model : shutting down this game");
             e.printStackTrace();
         }
     }
@@ -142,13 +154,9 @@ public class ActionPhase1 implements GamePhase{
                 place = this.view.getMovedStudentLocation();
             }
         }catch (MalformedMessageException | ClientDisconnectedException e){
-            this.controller.handlePlayerError(player);
-        }catch (TimeHasEndedException e){
-            color = this.randomColorPicker();
-            place = this.randomPlacePicker();
-            modelHandler(place,color);
+            this.controller.handlePlayerError(player,"Error while getting the location of  moved the student");
         }
-        modelHandler(place,color);
+        modelHandler(place, color, player);
         return place;
     }
 
@@ -157,14 +165,19 @@ public class ActionPhase1 implements GamePhase{
      * @param place is the location where the student must be moved to
      * @param color is the color of the student
      */
-    private void modelHandler(int place, PawnColor color){
+    private void modelHandler(int place, PawnColor color, Player player){
         Student stud = this.game.getCurrentPlayer().getDashboard().getWaitingRoom().stream().filter(x -> x.getColor().equals(color)).findFirst().get();
         if (place == 0) {
             this.game.getCurrentPlayer().getDashboard().moveStudent(stud);
             try {
                 this.game.changeProfessorOwner(stud.getColor());
             }catch (Exception e) {
-                this.controller.shutdown();
+                this.controller.shutdown("Error founded in model : shutting down this game");
+            }
+            if(controller.getGameType()==GameType.EXPERT){
+                ExpertGame expertGame = (ExpertGame) game;
+                int coins = expertGame.getCurrentPlayer().getDashboard().getCoins();
+                this.sendCoins(player,coins);
             }
         }
         else {
@@ -173,13 +186,27 @@ public class ActionPhase1 implements GamePhase{
         }
     }
 
-    private void sendInfo(int place) throws FlowErrorException, MalformedMessageException, TimeHasEndedException, ClientDisconnectedException {
+    private void sendCoins(Player player,int coins) {
+        try {
+            try {
+                this.view.sendCoins(coins);
+            } catch (MalformedMessageException e) {
+                this.view.sendCoins(coins);
+            }
+        } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+            this.controller.handlePlayerError(player, "Error while sending coins");
+        }
+    }
+
+    private void sendInfo(int place) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
         if (place > 0) {
             this.view.sendContext(CONTEXT_ISLAND.getFragment());
             this.view.updateIslandStatus(this.game.getIslands().get(place-1));
         }
-        this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
-        this.view.updateDashboards(this.game.getCurrentPlayer(), this.game);
+        for (Gamer gamer : this.game.getGamers()) {
+            this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
+            this.view.updateDashboards(gamer, this.game);
+        }
     }
 
     /**
@@ -209,6 +236,9 @@ public class ActionPhase1 implements GamePhase{
      */
     @Override
     public GamePhase next() {
+        if(controller.getGameType()== GameType.EXPERT){
+            return new CharacterCardPhase((ExpertGame) this.game,this.controller,new MotherNaturePhase(this.game, this.controller));
+        }
         return new MotherNaturePhase(this.game, this.controller);
     }
 }

@@ -38,9 +38,7 @@ public class Cloud {
      * @param studentsToAdd represents students that have to be added to the cloud.
      */
     public void pushStudents(ArrayList<Student> studentsToAdd) {
-        for (Student student: studentsToAdd) {
-            students.add(student);
-        }
+        students.addAll(studentsToAdd);
     }
 
     /**
