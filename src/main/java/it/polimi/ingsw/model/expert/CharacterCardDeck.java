@@ -21,16 +21,6 @@ public class CharacterCardDeck {
         this.studentsParameters = new ArrayList<>();
     }
 
-    public ArrayList<CharacterCard> drawCards() {
-        ArrayList<CharacterCard> playableCards = new ArrayList<>();
-        for (int i = 0; i<3; i++) {
-            Random random = new Random();
-            int rand = random.nextInt(0, this.cards.size());
-            playableCards.add(this.cards.get(rand));
-        }
-        return playableCards;
-    }
-
     public void setParameters(ArrayList<Student> students, Island island){
         this.studentsParameters.clear();
         this.studentsParameters.addAll(students);
@@ -85,5 +75,20 @@ public class CharacterCardDeck {
         }
         choice.payCardCost();
         choice.handle();
+    }
+
+    public void initDeck() {
+        ArrayList<CharacterCard> playableCards = new ArrayList<>();
+        for (int i = 0; i<3; i++) {
+            Random random = new Random();
+            int rand = random.nextInt(0, this.cards.size());
+            playableCards.add(this.cards.get(rand));
+        }
+        this.cards.clear();
+        this.cards.addAll(playableCards);
+    }
+
+    public ArrayList<CharacterCard> getCards(){
+        return this.cards;
     }
 }

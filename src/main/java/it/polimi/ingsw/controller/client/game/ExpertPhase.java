@@ -31,88 +31,77 @@ public class ExpertPhase implements GamePhase{
     }
     @Override
     public void handle() {
-        boolean answer = this.view.askToPlayExpertCard();
+        ArrayList<CharacterCard> cards = new ArrayList<>();
         try {
             try {
-                this.network.sendAnswer(answer);
+                cards.addAll(this.network.getPossibleCharacters(this.game));
             } catch (MalformedMessageException e) {
-                this.network.sendAnswer(answer);
+                cards.addAll(this.network.getPossibleCharacters(this.game));
             }
-        } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+        } catch (MalformedMessageException | ClientDisconnectedException e) {
+            this.controller.handleError();
+        } catch (AssetErrorException e) {
+            this.controller.handleError("Doesn't found character cards");
+        }
+        System.out.println(cards.size());
+        CharacterCard card = this.view.choseCharacterCard(cards);
+        try {
+            try {
+                this.network.sendCharacterCard(card);
+            } catch (MalformedMessageException e) {
+                this.network.sendCharacterCard(card);
+            }
+        } catch (MalformedMessageException e) {
             this.controller.handleError();
         }
-        if (answer) {
-            ArrayList<CharacterCard> cards = null;
-            try {
+        switch (this.game.getSelf().getCurrentExpertCardSelection()) {
+            case AMBASSADOR -> {
+                Island island = this.view.chooseIsland(this.game.getIslands(), true);
+                //int ind = island.getId();
+                int ind = this.game.getIslands().indexOf(island) + 1;
                 try {
-                     cards = this.network.getPossibleCharacters(this.game);
-                } catch (MalformedMessageException e) {
-                     cards = this.network.getPossibleCharacters(this.game);
+                    try {
+                        this.network.sendLocation(ind);
+                    } catch (MalformedMessageException e) {
+                        this.network.sendLocation(ind);
+                    }
+                } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                    this.controller.handleError();
                 }
-            } catch (MalformedMessageException | ClientDisconnectedException e) {
-                this.controller.handleError();
-            } catch (AssetErrorException e) {
-                this.controller.handleError("Doesn't found character cards");
             }
-            CharacterCard card = this.view.choseCharacterCard(cards);
-            try {
+            case BARD -> {
+                ArrayList<PawnColor> students = this.view.choseStudentsToMove();
                 try {
-                    this.network.sendCharacterCard(card);
-                } catch (MalformedMessageException e) {
-                    this.network.sendCharacterCard(card);
+                    try {
+                        this.network.sendChosenColors(students);
+                    } catch (MalformedMessageException e) {
+                        this.network.sendChosenColors(students);
+                    }
+                } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                    this.controller.handleError();
                 }
+            }
+            case MERCHANT, THIEF -> {
+                PawnColor color = this.view.chooseColor(this.game.getSelf().getCurrentExpertCardSelection().getName());
+                try {
+                    try {
+                        this.network.sendColor(color);
+                    } catch (MalformedMessageException e) {
+                        this.network.sendColor(color);
+                    }
+                } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                    this.controller.handleError();
+                }
+            }
+        }
+        try {
+            try {
+                this.network.getCoins(game);
             } catch (MalformedMessageException e) {
-                this.controller.handleError();
+                this.network.getCoins(game);
             }
-            switch (this.game.getSelf().getCurrentExpertCardSelection()) {
-                case AMBASSADOR -> {
-                    Island island = this.view.chooseIsland(this.game.getIslands(), true);
-                    //int ind = island.getId();
-                    int ind = this.game.getIslands().indexOf(island) + 1;
-                    try {
-                        try {
-                            this.network.sendLocation(ind);
-                        } catch (MalformedMessageException e) {
-                            this.network.sendLocation(ind);
-                        }
-                    } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
-                        this.controller.handleError();
-                    }
-                }
-                case BARD -> {
-                    ArrayList<PawnColor> students = this.view.choseStudentsToMove();
-                    try {
-                        try {
-                            this.network.sendChosenColors(students);
-                        } catch (MalformedMessageException e) {
-                            this.network.sendChosenColors(students);
-                        }
-                    } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
-                        this.controller.handleError();
-                    }
-                }
-                case MERCHANT, THIEF -> {
-                    PawnColor color = this.view.chooseColor(this.game.getSelf().getCurrentExpertCardSelection().getName());
-                    try {
-                        try {
-                            this.network.sendColor(color);
-                        } catch (MalformedMessageException e) {
-                            this.network.sendColor(color);
-                        }
-                    } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
-                        this.controller.handleError();
-                    }
-                }
-            }
-            try {
-                try {
-                    this.network.getCoins(game);
-                } catch (MalformedMessageException e) {
-                    this.network.getCoins(game);
-                }
-            } catch (MalformedMessageException | ClientDisconnectedException e) {
-                this.controller.handleError();
-            }
+        } catch (MalformedMessageException | ClientDisconnectedException e) {
+            this.controller.handleError();
         }
     }
 

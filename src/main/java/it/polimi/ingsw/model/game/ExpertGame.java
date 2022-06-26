@@ -20,7 +20,6 @@ import java.util.Random;
 public class ExpertGame extends Game {
     private int coinBank;
     private final CharacterCardDeck deck;
-    private ArrayList<CharacterCard> gameCards;
     private boolean moreSteps;
     private boolean villagerCard;
 
@@ -29,6 +28,7 @@ public class ExpertGame extends Game {
      * @param expertGamers represents the gamers of the game
      */
     public ExpertGame(ArrayList<Gamer> expertGamers){
+        //TODO fix gestione banca monete
         super(expertGamers);
         this.coinBank = 20;
         this.deck = new CharacterCardDeck();
@@ -42,7 +42,7 @@ public class ExpertGame extends Game {
      * Method that creates a new deck for the game
      */
     private void initDeck() {
-        this.gameCards = new ArrayList<CharacterCard>(this.deck.drawCards());
+        this.deck.initDeck();
     }
 
     @Override
@@ -130,7 +130,7 @@ public class ExpertGame extends Game {
      * @return the cards of the game
      */
     public ArrayList<CharacterCard> getGameCards() {
-        return gameCards;
+        return this.deck.getCards();
     }
 
     /**
