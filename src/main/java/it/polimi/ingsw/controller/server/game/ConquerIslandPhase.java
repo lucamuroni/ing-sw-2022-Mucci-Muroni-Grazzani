@@ -47,34 +47,34 @@ public class ConquerIslandPhase implements GamePhase{
             System.out.println(owner.get().getUsername());
         int index = this.game.getIslands().indexOf(this.game.getMotherNature().getPlace());
         if(!this.game.getIslands().get(index).getId().equals(this.game.getIslands().get(0).getId())){
-            System.out.println("Chiamo mergeIsland 1° if");
+            //System.out.println("Chiamo mergeIsland 1° if");
             this.mergeIsland(index, index-1);
-            System.out.println("Finito mergeIsland 1° if");
+            //System.out.println("Finito mergeIsland 1° if");
         }else{
-            System.out.println("Chiamo mergeIsland 1° else");
+            //System.out.println("Chiamo mergeIsland 1° else");
             this.mergeIsland(index, this.game.getIslands().size()-1);
-            System.out.println("Finito mergeIsland 1° else");
+            //System.out.println("Finito mergeIsland 1° else");
         }
         index = this.game.getIslands().indexOf(this.game.getMotherNature().getPlace());
         if(!this.game.getIslands().get(index).getId().equals(this.game.getIslands().get(this.game.getIslands().size()-1).getId())){
-            System.out.println("Chiamo mergeIsland 2° if");
+            //System.out.println("Chiamo mergeIsland 2° if");
             this.mergeIsland(index, index+1);
-            System.out.println("Finito mergeIsland 2° if");
+            //System.out.println("Finito mergeIsland 2° if");
         }else{
-            System.out.println("Chiamo mergeIsland 2° else");
+            //System.out.println("Chiamo mergeIsland 2° else");
             this.mergeIsland(index, 0);
-            System.out.println("Finito mergeIsland 2° else");
+            //System.out.println("Finito mergeIsland 2° else");
         }
         ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
         for (Player pl : players) {
             this.view.setCurrentPlayer(pl);
             try {
                 try {
-                    System.out.println("Invio island");
+                    //System.out.println("Invio island");
                     this.view.sendContext(CONTEXT_ISLAND.getFragment());
                     this.view.updateIslandStatus(this.game.getMotherNature().getPlace());
                 } catch (MalformedMessageException  | FlowErrorException e) {
-                    System.out.println("Ritento invio island");
+                    //System.out.println("Ritento invio island");
                     this.view.sendContext(CONTEXT_ISLAND.getFragment());
                     this.view.updateIslandStatus(this.game.getMotherNature().getPlace());
                 }
@@ -84,13 +84,13 @@ public class ConquerIslandPhase implements GamePhase{
             try {
                 try {
                     for(Gamer gamer : this.game.getGamers()){
-                        System.out.println("Invio dashboard a "+ pl.getUsername());
+                        //System.out.println("Invio dashboard a "+ pl.getUsername());
                         this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
                         this.view.updateDashboards(gamer, game);
                     }
                 } catch (MalformedMessageException e) {
                     for(Gamer gamer : this.game.getGamers()){
-                        System.out.println("Ritento invio dashboard a "+ pl.getUsername());
+                        //System.out.println("Ritento invio dashboard a "+ pl.getUsername());
                         this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
                         this.view.updateDashboards(gamer, game);
                     }
@@ -99,7 +99,7 @@ public class ConquerIslandPhase implements GamePhase{
                 this.controller.handlePlayerError(pl,"Error while updating dashboard status");
             }
         }
-        System.out.println("Finito ConquerIslandPhase");
+        //System.out.println("Finito ConquerIslandPhase");
     }
 
     /**
@@ -129,12 +129,12 @@ public class ConquerIslandPhase implements GamePhase{
     }
 
     private void mergeIsland(int id1, int id2){
-        System.out.println("Isola: "+this.game.getIslands().get(id1).getId()+", index: "+id1);
-        System.out.println("Isola: "+this.game.getIslands().get(id2).getId()+", index: "+id2);
+        //System.out.println("Isola: "+this.game.getIslands().get(id1).getId()+", index: "+id1);
+        //System.out.println("Isola: "+this.game.getIslands().get(id2).getId()+", index: "+id2);
         if(this.game.getIslands().get(id1).getOwner().isPresent() && this.game.getIslands().get(id1).getOwner().equals(this.game.getIslands().get(id2).getOwner())){
-            System.out.println("Chiamo funzione model");
+            //System.out.println("Chiamo funzione model");
             this.game.getIslands().get(id1).mergeIsland(this.game.getIslands().get(id2));
-            System.out.println("Finito chiamata al model");
+            //System.out.println("Finito chiamata al model");
             ArrayList<Island> islands = new ArrayList<Island>();
             islands.add(this.game.getIslands().get(id1));
             islands.add(this.game.getIslands().get(id2));
@@ -142,24 +142,23 @@ public class ConquerIslandPhase implements GamePhase{
                 this.view.setCurrentPlayer(player);
                 try {
                     try {
-                        System.out.println("Invio isola");
+                        //System.out.println("Invio isola");
                         this.view.sendContext(CONTEXT_MERGE.getFragment());
-                        System.out.println("Finito invio isola");
+                        //System.out.println("Finito invio isola");
                         this.view.sendMergedIslands(islands);
                     }catch (MalformedMessageException | FlowErrorException e){
-                        System.out.println("Invio isola");
+                        //System.out.println("Invio isola");
                         this.view.sendContext(CONTEXT_MERGE.getFragment());
-                        System.out.println("Finito invio isola");
+                        //System.out.println("Finito invio isola");
                         this.view.sendMergedIslands(islands);
                     }
                 }catch (MalformedMessageException | ClientDisconnectedException | FlowErrorException e){
                     this.controller.handlePlayerError(player,"Could not send merged Islands");
                 }
             }
-            //TODO controllo
-            System.out.println("Chiamo remove");
+            //System.out.println("Chiamo remove");
             this.game.getIslands().remove(this.game.getIslands().get(id2));
-            System.out.println("Finito remove");
+            //System.out.println("Finito remove");
         }
     }
 }
