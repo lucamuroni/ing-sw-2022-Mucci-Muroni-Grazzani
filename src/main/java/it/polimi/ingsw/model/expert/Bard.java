@@ -22,7 +22,7 @@ public class Bard extends CharacterCardInterface{
         ExpertGamer gamer = this.getGame().getCurrentPlayer();
         for(int i = 0; i<colors.size() ; i=i+2){
             final Integer index = i;
-            Student student = gamer.getDashboard().getWaitingRoom().stream().filter(x->x.getColor()==colors.get(index)).findFirst().orElse(null);
+            Student student = gamer.getDashboard().getWaitingRoom().stream().filter(x->x.getColor().equals(colors.get(index))).findFirst().orElse(null);
             gamer.getDashboard().getWaitingRoom().remove(student);
             gamer.getDashboard().moveStudent(student);
             student = gamer.getDashboard().removeStudentFromHall(colors.get(i+1));

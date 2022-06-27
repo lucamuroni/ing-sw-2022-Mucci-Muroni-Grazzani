@@ -8,8 +8,7 @@ import it.polimi.ingsw.model.pawn.PawnColor;
 
 import java.util.ArrayList;
 
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.COLOR;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 public class GetChosenColors {
     private final MessageHandler messageHandler;
@@ -22,7 +21,7 @@ public class GetChosenColors {
 
     public ArrayList<PawnColor> handle() throws ClientDisconnectedException, MalformedMessageException {
         this.messageHandler.read();
-        int size = this.messageHandler.getMessagesUniqueTopic();
+        int size = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAYLOAD_SIZE.getFragment()));
         for (int i = 0; i<size; i++) {
             this.messageHandler.read();
             String col = this.messageHandler.getMessagePayloadFromStream(COLOR.getFragment());

@@ -68,7 +68,7 @@ public class ExpertDashboard extends Dashboard{
     }
 
     public Student removeStudentFromHall(PawnColor color) {
-        Student student = this.hall.stream().filter(x->x.getColor()==color).findFirst().orElse(null);
+        Student student = this.hall.stream().filter(x->x.getColor().equals(color)).findFirst().orElse(null);
         this.hall.remove(student);
         return student;
     }
