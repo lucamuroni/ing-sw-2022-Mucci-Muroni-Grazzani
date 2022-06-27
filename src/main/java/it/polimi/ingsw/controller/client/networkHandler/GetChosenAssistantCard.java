@@ -35,7 +35,7 @@ public class GetChosenAssistantCard {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      */
-    public void handle() throws ClientDisconnectedException, MalformedMessageException, AssetErrorException {
+    public Gamer handle() throws ClientDisconnectedException, MalformedMessageException, AssetErrorException {
         this.messageHandler.read();
         int id = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(OWNER.getFragment()));
         Gamer owner = null;
@@ -59,5 +59,6 @@ public class GetChosenAssistantCard {
         this.messageHandler.write(message);
         this.messageHandler.writeOut();
         owner.updateCurrentSelection(assistantCardToGet);
+        return owner;
     }
 }
