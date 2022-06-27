@@ -7,9 +7,11 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.messageParts.MessageFragment;
+import it.polimi.ingsw.model.expert.CharacterCard;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
+import it.polimi.ingsw.view.asset.game.Gamer;
 
 import java.util.Objects;
 
@@ -31,6 +33,7 @@ public class Idle implements GamePhase{
 
     @Override
     public void handle() {
+        String s;
         if(isGameStarted){
             this.view.goToIdle();
         }
@@ -50,17 +53,20 @@ public class Idle implements GamePhase{
             }
             switch (Objects.requireNonNull(context)) {
                 case CONTEXT_CARD:
+                    Gamer g = null;
                     try {
                         try {
-                            this.network.getChosenAssistantCard(this.game);
+                            g = this.network.getChosenAssistantCard(this.game);
                         } catch (MalformedMessageException e) {
-                            this.network.getChosenAssistantCard(this.game);
+                            g = this.network.getChosenAssistantCard(this.game);
                         }
                     } catch (MalformedMessageException | ClientDisconnectedException e) {
                         this.controller.handleError();
                     } catch (AssetErrorException e) {
                         this.controller.handleError("Doesn't found card");
                     }
+                    s = "The player "+g.getUsername()+" has played "+g.getCurrentSelection().getName();
+                    this.view.popUp(s);
                     break;
                 case CONTEXT_FIGURE:
                     try {
@@ -181,6 +187,8 @@ public class Idle implements GamePhase{
                     } catch (AssetErrorException e) {
                         this.controller.handleError("Doesn't found player name");
                     }
+                    s = "The player "+this.game.getCurrentPlayer()+" has started is turn";
+                    this.view.popUp(s);
                     break;
                 case CONTEXT_MERGE:
                     try {
@@ -207,6 +215,14 @@ public class Idle implements GamePhase{
                     } catch (AssetErrorException e) {
                         this.controller.handleError("Error while getting character card");
                     }
+                    CharacterCard card = null;
+                    for(Gamer gamer : this.game.getGamers()){
+                        if(gamer.getUsername().equals(this.game.getCurrentPlayer())){
+                            card = gamer.getCurrentExpertCardSelection();
+                        }
+                    }
+                    s = "The player "+this.game.getCurrentPlayer()+" has played "+card.getName();
+                    this.view.popUp(s);
                     break;
             }
         }
