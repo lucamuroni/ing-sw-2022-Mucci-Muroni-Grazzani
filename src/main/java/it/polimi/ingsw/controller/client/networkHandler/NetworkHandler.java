@@ -203,9 +203,9 @@ public class NetworkHandler implements Network {
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      */
     @Override
-    public void getChosenAssistantCard(Game game) throws MalformedMessageException, ClientDisconnectedException, AssetErrorException {
+    public Gamer getChosenAssistantCard(Game game) throws MalformedMessageException, ClientDisconnectedException, AssetErrorException {
         GetChosenAssistantCard func = new GetChosenAssistantCard(messageHandler, game);
-        func.handle();
+        return func.handle();
     }
 
     public void getChosenAssistantCardDeck(Game game) throws MalformedMessageException, ClientDisconnectedException, AssetErrorException {

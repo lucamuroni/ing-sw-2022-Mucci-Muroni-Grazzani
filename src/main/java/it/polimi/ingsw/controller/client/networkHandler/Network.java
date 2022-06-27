@@ -123,7 +123,7 @@ public interface Network {
      * @throws MalformedMessageException launched if the message isn't created in the correct way
      * @throws ClientDisconnectedException launched if the client disconnects from the game
      */
-    void getChosenAssistantCard(Game game) throws MalformedMessageException, ClientDisconnectedException, AssetErrorException;
+    Gamer getChosenAssistantCard(Game game) throws MalformedMessageException, ClientDisconnectedException, AssetErrorException;
 
     void getChosenAssistantCardDeck(Game game) throws MalformedMessageException,  ClientDisconnectedException, AssetErrorException;
 
