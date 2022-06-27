@@ -27,14 +27,23 @@ public class MoveMotherNaturePage implements Page {
     @Override
     public void handle() throws UndoException {
         ArrayList<String> options = new ArrayList<>();
-        for (Island island : this.islands) {
-            if (!island.isMerged())
+        ArrayList<Integer> possibleIslands = new ArrayList<>();
+        for(Island island : this.game.getIslands()){
+            if (!island.isMerged()){
                 options.add("Island " + island.getId());
+                possibleIslands.add(island.getId());
+            }
         }
+        options.add("Back");
         Menù menù = new Menù(options);
-        this.cli.drawArchipelago();
         menù.setContext("Which island do you want to choose?");
-        int choice = this.cli.readInt(options.size(), menù, false);
+        int choice = this.cli.readInt(options.size(), menù, true);
+        Island selectedIsland =  null;
+        for(Island island : this.game.getIslands()){
+            if(island.getId() == possibleIslands.get(choice-1)){
+                selectedIsland = island;
+            }
+        }
         options.clear();
         options.add("y");
         options.add("n");
@@ -44,9 +53,9 @@ public class MoveMotherNaturePage implements Page {
         }
         //cli.clearConsole();
         if (expert)
-            game.getSelf().setSelectedisland(this.islands.get(choice-1));
+            game.getSelf().setSelectedisland(selectedIsland);
         else
-            game.setMotherNaturePosition(this.islands.get(choice-1));
+            game.setMotherNaturePosition(selectedIsland);
         this.setReadyToProcede();
     }
 
