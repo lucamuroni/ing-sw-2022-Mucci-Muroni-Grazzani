@@ -49,7 +49,7 @@ public class MotherNaturePhase implements GamePhase{
         } catch (MalformedMessageException | FlowErrorException e) {
             this.controller.handleError();
         }
-        this.game.setMotherNaturePosition(island);
+        //this.game.setMotherNaturePosition(island);
     }
 
     @Override

@@ -99,34 +99,22 @@ public class ActionPhase1 implements GamePhase{
         try {
             for (int cont = 0; cont < this.numOfMovements; cont++) {
                 int place = this.moveStudentToLocation(this.controller.getPlayer(this.game.getCurrentPlayer()));
-                System.out.println("qua");
                 this.view.setCurrentPlayer(this.controller.getPlayer(this.game.getCurrentPlayer()));
-                System.out.println("1");
                 try {
-                    System.out.println("a");
                     try {
-                        System.out.println("b");
                         for (Gamer gamer : this.game.getGamers()) {
-                            System.out.println("oh");
                             this.view.updateDashboards(gamer, this.game);
                         }
-                        System.out.println("c");
-                        System.out.println("2");
                         Island isl = null;
                         if (place>0) {
-                            System.out.println("3");
                             for (Island island : this.game.getIslands()) {
-                                System.out.println("4");
                                 if (island.getId() == place) {
                                     isl = island;
                                     break;
                                 }
                             }
-                            System.out.println("5");
                             this.view.updateIslandStatus(isl);
-                            System.out.println("6");
                         }
-                        System.out.println("7");
                     } catch (MalformedMessageException | FlowErrorException e) {
                         for (Gamer gamer : this.game.getGamers()) {
                             this.view.updateDashboards(gamer, this.game);
@@ -214,7 +202,6 @@ public class ActionPhase1 implements GamePhase{
                     break;
                 }
             }
-            System.out.println(isl.getId());
             this.game.getCurrentPlayer().getDashboard().moveStudent(stud, isl);
         }
     }

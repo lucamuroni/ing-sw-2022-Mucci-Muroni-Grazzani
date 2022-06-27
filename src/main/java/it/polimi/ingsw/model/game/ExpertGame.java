@@ -67,7 +67,6 @@ public class ExpertGame extends Game {
             }else{
                 return oldOwner.get();
             }
-            //else newOwner = oldOwner;
         }
     }
 
