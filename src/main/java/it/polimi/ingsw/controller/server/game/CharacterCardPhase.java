@@ -34,6 +34,7 @@ public class CharacterCardPhase implements GamePhase{
         int coins = this.game.getCurrentPlayer().getDashboard().getCoins();
         ArrayList<CharacterCard> cards = new ArrayList<>();
         for (CharacterCard card1 : game.getGameCards()) {
+            System.out.println(card1.getName());
             if (card1.getMoneyCost() <= coins)
                 cards.add(card1);
         }
