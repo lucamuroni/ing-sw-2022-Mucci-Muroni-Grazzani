@@ -3,13 +3,18 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.server.Server;
+import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.view.ViewHandler;
+import it.polimi.ingsw.view.cli.AnsiColor;
 import it.polimi.ingsw.view.cli.Cli;
 
 import java.io.IOException;
 import java.net.Socket;
 
 public class Launcher {
+    private final static int portNumber = 17946;
+    private final static String ip = "localhost";
+
     public void standardLaunch(String args[]){
         {
             int standardServerPort = 17946;
@@ -49,7 +54,7 @@ public class Launcher {
         }
     }
 
-    public static void main(String args[]){
+    public static void main(String[] args){
         boolean debug = true;
         if(debug){
             if(args[0].equals("-s")){
@@ -69,5 +74,68 @@ public class Launcher {
             Launcher launcher = new Launcher();
             launcher.standardLaunch(args);
         }
+    }
+
+    private void startServer(String[] args){
+        if(args.length == 0){
+            Server s = new Server(portNumber);
+        }else{
+            if(args[0].equals("-p")){
+                int port = portNumber;
+                try{
+                    port = Integer.parseInt(args[1]);
+                }catch (NumberFormatException e){
+                    printError("Expected integer value as Server port");
+                }
+                Server s = new Server(port);
+            }else{
+                printError("Unknown flag for server");
+            }
+        }
+    }
+
+    private void startClient(String[] args){
+        MessageHandler messageHandler = null;
+        if(args.length == 0){
+            try {
+                messageHandler = new MessageHandler(new Socket(ip,portNumber));
+            } catch (IOException e) {
+                printError("Could not open Socket on "+portNumber+"; ip :"+ip);
+            }
+            //TODO rimpiazzare cli con gui
+            ViewHandler viewHandler = new Cli();
+            ClientController c = new ClientController(messageHandler,viewHandler);
+        }else{
+            int port = portNumber;
+            String ip = Launcher.ip;
+            ViewHandler viewHandler = null;
+            if(args[0].equals("--gui")){
+                //todo crea una nuova gui
+                viewHandler = new Cli();
+            } else if (args[0].equals("--cli")) {
+                viewHandler = new Cli();
+            }else{
+                printError("Unspecified user interface"+"\n"+"Specify it whit --gui or --cli");
+            }
+            for(int i = 1;i <args.length;i = i+2){
+                if ("-p".equals(args[i])) {
+                    try {
+                        port = Integer.parseInt(args[i + 1]);
+                    } catch (NumberFormatException e) {
+                        printError("invalid port specified");
+                    }
+                } else if (args[i].equals("-ip")) {
+                    ip = args[i+1];
+                }
+            }
+            //todo creare il message handler
+            //todo creare il clientcontroller
+        }
+    }
+
+    private void printError(String s){
+        System.out.println(AnsiColor.RED.toString()+s+AnsiColor.RED.toString());
+        System.out.println(AnsiColor.YELLOW.toString()+"Bad formatting : try launch --help for help"+AnsiColor.RESET.toString());
+        System.exit(1);
     }
 }
