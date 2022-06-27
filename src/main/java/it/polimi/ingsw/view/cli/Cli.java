@@ -219,11 +219,12 @@ public class Cli implements ViewHandler {
     public int choosePlace() {
         int place = 0;
         if(this.game.getChosenIsland() != null) {
-            for (Island island : game.getIslands()) {
+            /*for (Island island : game.getIslands()) {
                 if (island.getId() == this.game.getChosenIsland().getId())
                     place = game.getIslands().indexOf(island) + 1;
             }
-            this.game.setChosenIsland(null);
+            this.game.setChosenIsland(null);*/
+            return this.game.getChosenIsland().getId();
         }
         return place;
 

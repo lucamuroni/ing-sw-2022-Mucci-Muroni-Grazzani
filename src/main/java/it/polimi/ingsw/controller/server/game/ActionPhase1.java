@@ -105,8 +105,17 @@ public class ActionPhase1 implements GamePhase{
                         for (Gamer gamer : this.game.getGamers()) {
                             this.view.updateDashboards(gamer, this.game);
                         }
-                        if (place>0)
-                            this.view.updateIslandStatus(this.game.getIslands().get(place-1));
+                        if (place>0) {
+                            Island isl = null;
+                            for (Island island : this.game.getIslands()) {
+                                if (island.getId() == place) {
+                                    isl = island;
+                                    break;
+                                }
+                            }
+                            this.view.updateIslandStatus(isl);
+                        }
+
                     } catch (MalformedMessageException | FlowErrorException e) {
                         for (Gamer gamer : this.game.getGamers()) {
                             this.view.updateDashboards(gamer, this.game);
