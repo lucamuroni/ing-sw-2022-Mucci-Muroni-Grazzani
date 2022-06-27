@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.cli.page;
 
 import it.polimi.ingsw.model.pawn.PawnColor;
+import it.polimi.ingsw.model.pawn.Student;
 import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.cli.Cli;
@@ -53,8 +54,13 @@ public class SelectColorsPage implements Page {
             if(input.equals("n")){
                 throw new UndoException();
             }
-            colors.add(waitingColors.get(choice-1));
+            PawnColor waitingColor = waitingColors.get(choice-1);
+            colors.add(waitingColor);
             colors.add(hallColor);
+            this.game.getSelf().getDashBoard().getHall().remove(this.game.getSelf().getDashBoard().getHall().stream().filter(x -> x.getColor().equals(hallColor)).findFirst().get());
+            this.game.getSelf().getDashBoard().getWaitingRoom().remove(this.game.getSelf().getDashBoard().getWaitingRoom().stream().filter(x -> x.getColor().equals(waitingColor)).findFirst().get());
+            this.game.getSelf().getDashBoard().getHall().add(new Student(waitingColor));
+            this.game.getSelf().getDashBoard().getWaitingRoom().add(new Student(hallColor));
             if (cont+1 == 2 && (long) this.game.getSelf().getDashBoard().getHall().size() > 0) {
                 options.clear();
                 options.add("y");

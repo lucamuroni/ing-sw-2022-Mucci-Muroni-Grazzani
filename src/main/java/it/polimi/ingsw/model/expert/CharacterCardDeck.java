@@ -36,7 +36,7 @@ public class CharacterCardDeck {
             case BARD -> {
                 ArrayList<PawnColor> colors = new ArrayList<>();
                 for(PawnColor color : PawnColor.values()){
-                    if(this.studentsParameters.stream().anyMatch(x->x.getColor()==color)){
+                    if(this.studentsParameters.stream().anyMatch(x->x.getColor().equals(color))){
                         colors.add(color);
                     }
                 }
