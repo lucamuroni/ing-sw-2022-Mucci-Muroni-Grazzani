@@ -170,11 +170,10 @@ public class ActionPhase3 implements GamePhase{
             }
             this.game.updatePlayersOrder();
             this.controller.updatePlayersOrder();
-            if(controller.getGameType()== GameType.EXPERT){
-                return new CharacterCardPhase((ExpertGame) this.game,this.controller,new PlanningPhase(this.game, this.controller));
-            }
+            this.game.setCurrentPlayer(this.game.getGamers().get(this.game.getTurnNumber()%this.game.getGamers().size()));
             return new PlanningPhase(this.game, this.controller);
         }else{
+            this.game.setCurrentPlayer(this.game.getGamers().get(this.game.getTurnNumber()%this.game.getGamers().size()));
             if(controller.getGameType()== GameType.EXPERT){
                 return new CharacterCardPhase((ExpertGame) this.game,this.controller,new ActionPhase1(this.game, this.controller));
             }
