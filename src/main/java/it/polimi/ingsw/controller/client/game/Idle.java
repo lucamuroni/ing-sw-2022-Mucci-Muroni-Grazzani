@@ -53,20 +53,17 @@ public class Idle implements GamePhase{
             }
             switch (Objects.requireNonNull(context)) {
                 case CONTEXT_CARD:
-                    Gamer g = null;
                     try {
                         try {
-                            g = this.network.getChosenAssistantCard(this.game);
+                            this.network.getChosenAssistantCard(this.game);
                         } catch (MalformedMessageException e) {
-                            g = this.network.getChosenAssistantCard(this.game);
+                            this.network.getChosenAssistantCard(this.game);
                         }
                     } catch (MalformedMessageException | ClientDisconnectedException e) {
                         this.controller.handleError();
                     } catch (AssetErrorException e) {
                         this.controller.handleError("Doesn't found card");
                     }
-                    s = "The player "+g.getUsername()+" has played "+g.getCurrentSelection().getName();
-                    //this.view.popUp(s);
                     break;
                 case CONTEXT_FIGURE:
                     try {

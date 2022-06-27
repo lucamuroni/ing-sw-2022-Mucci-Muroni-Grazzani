@@ -57,14 +57,8 @@ public class Launcher {
             if(args[0].equals("-s")){
                 Server s = new Server(17894);
             }else{
-                MessageHandler messageHandler = null;
-                try {
-                    messageHandler = new MessageHandler(new Socket("localhost",17894));
-                } catch (IOException e) {
-                    System.out.println("could not initiate client");
-                }
                 ViewHandler viewHandler = new Cli();
-                ClientController c = new ClientController(messageHandler,viewHandler);
+                ClientController c = new ClientController("localhost",17894,viewHandler);
 
             }
         }else{
@@ -92,16 +86,10 @@ public class Launcher {
     }
 
     private void startClient(String[] args){
-        MessageHandler messageHandler = null;
         if(args.length == 0){
-            try {
-                messageHandler = new MessageHandler(new Socket(ip,portNumber));
-            } catch (IOException e) {
-                printError("Could not open Socket on "+portNumber+"; ip :"+ip);
-            }
             //TODO rimpiazzare cli con gui
             ViewHandler viewHandler = new Cli();
-            ClientController c = new ClientController(messageHandler,viewHandler);
+            ClientController c = new ClientController(ip,portNumber,viewHandler);
         }else{
             int port = portNumber;
             String ip = Launcher.ip;
@@ -133,12 +121,8 @@ public class Launcher {
                     printError("Bad parameters"+"\n"+"Try --help for usage");
                 }
             }
-            try {
-                messageHandler = new MessageHandler(new Socket(ip,port));
-            } catch (IOException e) {
-                printError("Could not open Socket on "+port+"; ip :"+ip);
-            }
-            ClientController c = new ClientController(messageHandler,viewHandler);
+
+            ClientController c = new ClientController(ip,port,viewHandler);
         }
     }
 

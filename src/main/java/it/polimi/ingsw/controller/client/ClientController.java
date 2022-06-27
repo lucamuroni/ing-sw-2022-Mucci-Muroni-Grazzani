@@ -11,6 +11,7 @@ import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.cli.AnsiColor;
 import java.io.IOException;
+import java.net.Socket;
 
 
 /**
@@ -23,17 +24,29 @@ public class ClientController {
     private Game game;
     private boolean isGameFinished;
 
-    public ClientController(MessageHandler messageHandler,ViewHandler viewHandler) {
-        try {
-            messageHandler.startConnection();
-        } catch (IOException e) {
-            System.out.println(AnsiColor.RED.toString()+"Could not initiate connection to server: Please retry"+AnsiColor.RESET.toString());
-        }
-        this.network = new NetworkHandler(messageHandler);
+    public ClientController(String ip,int port,ViewHandler viewHandler) {
+        while(!getConnection(ip,port));
         this.viewHandler = viewHandler;
         this.viewHandler.setController(this);
         this.isGameFinished = false;
         this.run();
+    }
+
+    private boolean getConnection(String ip,int port){
+        try{
+            MessageHandler messageHandler = new MessageHandler(new Socket(ip,port));
+            messageHandler.startConnection();
+            this.network = new NetworkHandler(messageHandler);
+            return true;
+        }catch (IOException e){
+            synchronized (this){
+                try {
+                    this.wait(1000);
+                } catch (InterruptedException ex) {
+                }
+            }
+            return false;
+        }
     }
 
     private void run(){
