@@ -175,6 +175,7 @@ public class ActionPhase3 implements GamePhase{
         }else{
             this.game.setCurrentPlayer(this.game.getGamers().get(this.game.getTurnNumber()%this.game.getGamers().size()));
             if(controller.getGameType()== GameType.EXPERT){
+                this.game.getInfluenceCalculator().reset();
                 return new CharacterCardPhase((ExpertGame) this.game,this.controller,new ActionPhase1(this.game, this.controller));
             }
             return new ActionPhase1(this.game, this.controller);

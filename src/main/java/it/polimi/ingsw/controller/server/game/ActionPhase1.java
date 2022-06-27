@@ -105,14 +105,29 @@ public class ActionPhase1 implements GamePhase{
                         for (Gamer gamer : this.game.getGamers()) {
                             this.view.updateDashboards(gamer, this.game);
                         }
-                        if (place>0)
-                            this.view.updateIslandStatus(this.game.getIslands().get(place-1));
+                        Island isl = null;
+                        if (place>0) {
+                            for (Island island : this.game.getIslands()) {
+                                if (island.getId() == place) {
+                                    isl = island;
+                                    break;
+                                }
+                            }
+                            this.view.updateIslandStatus(isl);
+                        }
                     } catch (MalformedMessageException | FlowErrorException e) {
                         for (Gamer gamer : this.game.getGamers()) {
                             this.view.updateDashboards(gamer, this.game);
                         }
+                        Island isl = null;
                         if (place>0)
-                            this.view.updateIslandStatus(this.game.getIslands().get(place-1));
+                        for (Island island : this.game.getIslands()) {
+                            if (island.getId() == place) {
+                                isl = island;
+                                break;
+                            }
+                        }
+                        this.view.updateIslandStatus(isl);
                     }
                 } catch (MalformedMessageException | ClientDisconnectedException  | FlowErrorException e){
                     this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()),"Error while uploading dashboards");
@@ -180,7 +195,13 @@ public class ActionPhase1 implements GamePhase{
             }
         }
         else {
-            Island isl = this.game.getIslands().get(place-1);
+            Island isl = null;
+            for (Island island : this.game.getIslands()) {
+                if (island.getId() == place) {
+                    isl = island;
+                    break;
+                }
+            }
             this.game.getCurrentPlayer().getDashboard().moveStudent(stud, isl);
         }
     }
@@ -200,7 +221,14 @@ public class ActionPhase1 implements GamePhase{
     private void sendInfo(int place) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
         if (place > 0) {
             this.view.sendContext(CONTEXT_ISLAND.getFragment());
-            this.view.updateIslandStatus(this.game.getIslands().get(place-1));
+            Island isl = null;
+            for (Island island : this.game.getIslands()) {
+                if (island.getId() == place) {
+                    isl = island;
+                    break;
+                }
+            }
+            this.view.updateIslandStatus(isl);
         }
         for (Gamer gamer : this.game.getGamers()) {
             this.view.sendContext(CONTEXT_DASHBOARD.getFragment());

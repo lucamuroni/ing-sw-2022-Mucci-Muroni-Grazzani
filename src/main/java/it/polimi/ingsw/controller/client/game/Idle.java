@@ -66,7 +66,7 @@ public class Idle implements GamePhase{
                         this.controller.handleError("Doesn't found card");
                     }
                     s = "The player "+g.getUsername()+" has played "+g.getCurrentSelection().getName();
-                    this.view.popUp(s);
+                    //this.view.popUp(s);
                     break;
                 case CONTEXT_FIGURE:
                     try {

@@ -22,12 +22,13 @@ public class InfluenceCalculator {
         this.professors = professors;
         this.notIncludedPawnColor = new ArrayList<PawnColor>();
         this.areTowersConsidered = true;
+        this.moreInfluence = null;
     }
 
     public Optional<Gamer> execute(Island island){
         this.island = island;
-        this.areTowersConsidered = true;
-        this.notIncludedPawnColor.clear();
+        //this.areTowersConsidered = true;
+        //this.notIncludedPawnColor.clear();
         return this.checkIslandOwner();
     }
 

@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller.client.game;
 
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.client.networkHandler.Network;
+import it.polimi.ingsw.controller.networking.GameType;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
@@ -46,14 +47,16 @@ public class ActionPhase1 implements GamePhase{
                      ClientDisconnectedException e) {
                 this.controller.handleError("Could not sent move to server");
             }
-            try {
+            if (this.game.getGameType().equals(GameType.EXPERT.getName()) && location == 0) {
                 try {
-                    this.network.getCoins(game);
-                } catch (MalformedMessageException e) {
-                    this.network.getCoins(game);
+                    try {
+                        this.network.getCoins(game);
+                    } catch (MalformedMessageException e) {
+                        this.network.getCoins(game);
+                    }
+                } catch (MalformedMessageException | ClientDisconnectedException e) {
+                    this.controller.handleError();
                 }
-            } catch (MalformedMessageException | ClientDisconnectedException e) {
-                this.controller.handleError();
             }
             try {
                 try {
