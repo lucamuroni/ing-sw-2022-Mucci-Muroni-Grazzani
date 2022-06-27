@@ -47,16 +47,25 @@ public class MoveStudentPage implements Page {
         if(choice==2){
             this.cli.drawArchipelago();
             options.clear();
+            ArrayList<Integer> possibleIslands = new ArrayList<>();
             for(Island island : this.assetGame.getIslands()){
-                if (!island.isMerged())
+                if (!island.isMerged()){
                     options.add("Island " + island.getId());
+                    possibleIslands.add(island.getId());
+                }
             }
             options.add("Back");
             menù.clear();
             menù.addOptions(options);
             menù.setContext("Which island do you want to choose?");
             choice = this.cli.readInt(options.size(), menù, true);
-            assetGame.setChosenIsland(this.assetGame.getIslands().get(choice-1));
+            Island selectedIsland =  null;
+            for(Island island : this.assetGame.getIslands()){
+                if(island.getId() == possibleIslands.get(choice-1)){
+                    selectedIsland = island;
+                }
+            }
+            assetGame.setChosenIsland(selectedIsland);
         }
         this.cli.drawDashboard();
         options.clear();
