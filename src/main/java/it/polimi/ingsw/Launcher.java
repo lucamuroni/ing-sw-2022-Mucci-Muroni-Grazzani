@@ -15,46 +15,43 @@ public class Launcher {
     private final static int portNumber = 17946;
     private final static String ip = "localhost";
 
-    public void standardLaunch(String args[]){
+    public void standardLaunch(String[] args){
+        String[] array;
         {
-            int standardServerPort = 17946;
             if(args.length <2){
-                System.out.println("Bad formatting : try launch --help for help");
-                System.exit(0);
+                printError();
             }
             if(args[1].equals("--help")){
                 System.out.println("Usage :");
                 System.out.println("-s       start a server");
-                System.out.println("-p       specify port for server                [OPTIONAL]");
+                System.out.println("-p       specify port for server or client      [OPTIONAL]");
                 System.out.println("-c       for starting client in default mode");
                 System.out.println("--cli    for starting client in cli mode        [OPTIONAL]");
                 System.out.println("--gui    for starting client in gui mode        [OPTIONAL,DEFAULT]");
                 System.out.println("Examples :");
-                System.out.println("Start a cli -c --cli");
-                System.out.println("Start a server -s");
+                System.out.println("Start a cli : -c --cli");
+                System.out.println("Start a server : -s");
                 System.exit(0);
             }else if(args[1].equals("-s")){
-                int port = standardServerPort;
-                for(int i = 2;i<args.length;i++){
-                    if(args[i].equals("-p")){
-                        try {
-                            port = Integer.parseInt(args[i+1]);
-                        }catch (ArrayIndexOutOfBoundsException e){
-                            System.out.println("Bad formatting : try launch --help for help");
-                            System.exit(0);
-                        }
-                    }
+                array = new String[args.length-1];
+                for(int i = 1;i<args.length;i++){
+                    array[i-1] = args[i];
                 }
-                if(port==standardServerPort){
-                    Server server = new Server(standardServerPort);
-                }
+                startServer(array);
             }else if(args[1].equals("-c")){
-                System.out.println("starto il client");
+                array = new String[args.length-1];
+                for(int i = 1;i<args.length;i++){
+                    array[i-1] = args[i];
+                }
+                startClient(array);
+            }else{
+                printError();
             }
         }
     }
 
     public static void main(String[] args){
+        //todo after test rimuovere if sotto e variabile debug
         boolean debug = true;
         if(debug){
             if(args[0].equals("-s")){
@@ -115,7 +112,7 @@ public class Launcher {
             } else if (args[0].equals("--cli")) {
                 viewHandler = new Cli();
             }else{
-                printError("Unspecified user interface"+"\n"+"Specify it whit --gui or --cli");
+                printError("Unexpected user interface"+"\n"+"Specify it whit --gui or --cli");
             }
             for(int i = 1;i <args.length;i = i+2){
                 if ("-p".equals(args[i])) {
@@ -123,19 +120,37 @@ public class Launcher {
                         port = Integer.parseInt(args[i + 1]);
                     } catch (NumberFormatException e) {
                         printError("invalid port specified");
+                    } catch (ArrayIndexOutOfBoundsException e){
+                        printError("Expected port integer value after -p");
                     }
                 } else if (args[i].equals("-ip")) {
-                    ip = args[i+1];
+                    try{
+                        ip = args[i+1];
+                    }catch (ArrayIndexOutOfBoundsException e){
+                        printError("Expected ip after -ip");
+                    }
+                }else{
+                    printError("Bad parameters"+"\n"+"Try --help for usage");
                 }
             }
-            //todo creare il message handler
-            //todo creare il clientcontroller
+            try {
+                messageHandler = new MessageHandler(new Socket(ip,port));
+            } catch (IOException e) {
+                printError("Could not open Socket on "+port+"; ip :"+ip);
+            }
+            ClientController c = new ClientController(messageHandler,viewHandler);
         }
     }
 
     private void printError(String s){
-        System.out.println(AnsiColor.RED.toString()+s+AnsiColor.RED.toString());
-        System.out.println(AnsiColor.YELLOW.toString()+"Bad formatting : try launch --help for help"+AnsiColor.RESET.toString());
+        if(s!=null){
+            System.out.println(AnsiColor.RED.toString()+s+AnsiColor.RED.toString());
+        }
+        System.out.println(AnsiColor.YELLOW.toString()+"Bad formatting : try --help"+AnsiColor.RESET.toString());
         System.exit(1);
+    }
+
+    private void printError(){
+        printError(null);
     }
 }
