@@ -54,7 +54,6 @@ public class ActionPhase1 implements GamePhase{
      */
     @Override
     public void handle() {
-        this.game.setCurrentPlayer(this.game.getGamers().get(this.game.getTurnNumber()%this.game.getGamers().size()));
         try {
             this.view.setCurrentPlayer(this.controller.getPlayer(this.game.getCurrentPlayer()));
         } catch (ModelErrorException e) {
