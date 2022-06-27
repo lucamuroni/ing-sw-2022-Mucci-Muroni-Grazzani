@@ -221,7 +221,14 @@ public class ActionPhase1 implements GamePhase{
     private void sendInfo(int place) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
         if (place > 0) {
             this.view.sendContext(CONTEXT_ISLAND.getFragment());
-            this.view.updateIslandStatus(this.game.getIslands().get(place-1));
+            Island isl = null;
+            for (Island island : this.game.getIslands()) {
+                if (island.getId() == place) {
+                    isl = island;
+                    break;
+                }
+            }
+            this.view.updateIslandStatus(isl);
         }
         for (Gamer gamer : this.game.getGamers()) {
             this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
