@@ -34,6 +34,7 @@ public class GameController extends Thread{
         }else{
             this.game = new ExpertGame(createGamers(players));
         }
+        this.updatePlayersOrder();
         this.view = new VirtualViewHandler();
         this.isGameNotEnded = true;
         this.cardDesks = new ArrayList<AssistantCardDeckFigures>();
