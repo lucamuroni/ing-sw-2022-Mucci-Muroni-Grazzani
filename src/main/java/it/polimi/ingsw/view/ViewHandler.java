@@ -70,4 +70,5 @@ public interface ViewHandler {
     ArrayList<PawnColor> choseStudentsToMove();
 
     PawnColor chooseColor(String name);
+    void popUp(String s);
 }
