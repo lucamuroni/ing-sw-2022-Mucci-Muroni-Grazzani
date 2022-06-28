@@ -44,8 +44,6 @@ public class GetChosenCharacterCard {
                 break;
             }
         }
-        if (result == null)
-            throw new ModelErrorException();
         if (!(this.messageHandler.getMessagesUniqueTopic() == topicId)) {
             throw new MalformedMessageException();
         }

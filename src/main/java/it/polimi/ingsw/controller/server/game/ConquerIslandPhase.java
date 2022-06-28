@@ -74,10 +74,18 @@ public class ConquerIslandPhase implements GamePhase{
             try {
                 try {
                     this.view.sendContext(CONTEXT_ISLAND.getFragment());
-                    this.view.updateIslandStatus(this.game.getMotherNature().getPlace());
+                    if(target != null){
+                        this.view.updateIslandStatus(target);
+                    }else{
+                        this.view.updateIslandStatus(this.game.getMotherNature().getPlace());
+                    }
                 } catch (MalformedMessageException  | FlowErrorException e) {
                     this.view.sendContext(CONTEXT_ISLAND.getFragment());
-                    this.view.updateIslandStatus(this.game.getMotherNature().getPlace());
+                    if(target != null){
+                        this.view.updateIslandStatus(target);
+                    }else{
+                        this.view.updateIslandStatus(this.game.getMotherNature().getPlace());
+                    }
                 }
             } catch (MalformedMessageException | ClientDisconnectedException | FlowErrorException e){
                 this.controller.handlePlayerError(pl,"Error while updating islands status");

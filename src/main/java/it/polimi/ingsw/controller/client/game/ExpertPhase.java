@@ -54,7 +54,6 @@ public class ExpertPhase implements GamePhase{
             } catch (AssetErrorException e) {
                 this.controller.handleError("Doesn't found character cards");
             }
-            //System.out.println(cards.size());
             CharacterCard card = this.view.choseCharacterCard(cards);
             try {
                 try {
@@ -64,6 +63,9 @@ public class ExpertPhase implements GamePhase{
                 }
             } catch (MalformedMessageException e) {
                 this.controller.handleError();
+            }
+            if(this.game.getSelf().getCurrentExpertCardSelection() == null){
+                return;
             }
             switch (this.game.getSelf().getCurrentExpertCardSelection()) {
                 case AMBASSADOR -> {
@@ -109,7 +111,6 @@ public class ExpertPhase implements GamePhase{
                     this.network.getCoins(game);
                 } catch (MalformedMessageException e) {
                     this.network.getCoins(game);
-
                 }
             } catch (MalformedMessageException | ClientDisconnectedException e) {
                 this.controller.handleError();

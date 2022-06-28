@@ -28,12 +28,17 @@ public class CharacterCardPage implements Page {
             options.add(card.getName());
         }
         options.add("Effects");
+        options.add("Don't play");
         Menù menù = new Menù(options);
         menù.setContext("Please chose a Character card from below");
         int choice = this.cli.readInt(options.size(),menù,false);
-        if(choice == options.size()){
+        if(choice == options.size()-1){
             this.printEffects();
             throw new UndoException();
+        }else if(choice == options.size()){
+            this.game.getSelf().setCurrentExpertCardSelection(null);
+            this.setReadyToProcede();
+            return;
         }
         for(CharacterCard card : this.cards){
             if(card.getName().equals(options.get(choice-1))){

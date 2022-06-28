@@ -137,6 +137,9 @@ public class VirtualViewHandler implements View {
         CharacterCard result =  func.handle();
         Island island = null;
         ArrayList<PawnColor> colors = new ArrayList<>();
+        if(result == null){
+            return null;
+        }
         switch (result){
             case AMBASSADOR -> {
                 int islandId= this.getMovedStudentLocation();

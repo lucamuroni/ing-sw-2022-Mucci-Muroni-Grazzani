@@ -17,7 +17,12 @@ public class SendCharacterCard {
     }
 
     public void handle() throws MalformedMessageException {
-        Message message = new Message(CHARACTER_CARD.getFragment(), card.getName(), this.messageHandler.getMessagesUniqueTopic());
+        Message message;
+        if(card != null){
+            message = new Message(CHARACTER_CARD.getFragment(), card.getName(), this.messageHandler.getMessagesUniqueTopic());
+        }else{
+            message = new Message(CHARACTER_CARD.getFragment(), "", this.messageHandler.getMessagesUniqueTopic());
+        }
         this.messageHandler.write(message);
         this.messageHandler.writeOut();
     }

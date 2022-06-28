@@ -72,6 +72,9 @@ public class CharacterCardPhase implements GamePhase{
             }
             if (doPhase) {
                 CharacterCard card = this.getChosenCharacterCard(cards, player);
+                if(card == null){
+                    return;
+                }
                 this.game.getDeck().playCard(card,this.game);
                 ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
                 players.remove(player);
