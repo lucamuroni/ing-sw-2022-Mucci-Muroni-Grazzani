@@ -63,7 +63,6 @@ public class ExpertDashboard extends Dashboard{
                 setCoins(1);
                 this.game.setCoinBank(-1);
             }
-
         }
     }
 
