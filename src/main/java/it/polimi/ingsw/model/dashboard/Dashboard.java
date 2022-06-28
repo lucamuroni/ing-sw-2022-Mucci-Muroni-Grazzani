@@ -16,8 +16,6 @@ public class Dashboard {
     protected ArrayList<Student> waitingRoom;
     protected int towers;
     public ArrayList<Student> hall;
-    //TODO: rimettere protected una volta finiti i test
-
     /**
      * Class builder
      * @param students represent the initial students that are present at the start of the game in the waiting room of a Gamer

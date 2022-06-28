@@ -74,6 +74,8 @@ public class SelectColorsPage implements Page {
                 break;
             }
         }
+        System.out.println("Colori che ho selezionato, size = "+colors.size());
+        colors.stream().forEach(x->System.out.println(x.toString()));
         game.getSelf().setSelectedColors(colors);
         this.setReadyToProcede();
     }

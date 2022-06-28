@@ -54,7 +54,7 @@ public class MoveMotherNaturePage implements Page {
         }
         //cli.clearConsole();
         if (expert)
-            game.getSelf().setSelectedisland(selectedIsland);
+            game.getSelf().setSelectedIsland(selectedIsland);
         else
             game.setMotherNaturePosition(selectedIsland);
         this.setReadyToProcede();

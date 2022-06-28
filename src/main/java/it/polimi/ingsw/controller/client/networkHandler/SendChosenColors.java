@@ -18,6 +18,7 @@ public class SendChosenColors {
     public SendChosenColors(MessageHandler messageHandler, ArrayList<PawnColor> colors) {
         this.messageHandler = messageHandler;
         this.colors = colors;
+        System.out.println("colors size : "+colors.size());
     }
 
     public void handle() throws MalformedMessageException, ClientDisconnectedException, FlowErrorException {
@@ -26,6 +27,7 @@ public class SendChosenColors {
         this.messageHandler.write(message);
         this.messageHandler.writeOut();
         for (int i = 0; i<this.colors.size(); i++) {
+            System.out.println(colors.get(i).toString());
             message = new Message(COLOR.getFragment(), colors.get(i).toString(), topic);
             this.messageHandler.write(message);
             this.messageHandler.writeOut();

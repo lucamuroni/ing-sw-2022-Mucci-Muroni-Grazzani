@@ -100,7 +100,7 @@ public class Gamer {
         return selectedColor;
     }
 
-    public Island getSelectedisland() {
+    public Island getSelectedIsland() {
         return selectedisland;
     }
 
@@ -134,7 +134,7 @@ public class Gamer {
         this.selectedColor = color;
     }
 
-    public void setSelectedisland(Island island) {
+    public void setSelectedIsland(Island island) {
         this.selectedisland = island;
     }
 }

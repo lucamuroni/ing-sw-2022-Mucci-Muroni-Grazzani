@@ -264,7 +264,7 @@ public class Cli implements ViewHandler {
             }
         }
         if (expert)
-            return this.game.getSelf().getSelectedisland();
+            return this.game.getSelf().getSelectedIsland();
         return this.game.getMotherNaturePosition();
     }
 
