@@ -100,32 +100,38 @@ public class CharacterCardPhase implements GamePhase{
                 } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
                     this.controller.handlePlayerError(current, "Error while sending coins");
                 }
-                for (Player player1 : this.controller.getPlayers()) {
-                    this.view.setCurrentPlayer(player1);
-                    for (Island island : this.game.getIslands()) {
-                        try {
+                if(card == CharacterCard.AMBASSADOR){
+                    ConquerIslandPhase ambassadorPhase = new ConquerIslandPhase(game,controller);
+                    ambassadorPhase.setTarget(this.game.getDeck().getIslandParameter());
+                    ambassadorPhase.handle();
+                }else{
+                    for (Player player1 : this.controller.getPlayers()) {
+                        this.view.setCurrentPlayer(player1);
+                        for (Island island : this.game.getIslands()) {
                             try {
-                                this.view.sendContext(CONTEXT_ISLAND.getFragment());
-                                this.view.updateIslandStatus(island);
-                            } catch (MalformedMessageException e) {
-                                this.view.sendContext(CONTEXT_ISLAND.getFragment());
-                                this.view.updateIslandStatus(island);
+                                try {
+                                    this.view.sendContext(CONTEXT_ISLAND.getFragment());
+                                    this.view.updateIslandStatus(island);
+                                } catch (MalformedMessageException e) {
+                                    this.view.sendContext(CONTEXT_ISLAND.getFragment());
+                                    this.view.updateIslandStatus(island);
+                                }
+                            } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                                this.controller.handlePlayerError(player1, "Error while updating islands");
                             }
-                        } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
-                            this.controller.handlePlayerError(player1, "Error while updating islands");
                         }
-                    }
-                    for (Gamer gamer : this.game.getGamers()) {
-                        try {
+                        for (Gamer gamer : this.game.getGamers()) {
                             try {
-                                this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
-                                this.view.updateDashboards(gamer, game);
-                            } catch (MalformedMessageException e) {
-                                this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
-                                this.view.updateDashboards(gamer, game);
+                                try {
+                                    this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
+                                    this.view.updateDashboards(gamer, game);
+                                } catch (MalformedMessageException e) {
+                                    this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
+                                    this.view.updateDashboards(gamer, game);
+                                }
+                            } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                                this.controller.handlePlayerError(player1, "Error while updating dashboards");
                             }
-                        } catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
-                            this.controller.handlePlayerError(player1, "Error while updating dashboards");
                         }
                     }
                 }

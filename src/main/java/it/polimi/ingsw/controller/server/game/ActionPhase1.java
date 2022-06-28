@@ -120,14 +120,15 @@ public class ActionPhase1 implements GamePhase{
                             this.view.updateDashboards(gamer, this.game);
                         }
                         Island isl = null;
-                        if (place>0)
-                        for (Island island : this.game.getIslands()) {
-                            if (island.getId() == place) {
-                                isl = island;
-                                break;
+                        if (place>0){
+                            for (Island island : this.game.getIslands()) {
+                                if (island.getId() == place) {
+                                    isl = island;
+                                    break;
+                                }
                             }
+                            this.view.updateIslandStatus(isl);
                         }
-                        this.view.updateIslandStatus(isl);
                     }
                 } catch (MalformedMessageException | ClientDisconnectedException  | FlowErrorException e){
                     this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()),"Error while uploading dashboards");

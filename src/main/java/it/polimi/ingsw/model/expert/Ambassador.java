@@ -15,7 +15,7 @@ public class Ambassador extends CharacterCardInterface{
 
     @Override
     public void handle() {
-        this.getGame().checkIslandOwner(island);
+        //this.getGame().checkIslandOwner(island);
         //TODO: fare metodo privato mergeIsland -> si può fare metodo preso da MotherNature phase in controller/ fare un metodo da spostare in game
     }
 

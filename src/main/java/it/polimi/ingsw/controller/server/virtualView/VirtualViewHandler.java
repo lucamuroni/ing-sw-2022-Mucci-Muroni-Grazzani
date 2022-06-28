@@ -139,12 +139,15 @@ public class VirtualViewHandler implements View {
         ArrayList<PawnColor> colors = new ArrayList<>();
         switch (result){
             case AMBASSADOR -> {
-                int islandIndex = this.getMovedStudentLocation();
-                island = game.getIslands().get(islandIndex-1);
+                int islandId= this.getMovedStudentLocation();
+                for(Island i : game.getIslands()){
+                    if(i.getId() == islandId){
+                        island = i;
+                    }
+                }
             }
             case BARD -> {
                 colors.addAll(this.getChosenColors());
-                //TODO fix a broken model
             }
             case MERCHANT,THIEF -> {
                 colors.add(this.getMovedStudentColor());

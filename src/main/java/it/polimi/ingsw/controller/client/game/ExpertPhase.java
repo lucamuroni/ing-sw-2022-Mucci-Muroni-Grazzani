@@ -68,8 +68,7 @@ public class ExpertPhase implements GamePhase{
             switch (this.game.getSelf().getCurrentExpertCardSelection()) {
                 case AMBASSADOR -> {
                     Island island = this.view.chooseIsland(this.game.getIslands(), true);
-                    //int ind = island.getId();
-                    int ind = this.game.getIslands().indexOf(island) + 1;
+                    int ind = island.getId();
                     try {
                         try {
                             this.network.sendLocation(ind);

@@ -89,4 +89,8 @@ public class CharacterCardDeck {
     public ArrayList<CharacterCard> getCards() {
         return this.cards;
     }
+
+    public Island getIslandParameter(){
+        return this.islandParameter;
+    }
 }
