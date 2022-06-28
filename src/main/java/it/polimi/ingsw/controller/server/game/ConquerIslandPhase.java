@@ -129,7 +129,10 @@ public class ConquerIslandPhase implements GamePhase{
             return new VictoryPhase(this.game, this.controller);
         }
         if(controller.getGameType()== GameType.EXPERT){
-            return new CharacterCardPhase((ExpertGame) this.game,this.controller,new ActionPhase3(this.game, this.controller));
+            ExpertGame expertGame = (ExpertGame) this.game;
+            if(!expertGame.isCharacterCardBeenPlayed()){
+                return new CharacterCardPhase((ExpertGame) this.game,this.controller,new ActionPhase3(this.game, this.controller));
+            }
         }
         return new ActionPhase3(this.game,this.controller);
     }

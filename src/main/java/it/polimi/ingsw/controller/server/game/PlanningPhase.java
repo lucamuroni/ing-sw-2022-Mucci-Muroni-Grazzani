@@ -175,7 +175,7 @@ public class PlanningPhase implements GamePhase{
      * @return the next GamePhase
      */
     public GamePhase next(){
-        if(controller.getGameType()== GameType.EXPERT){
+        if(controller.getGameType()== GameType.EXPERT ){
             return new CharacterCardPhase((ExpertGame) this.game,this.controller,new ActionPhase1(this.game, this.controller));
         }
         return new ActionPhase1(this.game, this.controller);

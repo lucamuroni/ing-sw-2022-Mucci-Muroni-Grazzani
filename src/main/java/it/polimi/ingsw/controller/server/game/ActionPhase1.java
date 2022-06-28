@@ -265,7 +265,10 @@ public class ActionPhase1 implements GamePhase{
     @Override
     public GamePhase next() {
         if(controller.getGameType()== GameType.EXPERT){
-            return new CharacterCardPhase((ExpertGame) this.game,this.controller,new MotherNaturePhase(this.game, this.controller));
+            ExpertGame expertGame = (ExpertGame) this.game;
+            if(!expertGame.isCharacterCardBeenPlayed()){
+                return new CharacterCardPhase((ExpertGame) this.game,this.controller,new MotherNaturePhase(this.game, this.controller));
+            }
         }
         return new MotherNaturePhase(this.game, this.controller);
     }

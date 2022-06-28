@@ -22,13 +22,13 @@ public class ExpertGame extends Game {
     private final CharacterCardDeck deck;
     private boolean moreSteps;
     private boolean villagerCard;
+    private boolean isCharacterCardBeenPlayed;
 
     /**
      * Class constructor
      * @param expertGamers represents the gamers of the game
      */
     public ExpertGame(ArrayList<Gamer> expertGamers){
-        //TODO fix gestione banca monete
         super(expertGamers);
         if(this.getGamers().size()==2){
             this.coinBank = 18;
@@ -38,6 +38,7 @@ public class ExpertGame extends Game {
         this.deck = new CharacterCardDeck();
         this.moreSteps = false;
         this.villagerCard = false;
+        this.isCharacterCardBeenPlayed = false;
         this.deck.initDeck();
     }
 
@@ -76,6 +77,7 @@ public class ExpertGame extends Game {
         super.getInfluenceCalculator().reset();
         this.moreSteps = false;
         this.villagerCard = false;
+        this.isCharacterCardBeenPlayed = false;
     }
 
     /**
@@ -157,5 +159,13 @@ public class ExpertGame extends Game {
 
     public CharacterCardDeck getDeck() {
         return deck;
+    }
+
+    public boolean isCharacterCardBeenPlayed(){
+        return isCharacterCardBeenPlayed;
+    }
+
+    public void setCharacterCardBeenPlayed(){
+        isCharacterCardBeenPlayed = true;
     }
 }

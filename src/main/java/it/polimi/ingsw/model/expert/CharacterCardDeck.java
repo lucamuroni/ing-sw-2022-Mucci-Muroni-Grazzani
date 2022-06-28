@@ -75,6 +75,7 @@ public class CharacterCardDeck {
         }
         choice.payCardCost();
         choice.handle();
+        game.setCharacterCardBeenPlayed();
     }
 
     public void initDeck() {
