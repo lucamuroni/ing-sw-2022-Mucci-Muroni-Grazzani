@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
  * @author Davide Grazzani
  * @author Sara Mucci
  */
-
 public class Game {
     final MotherNature motherNature;
     private final ArrayList<Cloud> clouds;
@@ -26,7 +25,7 @@ public class Game {
     private final ArrayList<Gamer> gamers;
     private Gamer currentPlayer;
     private int turnNumber;
-    private InfluenceCalculator influenceCalculator;
+    private final InfluenceCalculator influenceCalculator;
 
     /**
      * Class constructor
@@ -34,17 +33,17 @@ public class Game {
      */
     public Game (ArrayList<Gamer> gamers){
         this.gamers = new ArrayList<>(gamers);
-        this.clouds = new ArrayList<Cloud>();
+        this.clouds = new ArrayList<>();
         int counter = 1;
-        for(Gamer gamer : this.gamers){
+        for(Gamer ignored : this.gamers){
             this.clouds.add(new Cloud(counter));
             counter++;
         }
-        this.professors = new ArrayList<Professor>();
+        this.professors = new ArrayList<>();
         for (PawnColor color : PawnColor.values()){
             professors.add(new Professor(color));
         }
-        this.islands = new ArrayList<Island>();
+        this.islands = new ArrayList<>();
         for(int numIslands=0; numIslands<12;numIslands++){
             this.islands.add(new Island(numIslands+1));
         }
@@ -54,26 +53,6 @@ public class Game {
         initiatePlayersOrder();
         this.turnNumber = 0;
         this.influenceCalculator = new InfluenceCalculator(this.gamers, this.professors);
-    }
-
-    Game(int playersNumber) {
-        this.gamers = null;
-        this.clouds = new ArrayList<Cloud>();
-        for(int i=0; i<playersNumber; i++){
-            this.clouds.add(new Cloud(i+1));
-        }
-        this.professors = new ArrayList<Professor>();
-        for (PawnColor color : PawnColor.values()){
-            professors.add(new Professor(color));
-        }
-        this.islands = new ArrayList<Island>();
-        for(int numIslands=0; numIslands<12;numIslands++){
-            this.islands.add(new Island(numIslands+1));
-        }
-        Random random = new Random();
-        this.motherNature = new MotherNature(this.islands.get(random.nextInt(this.islands.size())));
-        this.bag = new Bag();
-        this.turnNumber = 0;
     }
 
     /**
@@ -94,7 +73,7 @@ public class Game {
         }
     }
     /**
-     * This function is used to fill a cloud chosen by a Gamer at the end of the round
+     * This function is used to fill a cloud chosen by a gamer at the end of the round
      * @param students is the ArrayList of students drawn by the controller from bag
      * @param cloud represent the cloud filled
      */
@@ -128,12 +107,12 @@ public class Game {
     }
 
     /**
-     * This method is called by the controller to show all the islands where the student can move MotherNature (it depends on the
+     * This method is called by the controller to show all the islands where the gamer can move MotherNature (it depends on the
      * AssistantCard chosen by him)
      * @return an ArrayList of the only possible islands that the player can choose ordered from the closest to the farthest
      */
     public ArrayList<Island> getMotherNatureDestination (){
-        ArrayList<Island> result = new ArrayList<Island>();
+        ArrayList<Island> result = new ArrayList<>();
         int motherNatureIndex = this.islands.indexOf(this.motherNature.getPlace());
         int maxIndexMove = currentPlayer.getDeck().getCurrentSelection().getMovement();
         for(int i=1;i<=maxIndexMove;i++){
@@ -147,28 +126,24 @@ public class Game {
     }
 
     /**
-     * This method is called every time the currentPlayer moves a student from his WaitingRoom to one of the tables of his Hall
-     * @param color is the color of the Professor, the owner of which will be changed
+     * This method is called every time the currentPlayer moves a student from his waitingRoom to hall
+     * @param color is the color of the Pprofessor, the owner of which will be changed
      */
-    public Gamer changeProfessorOwner (PawnColor color) throws Exception {
-        Optional<Gamer> oldOwner= this.professors.stream().filter(x->x.getColor().equals(color)).map(x->x.getOwner()).findFirst().orElse(Optional.empty());
-        if(oldOwner==null){
-            throw new Exception();
-        }
-        else if(oldOwner.isEmpty() || oldOwner.equals(currentPlayer)) {
-            this.professors.stream().filter(x->x.getColor().equals(color)).findFirst().orElse(null).setOwner(currentPlayer);
+    public Gamer changeProfessorOwner (PawnColor color) {
+        Optional<Gamer> oldOwner= this.professors.stream().filter(x->x.getColor().equals(color)).map(Professor::getOwner).findFirst().orElse(Optional.empty());
+        if(oldOwner.isEmpty() || oldOwner.get().equals(currentPlayer)) {
+            Objects.requireNonNull(this.professors.stream().filter(x -> x.getColor().equals(color)).findFirst().orElse(null)).setOwner(currentPlayer);
             return currentPlayer;
         }
         else {
             int oldInfluence = oldOwner.get().getDashboard().checkInfluence(color);
             int currentInfluence = currentPlayer.getDashboard().checkInfluence(color);
             if (currentInfluence > oldInfluence) {
-                this.professors.stream().filter(x->x.getColor().equals(color)).findFirst().orElse(null).setOwner(currentPlayer);
+                Objects.requireNonNull(this.professors.stream().filter(x -> x.getColor().equals(color)).findFirst().orElse(null)).setOwner(currentPlayer);
                 return currentPlayer;
             }else{
                 return oldOwner.get();
             }
-            //else newOwner = oldOwner;
         }
     }
 
@@ -177,10 +152,10 @@ public class Game {
      * @return the owner of the Island
      */
     public Optional<Gamer> checkIslandOwner (Island islandToCheck){
-        //InfluenceCalculator influenceCalculator = new InfluenceCalculator(this.gamers,this.professors);
         return this.influenceCalculator.execute(islandToCheck);
 
     }
+
     /**
      * This method is called when the currentPlayer moves MotherNature
      * @return the owner of the Island
@@ -200,7 +175,7 @@ public class Game {
     }
 
     /**
-     * Getter method
+     * Method used to get motherNature
      * @return motherNature
      */
     public MotherNature getMotherNature() {
@@ -208,31 +183,31 @@ public class Game {
     }
 
     /**
-     * Getter method
-     * @return all the clouds
+     * Method used to get the clouds
+     * @return the arrayList of clouds
      */
     public ArrayList<Cloud> getClouds() {
         return clouds;
     }
 
     /**
-     * Getter method
-     * @return all the professors
+     * Method used to get the professors
+     * @return the arraylist of professors
      */
     public ArrayList<Professor> getProfessors() {
         return professors;
     }
 
     /**
-     * Getter method
-     * @return all the islands
+     * Method used to get the islands
+     * @return the arraylist of islands
      */
     public ArrayList<Island> getIslands() {
         return islands;
     }
 
     /**
-     * Getter method
+     * Method used to get the bag
      * @return the bag
      */
     public Bag getBag() {
@@ -240,31 +215,23 @@ public class Game {
     }
 
     /**
-     * Getter method
-     * @return all the players
+     * Method used to get the gamers
+     * @return the arrayList of gamers
      */
     public ArrayList<Gamer> getGamers() {
         return gamers;
     }
 
     /**
-     * Getter method
-     * @return the current player
+     * method used to get the current gamer
+     * @return the current gamer
      */
     public Gamer getCurrentPlayer() {
         return currentPlayer;
     }
 
     /**
-     * Setter method
-     * @param currentPlayer is the new current player
-     */
-    public void setCurrentPlayer(Gamer currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
-
-    /**
-     * Getter method
+     * Method used to get the turn
      * @return the turn's number
      */
     public int getTurnNumber() {
@@ -276,12 +243,9 @@ public class Game {
     }
 
     /**
-     * Setter method, it is called only after a player's turn ends
+     * Method that calculate if there is a winner
+     * @return the arraylist of winners (if there are)
      */
-    public void setTurnNumber() {
-        this.turnNumber++;
-    }
-    
     public ArrayList<Gamer> checkWinner() {
         ArrayList<Gamer> gamers = new ArrayList<>();
         for(Gamer gamer : this.gamers){
@@ -292,7 +256,7 @@ public class Game {
         if(gamers.size()==1){
             return gamers;
         }
-        ArrayList<Gamer> winners = new ArrayList<Gamer>();
+        ArrayList<Gamer> winners = new ArrayList<>();
         for(Gamer gamer : gamers){
             if(gamer.getDashboard().getNumTowers()==0){
                 winners.add(gamer);
@@ -325,8 +289,28 @@ public class Game {
         return winners;
     }
 
+    /**
+     * Method used to get the professors owned by a gamer
+     * @param gamer is the gamer to check
+     * @return the arrayList of owned professors
+     */
     public ArrayList<Professor> getProfessorsByGamer(Gamer gamer) {
         InfluenceCalculator influenceCalculator = new InfluenceCalculator(this.gamers,this.professors);
         return influenceCalculator.getProfessorsOwnedByPlayer(gamer);
+    }
+
+    /**
+     * Method used to set the current gamer
+     * @param currentPlayer is the new current gamer
+     */
+    public void setCurrentPlayer(Gamer currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    /**
+     * Method used to set a new turn
+     */
+    public void setTurnNumber() {
+        this.turnNumber++;
     }
 }
