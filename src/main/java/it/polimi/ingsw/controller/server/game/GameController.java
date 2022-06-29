@@ -22,9 +22,10 @@ public class GameController extends Thread{
 
     private GamePhase gamePhase;
     private final View view;
-    private boolean isGameNotEnded;
+
     private final ArrayList<AssistantCardDeckFigures> cardDesks;
     private final GameType gameType;
+    private boolean gameHasStarted = false;
 
     public GameController(ArrayList<Player> players, GameType gameType){
         this.players = new ArrayList<>(players);
@@ -36,7 +37,6 @@ public class GameController extends Thread{
         }
         this.updatePlayersOrder();
         this.view = new VirtualViewHandler();
-        this.isGameNotEnded = true;
         this.cardDesks = new ArrayList<AssistantCardDeckFigures>();
         this.cardDesks.addAll(Arrays.asList(AssistantCardDeckFigures.values()));
     }
@@ -62,7 +62,7 @@ public class GameController extends Thread{
     public void run() {
         this.gamePhase = new GameSetup(this,this.game);
         this.gamePhase.handle();
-        while (this.isGameNotEnded){
+        while (this.gamePhase.next() != null){
             this.gamePhase = this.gamePhase.next();
             this.gamePhase.handle();
         }
@@ -78,13 +78,17 @@ public class GameController extends Thread{
     }
 
     public void shutdown(String s){
-        // TODO : scrivere per chiamare la fase di vittoria ed inviarla
-        System.out.println(AnsiColor.RED.toString()+s+AnsiColor.RESET.toString());
-        for(Player player : this.players){
-            this.view.setCurrentPlayer(player);
-            //this.view.haltOnError(); -->funzione non esiste più
+        System.out.println("\n\n"+AnsiColor.RED.toString()+s+AnsiColor.RESET.toString());
+        System.out.println("Finalizing game");
+        if(gameHasStarted){
+            this.gamePhase = new VictoryPhase(this.game,this);
+            this.gamePhase.handle();
         }
-        this.isGameNotEnded = false;
+        for(Player player : this.players){
+            player.getMessageHandler().shutDown();
+        }
+        System.out.print("\n"+AnsiColor.GREEN.toString()+"A game has been concluded"+AnsiColor.RESET.toString());
+        this.stop();
     }
 
     public ArrayList<AssistantCardDeckFigures> getCardDesks(){
@@ -96,7 +100,12 @@ public class GameController extends Thread{
         System.out.println("Involved gamer info : "+AnsiColor.RED.toString()+player.getUsername()+AnsiColor.RESET.toString()+", token : "+AnsiColor.RED.toString()+player.getToken()+AnsiColor.RESET.toString());
         player.getMessageHandler().shutDown();
         this.players.remove(player);
-        this.shutdown("An Gamer reported an error");
+        try {
+            player.getGamer(this.game.getGamers()).setInActivity();
+        } catch (ModelErrorException e) {
+            throw new RuntimeException(e);
+        }
+        this.shutdown("A Gamer reported an error");
     }
 
     public Player getPlayer(Gamer currentPlayer, ArrayList<Player> players) throws ModelErrorException {
@@ -126,5 +135,13 @@ public class GameController extends Thread{
 
     public GameType getGameType(){
         return this.gameType;
+    }
+
+    public boolean isGameStarted() {
+        return gameHasStarted;
+    }
+
+    public void setGameStarted(){
+        this.gameHasStarted = true;
     }
 }

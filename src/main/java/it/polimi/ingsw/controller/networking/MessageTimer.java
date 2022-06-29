@@ -11,6 +11,7 @@ class MessageTimer extends Thread{
         this.timeToWait = timeToWait;
         this.timeEnded = false;
         this.killed = false;
+        this.start();
     }
 
     @Override

@@ -50,7 +50,7 @@ public class ActionPhase1 implements GamePhase{
     }
 
     /**
-     *This is the main method that handles the ActionPhase1
+     * This is the main method that handles the ActionPhase1
      */
     @Override
     public void handle() {
@@ -235,27 +235,6 @@ public class ActionPhase1 implements GamePhase{
             this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
             this.view.updateDashboards(gamer, this.game);
         }
-    }
-
-    /**
-     * This method is called by moveStudentToLocation() when the player doesn't reply in time. It chooses a random color
-     * for the student moved
-     * @return a random color
-     */
-    private PawnColor randomColorPicker(){
-        Random random = new Random();
-        int rand = random.nextInt(0, PawnColor.values().length);
-        return PawnColor.values()[rand];
-    }
-
-    /**
-     * This method is called by moveStudentToLocation() when the player doesn't reply in time. It chooses a random place
-     * for the student moved
-     * @return a random place (it is a number between 0 and 12: 0 = hall, 1-12 = island)
-     */
-    private int randomPlacePicker() {
-        Random random = new Random();
-        return random.nextInt(0, this.game.getIslands().size());
     }
 
     /**

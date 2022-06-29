@@ -19,6 +19,7 @@ public class Gamer{
     protected AssistantCardDeck deck;
     private final TowerColor playerColor;
     private Dashboard dashboard;
+    boolean active;
 
     /**
      * Class constructor
@@ -29,6 +30,7 @@ public class Gamer{
         this.token = token;
         this.username = username;
         this.playerColor = towerColor;
+        this.active = true;
     }
 
     /**
@@ -87,5 +89,13 @@ public class Gamer{
 
     public TowerColor getTowerColor() {
         return this.playerColor;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setInActivity(){
+        active = false;
     }
 }

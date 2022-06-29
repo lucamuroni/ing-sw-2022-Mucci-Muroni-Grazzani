@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Timer;
 
 /**
  * Class used to manage connections between hosts
@@ -20,6 +21,7 @@ class ConnectionHandler {
     private final ArrayList<String> outputMessages;
     private boolean isON;
     private boolean hasConnectionBeenLost;
+    private MessageTimer timer;
 
     /**
      * Class builder
@@ -43,6 +45,7 @@ class ConnectionHandler {
         this.readInputMessage();
         this.writeOutputMessage();
         this.ping(3000);
+        this.timer = new MessageTimer(23000);
     }
 
     /**
@@ -50,6 +53,7 @@ class ConnectionHandler {
      */
     public void shutDown(){
         this.isON = false;
+        timer.kill();
     }
 
     /**
@@ -66,6 +70,8 @@ class ConnectionHandler {
                     if(s != null){
                         if(s.equals("ping-ok")){
                             this.ping(8000);
+                            timer.kill();
+                            timer = new MessageTimer(28000);
                         }else if(s.equals("ping")){
                             synchronized (this.out){
                                 this.out.println("ping-ok");
@@ -77,7 +83,7 @@ class ConnectionHandler {
                         }
                     }
                 } catch (IOException e) {
-                    hasConnectionBeenLost = true;
+                    this.setDisconnection();
                     this.shutDown();
                 }
                 synchronized (this){
@@ -110,7 +116,7 @@ class ConnectionHandler {
                     this.inputMessages.wait(100);
                 } catch (InterruptedException e) {}
             }
-            if(hasConnectionBeenLost){
+            if(getDisconnection() || timer.isTimeEnded()){
                 throw new ClientDisconnectedException("Found disconnection");
             }
         }
@@ -202,5 +208,13 @@ class ConnectionHandler {
                 this.inputMessages.clear();
             }
         }
+    }
+
+    private synchronized boolean getDisconnection(){
+        return this.hasConnectionBeenLost;
+    }
+
+    private synchronized void setDisconnection(){
+        this.hasConnectionBeenLost = true;
     }
 }

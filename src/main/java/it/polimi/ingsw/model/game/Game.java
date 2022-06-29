@@ -283,16 +283,25 @@ public class Game {
     }
     
     public ArrayList<Gamer> checkWinner() {
-        ArrayList<Gamer> winners = new ArrayList<Gamer>();
+        ArrayList<Gamer> gamers = new ArrayList<>();
         for(Gamer gamer : this.gamers){
+            if(gamer.isActive()){
+                gamers.add(gamer);
+            }
+        }
+        if(gamers.size()==1){
+            return gamers;
+        }
+        ArrayList<Gamer> winners = new ArrayList<Gamer>();
+        for(Gamer gamer : gamers){
             if(gamer.getDashboard().getNumTowers()==0){
                 winners.add(gamer);
                 return winners;
             }
         }
-        for(Gamer gamer1 : this.gamers){
+        for(Gamer gamer1 : gamers){
             boolean victorious = true;
-            for(Gamer gamer2 : this.gamers){
+            for(Gamer gamer2 : gamers){
                 if(!gamer1.equals(gamer2) && gamer1.getDashboard().getNumTowers()>=gamer2.getDashboard().getNumTowers()){
                     victorious = false;
                 }
@@ -302,9 +311,9 @@ public class Game {
                 }
             }
         }
-        for(Gamer gamer1 : this.gamers){
+        for(Gamer gamer1 : gamers){
             boolean victorious = true;
-            for(Gamer gamer2 : this.gamers){
+            for(Gamer gamer2 : gamers){
                 if(!gamer1.equals(gamer2) && this.getProfessorsByGamer(gamer1).size()<this.getProfessorsByGamer(gamer2).size()){
                     victorious = false;
                 }
