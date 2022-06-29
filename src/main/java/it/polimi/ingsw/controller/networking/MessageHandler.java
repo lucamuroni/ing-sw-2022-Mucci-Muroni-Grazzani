@@ -42,9 +42,9 @@ public class MessageHandler {
     public void write(Message msg) throws MalformedMessageException{
         if(this.encoder==null){
             this.encoder = new JSONObject();
-            this.encoder.put(this.topKeyWord,msg.getUniqueTopicID());
+            this.encoder.put(topKeyWord,msg.getUniqueTopicID());
         }else{
-            if(msg.getUniqueTopicID() != (int)this.encoder.get(this.topKeyWord)){
+            if(msg.getUniqueTopicID() != (int)this.encoder.get(topKeyWord)){
                 Set<String> keySet = this.encoder.keySet();
                 for(String chiave : keySet){
                     System.out.println(chiave);
@@ -83,7 +83,7 @@ public class MessageHandler {
      * @throws ClientDisconnectedException if the client disconnects
      */
     public void writeOutAndWait() throws ClientDisconnectedException, MalformedMessageException {
-        int topicID = (int)this.encoder.get(this.topKeyWord);
+        int topicID = (int)this.encoder.get(topKeyWord);
         writeOut();
         this.read();
         if(this.incomingMessages.get(0).getUniqueTopicID()!=topicID){
@@ -100,18 +100,11 @@ public class MessageHandler {
         int i = 0,uniqueID = 0;
         JSONObject decoder = new JSONObject();
         String messages = this.connectionHandler.getInputMessage();
-        /* Object messagesParsed = JSONValue.parse(messages);
-        this.decoder = (JSONObject) messagesParsed; */
         decoder = (JSONObject) JSONValue.parse(messages);
-        uniqueID = (int)((Long)decoder.get(this.topKeyWord)).intValue();
+        uniqueID = (int)((Long)decoder.get(topKeyWord)).intValue();
         Set<String> keySet = decoder.keySet();
         this.incomingMessages.clear();
         for(String key : keySet){
-            // TODO dubug <=====
-            if(true){
-                System.out.println("lettura del payload "+decoder.get(key)+ " alla key "+key);
-            }
-            // todo =====>
             Message m = new Message(key,String.valueOf( decoder.get(key)),uniqueID);
             this.incomingMessages.add(m);
         }
@@ -178,12 +171,18 @@ public class MessageHandler {
         }
     }
 
-    //TODO: javadoc
+    /**
+     * Method used to return the last topic key that the other host has used to sign it's last message
+     * @return the int key of the last received message
+     */
     public int getMessagesUniqueTopic(){
         return this.lastTopicRead;
     }
 
-    //TODO: javadoc
+    /**
+     * Method used to update the last topic key that you have read
+     * @param message one of the messages belonged to the last message you have read
+     */
     private void updateLastTopic(Message message){
         this.lastTopicRead = message.getUniqueTopicID();
     }

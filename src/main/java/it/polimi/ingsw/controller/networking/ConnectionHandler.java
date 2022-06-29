@@ -30,8 +30,8 @@ class ConnectionHandler {
     public ConnectionHandler(Socket socket){
         this.clientSocket = socket;
         this.isON = true;
-        this.inputMessages = new ArrayList<String>();
-        this.outputMessages = new ArrayList<String>();
+        this.inputMessages = new ArrayList<>();
+        this.outputMessages = new ArrayList<>();
         this.hasConnectionBeenLost = false;
     }
 
@@ -210,10 +210,17 @@ class ConnectionHandler {
         }
     }
 
+    /**
+     * Getter method
+     * @return a boolean which represent if the connection has been lost due to a Socket TimeOut
+     */
     private synchronized boolean getDisconnection(){
         return this.hasConnectionBeenLost;
     }
 
+    /**
+     * Setter method launched when the connection is lost due to a Socket TimeOut
+     */
     private synchronized void setDisconnection(){
         this.hasConnectionBeenLost = true;
     }

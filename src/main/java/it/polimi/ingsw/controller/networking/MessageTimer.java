@@ -1,12 +1,20 @@
 package it.polimi.ingsw.controller.networking;
 
-//TODO: javadoc
+
+/**
+ * Class used as a Timer to reveal un-expected host shutdowns
+ * @author Davide Grazzani
+ */
 class MessageTimer extends Thread{
     private final int timeToWait;
     private final static int minimumSleepTime = 500;
     private boolean timeEnded;
     private boolean killed;
 
+    /**
+     * Class Builder
+     * @param timeToWait is the time (in milliseconds) that the timer has to wait prior to be flagged as expired
+     */
     public MessageTimer(int timeToWait){
         this.timeToWait = timeToWait;
         this.timeEnded = false;
@@ -14,6 +22,9 @@ class MessageTimer extends Thread{
         this.start();
     }
 
+    /**
+     * Override of the Thread run method
+     */
     @Override
     public void run() {
         int cycles;
@@ -42,18 +53,32 @@ class MessageTimer extends Thread{
         }
     }
 
+    /**
+     * Getter method
+     * @return a boolean that represent if the timer is ended
+     */
     public synchronized boolean isTimeEnded(){
         return this.timeEnded;
     }
 
+    /**
+     * Setter method that is used by the timer when time is ended
+     */
     private synchronized void timerIsEnded(){
         this.timeEnded = true;
     }
 
+    /**
+     * Setter method used to kill MessageTimer thread
+     */
     public synchronized void kill(){
         this.killed = true;
     }
 
+    /**
+     * Getter method used by the timer to know if the timer has been killed
+     * @return a boolean that represent the status of the timer
+     */
     private synchronized boolean getKillStatus(){
         return this.killed;
     }
