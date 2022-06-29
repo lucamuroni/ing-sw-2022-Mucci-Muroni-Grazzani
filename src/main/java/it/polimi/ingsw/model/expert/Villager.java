@@ -3,12 +3,23 @@ package it.polimi.ingsw.model.expert;
 import it.polimi.ingsw.model.game.ExpertGame;
 import it.polimi.ingsw.model.pawn.PawnColor;
 
+/**
+ * Card Villager from the deck of CharacterCards
+ * @author Davide Grazzani
+ */
 public class Villager extends CharacterCardInterface {
-
+    /**
+     * Constructor of the class
+     * @param card is the enum associated with the character
+     * @param game is the current game
+     */
     public Villager(CharacterCard card, ExpertGame game) {
         super(card, game);
     }
 
+    /**
+     * Method that handles the effect of the card
+     */
     @Override
     public void handle() {
         this.getGame().setEqualProfessorFlag();

@@ -1,22 +1,25 @@
 package it.polimi.ingsw.model.expert;
 
-import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.game.ExpertGame;
-import it.polimi.ingsw.model.gamer.ExpertGamer;
 
+/**
+ * Card Ambassador from the deck of CharacterCards
+ * @author Davide Grazzani
+ */
 public class Ambassador extends CharacterCardInterface{
-
-    private Island island;
-
-    public Ambassador(CharacterCard card, ExpertGame game, Island island) {
+    /**
+     * Constructor of the class
+     * @param card is the enum associated with the character
+     * @param game is the current game
+     */
+    public Ambassador(CharacterCard card, ExpertGame game) {
         super(card, game);
-        this.island = island;
     }
 
+    /**
+     * Method handle is empty because we use ConquerIslandPhase to handle the effect
+     */
     @Override
-    public void handle() {
-        //this.getGame().checkIslandOwner(island);
-        //TODO: fare metodo privato mergeIsland -> si può fare metodo preso da MotherNature phase in controller/ fare un metodo da spostare in game
-    }
+    public void handle() {}
 
 }

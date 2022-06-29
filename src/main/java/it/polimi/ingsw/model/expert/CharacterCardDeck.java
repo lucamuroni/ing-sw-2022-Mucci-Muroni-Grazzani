@@ -40,7 +40,7 @@ public class CharacterCardDeck {
         CharacterCardInterface choice = null;
         switch (card){
             case AMBASSADOR -> {
-                choice = new Ambassador(CharacterCard.AMBASSADOR,game,this.islandParameter);
+                choice = new Ambassador(CharacterCard.AMBASSADOR,game);
                 choice.payCardCost(ambassadorUsage);
                 ambassadorUsage++;
             }
