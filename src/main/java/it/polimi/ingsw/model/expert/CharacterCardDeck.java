@@ -10,6 +10,9 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+/**
+ * Class that represents the deck of playable cards
+ */
 public class CharacterCardDeck {
     private final ArrayList<CharacterCard> cards;
     private final ArrayList<Student> studentsParameters;
@@ -23,19 +26,31 @@ public class CharacterCardDeck {
     private int thiefUsage = 0;
     private int villagerUsage = 0;
 
-
+    /**
+     * Constructor of the class
+     */
     public CharacterCardDeck(){
         this.cards = new ArrayList<>();
         Collections.addAll(this.cards, CharacterCard.values());
         this.studentsParameters = new ArrayList<>();
     }
 
+    /**
+     * Method used to set the parameters used by some cards
+     * @param students an arrayList of students
+     * @param island is an island
+     */
     public void setParameters(ArrayList<Student> students, Island island){
         this.studentsParameters.clear();
         this.studentsParameters.addAll(students);
         this.islandParameter = island;
     }
 
+    /**
+     * Method used to play the effect of a card
+     * @param card is the card that must be played
+     * @param game is the current game
+     */
     public void playCard(CharacterCard card, ExpertGame game){
         CharacterCardInterface choice = null;
         switch (card){
@@ -97,6 +112,9 @@ public class CharacterCardDeck {
         game.setCharacterCardBeenPlayed();
     }
 
+    /**
+     * Method used to init the deck
+     */
     public void initDeck() {
         for (int i = 0; i<5; i++) {
             Random random = new Random();
@@ -105,10 +123,18 @@ public class CharacterCardDeck {
         }
     }
 
+    /**
+     * Method that returns the cards of the dekc
+     * @return the cards of the deck
+     */
     public ArrayList<CharacterCard> getCards() {
         return this.cards;
     }
 
+    /**
+     * Method used to get the island if the card chosen is Ambassador
+     * @return the island
+     */
     public Island getIslandParameter(){
         return this.islandParameter;
     }
