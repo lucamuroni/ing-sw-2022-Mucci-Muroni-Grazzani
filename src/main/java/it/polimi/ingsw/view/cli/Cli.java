@@ -12,6 +12,7 @@ import it.polimi.ingsw.view.asset.game.*;
 import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.cli.page.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -75,8 +76,16 @@ public class Cli implements ViewHandler {
      * Method that clears the cli
      */
     public void clearConsole(){
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+        if(os.contains("Windows")){
+            try {
+                Runtime.getRuntime().exec("cls");
+            } catch (IOException e) {
+                System.out.println(AnsiColor.RED.toString()+"System Error : could not clear the console");
+            }
+        }else{
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
+        }
     }
 
     /**
