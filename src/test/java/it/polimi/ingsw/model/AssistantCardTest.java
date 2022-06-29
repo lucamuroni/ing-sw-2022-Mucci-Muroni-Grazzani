@@ -1,11 +1,9 @@
 package it.polimi.ingsw.model;
 
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AssistantCardTest {
-
     AssistantCardDeck deck = new AssistantCardDeck();
 
     @Test
@@ -34,5 +32,19 @@ class AssistantCardTest {
         assertEquals(8, deck.getCardList().get(7).getTurnValue());
         assertEquals(9, deck.getCardList().get(8).getTurnValue());
         assertEquals(10, deck.getCardList().get(9).getTurnValue());
+    }
+
+    @Test
+    void getName() {
+        assertEquals("Leopard", deck.getCardList().get(0).getName());
+        assertEquals("Ostrich", deck.getCardList().get(1).getName());
+        assertEquals("Cat", deck.getCardList().get(2).getName());
+        assertEquals("Eagle", deck.getCardList().get(3).getName());
+        assertEquals("Fox", deck.getCardList().get(4).getName());
+        assertEquals("Snake", deck.getCardList().get(5).getName());
+        assertEquals("Octopus", deck.getCardList().get(6).getName());
+        assertEquals("Dog", deck.getCardList().get(7).getName());
+        assertEquals("Elephant", deck.getCardList().get(8).getName());
+        assertEquals("Turtle", deck.getCardList().get(9).getName());
     }
 }
