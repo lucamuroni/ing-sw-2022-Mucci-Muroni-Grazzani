@@ -16,8 +16,8 @@ public class ExpertDashboard extends Dashboard{
 
     /**
      * Class constructor
-     * @param students represent the initial students that are present at the start of the game in the waiting room of a Gamer
-     * @param numTowers represent the initial number of towers that are present at the start of the game in the waiting room of a Gamer
+     * @param students represents the students that are present at start of the game in the gamer waiting room
+     * @param numTowers represents the initial number of towers that are present at start of the game in the gamer waiting room
      */
     public ExpertDashboard(ArrayList<Student> students, int numTowers){
         super(students, numTowers);
@@ -25,8 +25,8 @@ public class ExpertDashboard extends Dashboard{
     }
 
     /**
-     * Getter method
-     * @return the coins possessed by the player
+     * Method that returns the number of coins possessed by the gamer
+     * @return the number of coins
      */
     public int getCoins(){
         return this.coins;
@@ -42,8 +42,8 @@ public class ExpertDashboard extends Dashboard{
     }
 
     /**
-     * Method used to move a Student from the staging area to a Professor table
-     * @param student represent a Student in the staging area (waitingRoom) which must be moved
+     * Method used to move a student from waitingRoom to hall
+     * @param student represents a student in waitingRoom that must be moved
      */
     @Override
     public void moveStudent(Student student){
@@ -53,7 +53,7 @@ public class ExpertDashboard extends Dashboard{
     }
 
     /**
-     * Method used to check if the insertion generates a new coin
+     * Method used to check if the insertion of a student into the hall generates a new coin
      * @param student is the student that has been added
      */
     private void checkCoins(Student student){
@@ -66,12 +66,21 @@ public class ExpertDashboard extends Dashboard{
         }
     }
 
+    /**
+     * Method used to remove a student from hall
+     * @param color is the color of the student that must be removed
+     * @return the removed student
+     */
     public Student removeStudentFromHall(PawnColor color) {
         Student student = this.hall.stream().filter(x->x.getColor().equals(color)).findFirst().orElse(null);
         this.hall.remove(student);
         return student;
     }
 
+    /**
+     * Method used to create a link between an expertDashboard and an expertGame
+     * @param game is the current game
+     */
     public void setGame(ExpertGame game){
         this.game = game;
     }

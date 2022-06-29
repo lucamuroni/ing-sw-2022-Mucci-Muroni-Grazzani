@@ -8,54 +8,52 @@ import java.util.ArrayList;
 /**
  * @author Davide Grazzani
  * @author Sara Mucci
- * Class that represent a gamer dashboard, which include the gamer's towers, the students present at the entrace and
- * the professor's table
+ * Class that represents a gamer dashboard, which includes gamer's towers, students in the waitingRoom and professors' table
  */
-
 public class Dashboard {
     protected ArrayList<Student> waitingRoom;
     protected int towers;
     public ArrayList<Student> hall;
+
     /**
      * Class builder
-     * @param students represent the initial students that are present at the start of the game in the waiting room of a Gamer
-     * @param numTowers represent the initial number of towers that are present at the start of the game in the waiting room of a Gamer
+     * @param students represents the students that are present at start of the game in the gamer waiting room
+     * @param numTowers represents the initial number of towers that are present at start of the game in the gamer waiting room
      */
     public Dashboard(ArrayList<Student> students, int numTowers){
-        this.waitingRoom = new ArrayList<Student>(students);
+        this.waitingRoom = new ArrayList<>(students);
         this.towers = numTowers;
-        this.hall = new ArrayList<Student>();
+        this.hall = new ArrayList<>();
     }
 
     /**
-     * Method for moving towers to the islands and from the islands back to the dashboard in case of island ownership loss
-     * @param number indicate the number of towers that need to be swapped between the dashboard and the islands
+     * Method used to move towers to the islands and from the islands back to the dashboard in case of island ownership loss
+     * @param number indicates number of towers that need to be swapped between dashboard and an island
      */
     public void moveTower(int number){
         this.towers += number;
     }
 
     /**
-     * Method used to add student to the "staged" area of a Gamer's dashboard
-     * @param students represent an arraylist of student thath needs to be pushed into the dashboard
+     * Method used to add student to waitingRoom of dashboard
+     * @param students represents an arraylist of student that needs to be pushed into the dashboard
      */
     public void addStudentsWaitingRoom(ArrayList<Student> students){
         this.waitingRoom.addAll(students);
     }
 
     /**
-     * Method used to calculate the influence of a Gamer on a Professor, given it's color
-     * @param color is the color of the Professor you want to check
-     * @return an int which represents the number of Students present in the hall of that professor
+     * Method used to calculate influence of a gamer on a professor, given its color
+     * @param color is the color of the professor to check
+     * @return an int which represents the number of students of that color that are in the hall
      */
     public int checkInfluence(PawnColor color){
-        int result = Math.toIntExact(this.hall.stream().filter(x -> x.getColor().equals(color)).count());
-        return result;
+        return Math.toIntExact(this.hall.stream().filter(x -> x.getColor().equals(color)).count());
     }
 
     /**
-     * Method used to move a Student from the staging area to a Professor table
-     * @param student represent a Student in the staging area (waitingRoom) which must be moved
+     * Method used to move a student from waitingRoom to hall
+     * @param student represents a student in waitingRoom that must be moved
      */
     public void moveStudent(Student student){
         this.hall.add(student);
@@ -63,8 +61,8 @@ public class Dashboard {
     }
 
     /**
-     * Method used to move a Student from the staging area to an island
-     * @param student represent a Student in the staging area (waitingRoom) which must be moved
+     * Method used to move a student from waitingRoom to an island
+     * @param student represents a student in waitingRoom that must be moved
      * @param island is the island target
      */
     public void moveStudent(Student student, Island island){
@@ -73,15 +71,15 @@ public class Dashboard {
     }
 
     /**
-     * method used to return the number of towers on the dashboard
-     * @return towers represents the number of towers
+     * Method used to return the number of towers on the dashboard
+     * @return the number of towers
      */
     public int getNumTowers() {
         return this.towers;
     }
 
     /**
-     * Method that returns the waiting room of the current dashboard
+     * Method that returns the waiting room of a dashboard
      * @return the waiting room
      */
     public ArrayList<Student> getWaitingRoom () {
@@ -89,7 +87,7 @@ public class Dashboard {
     }
 
     /**
-     * Method that returns the hall of the current dashboard
+     * Method that returns the hall of a dashboard
      * @return the hall
      */
     public ArrayList<Student> getHall(){
