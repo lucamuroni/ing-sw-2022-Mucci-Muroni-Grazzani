@@ -38,7 +38,9 @@ public class EndGame implements GamePhase{
         } catch (AssetErrorException e) {
             this.controller.handleError("Doesn't found player");
         }
-        if (winner.size() == 1) {
+        if(winner.size() == 0){
+            this.view.showEndGamePage(Results.ERROR);
+        }else if (winner.size() == 1) {
             if (winner.get(0).getId() == this.game.getSelf().getId()) {
                 this.view.showEndGamePage(Results.WIN);
             } else {
@@ -46,10 +48,15 @@ public class EndGame implements GamePhase{
             }
 
         } else {
+            boolean tie = false;
             for (Gamer gamer : winner) {
                 if (gamer.getId() == this.game.getSelf().getId()) {
                     this.view.showEndGamePage(Results.TIE);
+                    tie = true;
                 }
+            }
+            if(!tie){
+                this.view.showEndGamePage(Results.LOSS);
             }
         }
     }

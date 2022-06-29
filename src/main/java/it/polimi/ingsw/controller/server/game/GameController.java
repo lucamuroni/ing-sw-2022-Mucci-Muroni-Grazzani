@@ -81,7 +81,9 @@ public class GameController extends Thread{
         System.out.println("\n\n"+AnsiColor.RED.toString()+s+AnsiColor.RESET.toString());
         System.out.println("Finalizing game");
         if(gameHasStarted){
-            this.gamePhase = new VictoryPhase(this.game,this);
+            VictoryPhase phase = new VictoryPhase(this.game,this);
+            phase.setError();
+            this.gamePhase = phase;
             this.gamePhase.handle();
         }
         for(Player player : this.players){

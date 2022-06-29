@@ -43,16 +43,17 @@ public class GetWinner {
         for (int i = 0; i<num; i++) {
             this.messageHandler.read();
             String string = this.messageHandler.getMessagePayloadFromStream(WINNER.getFragment());
-            //System.out.println(string);
-            boolean check = false;
-            for (Gamer gamer : game.getGamers()) {
-                if (string.equals(gamer.getUsername())) {
-                    winners.add(gamer);
-                    check = true;
+            if(string != "Error"){
+                boolean check = false;
+                for (Gamer gamer : game.getGamers()) {
+                    if (string.equals(gamer.getUsername())) {
+                        winners.add(gamer);
+                        check = true;
+                    }
                 }
+                if (!check)
+                    throw new AssetErrorException();
             }
-            if (!check)
-                throw new AssetErrorException();
         }
         int topicId = this.messageHandler.getMessagesUniqueTopic();
         Message message = new Message(WINNER.getFragment(), OK.getFragment(), topicId);

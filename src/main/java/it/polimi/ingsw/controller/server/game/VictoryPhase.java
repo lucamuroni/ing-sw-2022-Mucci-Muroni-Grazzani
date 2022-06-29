@@ -21,6 +21,7 @@ public class VictoryPhase implements GamePhase{
     private final Game game;
     private final GameController controller;
     private final View view;
+    private ArrayList<String> names;
 
     /**
      * Constructor of the class
@@ -31,40 +32,42 @@ public class VictoryPhase implements GamePhase{
         this.game = game;
         this.controller = controller;
         this.view = this.controller.getView();
+        this.names = new ArrayList<>();
     }
 
     /**
      * This is the main and only method that handles the VictoryPhase
      */
     public void handle() {
-        ArrayList<Gamer> winners = new ArrayList<>(this.game.checkWinner());
-        if (!winners.isEmpty()) {
-            ArrayList<String> names = new ArrayList<>();
-            for (Gamer gamer : winners) {
-                names.add(gamer.getUsername());
+        if(this.names.size() == 0){
+            ArrayList<Gamer> winners = new ArrayList<>(this.game.checkWinner());
+            if(!winners.isEmpty()){
+                for (Gamer gamer : winners) {
+                    names.add(gamer.getUsername());
+                }
             }
-            for (Player player : this.controller.getPlayers()) {
-                this.view.setCurrentPlayer(player);
-                try {
-                    try{
-                        this.view.sendContext(CONTEXT_PHASE.getFragment());
-                        this.view.sendNewPhase(Phase.END_GAME_PHASE);
-                    }catch (MalformedMessageException | FlowErrorException e){
-                        this.view.sendContext(CONTEXT_PHASE.getFragment());
-                        this.view.sendNewPhase(Phase.END_GAME_PHASE);
-                    }
-                }catch (MalformedMessageException | FlowErrorException  | ClientDisconnectedException e) {
-                    this.controller.handlePlayerError(player,"Error while sending END_GAME_PHASE");
+        }
+        for (Player player : this.controller.getPlayers()) {
+            this.view.setCurrentPlayer(player);
+            try {
+                try{
+                    this.view.sendContext(CONTEXT_PHASE.getFragment());
+                    this.view.sendNewPhase(Phase.END_GAME_PHASE);
+                }catch (MalformedMessageException | FlowErrorException e){
+                    this.view.sendContext(CONTEXT_PHASE.getFragment());
+                    this.view.sendNewPhase(Phase.END_GAME_PHASE);
                 }
+            }catch (MalformedMessageException | FlowErrorException  | ClientDisconnectedException e) {
+                this.controller.handlePlayerError(player,"Error while sending END_GAME_PHASE");
+            }
+            try {
                 try {
-                    try {
-                        this.view.sendWinner(names);
-                    } catch (MalformedMessageException | FlowErrorException e) {
-                        this.view.sendWinner(names);
-                    }
-                } catch (MalformedMessageException | ClientDisconnectedException | FlowErrorException e){
-                    this.controller.handlePlayerError(player,"Error while sending winner");
+                    this.view.sendWinner(names);
+                } catch (MalformedMessageException | FlowErrorException e) {
+                    this.view.sendWinner(names);
                 }
+            } catch (MalformedMessageException | ClientDisconnectedException | FlowErrorException e){
+                this.controller.handlePlayerError(player,"Error while sending winner");
             }
         }
     }
@@ -75,5 +78,9 @@ public class VictoryPhase implements GamePhase{
      */
     public GamePhase next() {
         return null;
+    }
+
+    public void setError(){
+        this.names.add("Error");
     }
 }

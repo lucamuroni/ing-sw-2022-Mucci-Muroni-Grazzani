@@ -26,7 +26,7 @@ public class EndGamePage implements Page {
                     "██║███╗██║██║██║╚██╗██║██║╚██╗██║██╔══╝  ██╔══██╗\n" +
                     "╚███╔███╔╝██║██║ ╚████║██║ ╚████║███████╗██║  ██║\n" +
                     " ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝"+"\n"+AnsiColor.RESET.toString());
-        }else if(results == Results.TIE){
+        }else if(results == Results.TIE || results == Results.ERROR){
             System.out.println(AnsiColor.YELLOW.toString()+"\n" +
                     "██████╗ ██████╗  █████╗ ██╗    ██╗\n" +
                     "██╔══██╗██╔══██╗██╔══██╗██║    ██║\n" +
@@ -42,6 +42,10 @@ public class EndGamePage implements Page {
                     "██║     ██║   ██║╚════██║██╔══╝  ██╔══██╗\n" +
                     "███████╗╚██████╔╝███████║███████╗██║  ██║\n" +
                     "╚══════╝ ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝"+AnsiColor.RESET.toString());
+        }
+        System.out.println("\n");
+        if(results == Results.ERROR){
+            System.out.println(AnsiColor.YELLOW.toString()+"The game has ended due to a gamer error "+AnsiColor.RESET.toString());
         }
         System.out.println("\n");
         System.out.println("Thank you for playing this game");
