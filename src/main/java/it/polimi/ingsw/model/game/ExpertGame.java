@@ -6,16 +6,15 @@ import it.polimi.ingsw.model.expert.CharacterCardDeck;
 import it.polimi.ingsw.model.gamer.ExpertGamer;
 import it.polimi.ingsw.model.gamer.Gamer;
 import it.polimi.ingsw.model.pawn.PawnColor;
-import it.polimi.ingsw.model.pawn.Student;
-import org.ietf.jgss.GSSManager;
+import it.polimi.ingsw.model.pawn.Professor;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.Random;
 
 /**
- * @author Luca Muroni
  * Class that represents an Expert Game
+ * @author Luca Muroni
  */
 public class ExpertGame extends Game {
     private int coinBank;
@@ -42,28 +41,32 @@ public class ExpertGame extends Game {
         this.deck.initDeck();
     }
 
+    /**
+     * Method used to init the dashboards
+     */
     public void initiateExpertDashboards(){
         for(ExpertGamer gamer : this.getExpertGamers()){
             gamer.getDashboard().setGame(this);
         }
     }
 
-
+    /**
+     * Method used to check if a professor has a new owner
+     * @param color is the color of the Professor, the owner of which will be changed
+     * @return the owner
+     */
     @Override
-    public Gamer changeProfessorOwner(PawnColor color) throws Exception {
-        Optional<Gamer> oldOwner= this.professors.stream().filter(x->x.getColor().equals(color)).map(x->x.getOwner()).findFirst().orElse(Optional.empty());
-        if(oldOwner==null){
-            throw new Exception();
-        }
-        else if(oldOwner.isEmpty() || oldOwner.equals(this.getCurrentPlayer())) {
-            this.professors.stream().filter(x->x.getColor().equals(color)).findFirst().orElse(null).setOwner(this.getCurrentPlayer());
+    public Gamer changeProfessorOwner(PawnColor color) {
+        Optional<Gamer> oldOwner= this.professors.stream().filter(x->x.getColor().equals(color)).map(Professor::getOwner).findFirst().orElse(Optional.empty());
+        if(oldOwner.isEmpty() || oldOwner.get().equals(this.getCurrentPlayer())) {
+            Objects.requireNonNull(this.professors.stream().filter(x -> x.getColor().equals(color)).findFirst().orElse(null)).setOwner(this.getCurrentPlayer());
             return this.getCurrentPlayer();
         }
         else {
             int oldInfluence = oldOwner.get().getDashboard().checkInfluence(color);
             int currentInfluence = this.getCurrentPlayer().getDashboard().checkInfluence(color);
             if (currentInfluence > oldInfluence || (villagerCard && currentInfluence >= oldInfluence)) {
-                this.professors.stream().filter(x->x.getColor().equals(color)).findFirst().orElse(null).setOwner(this.getCurrentPlayer());
+                Objects.requireNonNull(this.professors.stream().filter(x -> x.getColor().equals(color)).findFirst().orElse(null)).setOwner(this.getCurrentPlayer());
                 return this.getCurrentPlayer();
             }else{
                 return oldOwner.get();
@@ -71,6 +74,9 @@ public class ExpertGame extends Game {
         }
     }
 
+    /**
+     * Method used to add a new turn
+     */
     @Override
     public void setTurnNumber() {
         super.setTurnNumber();
@@ -81,13 +87,17 @@ public class ExpertGame extends Game {
     }
 
     /**
-     * Method that returns the coin bank
-     * @return the coin bank of the game
+     * Method that returns the coins of the game
+     * @return the number of coins
      */
     public int getCoinBank() {
         return this.coinBank;
     }
 
+    /**
+     * Method used when a gamer play a card and part of its cost return to the coin bank
+     * @param value is the number of coins that returns to the coin bank
+     */
     public void setCoinBank(int value){
         this.coinBank += value;
     }
@@ -118,26 +128,26 @@ public class ExpertGame extends Game {
 
     /**
      * Method that returns the cards that can be played during the game
-     * @return the cards of the game
+     * @return the playable cards
      */
     public ArrayList<CharacterCard> getGameCards() {
         return this.deck.getCards();
     }
 
     /**
-     * Method that sets the variable moreSteps to true
+     * Method that sets the variable moreSteps to true when a player plays Postman
      */
     public void setMoreSteps() {
         this.moreSteps = true;
     }
 
     /**
-     * Method that returns the mother nature destination in case it can perform more steps due to a character card played
+     * Method that returns the mother nature destination; in case it can perform more steps due to a character card played
      * @return the mother nature destination
      */
     @Override
     public ArrayList<Island> getMotherNatureDestination() {
-        ArrayList<Island> result = new ArrayList<Island>(super.getMotherNatureDestination());
+        ArrayList<Island> result = new ArrayList<>(super.getMotherNatureDestination());
         int islandIndex = this.islands.indexOf(result.get(result.size()-1));
         int index;
         if(this.moreSteps){
@@ -153,18 +163,32 @@ public class ExpertGame extends Game {
         return result;
     }
 
+    /**
+     * Method used when a gamer plays Villager
+     */
     public void setEqualProfessorFlag() {
         this.villagerCard = true;
     }
 
+    /**
+     * Method used to get the deck of CharacterCards
+     * @return the deck
+     */
     public CharacterCardDeck getDeck() {
         return deck;
     }
 
+    /**
+     * Method used to check if a gamer has already played a character card
+     * @return true if has been played, false otherwise
+     */
     public boolean isCharacterCardBeenPlayed(){
         return isCharacterCardBeenPlayed;
     }
 
+    /**
+     * Method used to set that the current player has played a card
+     */
     public void setCharacterCardBeenPlayed(){
         isCharacterCardBeenPlayed = true;
     }
