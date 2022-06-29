@@ -43,7 +43,7 @@ public class GetWinner {
         for (int i = 0; i<num; i++) {
             this.messageHandler.read();
             String string = this.messageHandler.getMessagePayloadFromStream(WINNER.getFragment());
-            if(string != "Error"){
+            if(!string.equals("Error")){
                 boolean check = false;
                 for (Gamer gamer : game.getGamers()) {
                     if (string.equals(gamer.getUsername())) {
