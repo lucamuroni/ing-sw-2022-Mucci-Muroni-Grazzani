@@ -38,12 +38,12 @@ public class ActionPhase3 implements GamePhase {
      */
     @Override
     public void handle() {
-        ArrayList<Cloud> clouds = new ArrayList<>();
+        ArrayList<Cloud> clouds = null;
         try {
             try {
-                clouds.addAll(this.network.getPossibleClouds(this.game));
+                clouds = this.network.getPossibleClouds(this.game);
             } catch (MalformedMessageException e) {
-                clouds.addAll(this.network.getPossibleClouds(this.game));
+                clouds = this.network.getPossibleClouds(this.game);
             }
         } catch (MalformedMessageException | ClientDisconnectedException e) {
             this.controller.handleError();
