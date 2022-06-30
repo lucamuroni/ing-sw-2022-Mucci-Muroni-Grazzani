@@ -17,7 +17,7 @@ public class MotherNature {
 
     /**
      * Setter method
-     * @param newPosition represents the island on witch Mother Nature will be moved by the current player
+     * @param newPosition represents the island on which Mother Nature will be moved by the current player
      */
     public void setPlace (Island newPosition){
         this.place = newPosition;
