@@ -13,7 +13,7 @@ public enum Phase {
     ACTION_PHASE_3("Action phase 3"),
     END_GAME_PHASE("End game phase");
 
-    private String name;
+    private final String name;
 
     /**
      * Class constructor

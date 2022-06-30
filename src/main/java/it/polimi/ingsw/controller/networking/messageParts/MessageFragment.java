@@ -71,7 +71,7 @@ public enum MessageFragment {
     WAITING_PAWN_PINK("waiting_pink"),
     WINNER("winner");
 
-    private String fragment;
+    private final String fragment;
 
     /**
      * Enum Builder
@@ -89,6 +89,11 @@ public enum MessageFragment {
         return fragment;
     }
 
+    /**
+     * Method used to return the enum with a string
+     * @param string is the name linked with an enum
+     * @return the associated enum
+     */
     public static MessageFragment getEnum(String string) {
         MessageFragment frag = null;
         for (MessageFragment fragment : MessageFragment.values()) {

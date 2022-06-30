@@ -1,8 +1,8 @@
 package it.polimi.ingsw.controller.networking.exceptions;
 
 /**
- * Class that represent a disconnection of the other host
  * @author Davide Grazzani
+ * Class that represent a disconnection of the other host
  */
 public class ClientDisconnectedException extends Exception{
     /**
@@ -13,7 +13,8 @@ public class ClientDisconnectedException extends Exception{
     }
 
     /**
-     * Class builder
+     * Class builder with a custom message
+     * @param s is the custom message
      */
     public ClientDisconnectedException(String s){
         super(s);

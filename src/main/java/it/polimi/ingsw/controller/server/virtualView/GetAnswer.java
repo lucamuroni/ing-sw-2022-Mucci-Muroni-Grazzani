@@ -5,8 +5,8 @@ import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 
-import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
-import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.ANSWER;
+import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
 
 public class GetAnswer {
     private final MessageHandler messageHandler;

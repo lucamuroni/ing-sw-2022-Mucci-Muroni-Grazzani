@@ -40,4 +40,3 @@ public class GetConnection {
         return Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(AUTH_ID.getFragment()));
     }
 }
-

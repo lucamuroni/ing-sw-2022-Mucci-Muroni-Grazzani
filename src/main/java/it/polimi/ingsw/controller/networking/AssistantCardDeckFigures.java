@@ -16,7 +16,7 @@ public enum AssistantCardDeckFigures {
      * Class constructor
      * @param name represents the name of the figure
      */
-    private AssistantCardDeckFigures(String name){
+    AssistantCardDeckFigures(String name){
         this.name = name;
     }
 }

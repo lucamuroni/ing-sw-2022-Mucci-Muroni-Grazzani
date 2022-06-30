@@ -5,7 +5,6 @@ import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
-import it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings;
 
 import java.util.ArrayList;
 

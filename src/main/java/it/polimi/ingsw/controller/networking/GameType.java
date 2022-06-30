@@ -8,7 +8,7 @@ public enum GameType {
     NORMAL("normal"),
     EXPERT("expert");
 
-    private String name;
+    private final String name;
 
     /**
      * Enum builder

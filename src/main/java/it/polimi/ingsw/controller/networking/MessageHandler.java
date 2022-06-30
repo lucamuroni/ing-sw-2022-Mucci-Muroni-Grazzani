@@ -186,5 +186,4 @@ public class MessageHandler {
     private void updateLastTopic(Message message){
         this.lastTopicRead = message.getUniqueTopicID();
     }
-
 }

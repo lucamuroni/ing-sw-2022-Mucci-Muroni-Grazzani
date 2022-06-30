@@ -1,17 +1,17 @@
 package it.polimi.ingsw.controller.networking;
 
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Timer;
 
 /**
- * Class used to manage connections between hosts
  * @author Davide Grazzani
+ * Class used to manage connections between hosts
  */
 class ConnectionHandler {
     private final Socket clientSocket;
