@@ -18,37 +18,38 @@ public enum AssistantCard {
 
     private final int turnValue;
     private final int movement;
-    private String name;
+    private final String name;
+
     /**
      * Class constructor
      * @param turn represents the value of the card used for the turn order
-     * @param move represents the number of steps that MotherNature can do
+     * @param move represents the number of steps that motherNature can do
      */
-    private AssistantCard(String name,int turn, int move){
+    AssistantCard(String name,int turn, int move){
         this.name = name;
         turnValue = turn;
         movement = move;
     }
 
     /**
-     * Getter method
-     * @return the steps MotherNature can do
+     * Method used to get the number of steps motherNature can do
+     * @return the steps of a card
      */
     public int getMovement() {
         return movement;
     }
 
     /**
-     * Getter method
-     * @return the value for turn order
+     * Method used to get the value used for the turn order
+     * @return the value of the card
      */
     public int getTurnValue() {
         return turnValue;
     }
 
     /**
-     * Getter method
-     * @return the name of the card
+     * Method used to get the name of a card
+     * @return the name of a card
      */
     public String getName(){
         return this.name;

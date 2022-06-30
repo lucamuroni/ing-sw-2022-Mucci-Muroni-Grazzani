@@ -5,10 +5,10 @@ import java.util.Arrays;
 
 /**
  * @author Luca Muroni
- * Class that represents the deck of AssistantCards that every player has
+ * Class that represents the deck of assistantCards that every gamer has
  */
 public class AssistantCardDeck {
-    private ArrayList<AssistantCard> cardList;
+    private final ArrayList<AssistantCard> cardList;
     private AssistantCard currentSelection;
     private AssistantCard pastSelection;
 
@@ -19,38 +19,38 @@ public class AssistantCardDeck {
      * (1,1), (2,1), (3,2), (4,2), (5,3), (6,3), (7,4), (8,4), (9,5), (10,5)
      */
     public AssistantCardDeck(){
-        cardList = new ArrayList<AssistantCard>();
+        cardList = new ArrayList<>();
         cardList.addAll(Arrays.asList(AssistantCard.values()));
     }
 
     /**
-     * Getter method
-     * @return the list of cards that a player can still play
+     * Method used to get the cards of a deck
+     * @return the list of cards that a gamer can still play
      */
     public ArrayList<AssistantCard> getCardList() {
         return cardList;
     }
 
     /**
-     * Getter method
-     * @return the card selected by the player this round
+     * method used to get the card selected by a gamer in this round
+     * @return the card selected by a gamer
      */
     public AssistantCard getCurrentSelection() {
         return currentSelection;
     }
 
     /**
-     * Getter method
-     * @return the card selected by the player the previous round
+     * Method used to get the card selected by a gamer the previous round
+     * @return the last card selected by a gamer
      */
     public AssistantCard getPastSelection() {
         return pastSelection;
     }
 
     /**
-     * Setter method. It also cals the private method setPastSelection to set the currentSelection of the last round
-     * as the new past selection
-     * @param currentSelection is the card selected by the player, from his cardList, to play this round
+     * Method used to set the new card selected by a gamer. It also calls private method setPastSelection to set the
+     * currentSelection of the last round as the new pastSelection
+     * @param currentSelection is the card selected by a gamer, from his cardList, to play this round
      */
     public void setCurrentSelection(AssistantCard currentSelection) {
         this.currentSelection = currentSelection;
@@ -58,7 +58,7 @@ public class AssistantCardDeck {
     }
 
     /**
-     * Setter method used for setting the past selection right before starting a new round
+     * Method used to set new pastSelection right before starting a new round
      */
     public void setPastSelection() {
         this.pastSelection = this.currentSelection;
