@@ -3,11 +3,7 @@ package it.polimi.ingsw.view.cli.page;
 import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.cli.AsciiArchipelago;
-import it.polimi.ingsw.view.cli.AsciiCloud;
-import it.polimi.ingsw.view.cli.AsciiDashBoard;
 import it.polimi.ingsw.view.cli.Cli;
-
-import java.util.ArrayList;
 
 /**
  * @author Luca Muroni
@@ -42,7 +38,7 @@ public class IdlePage implements Page {
                         this.cli.getController().handleError("Could not print archipelago");
                     }
                     System.out.print("\n");
-                    this.cli.drawClouds();
+                    this.cli.drawCloudsAndCards();
                     System.out.print("\n");
                     this.cli.drawDashboard();
                     System.out.print("\n");

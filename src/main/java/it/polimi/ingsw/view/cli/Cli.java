@@ -6,13 +6,12 @@ import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.expert.CharacterCard;
 import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
+import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.*;
-import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.cli.page.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -31,6 +30,7 @@ public class Cli implements ViewHandler {
     private AsciiArchipelago archipelago;
     private ArrayList<AsciiDashBoard> dashBoards;
     private ArrayList<AsciiCloud> clouds;
+    private ArrayList<AsciiAssistantCard> cards;
 
     /**
      * Class constructor
@@ -364,6 +364,10 @@ public class Cli implements ViewHandler {
                 this.dashBoards.add(new AsciiDashBoard(this,gamer.getDashBoard()));
             }
         }
+        this.cards = new ArrayList<>();
+        for(Gamer gamer : this.game.getGamers()){
+            cards.add(new AsciiAssistantCard(gamer));
+        }
     }
 
     @Override
@@ -377,6 +381,21 @@ public class Cli implements ViewHandler {
                 int space = cloud.draw(i);
                 this.printSpace(AsciiCloud.getWidth()-space);
                 this.printSpace(AsciiCloud.getWidth()/2);
+            }
+            System.out.print("\n");
+        }
+    }
+
+    public void drawCloudsAndCards(){
+        for(int i = 0; i < AsciiCloud.getHeight(); i++){
+            for(AsciiCloud cloud : this.clouds){
+                int space = cloud.draw(i);
+                this.printSpace(AsciiCloud.getWidth()-space);
+                this.printSpace(AsciiCloud.getWidth()/2);
+            }
+            for(AsciiAssistantCard card : this.cards){
+                card.draw(i);
+                this.printSpace(3);
             }
             System.out.print("\n");
         }

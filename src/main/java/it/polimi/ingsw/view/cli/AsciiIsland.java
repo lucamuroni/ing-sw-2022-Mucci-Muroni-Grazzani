@@ -134,7 +134,7 @@ public class AsciiIsland {
         }else if(tower){
             return string.length();
         }else if(mn){
-            return string.length()-1;
+            return string.length()-2;
         }else{
             return string.length();
         }

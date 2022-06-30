@@ -96,7 +96,7 @@ class InfluenceCalculatorTest {
         assertEquals(gamer1, test.execute(island).get());
     }
 
-    @Test
+    /*@Test
     void setMoreInfluence() {
         ArrayList<Student> students = new ArrayList<>();
         gamer1.initGamer(students, 6);
@@ -125,7 +125,7 @@ class InfluenceCalculatorTest {
         game.getProfessors().get(3).setOwner(gamer2);
         test.setMoreInfluence(gamer2);
         assertEquals(gamer2, test.execute(island).get());
-    }
+    }*/
 
     @Test
     void addColorExclusion() {
