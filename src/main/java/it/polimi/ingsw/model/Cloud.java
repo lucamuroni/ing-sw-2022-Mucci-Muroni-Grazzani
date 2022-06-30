@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * @author Sara Mucci
  * @author Davide Grazzani
- * Class that implements a colud.
+ * Class that implements a cloud.
  */
 
 public class Cloud {
