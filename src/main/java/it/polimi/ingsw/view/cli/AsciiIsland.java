@@ -106,7 +106,7 @@ public class AsciiIsland {
             case 8:
 
                 if(this.island.isMotherNaturePresent()){
-                    string = "   -     "+AnsiChar.MOTHER_NATURE+"     -";
+                    string = "   -     "+AnsiChar.MOTHER_NATURE+"    -";
                     System.out.print(string);
                     mn = true;
                 }else{
