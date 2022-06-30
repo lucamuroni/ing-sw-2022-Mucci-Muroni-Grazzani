@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.client.networkHandler.Network;
 import it.polimi.ingsw.controller.networking.Phase;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
-import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.controller.networking.messageParts.MessageFragment;
 import it.polimi.ingsw.model.expert.CharacterCard;
@@ -15,6 +14,11 @@ import it.polimi.ingsw.view.asset.game.Gamer;
 
 import java.util.Objects;
 
+/**
+ * @author Luca Muroni
+ * @author Davide Grazzani
+ * This class implements the phase where a player isn't playing and is waiting from the server the permission to do so
+ */
 public class Idle implements GamePhase{
     private final Network network;
     private final ClientController controller;
@@ -23,6 +27,10 @@ public class Idle implements GamePhase{
     private GamePhase nextPhase;
     private boolean isGameStarted;
 
+    /**
+     * Constructor of the class
+     * @param controller is the controller of client side
+     */
     public Idle(ClientController controller) {
         this.controller = controller;
         this.game = this.controller.getGame();
@@ -31,6 +39,9 @@ public class Idle implements GamePhase{
         this.isGameStarted = true;
     }
 
+    /**
+     * This is the main method that handles Idle
+     */
     @Override
     public void handle() {
         String s;
@@ -144,31 +155,19 @@ public class Idle implements GamePhase{
                         this.controller.handleError("Doesn't found phase");
                     }
                     switch (Objects.requireNonNull(phase)) {
-                        case DECK_PHASE:
-                            nextPhase = new SelectFigurePhase(this.controller);
-                            break;
-                        case PLANNING_PHASE:
+                        case DECK_PHASE -> nextPhase = new SelectFigurePhase(this.controller);
+                        case PLANNING_PHASE -> {
                             PlanningPhase planningPhase = new PlanningPhase(this.controller);
                             if (!isGameStarted) {
                                 planningPhase.setInitView(true);
                             }
                             nextPhase = planningPhase;
-                            break;
-                        case ACTION_PHASE_1:
-                            nextPhase = new ActionPhase1(this.controller);
-                            break;
-                        case MOTHER_NATURE_PHASE:
-                            nextPhase = new MotherNaturePhase(this.controller);
-                            break;
-                        case ACTION_PHASE_3:
-                            nextPhase = new ActionPhase3(this.controller);
-                            break;
-                        case END_GAME_PHASE:
-                            nextPhase = new EndGame(this.controller);
-                            break;
-                        case CHARACTER_PHASE:
-                            nextPhase = new ExpertPhase(this.controller);
-                            break;
+                        }
+                        case ACTION_PHASE_1 -> nextPhase = new ActionPhase1(this.controller);
+                        case MOTHER_NATURE_PHASE -> nextPhase = new MotherNaturePhase(this.controller);
+                        case ACTION_PHASE_3 -> nextPhase = new ActionPhase3(this.controller);
+                        case END_GAME_PHASE -> nextPhase = new EndGame(this.controller);
+                        case CHARACTER_PHASE -> nextPhase = new ExpertPhase(this.controller);
                     }
                     stop = true;
                     break;
@@ -225,11 +224,19 @@ public class Idle implements GamePhase{
         }
     }
 
+    /**
+     * This method changes the phase to the next one
+     * @return the next GamePhase
+     */
     @Override
     public GamePhase next() {
         return nextPhase;
     }
 
+    /**
+     * Method called by Start and SelectFigurePhase to set that the game isn't started yet
+     * @param value is false when the game isn't started yet
+     */
     public void isGameStarted (boolean value){
         this.isGameStarted = value;
     }
