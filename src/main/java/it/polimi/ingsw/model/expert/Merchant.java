@@ -6,8 +6,8 @@ import it.polimi.ingsw.model.pawn.PawnColor;
 import java.util.ArrayList;
 
 /**
- * Card Merchant from the deck of CharacterCards
  * @author Davide Grazzani
+ * Card Merchant from the deck of CharacterCards
  */
 public class Merchant extends CharacterCardInterface {
     private final PawnColor color;

@@ -10,8 +10,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Class used to calculate the influence on an island
  * @author Davide Grazzani
+ * Class used to calculate the influence on an island
  */
 public class InfluenceCalculator {
     private final ArrayList<Gamer> gamers;

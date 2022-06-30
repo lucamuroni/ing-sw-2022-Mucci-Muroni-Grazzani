@@ -7,8 +7,8 @@ import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
 
 /**
- * Card Thief from the deck of CharacterCards
  * @author Davide Grazzani
+ * Card Thief from the deck of CharacterCards
  */
 public class Thief extends CharacterCardInterface {
     private final PawnColor color;

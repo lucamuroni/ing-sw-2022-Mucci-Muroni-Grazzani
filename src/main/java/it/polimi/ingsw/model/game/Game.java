@@ -11,10 +11,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * This class is used to manage most of the game's mechanics
  * @author Luca Muroni
  * @author Davide Grazzani
  * @author Sara Mucci
+ * This class is used to manage most of the game's mechanics
  */
 public class Game {
     final MotherNature motherNature;
@@ -29,7 +29,7 @@ public class Game {
 
     /**
      * Class constructor
-     * @param gamers is the ArrayList of the players connected in this game
+     * @param gamers is the arrayList of the players connected in this game
      */
     public Game (ArrayList<Gamer> gamers){
         this.gamers = new ArrayList<>(gamers);
@@ -56,7 +56,7 @@ public class Game {
     }
 
     /**
-     * Method used to initiate the order of players
+     * Method used to initiate the order of gamers
      */
     private void initiatePlayersOrder(){
         ArrayList<Gamer> players = new ArrayList<>(this.gamers);
@@ -74,7 +74,7 @@ public class Game {
     }
     /**
      * This function is used to fill a cloud chosen by a gamer at the end of the round
-     * @param students is the ArrayList of students drawn by the controller from bag
+     * @param students is the arrayList of students drawn by the controller from bag
      * @param cloud represent the cloud filled
      */
     public void fillCloud(ArrayList<Student> students, Cloud cloud){
@@ -82,9 +82,9 @@ public class Game {
     }
 
     /**
-     * This method is called at the start of the game when all the islands, except for the MotherNature's one and its opposite,
+     * This method is called at the start of the game when all the islands, except for the motherNature's one and its opposite,
      * need a student
-     * @param students is the ArrayList of students, drawn from bag, that will be used to fill the islands
+     * @param students is the arrayList of students, drawn from bag, that will be used to fill the islands
      */
     public void initIsland (ArrayList<Student> students){
         Island motherNatureIsland = this.motherNature.getPlace();
@@ -99,17 +99,17 @@ public class Game {
     }
 
     /**
-     * This method is called by the controller when the currentPlayer moves MotherNature
-     * @param island is the new Island where MotherNature will be moved on
+     * This method is called by the controller when the currentPlayer moves motherNature
+     * @param island is the new island where motherNature will be moved on
      */
     public void moveMotherNature (Island island){
         this.motherNature.setPlace(island);
     }
 
     /**
-     * This method is called by the controller to show all the islands where the gamer can move MotherNature (it depends on the
-     * AssistantCard chosen by him)
-     * @return an ArrayList of the only possible islands that the player can choose ordered from the closest to the farthest
+     * This method is called by the controller to show all the islands where the gamer can move motherNature (it depends on the
+     * assistantCard chosen by him)
+     * @return an arrayList of the only possible islands that the player can choose ordered from the closest to the farthest
      */
     public ArrayList<Island> getMotherNatureDestination (){
         ArrayList<Island> result = new ArrayList<>();
@@ -127,7 +127,7 @@ public class Game {
 
     /**
      * This method is called every time the currentPlayer moves a student from his waitingRoom to hall
-     * @param color is the color of the Pprofessor, the owner of which will be changed
+     * @param color is the color of the professor, the owner of which will be changed
      */
     public Gamer changeProfessorOwner (PawnColor color) {
         Optional<Gamer> oldOwner= this.professors.stream().filter(x->x.getColor().equals(color)).map(Professor::getOwner).findFirst().orElse(Optional.empty());
@@ -149,7 +149,8 @@ public class Game {
 
     /**
      * This method is called whenever is needed to calculate the influence on a particular island
-     * @return the owner of the Island
+     * @param islandToCheck is the island to check the possible new owner
+     * @return the owner of the island
      */
     public Optional<Gamer> checkIslandOwner (Island islandToCheck){
         return this.influenceCalculator.execute(islandToCheck);
@@ -157,17 +158,17 @@ public class Game {
     }
 
     /**
-     * This method is called when the currentPlayer moves MotherNature
-     * @return the owner of the Island
+     * This method is called when the currentPlayer moves motherNature
+     * @return the owner of the island
      */
     public Optional<Gamer> checkIslandOwner (){
         return checkIslandOwner(this.motherNature.getPlace());
     }
 
     /**
-     * This method updates the players' order for the next turn
+     * This method updates gamers' order for the next turn
      */
-    public void updatePlayersOrder (){
+    public void updatePlayersOrder () {
         ArrayList<Gamer> gamers;
         gamers = this.gamers.stream().sorted(Comparator.comparingInt(x-> x.getDeck().getPastSelection().getTurnValue())).collect(Collectors.toCollection(ArrayList::new));
         this.gamers.clear();
@@ -238,6 +239,10 @@ public class Game {
         return turnNumber;
     }
 
+    /**
+     * Method used to get the influenceCalculator
+     * @return the influenceCalculator
+     */
     public InfluenceCalculator getInfluenceCalculator() {
         return influenceCalculator;
     }

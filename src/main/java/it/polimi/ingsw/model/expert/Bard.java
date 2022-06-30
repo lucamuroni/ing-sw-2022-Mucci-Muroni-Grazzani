@@ -8,8 +8,8 @@ import it.polimi.ingsw.model.pawn.Student;
 import java.util.ArrayList;
 
 /**
- * Card Bard from the deck of CharacterCards
  * @author Davide Grazzani
+ * Card Bard from the deck of CharacterCards
  */
 public class Bard extends CharacterCardInterface{
     private final ArrayList<PawnColor> colors;

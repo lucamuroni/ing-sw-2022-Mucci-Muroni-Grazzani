@@ -23,8 +23,9 @@ public class Gamer{
 
     /**
      * Class constructor
-     * @param token represent the unique number associated with a player
-     * @param username represent the name chosen by the player that will be displayed
+     * @param token represents the unique number associated with a player
+     * @param username represents the name chosen by the player that will be displayed
+     * @param towerColor represents the color of towers associated with the gamer
      */
     public Gamer(int token, String username, TowerColor towerColor) {
         this.token = token;
@@ -45,9 +46,9 @@ public class Gamer{
     /**
      * This method is called by the controller when all players are connected to the game and the game's objects
      * can be initialized
-     * @param students represents the students taken by the player from the bag at the start of the game
-     * @param towers represents the towers that every player must have (the number of towers depends on how
-     * many players are playing)
+     * @param students represents the students taken by gamer from the bag at the start of the game
+     * @param towers represents the towers that every gamer must have (the number of towers depends on how
+     * many gamers are playing)
      */
     public void initGamer(ArrayList<Student> students, int towers){
         dashboard = new Dashboard(students, towers);
@@ -55,46 +56,56 @@ public class Gamer{
     }
 
     /**
-     * Getter method
-     * @return the deck of the player
+     * Method used to get the deck of assistantCard
+     * @return the deck of assistantCard of the gamer
      */
     public AssistantCardDeck getDeck(){
         return this.deck;
     }
 
     /**
-     * Getter method
-     * @return the token associated to the player
+     * Method used to get the token associated with the gamer
+     * @return the token of the gamer
      */
     public int getToken() {
         return token;
     }
 
     /**
-     * Getter method
-     * @return the username of the player
+     * Method used to get the username associated with the gamer
+     * @return the username of the gamer
      */
     public String getUsername() {
         return username;
     }
 
     /**
-     * Getter method
-     * @return the dashboard of the player
+     * Method used to get the dashboard associated with the gamer
+     * @return the dashboard of the gamer
      */
     public Dashboard getDashboard() {
         return dashboard;
     }
 
-
+    /**
+     * Method used to get the color of towers associated with the gamer
+     * @return the tower's color
+     */
     public TowerColor getTowerColor() {
         return this.playerColor;
     }
 
+    /**
+     * Method used to get the activity of the gamer
+     * @return true if the gamer is still connected, false otherwise
+     */
     public boolean isActive() {
         return active;
     }
 
+    /**
+     * Method used to set the inactivity of the gamer (e.g. the gamer disconnected from the game)
+     */
     public void setInActivity(){
         active = false;
     }

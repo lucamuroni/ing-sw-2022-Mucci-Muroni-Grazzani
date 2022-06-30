@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model.expert;
 
 /**
- * CLass enum that represents the cards for the expert mode
  * @author Davide Grazzani
  * @author Luca Muroni
+ * CLass enum that represents the cards for the expert mode
  */
 public enum CharacterCard {
     THIEF("Thief", 3),
