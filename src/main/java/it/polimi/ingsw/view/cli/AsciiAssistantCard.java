@@ -51,8 +51,10 @@ public class AsciiAssistantCard {
                 System.out.print(string);
             }
             case 5->{
-                //todo fix lunghezza + nome self
                 string = gamer.getUsername();
+                for(int i = string.length();i<AsciiAssistantCard.getWidth();i++){
+                    string = string+ " ";
+                }
                 System.out.print(string);
             }
         }
