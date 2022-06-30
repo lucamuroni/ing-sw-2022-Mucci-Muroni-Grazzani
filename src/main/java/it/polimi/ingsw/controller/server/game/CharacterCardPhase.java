@@ -12,17 +12,29 @@ import it.polimi.ingsw.model.expert.CharacterCard;
 import it.polimi.ingsw.model.game.ExpertGame;
 import it.polimi.ingsw.model.gamer.ExpertGamer;
 import it.polimi.ingsw.model.gamer.Gamer;
-import it.polimi.ingsw.model.pawn.PawnColor;
 
 import java.util.ArrayList;
 
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
+/**
+ * @author Luca Muroni
+ * @author Davide Grazzani
+ * This class implements the expert phase of an expertGame, where the currentPlayer can choose to play a card and, if the
+ * answer is true, which one to play
+ */
 public class CharacterCardPhase implements GamePhase{
     private final ExpertGame game;
     private final GameController controller;
     private final View view;
     private final GamePhase nextPhase;
+
+    /**
+     * Constructor of the class
+     * @param game represents the current game
+     * @param controller represents the controller linked with this game
+     * @param nextPhase represents the next phase to go after this expert phase has been concluded
+     */
     public CharacterCardPhase(ExpertGame game, GameController controller, GamePhase nextPhase) {
         this.game = game;
         this.controller = controller;
@@ -30,6 +42,9 @@ public class CharacterCardPhase implements GamePhase{
         this.nextPhase = nextPhase;
     }
 
+    /**
+     * This is the main method that handles the CharacterCardPhase
+     */
     public void handle() {
         int coins = this.game.getCurrentPlayer().getDashboard().getCoins();
         ArrayList<CharacterCard> cards = new ArrayList<>();
@@ -142,6 +157,12 @@ public class CharacterCardPhase implements GamePhase{
         }
     }
 
+    /**
+     * Method called by handle() to get the characterCard chosen by the currentPlayer
+     * @param cards is the arrayList of possible choices
+     * @param player is the currentPlayer
+     * @return the card chosen by the player
+     */
     private CharacterCard getChosenCharacterCard(ArrayList<CharacterCard> cards, Player player) {
         CharacterCard card = null;
         try{
@@ -158,6 +179,12 @@ public class CharacterCardPhase implements GamePhase{
         return card;
     }
 
+    /**
+     * Method used to send to all others players the card chosen by the currentPlayer
+     * @param player is another player
+     * @param currentGamer is the currentPlayer
+     * @param card is the card chosen by the currentPlayer
+     */
     private void updateChosenCharacterCard(Player player, Gamer currentGamer, CharacterCard card) {
         this.view.setCurrentPlayer(player);
         try{
@@ -173,6 +200,11 @@ public class CharacterCardPhase implements GamePhase{
         }
     }
 
+    /**
+     * Method called by handle() to check if the characterCard bard is in the possible choices; if that is true, it also
+     * checks if it can be played or not
+     * @param cards is the arrayList of possible choices
+     */
     private void check(ArrayList<CharacterCard> cards) {
         for (CharacterCard card : cards) {
             if (card == CharacterCard.BARD) {
@@ -184,6 +216,10 @@ public class CharacterCardPhase implements GamePhase{
         }
     }
 
+    /**
+     * This method changes the phase to the next one
+     * @return the next GamePhase
+     */
     public GamePhase next() {
         return this.nextPhase;
     }

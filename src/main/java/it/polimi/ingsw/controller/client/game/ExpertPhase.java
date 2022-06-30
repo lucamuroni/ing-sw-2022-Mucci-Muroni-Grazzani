@@ -7,7 +7,6 @@ import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.model.expert.CharacterCard;
 import it.polimi.ingsw.model.pawn.PawnColor;
-import it.polimi.ingsw.model.pawn.Student;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
@@ -15,20 +14,32 @@ import it.polimi.ingsw.view.asset.game.Island;
 
 import java.util.ArrayList;
 
-
+/**
+ * @author Luca Muroni
+ * @author Davide Grazzani
+ * This class implements the expert phase of an expertGame, where the currentPlayer can choose to play a card and, if the
+ * answer is true, which one to play
+ */
 public class ExpertPhase implements GamePhase{
-
     private final Game game;
     private final ViewHandler view;
     private final Network network;
     private final ClientController controller;
 
+    /**
+     * Constructor of the class
+     * @param controller is the controller of client side
+     */
     public ExpertPhase(ClientController controller){
         this.controller = controller;
         this.network = controller.getNetwork();
         this.view = controller.getViewHandler();
         this.game = controller.getGame();
     }
+
+    /**
+     * This is the main method that handles the ExpertPhase
+     */
     @Override
     public void handle() {
         boolean answer = this.view.askToPlayExpertCard();
@@ -118,6 +129,10 @@ public class ExpertPhase implements GamePhase{
         }
     }
 
+    /**
+     * This method changes the phase to the next one
+     * @return the next GamePhase
+     */
     @Override
     public GamePhase next() {
         return new Idle(this.controller);
