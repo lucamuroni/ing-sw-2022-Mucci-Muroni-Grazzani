@@ -6,11 +6,9 @@ import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-
 import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.model.Island;
-import it.polimi.ingsw.model.dashboard.ExpertDashboard;
 import it.polimi.ingsw.model.game.ExpertGame;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
@@ -18,11 +16,12 @@ import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
+ * @author Luca Muroni
+ * @author Davide Grazzani
  * This class implements the second phase of the game, which is the ActionPhase1, where the current player moves 3/4 students
  * from his waitingRoom to an island or his hall
  */
@@ -50,7 +49,7 @@ public class ActionPhase1 implements GamePhase{
     }
 
     /**
-     * This is the main method that handles the ActionPhase1
+     * This is the main method that handles ActionPhase1
      */
     @Override
     public void handle() {
@@ -153,7 +152,7 @@ public class ActionPhase1 implements GamePhase{
     }
 
     /**
-     * This method handles the movement of the student chosen by the player, and it is called in handle()
+     * This method handles the movement of student chosen by a player, and it is called in handle()
      * @param player represents the currentPlayer that is playing
      */
     private int moveStudentToLocation(Player player) {
@@ -207,6 +206,12 @@ public class ActionPhase1 implements GamePhase{
         }
     }
 
+    /**
+     * Method that is called by handle() only if the game is an expert one
+     * It handles the sending of the coins possessed by a player
+     * @param player is the currenPlayer that is playing
+     * @param coins is the number of coins that the player owns
+     */
     private void sendCoins(Player player,int coins) {
         try {
             try {
@@ -219,6 +224,13 @@ public class ActionPhase1 implements GamePhase{
         }
     }
 
+    /**
+     * Method called by handle() to send all the infos about the action done by the currentPlayer to all others players
+     * @param place represents the location where the student was moved on (0: hall, 1-12: an island)
+     * @throws FlowErrorException if there is an error while synchronizing
+     * @throws MalformedMessageException if the message arrived is incorrect
+     * @throws ClientDisconnectedException if the player disconnected from the game
+     */
     private void sendInfo(int place) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
         if (place > 0) {
             this.view.sendContext(CONTEXT_ISLAND.getFragment());

@@ -12,6 +12,11 @@ import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Gamer;
 
+/**
+ * @author Luca Muroni
+ * This class implements the second phase of the game, which is the ActionPhase1, where the current player moves 3/4 students
+ * from his waitingRoom to an island or his hall
+ */
 public class ActionPhase1 implements GamePhase{
     private final Game game;
     private final ViewHandler view;
@@ -19,6 +24,10 @@ public class ActionPhase1 implements GamePhase{
     private final ClientController controller;
     private final int numOfMoves;
 
+    /**
+     * Constructor of the class
+     * @param controller is the controller of client side
+     */
     public ActionPhase1(ClientController controller) {
         this.game = controller.getGame();
         this.view = controller.getViewHandler();
@@ -30,6 +39,10 @@ public class ActionPhase1 implements GamePhase{
             this.numOfMoves = 4;
         }
     }
+
+    /**
+     * This is the main method that handles ActionPhase1
+     */
     @Override
     public void handle() {
         for (int i = 0; i<numOfMoves; i++) {
@@ -60,13 +73,13 @@ public class ActionPhase1 implements GamePhase{
             }
             try {
                 try {
-                    for (Gamer gamer : this.game.getGamers()) {
+                    for (Gamer ignored : this.game.getGamers()) {
                         this.network.getDashboard(this.game);
                     }
                     if (location>0)
                         this.network.getIslandStatus(this.game);
                 } catch (MalformedMessageException e) {
-                    for (Gamer gamer : this.game.getGamers()) {
+                    for (Gamer ignored : this.game.getGamers()) {
                         this.network.getDashboard(this.game);
                     }
                     if (location>0)
@@ -80,6 +93,10 @@ public class ActionPhase1 implements GamePhase{
         }
     }
 
+    /**
+     * This method changes the phase to the next one
+     * @return the next GamePhase
+     */
     @Override
     public GamePhase next() {
         return new Idle(this.controller);

@@ -78,6 +78,11 @@ public class GameSetup implements GamePhase{
         }
     }
 
+    /**
+     * Method called by handle() only if the game is an expert one
+     * It manages the sending of the characterCards that can be played in this game
+     * @param player is the currentPlayer that is playing
+     */
     private void sendCharacterCards(Player player) {
         for (CharacterCard card : ((ExpertGame) this.game).getGameCards()) {
             System.out.println(card.getName());
@@ -93,6 +98,11 @@ public class GameSetup implements GamePhase{
         }
     }
 
+    /**
+     * Method called by handle() only if the game is an expert one
+     * It manages the sending of the coins owned by the player
+     * @param player is the player target to send infos
+     */
     private void sendCoins(Player player) {
         ExpertGamer gamer = (ExpertGamer) this.game.getCurrentPlayer();
         try {
@@ -130,17 +140,15 @@ public class GameSetup implements GamePhase{
     }
 
     /**
-     * This method is called by handle() and it sends to a player the location of MotherNature
+     * This method is called by handle() and it sends to a player the location of motherNature
      * @param player is the player whose view will be adjourned
      */
     private void updateMotherNaturePlace(Player player) {
         this.view.setCurrentPlayer(player);
         try{
             try{
-                //this.view.sendContext(CONTEXT_MOTHER.getFragment());
                 this.view.updateMotherNaturePlace(this.game.getMotherNature().getPlace());
             }catch (MalformedMessageException | FlowErrorException e){
-                //this.view.sendContext(CONTEXT_MOTHER.getFragment());
                 this.view.updateMotherNaturePlace(this.game.getMotherNature().getPlace());
             }
         }catch (FlowErrorException | MalformedMessageException | ClientDisconnectedException e){
@@ -158,10 +166,8 @@ public class GameSetup implements GamePhase{
         for (int i = 0; i<this.game.getIslands().size(); i++) {
             try{
                 try{
-                    //this.view.sendContext(CONTEXT_ISLAND.getFragment());
                     this.view.updateIslandStatus(this.game.getIslands().get(i));
                 }catch (MalformedMessageException | FlowErrorException  e){
-                    //this.view.sendContext(CONTEXT_ISLAND.getFragment());
                     this.view.updateIslandStatus(this.game.getIslands().get(i));
                 }
             }catch (FlowErrorException | MalformedMessageException  | ClientDisconnectedException e){
@@ -171,13 +177,16 @@ public class GameSetup implements GamePhase{
         }
     }
 
+    /**
+     * Method called by handle() to send to the currentPlayer the color of tower associated with the other players
+     * @param player is the player whose tower color we want to send
+     * @param currentPlayer is the player whose view will be adjourned
+     */
     private void updateTowerColor(Player player,Player currentPlayer) {
         try {
             try {
-                //this.view.sendContext(CONTEXT_COLOR.getFragment());
                 this.view.sendTowerColor(player.getGamer(this.game.getGamers()));
             } catch (MalformedMessageException | FlowErrorException e) {
-                //this.view.sendContext(CONTEXT_COLOR.getFragment());
                 this.view.sendTowerColor(player.getGamer(this.game.getGamers()));
             }
         } catch (MalformedMessageException | FlowErrorException  | ClientDisconnectedException e) {
@@ -194,10 +203,8 @@ public class GameSetup implements GamePhase{
     private void updateDashboards(Player player,Player currentPlayer){
         try{
             try{
-                //this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
                 this.view.updateDashboards(player.getGamer(this.game.getGamers()), this.game);
             }catch (MalformedMessageException | FlowErrorException e){
-                //this.view.sendContext(CONTEXT_DASHBOARD.getFragment());
                 this.view.updateDashboards(player.getGamer(this.game.getGamers()), this.game);
             }
         }catch (FlowErrorException | MalformedMessageException | ClientDisconnectedException | ModelErrorException e){
@@ -206,6 +213,9 @@ public class GameSetup implements GamePhase{
         }
     }
 
+    /**
+     * Method called by handle() to send the usernames of all players to all other players
+     */
     private void updateUsernames(){
         ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
         for (Player player1 : players){
