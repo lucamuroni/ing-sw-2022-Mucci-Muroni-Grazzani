@@ -15,9 +15,9 @@ public class SendCardDeck {
     AssistantCardDeckFigures assistantCardDeck;
 
     /**
-     * Class constructor
+     * Constructor of the class
      * @param assistantCardDeck represents the chosen card deck
-     * @param messageHandler represents the messageHandler used for the message
+     * @param messageHandler is the handler of messages
      */
     public SendCardDeck(AssistantCardDeckFigures assistantCardDeck, MessageHandler messageHandler) {
         this.messageHandler = messageHandler;
@@ -25,8 +25,8 @@ public class SendCardDeck {
     }
 
     /**
-     * Method that handles the messages to send the chosen deck
-     * @throws MalformedMessageException launched if the message isn't created in the correct way
+     * Method that handles the exchange of messages
+     * @throws MalformedMessageException when a received message isn't correct
      */
     public void handle() throws MalformedMessageException {
         int topicId = this.messageHandler.getMessagesUniqueTopic();

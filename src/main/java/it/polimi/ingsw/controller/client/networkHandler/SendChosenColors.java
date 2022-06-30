@@ -11,24 +11,38 @@ import java.util.ArrayList;
 
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
+/**
+ * @author Luca Muroni
+ * This class is used to send the colors of the students chosen by players while playing a characterCard of the
+ * expert version
+ */
 public class SendChosenColors {
     private final MessageHandler messageHandler;
     private final ArrayList<PawnColor> colors;
 
+    /**
+     * Constructor of the class
+     * @param messageHandler is the handler of messages
+     * @param colors is the arrayList of colors to send
+     */
     public SendChosenColors(MessageHandler messageHandler, ArrayList<PawnColor> colors) {
         this.messageHandler = messageHandler;
         this.colors = colors;
-        System.out.println("colors size : "+colors.size());
     }
 
-    public void handle() throws MalformedMessageException, ClientDisconnectedException, FlowErrorException {
+    /**
+     * Method that handles the exchange of messages
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
+     */
+    public void handle() throws ClientDisconnectedException, FlowErrorException, MalformedMessageException {
         int topic = this.messageHandler.getNewUniqueTopicID();
         Message message = new Message(PAYLOAD_SIZE.getFragment(), String.valueOf(colors.size()), topic);
         this.messageHandler.write(message);
         this.messageHandler.writeOut();
-        for (int i = 0; i<this.colors.size(); i++) {
-            System.out.println(colors.get(i).toString());
-            message = new Message(COLOR.getFragment(), colors.get(i).toString(), topic);
+        for (PawnColor color : this.colors) {
+            message = new Message(COLOR.getFragment(), color.toString(), topic);
             this.messageHandler.write(message);
             this.messageHandler.writeOut();
         }

@@ -7,7 +7,7 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 
 import java.util.ArrayList;
-import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
+
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.ASSISTANT_CARD_DECK;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.PAYLOAD_SIZE;
 
@@ -21,8 +21,8 @@ public class GetPossibleDecks {
     ArrayList<AssistantCardDeckFigures> decks;
 
     /**
-     * Class constructor
-     * @param messageHandler represents the messageHandler used for the message
+     * Constructor of the class
+     * @param messageHandler is the handler of messages
      */
     public GetPossibleDecks(MessageHandler messageHandler) {
         this.messageHandler = messageHandler;
@@ -30,12 +30,12 @@ public class GetPossibleDecks {
     }
 
     /**
-     * Method that handles the messages to get the possible deck figures
-     * @return the possible decks
-     * @throws ClientDisconnectedException launched if the client disconnects from the game
-     * @throws MalformedMessageException launched if the message isn't created the correct way
+     * Method that handles the exchange of messages
+     * @throws AssetErrorException when an object of the game isn't found in the asset
+     * @throws MalformedMessageException when a received message isn't correct
+     * @throws ClientDisconnectedException when the player disconnects from the game
      */
-    public ArrayList<AssistantCardDeckFigures> handle() throws ClientDisconnectedException, MalformedMessageException, AssetErrorException {
+    public ArrayList<AssistantCardDeckFigures> handle() throws AssetErrorException, MalformedMessageException, ClientDisconnectedException {
         this.messageHandler.read();
         int num = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAYLOAD_SIZE.getFragment()));
         for (int i = 0; i<num; i++) {

@@ -3,7 +3,6 @@ package it.polimi.ingsw.controller.client.networkHandler;
 import it.polimi.ingsw.controller.networking.Message;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Gamer;
 
 import java.util.ArrayList;
@@ -24,10 +23,10 @@ public class SendInfo {
     MessageHandler messageHandler;
 
     /**
-     * Class constructor
+     * Constructor of the class
      * @param gamer represents the player associated to the client
      * @param gameType represents the type of game the player wants to play
-     * @param messageHandler represents the messageHandler used for the message
+     * @param messageHandler is the handler of messages
      */
     public SendInfo(Gamer gamer, String gameType, int players, String lobby, MessageHandler messageHandler) {
         this.gamer = gamer;
@@ -37,6 +36,10 @@ public class SendInfo {
         this.messageHandler = messageHandler;
     }
 
+    /**
+     * Method that handles the exchange of messages
+     * @throws MalformedMessageException when a received message isn't correct
+     */
     public void handle() throws MalformedMessageException {
         ArrayList<Message> messages = new ArrayList<>();
         int topicId = this.messageHandler.getMessagesUniqueTopic();
@@ -48,4 +51,3 @@ public class SendInfo {
         this.messageHandler.writeOut();
     }
 }
-

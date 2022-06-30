@@ -7,33 +7,31 @@ import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedExcept
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 
-import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.PHASE;
 
 /**
  * @author Luca Muroni
- * @author Sara Mucci
- * Class that imlements the message to get the new phase
+ * This class is used to get the new phase that the player must play
  */
 public class GetPhase {
     MessageHandler messageHandler;
 
     /**
-     * Class constructor
-     * @param messageHandler represents the messageHandler used for the message
+     * Constructor of the class
+     * @param messageHandler is the handler of messages
      */
     public GetPhase(MessageHandler messageHandler) {
         this.messageHandler = messageHandler;
     }
 
     /**
-     * Method that handles the messages to get the new phase
-     * @return the new phase
-     * @throws ClientDisconnectedException launched if the client disconnects from the game
-     * @throws MalformedMessageException launched if the message isn't created in the correct way
+     * Method that handles the exchange of messages
+     * @throws AssetErrorException when an object of the game isn't found in the asset
+     * @throws MalformedMessageException when a received message isn't correct
+     * @throws ClientDisconnectedException when the player disconnects from the game
      */
-    public Phase handle() throws ClientDisconnectedException, MalformedMessageException, AssetErrorException {
+    public Phase handle() throws AssetErrorException, MalformedMessageException, ClientDisconnectedException {
         this.messageHandler.read();
         String result = this.messageHandler.getMessagePayloadFromStream(PHASE.getFragment());
         Phase phase = null;

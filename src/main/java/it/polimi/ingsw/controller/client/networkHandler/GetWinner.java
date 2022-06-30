@@ -7,14 +7,15 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Gamer;
+
 import java.util.ArrayList;
-import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
+
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
  * @author Luca Muroni
  * @author Sara Mucci
- * Class that implements the message to get the winner (or winner in case of a tie) for the current game
+ * Class that implements the message to get the winner (or winners in case of a tie) for the current game
  */
 public class GetWinner {
     MessageHandler messageHandler;
@@ -22,8 +23,9 @@ public class GetWinner {
     ArrayList<Gamer> winners;
 
     /**
-     * Class constructor
-     * @param messageHandler represents the messageHandler used for the message
+     * Constructor of the class
+     * @param messageHandler is the handler of messages
+     * @param game is the current game
      */
     public GetWinner(MessageHandler messageHandler, Game game)  {
         this.messageHandler = messageHandler;
@@ -32,12 +34,12 @@ public class GetWinner {
     }
 
     /**
-     * Method that handles the messages to get the winner/winners (in case of a draw) of the game
-     * @return the arraylist with the winners
-     * @throws ClientDisconnectedException launched if the client disconnects from the game
-     * @throws MalformedMessageException launched if the message isn't created in the correct way
+     * Method that handles the exchange of messages
+     * @throws AssetErrorException when an object of the game isn't found in the asset
+     * @throws MalformedMessageException when a received message isn't correct
+     * @throws ClientDisconnectedException when the player disconnects from the game
      */
-    public ArrayList<Gamer> handle() throws ClientDisconnectedException, MalformedMessageException, AssetErrorException {
+    public ArrayList<Gamer> handle() throws AssetErrorException, MalformedMessageException, ClientDisconnectedException {
         this.messageHandler.read();
         int num = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAYLOAD_SIZE.getFragment()));
         for (int i = 0; i<num; i++) {

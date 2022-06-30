@@ -7,21 +7,21 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.model.pawn.TowerColor;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
-import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
+
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.OK;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.TOWER_COLOR;
 
 /**
  * @author Sara Mucci
- * Class that implements the message to get the new owner of the island mother nature is on
+ * Class that implements the message to get the new owner of the island where mother nature is on
  */
 public class GetOwner {
     MessageHandler messageHandler;
     Game game;
 
     /**
-     * Class constructor
-     * @param messageHandler represents the messageHandler used for the message
+     * Constructor of the class
+     * @param messageHandler is the handler of messages
      */
     public GetOwner(MessageHandler messageHandler, Game game) {
         this.messageHandler = messageHandler;
@@ -29,11 +29,12 @@ public class GetOwner {
     }
 
     /**
-     * Method that handles the messages to get the color of the island's new owner
-     * @throws ClientDisconnectedException launched if the client disconnects from the game
-     * @throws MalformedMessageException launched if the message isn't created the correct way
+     * Method that handles the exchange of messages
+     * @throws AssetErrorException when an object of the game isn't found in the asset
+     * @throws MalformedMessageException when a received message isn't correct
+     * @throws ClientDisconnectedException when the player disconnects from the game
      */
-    public void handle() throws ClientDisconnectedException, MalformedMessageException, AssetErrorException {
+    public void handle() throws AssetErrorException, MalformedMessageException, ClientDisconnectedException {
         this.messageHandler.read();
         String result = this.messageHandler.getMessagePayloadFromStream(TOWER_COLOR.getFragment());
         TowerColor color = null;

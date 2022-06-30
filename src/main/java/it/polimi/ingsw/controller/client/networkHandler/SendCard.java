@@ -9,15 +9,15 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
 
 /**
  * @author Sara Mucci
- * Class that implements the message to send the chosen card
+ * Class that implements the message to send the chosen assistantCard
  */
 public class SendCard {
     AssistantCard card;
     MessageHandler messageHandler;
 
     /**
-     * Class constructor
-     * @param messageHandler represents the messageHandler used for the message
+     * Constructor of the class
+     * @param messageHandler is the handler of messages
      * @param card represents the chosen card to send
      */
     public SendCard(AssistantCard card, MessageHandler messageHandler) {
@@ -26,9 +26,9 @@ public class SendCard {
     }
 
     /**
-     * Method that handles the messages to send the chosen assistant card
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws FlowErrorException launched when the client sends an unexpected response
+     * Method that handles the exchange of messages
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
     public void handle() throws MalformedMessageException, FlowErrorException {
         int topicId = this.messageHandler.getMessagesUniqueTopic();
@@ -37,4 +37,3 @@ public class SendCard {
         this.messageHandler.writeOut();
     }
 }
-

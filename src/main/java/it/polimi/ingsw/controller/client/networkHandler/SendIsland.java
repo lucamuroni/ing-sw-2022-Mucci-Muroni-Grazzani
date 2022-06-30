@@ -9,16 +9,16 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
 
 /**
  * @author Sara Mucci
- * Class that implements the message to send the mother nature's new  location
+ * Class that implements the message to send mother nature's new location
  */
 public class SendIsland {
     Island island;
     MessageHandler messageHandler;
 
     /**
-     * Class constructor
-     * @param island represents the new mother nature's location
-     * @param messageHandler represents the messageHandler used for the message
+     * Constructor of the class
+     * @param island represents the location of motherNature
+     * @param messageHandler is the handler of messages
      */
     public SendIsland(Island island, MessageHandler messageHandler) {
         this.island = island;
@@ -26,9 +26,9 @@ public class SendIsland {
     }
 
     /**
-     * Method that handles the messages to send the chosen island
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws FlowErrorException launched when the client sends an unexpected response
+     * Method that handles the exchange of messages
+     * @throws MalformedMessageException when a received message isn't correct
+     * @throws FlowErrorException when there is an error in the synchronization
      */
     public void handle() throws MalformedMessageException, FlowErrorException {
         int topicId = this.messageHandler.getMessagesUniqueTopic();
@@ -37,4 +37,3 @@ public class SendIsland {
         this.messageHandler.writeOut();
     }
 }
-

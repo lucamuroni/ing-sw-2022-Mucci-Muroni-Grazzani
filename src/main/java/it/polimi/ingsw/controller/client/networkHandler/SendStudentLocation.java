@@ -19,9 +19,9 @@ public class SendStudentLocation {
     MessageHandler messageHandler;
 
     /**
-     * Class constructor
+     * Constructor of the class
      * @param location represents the student's new location
-     * @param messageHandler represents the messageHandles used for the message
+     * @param messageHandler is the handler of messages
      */
     public SendStudentLocation(int location, MessageHandler messageHandler) {
         this.location = location;
@@ -29,11 +29,12 @@ public class SendStudentLocation {
     }
 
     /**
-     * Method that handles the messages to send the new location of the moved student
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws FlowErrorException launched when the client sends an unexpected response
+     * Method that handles the exchange of messages
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    public void handle() throws MalformedMessageException, FlowErrorException, ClientDisconnectedException {
+    public void handle() throws ClientDisconnectedException, FlowErrorException, MalformedMessageException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
         Message message = new Message(STUDENT_LOCATION.getFragment(), Integer.toString(location), topicId);
         this.messageHandler.write(message);
@@ -41,4 +42,3 @@ public class SendStudentLocation {
         this.messageHandler.assertOnEquals(OK.getFragment(), STUDENT_LOCATION.getFragment());
     }
 }
-

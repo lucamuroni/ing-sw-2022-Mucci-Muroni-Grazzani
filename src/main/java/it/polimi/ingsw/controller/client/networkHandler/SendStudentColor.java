@@ -19,9 +19,9 @@ public class SendStudentColor {
     MessageHandler messageHandler;
 
     /**
-     * Class constructor
+     * Constructor of the class
      * @param color represents the color to be sent
-     * @param messageHandler represents the messageHandler used for the message
+     * @param messageHandler is the handler of messages
      */
     public SendStudentColor(PawnColor color, MessageHandler messageHandler) {
         this.color = color;
@@ -29,9 +29,9 @@ public class SendStudentColor {
     }
 
     /**
-     * Method that handles the messages to send the color of the student moved
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws FlowErrorException launched when the client sends an unexpected response
+     * Method that handles the exchange of messages
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
     public void handle() throws MalformedMessageException, FlowErrorException, ClientDisconnectedException {
         int topicId = this.messageHandler.getNewUniqueTopicID();

@@ -16,9 +16,9 @@ public class SendCloud {
     MessageHandler messageHandler;
 
     /**
-     * Class constructor
+     * Constructor of the class
+     * @param messageHandler is the handler of messages
      * @param cloud represents the chosen cloud
-     * @param messageHandler represents the messageHandler used for the message
      */
     public SendCloud(Cloud cloud, MessageHandler messageHandler) {
         this.cloud = cloud;
@@ -26,11 +26,11 @@ public class SendCloud {
     }
 
     /**
-     * Method that handles the messages to send the chosen cloud
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws FlowErrorException launched when the client sends an unexpected response
+     * MMethod that handles the exchange of messages
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    public void handle() throws MalformedMessageException, FlowErrorException {
+    public void handle() throws FlowErrorException, MalformedMessageException {
         int topicId = this.messageHandler.getMessagesUniqueTopic();
         Message message = new Message(CLOUD_ID.getFragment(), Integer.toString(cloud.getId()), topicId);
         this.messageHandler.write(message);

@@ -6,8 +6,9 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
+
 import java.util.ArrayList;
-import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
+
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.ASSISTANT_CARD;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.PAYLOAD_SIZE;
 
@@ -19,12 +20,12 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
 public class GetPossibleCards {
     MessageHandler messageHandler;
     ArrayList<AssistantCard> cards;
-    private Game game;
+    private final Game game;
 
     /**
-     * Class constructor
-     * @param messageHandler represents the messageHandler used for the message
-     * @param game represents the current game
+     * Constructor of the class
+     * @param messageHandler is the handler of messages
+     * @param game is the current game
      */
     public GetPossibleCards(MessageHandler messageHandler, Game game) {
         this.messageHandler = messageHandler;
@@ -33,11 +34,12 @@ public class GetPossibleCards {
     }
 
     /**
-     * Method that handles the messages to get the available assistant cards
-     * @throws ClientDisconnectedException launched if the client disconnects from the game
-     * @throws MalformedMessageException launched if the message isn't created the correct way
+     * Method that handles the exchange of messages
+     * @throws AssetErrorException when an object of the game isn't found in the asset
+     * @throws MalformedMessageException when a received message isn't correct
+     * @throws ClientDisconnectedException when the player disconnects from the game
      */
-    public void handle() throws ClientDisconnectedException, MalformedMessageException, AssetErrorException {
+    public void handle() throws AssetErrorException, MalformedMessageException, ClientDisconnectedException {
         this.messageHandler.read();
         int num = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAYLOAD_SIZE.getFragment()));
         for (int i = 0; i<num; i++) {

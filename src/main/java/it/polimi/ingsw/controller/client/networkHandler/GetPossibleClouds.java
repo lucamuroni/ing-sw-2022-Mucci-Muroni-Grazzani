@@ -3,14 +3,14 @@ package it.polimi.ingsw.controller.client.networkHandler;
 import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import java.util.ArrayList;
-
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Cloud;
-import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
+import it.polimi.ingsw.view.asset.game.Game;
+
+import java.util.ArrayList;
+
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CLOUD_ID;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.PAYLOAD_SIZE;
-import it.polimi.ingsw.view.asset.game.Game;
 
 /**
  * @author Luca Muroni
@@ -23,9 +23,9 @@ public class GetPossibleClouds {
     Game game;
 
     /**
-     * Class constructor
-     * @param messageHandler represents the messageHandler used for the message
-     * @param game represents the current game
+     * Constructor of the class
+     * @param messageHandler is the handler of messages
+     * @param game is the current game
      */
     public GetPossibleClouds(MessageHandler messageHandler, Game game) {
         this.messageHandler = messageHandler;
@@ -34,10 +34,10 @@ public class GetPossibleClouds {
     }
 
     /**
-     * Method that handles the messages to get the available clouds
-     * @return the arraylist of possible clouds
-     * @throws ClientDisconnectedException launched if the client disconnects from the game
-     * @throws MalformedMessageException launched if the message isn't created the correct way
+     * Method that handles the exchange of messages
+     * @throws AssetErrorException when an object of the game isn't found in the asset
+     * @throws MalformedMessageException when a received message isn't correct
+     * @throws ClientDisconnectedException when the player disconnects from the game
      */
     public ArrayList<Cloud> handle() throws ClientDisconnectedException, MalformedMessageException, AssetErrorException {
         this.messageHandler.read();
