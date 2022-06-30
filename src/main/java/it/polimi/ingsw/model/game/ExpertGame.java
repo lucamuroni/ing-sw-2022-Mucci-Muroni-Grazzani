@@ -13,8 +13,9 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * Class that represents an Expert Game
  * @author Luca Muroni
+ * @author Davide Grazzani
+ * Class that represents the expert version of a game
  */
 public class ExpertGame extends Game {
     private int coinBank;
@@ -52,8 +53,8 @@ public class ExpertGame extends Game {
 
     /**
      * Method used to check if a professor has a new owner
-     * @param color is the color of the Professor, the owner of which will be changed
-     * @return the owner
+     * @param color is the color of the professor to check
+     * @return the owner (a new one or the old one)
      */
     @Override
     public Gamer changeProfessorOwner(PawnColor color) {
@@ -106,7 +107,6 @@ public class ExpertGame extends Game {
      * Method that returns the gamers
      * @return the gamers in the game
      */
-
     public ArrayList<ExpertGamer> getExpertGamers() {
         ArrayList<Gamer> gamers = this.getGamers();
         ArrayList<ExpertGamer> expertGamers = new ArrayList<>();
@@ -135,14 +135,14 @@ public class ExpertGame extends Game {
     }
 
     /**
-     * Method that sets the variable moreSteps to true when a player plays Postman
+     * Method that sets the variable moreSteps to true when a player plays the characterCard postman
      */
     public void setMoreSteps() {
         this.moreSteps = true;
     }
 
     /**
-     * Method that returns the mother nature destination; in case it can perform more steps due to a character card played
+     * Method that returns the mother nature destination; in case it can perform more steps due to a characterCard played
      * @return the mother nature destination
      */
     @Override
@@ -164,14 +164,14 @@ public class ExpertGame extends Game {
     }
 
     /**
-     * Method used when a gamer plays Villager
+     * Method used when a gamer plays the characterCard villager
      */
     public void setEqualProfessorFlag() {
         this.villagerCard = true;
     }
 
     /**
-     * Method used to get the deck of CharacterCards
+     * Method used to get the deck of characterCard
      * @return the deck
      */
     public CharacterCardDeck getDeck() {

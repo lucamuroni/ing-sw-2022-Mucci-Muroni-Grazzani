@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.expert;
 import it.polimi.ingsw.model.game.ExpertGame;
 
 /**
+ * @author Davide Grazzani
  * Interface used by all the class that represents the CharacterCards
  */
 public abstract class CharacterCardInterface {

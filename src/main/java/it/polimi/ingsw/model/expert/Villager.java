@@ -4,8 +4,8 @@ import it.polimi.ingsw.model.game.ExpertGame;
 import it.polimi.ingsw.model.pawn.PawnColor;
 
 /**
- * Card Villager from the deck of CharacterCards
  * @author Davide Grazzani
+ * Card Villager from the deck of CharacterCards
  */
 public class Villager extends CharacterCardInterface {
     /**

@@ -3,8 +3,8 @@ package it.polimi.ingsw.model.expert;
 import it.polimi.ingsw.model.game.ExpertGame;
 
 /**
- * Card Centaur from the deck of CharacterCards
  * @author Davide Grazzani
+ * Card Centaur from the deck of CharacterCards
  */
 public class Centaur extends CharacterCardInterface {
     /**

@@ -11,6 +11,8 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
+ * @author Luca Muroni
+ * @author Davide Grazzani
  * Class that represents the deck of playable cards
  */
 public class CharacterCardDeck {
