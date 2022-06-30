@@ -12,11 +12,21 @@ import it.polimi.ingsw.view.asset.game.Results;
 
 import java.util.ArrayList;
 
+/**
+ * @author Luca Muroni
+ * @author Davide Grazzani
+ * This class represents the last phase of the game, and it is called only when a winning condition is met
+ */
 public class EndGame implements GamePhase{
     private final Game game;
     private final ViewHandler view;
     private final Network network;
     private final ClientController controller;
+
+    /**
+     * Constructor of the class
+     * @param controller is the controller of client side
+     */
     public EndGame(ClientController controller) {
         this.game = controller.getGame();
         this.view = controller.getViewHandler();
@@ -24,6 +34,9 @@ public class EndGame implements GamePhase{
         this.network = this.controller.getNetwork();
     }
 
+    /**
+     * This is the main and only method that handles the VictoryPhase
+     */
     @Override
     public void handle() {
         ArrayList<Gamer> winner = new ArrayList<>();
@@ -61,9 +74,12 @@ public class EndGame implements GamePhase{
         }
     }
 
+    /**
+     * Method unused because EndGame is the last phase, so there isn't a next phase
+     * @return null
+     */
     @Override
     public GamePhase next() {
         return null;
     }
-
 }
