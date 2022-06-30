@@ -5,19 +5,30 @@ import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 
 import java.util.ArrayList;
 
+/**
+ * Class used to draw islands and manage their movement when merging one another
+ * @author Davide Grazzani
+ */
 public class AsciiArchipelago {
-    //TODO : istanza unica che risiede nella cli -> viene creata una sola volta
     private final ArrayList<AsciiIsland> asciiIslands;
     private int[][] positionalMatrix;
     private final static int row = 3;
     private final static int column =12;
 
+    /**
+     * Class constructor
+     * @param islands are the island that must be drawn
+     */
     public AsciiArchipelago(ArrayList<AsciiIsland> islands){
         this.asciiIslands = new ArrayList<AsciiIsland>(islands);
         positionalMatrix = new int[column][row];
         this.initMatrix();
     }
 
+    /**
+     * Method used to initialize a matrix on which all future computing will be done.
+     * This matrix implicitly contains all the position of every island (including already merged islands)
+     */
     private void initMatrix(){
         int counter = 0;
         for(int i = 0; i<row;i++){
@@ -37,6 +48,12 @@ public class AsciiArchipelago {
         }
     }
 
+    /**
+     * Method used to print a single line of the archipelago given a certain row of the matrix
+     * @param line is line of the archipelago you want to print
+     * @param row is the row you are considering (accordingly to matrix)
+     * @throws AssetErrorException if no island with a specified ID is found in the Asset space
+     */
     private void print(int line,int row) throws AssetErrorException {
         for(int i=0; i < column;i++){
             if(positionalMatrix[i][row]==0){
@@ -58,12 +75,20 @@ public class AsciiArchipelago {
         System.out.print("\n");
     }
 
+    /**
+     * Method used to make correct padding between islands
+     * @param number is the number of space you need to print
+     */
     private void printSpace(int number){
         for(int i = 0;i < number ; i++){
             System.out.print(" ");
         }
     }
 
+    /**
+     * Method used to draw the entire archipelago
+     * @throws AssetErrorException if the matrix contains an island with no validation from package Asset
+     */
     public void draw() throws AssetErrorException {
         for(int i = 0;i < row; i++){
             for(int j = 0 ; j < AsciiIsland.getHeight();j++){
@@ -72,105 +97,31 @@ public class AsciiArchipelago {
         }
     }
 
-    /*public void mergeIsland(int id2, int id1){
-        // TODO lista
-        // 1 trovo tutte le isole vicino a MN (compresa)
-        //trovo tutte le isole vicino a
-        for (AsciiIsland island : this.asciiIslands) {
-            if (island.getIsland().getId() == id1) {
-                island.setMerged(true);
-                island.getIsland().setMerged();
-            }
-        }
-        ArrayList<Integer> attachedIsland = new ArrayList<>();
-        for(AsciiIsland island : this.asciiIslands){
-            if(isAttached(id1,island.getIsland().getId(),null)){
-                attachedIsland.add(island.getIsland().getId());
-            }
-        }
-        ArrayList<Integer> nearIsland = closestIsland(attachedIsland,id2);
-        if(nearIsland.isEmpty()){
-            nearIsland = getIslandPosition(id1);
-        }
-        int x1 = nearIsland.get(0);
-        int y1 = nearIsland.get(1);
-        int islandID = positionalMatrix[y1][x1];
-        ArrayList<Integer> attachedIslandToMN = new ArrayList<>();
-        for(AsciiIsland island : this.asciiIslands){
-            if(isAttached(id2,island.getIsland().getId(),null)){
-                attachedIslandToMN.add(island.getIsland().getId());
-            }
-        }
-        nearIsland = closestIsland(attachedIslandToMN,islandID);
-        if(nearIsland.isEmpty()){
-            nearIsland = getIslandPosition(id2);
-        }
-        int islandIDMN = positionalMatrix[nearIsland.get(1)][nearIsland.get(0)];
-        if(!attachedIslandToMN.isEmpty()){
-            attachedIslandToMN.clear();
-            for(AsciiIsland island : this.asciiIslands){
-                if(isAttached(id2,island.getIsland().getId(),null)){
-                    attachedIslandToMN.add(island.getIsland().getId());
-                }
-            }
-        }
-        while (!isAttached(islandID,islandIDMN,null)){
-            nearIsland = getIslandPosition(islandIDMN);
-            //makeAMove();
-            int x2 = nearIsland.get(0);
-            int y2 = nearIsland.get(1);
-            nearIsland.clear();
-            int id = positionalMatrix[y2][x2];
-            positionalMatrix[y2][x2] = 0;
-            if(x1 == x2){
-                if(y1-y2>0){
-                    positionalMatrix[y2+1][x2] = id;
-                }else{
-                    positionalMatrix[y2-1][x2] = id;
-
-                }
-            }else{
-                if(x1-x2>0){
-                    positionalMatrix[y1][x1-1] = id;
-                }else{
-                    positionalMatrix[y1][x1+1] = id;
-                }
-            }
-        }
-    }*/
-
+    /**
+     * Method used to merge 2 islands
+     * @param motherNatureIslandId is the island on which MotherNature is present
+     * @param otherIslandId represent the other island that needs to be merged
+     */
     public void mergeIsland(int motherNatureIslandId,int otherIslandId){
-        //setto l'altra isola come mergiata
         for (AsciiIsland island : this.asciiIslands) {
             if (island.getIsland().getId() == otherIslandId) {
                 island.setMerged();
             }
         }
-        // trovo l'arcipelago su cui sta Madre Natura
         ArrayList<Integer> motherNatureArchipelago = new ArrayList<>();
         for(AsciiIsland island : this.asciiIslands){
             if(isAttached(island.getIsland().getId(),motherNatureIslandId,null)){
                 motherNatureArchipelago.add(island.getIsland().getId());
             }
         }
-        // trovo l'arcipelago dell'altra isola
         ArrayList<Integer> otherIslandArchipelago = new ArrayList<>();
         for(AsciiIsland island : this.asciiIslands){
             if(isAttached(island.getIsland().getId(),otherIslandId,null)){
                 otherIslandArchipelago.add(island.getIsland().getId());
             }
         }
-        //DEBUG
-        System.out.println("Printo l'arcipelago delle isole di madrenatura :");
-        motherNatureArchipelago.stream().forEach(x->System.out.println(x));
-        System.out.println("Printo l'arcipelago delle altre isole :");
-        otherIslandArchipelago.stream().forEach(x->System.out.println(x));
-        //cerco l'sola più vicina a MN
         int closestToMnIslandId = closestIsland(otherIslandArchipelago,motherNatureIslandId);
-        System.out.println("L isola più vicina a madre natura è :"+closestToMnIslandId);
-        //cerco l'sola più vicina al gruppo di altre isole
         int closestToOtherIslandId = closestIsland(motherNatureArchipelago,otherIslandId);
-        System.out.println("L isola più vicina aLL'altro arcipelago :"+closestToOtherIslandId);
         while(!isAttached(closestToOtherIslandId,closestToMnIslandId,null)){
             ArrayList<Integer> islands = new ArrayList<>();
             for(Integer island : motherNatureArchipelago){
@@ -183,6 +134,12 @@ public class AsciiArchipelago {
         }
     }
 
+    /**
+     * Method used to decide where an island must move in case of merge
+     * @param settledID is the id of the island that will not move
+     * @param IDToBeMoved is the id of the island that needs to be moved
+     * @param islandToBePropagate is the ArrayList of island attached to IDToBeMoved
+     */
     private void makeAMove(int settledID,int IDToBeMoved, ArrayList<Integer> islandToBePropagate){
         ArrayList<Integer> position = new ArrayList<>(getIslandPosition(settledID));
         int x1 = position.get(0);
@@ -205,15 +162,6 @@ public class AsciiArchipelago {
                 positionalMatrix[y1][x1+1] = IDToBeMoved;
             }
         }
-        //DUBUG
-        System.out.println("Printo lo stato della matrice");
-        for(int k = 0; k < row;k++){
-            for(int q = 0; q<column;q++){
-                System.out.print(positionalMatrix[q][k]+" ");
-            }
-            System.out.print("\n");
-        }
-        //FINE DUBUG
         if(islandToBePropagate.isEmpty()){
             return;
         }else {
@@ -228,6 +176,12 @@ public class AsciiArchipelago {
         }
     }
 
+    /**
+     * Method used to find which island is the closest to a given target
+     * @param attachedIsland is the ArrayList of island that needs to be probed in order to find which is the closest
+     * @param islandId it the target to reach
+     * @return
+     */
     private int closestIsland(ArrayList<Integer> attachedIsland,Integer islandId){
         int dist = 0;
         int x,y;
@@ -257,6 +211,13 @@ public class AsciiArchipelago {
         return results;
     }
 
+    /**
+     * Method used to establish if an island is attached to another island
+     * @param islandIdToBeVerified is the island that we want to probe
+     * @param targetIslandId is the island target
+     * @param alreadyProbed recursive parameter needed to correctly stop recursion
+     * @return true if the 2 island are attached
+     */
     private boolean isAttached(int islandIdToBeVerified, int targetIslandId,ArrayList<Integer> alreadyProbed){
         if(islandIdToBeVerified == targetIslandId){
             return true;
@@ -280,6 +241,11 @@ public class AsciiArchipelago {
         return false;
     }
 
+    /**
+     * Method used to find the position of an island on the matrix
+     * @param id is the id of the island we are searching
+     * @return an ArrayList of size 2, containing at index 0 the row and at index 1 the column
+     */
     private ArrayList<Integer> getIslandPosition(int id){
         ArrayList<Integer> result = new ArrayList<>();
         for(int x = 0;x< row; x++){
@@ -294,6 +260,11 @@ public class AsciiArchipelago {
         return result;
     }
 
+    /**
+     * Method used to return the adjacent islands given another island
+     * @param id is the island target
+     * @return an ArrayList containing the island 's id  
+     */
     private ArrayList<Integer> getNearIslands(int id){
         int x,y;
         ArrayList<Integer> result = getIslandPosition(id);

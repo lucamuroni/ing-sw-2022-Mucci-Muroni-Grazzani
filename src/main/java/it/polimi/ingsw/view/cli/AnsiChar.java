@@ -2,8 +2,8 @@ package it.polimi.ingsw.view.cli;
 
 
 /**
- * @author Davide Grazzani
  * Class that represents the possible pawns to show in the cli
+ * @author Davide Grazzani
  */
 public enum AnsiChar {
     TOWER("♖"),
