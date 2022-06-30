@@ -17,17 +17,30 @@ import java.util.Random;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CONTEXT_FIGURE;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CONTEXT_PHASE;
 
+/**
+ * @author Luca Muroni
+ * This class implements the phase before the start of the game, which is DeckPhase, where the currentPlayer chooses a
+ * deck of AssistantCards
+ */
 public class DeckPhase implements GamePhase {
     private final Game game;
     private final GameController controller;
     private final View view;
 
+    /**
+     * Constructor of the class
+     * @param game represents the current game
+     * @param controller represents the controller linked with this game
+     */
     public DeckPhase(Game game, GameController controller) {
         this.game = game;
         this.controller = controller;
         this.view = this.controller.getView();
     }
 
+    /**
+     * This is the main method that handles the DeckPhase
+     */
     @Override
     public void handle() {
         for(Player player : this.controller.getPlayers()){
@@ -75,7 +88,6 @@ public class DeckPhase implements GamePhase {
         }catch (MalformedMessageException | ClientDisconnectedException e){
             this.controller.handlePlayerError(player, "Error while getting chosen assistant card");
         }
-        //TODO : controllare se è tutto a posto
         this.controller.getCardDesks().remove(card);
         return card;
     }
@@ -101,12 +113,10 @@ public class DeckPhase implements GamePhase {
         }
     }
 
-    private AssistantCardDeckFigures randomFigurePicker() {
-        Random random = new Random();
-        int rand = random.nextInt(0, AssistantCardDeckFigures.values().length);
-        return AssistantCardDeckFigures.values()[rand];
-    }
-
+    /**
+     * This method changes the phase to the next one
+     * @return the next GamePhase
+     */
     @Override
     public GamePhase next() {
         return new PlanningPhase(this.game,this.controller);
