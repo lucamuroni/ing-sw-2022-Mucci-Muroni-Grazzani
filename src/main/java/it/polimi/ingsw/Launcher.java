@@ -16,17 +16,17 @@ public class Launcher {
 
     public static void main(String[] args){
         Launcher launcher = new Launcher();
-        if(args.length <= 1){
+        if(args.length == 0){
             launcher.printError("To few arguments");
-        } else if (args[1].equals("-s")) {
+        } else if (args[0].equals("-s")) {
             String[] arguments = new String[args.length-1];
             System.arraycopy(args, 1, arguments, 0, args.length - 1);
             launcher.startServer(arguments);
-        }else if(args[1].equals("-c")){
+        }else if(args[0].equals("-c")){
             String[] arguments = new String[args.length-1];
             System.arraycopy(args, 1, arguments, 0, args.length - 1);
             launcher.startClient(arguments);
-        }else if(args[1].equals("--help")){
+        }else if(args[0].equals("--help")){
             System.out.println("Usage :");
             System.out.println("-s       start a server");
             System.out.println("-c       for starting client in default mode");
@@ -75,7 +75,7 @@ public class Launcher {
             int port = portNumber;
             String ip = Launcher.ip;
             ViewHandler viewHandler = new Cli();
-            for(int i = 1;i <args.length;i = i+2){
+            for(int i = 0;i <args.length;i+=2){
                 if ("-p".equals(args[i])) {
                     try {
                         port = Integer.parseInt(args[i + 1]);
@@ -94,7 +94,6 @@ public class Launcher {
                     printError();
                 }
             }
-
             ClientController c = new ClientController(ip,port,viewHandler);
         }
     }
