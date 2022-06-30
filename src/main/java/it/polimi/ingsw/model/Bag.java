@@ -9,7 +9,6 @@ import java.util.Random;
  * @author Davide Grazzani
  * Class that represent the game bag as a pool of students
  */
-//TODO : rimuovere 2 studenti per colore
 public class Bag {
     private final ArrayList<Student> students;
 
@@ -17,7 +16,7 @@ public class Bag {
      * Class constructor
      */
     public Bag(){
-        int numStudentsPerColor = 26;
+        int numStudentsPerColor = 24;
         this.students = new ArrayList<>();
         for(PawnColor color : PawnColor.values()){
             for(int i=0; i<numStudentsPerColor; i++){

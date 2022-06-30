@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
+ * @author Luca Muroni
+ * @author Davide Grazzani
  * This class implements the second phase of the game, which is the ActionPhase1, where the current player moves 3/4 students
  * from his waitingRoom to an island or his hall
  */

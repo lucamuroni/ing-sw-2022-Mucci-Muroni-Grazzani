@@ -4,20 +4,26 @@ import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.controller.client.networkHandler.Network;
 import it.polimi.ingsw.controller.networking.GameType;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
-import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.model.expert.CharacterCard;
-import it.polimi.ingsw.model.game.ExpertGame;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
 
+/**
+ * @author Luca Muroni
+ * @author Davide grazzani
+ * This class is the setup phase of the game, where all the info to start a game are taken from the server
+ */
 public class Start implements GamePhase {
     private final Game game;
     private final ViewHandler view;
     private final Network network;
     private final ClientController controller;
 
+    /**
+     * Constructor of the class
+     * @param controller represents the controller linked with this game
+     */
     public Start(ClientController controller) {
         this.game = controller.getGame();
         this.view = controller.getViewHandler();
@@ -25,6 +31,9 @@ public class Start implements GamePhase {
         this.network = this.controller.getNetwork();
     }
 
+    /**
+     * This is the main method that handles the Start
+     */
     @Override
     public void handle() {
         this.view.setController(controller);
@@ -43,6 +52,10 @@ public class Start implements GamePhase {
         }
     }
 
+    /**
+     * Method called by handle() only if the game is an expert one
+     * It is used to receive the characterCards that can be played in this game
+     */
     private void getCharacterCards() {
         for (int i = 0; i<3; i++) {
             try {
@@ -59,6 +72,10 @@ public class Start implements GamePhase {
         }
     }
 
+    /**
+     * Method called by handle() only if the game is an expert one
+     * It is used to receive the coins owned by the player at the start of game
+     */
     private void getCoins() {
         try {
             try {
@@ -71,6 +88,9 @@ public class Start implements GamePhase {
         }
     }
 
+    /**
+     * Method called by handle() to get the usernames of all others players
+     */
     private void getUsernames() {
         for(int i = 0 ; i< this.game.getLobbySize()-1;i++) {
             try{
@@ -85,6 +105,9 @@ public class Start implements GamePhase {
         }
     }
 
+    /**
+     * Method called by handle() to get the position of motherNature at the start of game
+     */
     private void updateMNPlace() {
         try {
             try {
@@ -99,6 +122,9 @@ public class Start implements GamePhase {
         }
     }
 
+    /**
+     * Method called by handle() and is used to update all the islands at the start of game
+     */
     private void updateIslandStatus() {
         try {
             try {
@@ -113,6 +139,9 @@ public class Start implements GamePhase {
         }
     }
 
+    /**
+     * Method called by handle() to get infos about dashboards of all others players
+     */
     private void updateDashboards() {
         try {
             try {
@@ -127,6 +156,9 @@ public class Start implements GamePhase {
         }
     }
 
+    /**
+     * Method called by handle() to update the colors associated with the other players
+     */
     private void updateColor() {
         try {
             try {
@@ -141,11 +173,14 @@ public class Start implements GamePhase {
         }
     }
 
+    /**
+     * This method changes the phase to the next one
+     * @return the next GamePhase
+     */
     @Override
     public GamePhase next() {
         Idle phase = new Idle(this.controller);
         phase.isGameStarted(false);
         return phase;
     }
-
 }
