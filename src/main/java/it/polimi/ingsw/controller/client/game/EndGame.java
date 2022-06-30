@@ -72,6 +72,7 @@ public class EndGame implements GamePhase{
                 this.view.showEndGamePage(Results.LOSS);
             }
         }
+        this.controller.setGameOff();
     }
 
     /**

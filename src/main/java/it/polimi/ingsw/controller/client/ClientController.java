@@ -21,6 +21,7 @@ public class ClientController {
     private Network network;
     private final ViewHandler viewHandler;
     private Game game;
+    private boolean isGameOn;
 
     /**
      * Class builder
@@ -32,6 +33,7 @@ public class ClientController {
         while(!getConnection(ip,port));
         this.viewHandler = viewHandler;
         this.viewHandler.setController(this);
+        this.isGameOn = true;
         this.run();
     }
 
@@ -63,7 +65,7 @@ public class ClientController {
      */
     private void run(){
         GamePhase phase = new ConnectionPhase(this);
-        while (phase.next()!= null){
+        while (getGameStatus()){
             phase.handle();
             phase = phase.next();
         }
@@ -119,4 +121,11 @@ public class ClientController {
         return this.game;
     }
 
+    public synchronized void setGameOff(){
+        this.isGameOn = false;
+    }
+
+    private synchronized boolean getGameStatus(){
+        return this.isGameOn;
+    }
 }
