@@ -8,17 +8,27 @@ import it.polimi.ingsw.model.pawn.PawnColor;
 import it.polimi.ingsw.model.pawn.Student;
 import it.polimi.ingsw.model.pawn.TowerColor;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class ExpertGamerTest {
     ExpertGamer expertGamer = new ExpertGamer(123, "luca", TowerColor.GREY);
+    Bag bag = new Bag();
+    Cloud cloud = new Cloud(1);
+
+    @Test
+    void selectCloud() {
+        ArrayList<Student> students = new ArrayList<>(bag.pullStudents(1));
+        expertGamer.initGamer(students, 6);
+        ArrayList<Student> students1 = new ArrayList<>(bag.pullStudents(3));
+        cloud.pushStudents(students1);
+        expertGamer.selectCloud(cloud);
+        assertTrue(expertGamer.getDashboard().getWaitingRoom().containsAll(students1));
+    }
 
     @Test
     void initGamer() {
-        ArrayList<Student> students = new ArrayList<Student>();
+        ArrayList<Student> students = new ArrayList<>();
         students.add(new Student(PawnColor.BLUE));
         students.add(new Student(PawnColor.GREEN));
         students.add(new Student(PawnColor.RED));
@@ -30,29 +40,16 @@ class ExpertGamerTest {
     }
 
     @Test
-    void selectCloud() {
-        Bag bag = new Bag();
-        ArrayList<Student> students = new ArrayList<Student>(bag.pullStudents(1));
-        expertGamer.initGamer(students, 6);
-        Cloud cloud = new Cloud(1);
-        ArrayList<Student> students1 = new ArrayList<Student>(bag.pullStudents(3));
-        cloud.pushStudents(students1);
-        expertGamer.selectCloud(cloud);
-        assertTrue(expertGamer.getDashboard().getWaitingRoom().containsAll(students1));
-    }
-
-    @Test
     void getDashboard() {
-        Bag bag = new Bag();
-        ArrayList<Student> students = new ArrayList<Student>(bag.pullStudents(1));
+        ArrayList<Student> students = new ArrayList<>(bag.pullStudents(1));
         expertGamer.initGamer(students, 6);
-        assertTrue(expertGamer.getDashboard() instanceof ExpertDashboard);
+        assertNotNull(expertGamer.getDashboard());
     }
 
     @Test
     void coins(){
         Bag bag = new Bag();
-        ArrayList<Student> students = new ArrayList<Student>(bag.pullStudents(5));
+        ArrayList<Student> students = new ArrayList<>(bag.pullStudents(5));
         ExpertGamer gamer1 = new ExpertGamer(1,"d",TowerColor.GREY);
         ExpertGamer gamer2 = new ExpertGamer(2,"p",TowerColor.BLACK);
         gamer1.initGamer(students,1);
