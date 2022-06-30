@@ -29,28 +29,14 @@ import java.util.stream.Collectors;
  * Class that implements the view interface
  */
 public class VirtualViewHandler implements View {
-
-    MessageHandler messageHandler;
-
-    /**
-     * Method that handles the messages to update the mother nature location
-     * @param island represents the new mother nature location
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     */
-    @Override
-    public void updateMotherNaturePlace(Island island) throws MalformedMessageException, ClientDisconnectedException, FlowErrorException {
-        UpdateMotherNaturePlace func = new UpdateMotherNaturePlace(island, messageHandler);
-        func.handle();
-    }
+    private MessageHandler messageHandler;
 
     /**
      * Method that handles the messages to update the status of an island
      * @param island represents the island to update
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     * @throws ClientDisconnectedException launched if the client disconnects
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
     @Override
     public void updateIslandStatus(Island island) throws MalformedMessageException, FlowErrorException, ClientDisconnectedException {
@@ -59,25 +45,11 @@ public class VirtualViewHandler implements View {
     }
 
     /**
-     * Method that handles the messages to update the clouds' status
-     * @param clouds the clouds to update
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
-     */
-    @Override
-    public void updateCloudsStatus(ArrayList<Cloud> clouds) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
-        for (Cloud cloud : clouds) {
-            this.updateCloudsStatus(cloud);
-        }
-    }
-
-    /**
-     * Method that handles the messages to update one cloud's status
+     * Method that handles the messages to update the status of a cloud
      * @param cloud the cloud to update
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
     @Override
     public void updateCloudsStatus(Cloud cloud) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
@@ -86,11 +58,11 @@ public class VirtualViewHandler implements View {
     }
 
     /**
-     * Method that handles the messages to update the status of one dashboard
+     * Method that handles the messages to update the status of a dashboards
      * @param gamer represents the player
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
-     * @throws FlowErrorException launched when the client sends an unexpected response
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
     @Override
     public void updateDashboards(Gamer gamer, Game game) throws MalformedMessageException, ClientDisconnectedException, FlowErrorException {
@@ -98,12 +70,40 @@ public class VirtualViewHandler implements View {
         func.handle();
     }
 
+    /**
+     * Method that handles the messages to update the location of motherNature
+     * @param island represents the location of motherNature
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
+     */
+    @Override
+    public void updateMotherNaturePlace(Island island) throws MalformedMessageException, ClientDisconnectedException, FlowErrorException {
+        UpdateMotherNaturePlace func = new UpdateMotherNaturePlace(island, messageHandler);
+        func.handle();
+    }
+
+    /**
+     * Method that handles the messages to get the answer of the current player
+     * @return the answer of the player
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws MalformedMessageException when a received message isn't correct
+     */
     @Override
     public boolean getAnswer() throws MalformedMessageException, ClientDisconnectedException {
         GetAnswer func = new GetAnswer(messageHandler);
         return func.handle();
     }
 
+    /**
+     * Method that handles the messages to get the characterCard chosen by the current player
+     * @param game is the current game
+     * @param cards is the arrayList of possible cards to chose from
+     * @return the card chosen by the current player
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws ModelErrorException when there isn't an object with the same info received from the client
+     * @throws MalformedMessageException when a received message isn't correct
+     */
     public CharacterCard getChosenCharacterCard(ExpertGame game, ArrayList<CharacterCard> cards) throws ModelErrorException, MalformedMessageException, ClientDisconnectedException {
         GetChosenCharacterCard func = new GetChosenCharacterCard(game, messageHandler, cards);
         CharacterCard result =  func.handle();
@@ -121,12 +121,8 @@ public class VirtualViewHandler implements View {
                     }
                 }
             }
-            case BARD -> {
-                colors.addAll(this.getChosenColors());
-            }
-            case MERCHANT,THIEF -> {
-                colors.add(this.getMovedStudentColor());
-            }
+            case BARD -> colors.addAll(this.getChosenColors());
+            case MERCHANT,THIEF -> colors.add(this.getMovedStudentColor());
         }
         game.getDeck().setParameters(colors.stream().map(Student::new).collect(Collectors.toCollection(ArrayList::new)),island);
         return result;
@@ -138,11 +134,24 @@ public class VirtualViewHandler implements View {
     }
 
     /**
-     * Method that handles the messages to get the assistant card the current player chooses
+     * Method that handles the messages to get the assistantCardDeck the current player chooses
+     * @param cardDeck represents the available decks
+     * @return the chosen deck
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws MalformedMessageException when a received message isn't correct
+     */
+    @Override
+    public AssistantCardDeckFigures getChosenAssistantCardDeck(ArrayList<AssistantCardDeckFigures> cardDeck) throws MalformedMessageException, ClientDisconnectedException {
+        GetChosenAssistantCardDeck func = new GetChosenAssistantCardDeck(cardDeck, messageHandler);
+        return func.handle();
+    }
+
+    /**
+     * Method that handles the messages to get the assistantCard the current player chooses
      * @param cardsList represents the available cards
      * @return the chosen card
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws MalformedMessageException when a received message isn't correct
      */
     @Override
     public AssistantCard getChosenAssistantCard(ArrayList<AssistantCard> cardsList) throws MalformedMessageException, ClientDisconnectedException {
@@ -151,10 +160,10 @@ public class VirtualViewHandler implements View {
     }
 
     /**
-     *Method that handles the messages to get the color of the student the current player moves
+     * Method that handles the messages to get the color of the student the current player moves
      * @return the color of the moved student
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws MalformedMessageException when a received message isn't correct
      */
     @Override
     public PawnColor getMovedStudentColor() throws MalformedMessageException, ClientDisconnectedException {
@@ -165,8 +174,8 @@ public class VirtualViewHandler implements View {
     /**
      * Method that handles the messages to get the location of the student the current player moves
      * @return the location of the moved student
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws MalformedMessageException when a received message isn't correct
      */
     @Override
     public int getMovedStudentLocation() throws MalformedMessageException, ClientDisconnectedException {
@@ -175,11 +184,11 @@ public class VirtualViewHandler implements View {
     }
 
     /**
-     * Method that handles the messages to get the mother nature's new location
+     * Method that handles the messages to get the new location of motherNature
      * @param islands represents the available islands
-     * @return the new mother nature location
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
+     * @return the new  location of motherNature
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws MalformedMessageException when a received message isn't correct
      */
     @Override
     public Island getMNLocation(ArrayList<Island> islands) throws MalformedMessageException, ClientDisconnectedException {
@@ -191,8 +200,8 @@ public class VirtualViewHandler implements View {
      * Method that handles the messages to get the cloud chosen by the current player
      * @param clouds represents the available islands
      * @return the chosen island
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws MalformedMessageException when a received message isn't correct
      */
     @Override
     public Cloud getChosenCloud(ArrayList<Cloud> clouds) throws MalformedMessageException, ClientDisconnectedException {
@@ -201,31 +210,26 @@ public class VirtualViewHandler implements View {
     }
 
     /**
-     * Method that handles the messages to get the assistant card deck the current player chooses
-     * @param cardDeck represents the available decks
-     * @return the chosen deck
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
+     * Method that handles the messages to send the characterCard chosen by the current player
+     * @param card is the chosen characterCard
+     * @param currentGamer is the current player
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    @Override
-    public AssistantCardDeckFigures getChosenAssistantCardDeck(ArrayList<AssistantCardDeckFigures> cardDeck) throws MalformedMessageException, ClientDisconnectedException {
-        GetChosenAssistantCardDeck func = new GetChosenAssistantCardDeck(cardDeck, messageHandler);
-        return func.handle();
-    }
-
     public void sendChosenCharacterCard(CharacterCard card, ExpertGamer currentGamer) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
         SendChosenCharacterCard func = new SendChosenCharacterCard(card, messageHandler);
         func.handle();
     }
 
     /**
-     * Method that handles the messages to send the assistant card deck chosen by the current player
+     * Method that handles the messages to send the assistantCardDeck chosen by the current player
      * @param deck represents the chosen deck
-     * @param token represents the token associated to the current player
+     * @param token represents the token associated with the current player
      * @param gamer represents the currentGamer
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
     @Override
     public void sendChosenAssistantCardDeck(AssistantCardDeckFigures deck, Integer token, Gamer gamer) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
@@ -234,38 +238,12 @@ public class VirtualViewHandler implements View {
     }
 
     /**
-     * Method that handles the messages to send the new phase to the current player
-     * @param phase represents the new phase
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
-     */
-    @Override
-    public void sendNewPhase(Phase phase) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
-        SendNewPhase func = new SendNewPhase(phase, messageHandler);
-        func.handle();
-    }
-
-    /**
-     * Method that handles the message to send the username of the winner / the usernames of the winners (in case of a draw)
-     * @param names represents the usernames to be sent
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
-     */
-    @Override
-    public void sendWinner(ArrayList<String> names) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
-        SendWinner func = new SendWinner(names, messageHandler);
-        func.handle();
-    }
-
-    /**
-     * Method that handles the messages to send the assistant card chosen by the current player
+     * Method that handles the messages to send the assistantCard chosen by the current player
      * @param card represents the chosen card
-     * @param token represents the token associated to the current player
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
+     * @param token represents the token associated with the current player
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
     @Override
     public void sendChosenAssistantCard(AssistantCard card, Integer token) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
@@ -274,11 +252,11 @@ public class VirtualViewHandler implements View {
     }
 
     /**
-     * Method that handles the messages to send the color of the current player
-     * @param gamer represents the gamer
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
-     * @throws FlowErrorException launched when the client sends an unexpected response
+     * Method that handles the messages to send the color of the tower associated with the current player
+     * @param gamer represents the current player
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
     @Override
     public void sendTowerColor(Gamer gamer) throws MalformedMessageException, ClientDisconnectedException, FlowErrorException{
@@ -287,53 +265,116 @@ public class VirtualViewHandler implements View {
     }
 
     /**
-     * Method that handles the message to send the context to the players not currently playing
-     * A context is sent to the players not currently playing to inform them of the phase in which the current player is
-     * @param context represents the context to send
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
+     * Method that handles the messages to send the new phase to the current player
+     * @param phase represents the new phase
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
+    @Override
+    public void sendNewPhase(Phase phase) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
+        SendNewPhase func = new SendNewPhase(phase, messageHandler);
+        func.handle();
+    }
+
+    /**
+     * Method that handles the messages to send the username of the winner / the usernames of the winners (in case of draw)
+     * @param names represents the usernames to be sent
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
+     */
+    @Override
+    public void sendWinner(ArrayList<String> names) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
+        SendWinner func = new SendWinner(names, messageHandler);
+        func.handle();
+    }
+
+    /**
+     * Method that handles the messages to send the context to the players not currently playing
+     * A context is sent to the players not currently playing to inform them of the phase in which the current player is
+     * or to update their view
+     * @param context represents the context to send
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
+     */
+    @Override
     public void sendContext(String context) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
         SendContext func = new SendContext(context, messageHandler);
         func.handle();
     }
 
     /**
-     * Method that handles the messages to set a new current player
-     * @param player represents the new current player
+     * Method that handles the messages to send the username of the current player
+     * @param player is the current player whose username will be sent
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    @Override
-    public void setCurrentPlayer(Player player) {
-        this.messageHandler = player.getMessageHandler();
-    }
-
     public void sendActiveUsername(Player player) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
         SendActiveUsername func = new SendActiveUsername(messageHandler, player);
         func.handle();
     }
 
+    /**
+     * Method that handles the messages to send the username of a player to all others players
+     * @param player is the player whose username will be sent
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
+     */
     @Override
     public void sendUsername(Player player) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
         SendUsernames func = new SendUsernames(player, messageHandler);
         func.handle();
     }
 
+    /**
+     * Method that handles the messages to send the islands that have been merged
+     * @param mergedIslands is the arrayList containing the merged islands
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
+     */
+    @Override
     public void sendMergedIslands(ArrayList<Island> mergedIslands) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
         SendMergedIslands func = new SendMergedIslands(messageHandler, mergedIslands);
         func.handle();
     }
 
+    /**
+     * Method that handles the messages to send to a player his coins
+     * @param coins is the number of coins owned by the player
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
+     */
     @Override
     public void sendCoins(int coins) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
         SendCoins func = new SendCoins(messageHandler, coins);
         func.handle();
     }
 
+    /**
+     * Method that handles the messages to send the all characterCards at the start of the game
+     * @param card is the characterCard to be sent
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
+     */
     @Override
     public void sendCharacterCard(CharacterCard card) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
         SendCharacterCard func = new SendCharacterCard(messageHandler, card);
         func.handle();
     }
-}
 
+    /**
+     * Method used to set a new current player
+     * @param player represents the new current player
+     */
+    @Override
+    public void setCurrentPlayer(Player player) {
+        this.messageHandler = player.getMessageHandler();
+    }
+}

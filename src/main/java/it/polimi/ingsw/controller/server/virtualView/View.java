@@ -53,7 +53,6 @@ public interface View{
      */
     void updateDashboards(Gamer gamer, Game game) throws MalformedMessageException, ClientDisconnectedException, FlowErrorException;
 
-
     /**
      * Method that handles the messages to update the location of motherNature
      * @param island represents the location of motherNature
@@ -204,12 +203,6 @@ public interface View{
     void sendContext(String context) throws FlowErrorException, MalformedMessageException,  ClientDisconnectedException;
 
     /**
-     * Method used to set a new current player
-     * @param player represents the new current player
-     */
-    void setCurrentPlayer(Player player);
-
-    /**
      * Method that handles the messages to send the username of the current player
      * @param player is the current player whose username will be sent
      * @throws ClientDisconnectedException when the player disconnects from the game
@@ -253,4 +246,10 @@ public interface View{
      * @throws MalformedMessageException when a received message isn't correct
      */
     void sendCharacterCard(CharacterCard card) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
+
+    /**
+     * Method used to set a new current player
+     * @param player represents the new current player
+     */
+    void setCurrentPlayer(Player player);
 }
