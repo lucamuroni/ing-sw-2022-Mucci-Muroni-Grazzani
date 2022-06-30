@@ -11,7 +11,7 @@ import java.util.Random;
  */
 //TODO : rimuovere 2 studenti per colore
 public class Bag {
-    private ArrayList<Student> students;
+    private final ArrayList<Student> students;
 
     /**
      * Class constructor
@@ -28,9 +28,9 @@ public class Bag {
     }
 
     /**
-     * Method that pulls the students from the bag
+     * Method that pulls students from the bag
      * @param number represents how many students has to be pulled
-     * @return the pulled students
+     * @return pulled students
      */
     public ArrayList<Student> pullStudents(int number){
         ArrayList<Student> results = new ArrayList<Student>(number);
@@ -47,7 +47,7 @@ public class Bag {
     }
 
     /**
-     * Method that pushes students in the bag
+     * Method that pushes a student into the bag
      * @param student represents the student that has to be pushed
      */
     public void pushStudent(Student student){
@@ -56,7 +56,7 @@ public class Bag {
 
     /**
      * Method that checks if the bag is empty
-     * @return true if the bag is empty, false if the bag isn't empty
+     * @return true if the bag is empty, false iotherwise
      */
     public boolean isEmpty() {
         return this.students.isEmpty();

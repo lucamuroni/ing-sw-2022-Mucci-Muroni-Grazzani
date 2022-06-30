@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.pawn;
 /**
  * @author Sara Mucci
  * @author Davide Grazzani
- * Class that implements a pawn (student-professor).
+ * Class that implements a pawn (student, professor).
  */
 
 abstract class Pawn {
@@ -11,15 +11,15 @@ abstract class Pawn {
 
     /**
      * Class constructor.
-     * @param color represent the pawn color.
+     * @param color represent the color of pawn
      */
     public Pawn(PawnColor color) {
         this.color = color;
     }
 
     /**
-     * Getter method
-     * @return pawn color
+     * Method used to get the color of the pawn
+     * @return the color of the pawn
      */
     public PawnColor getColor() {
         return this.color;

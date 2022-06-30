@@ -14,10 +14,10 @@ public class Island{
     private int numTowers;
     private final ArrayList<Student> students;
     private Optional<Gamer> owner;
-    private int id;
+    private final int id;
 
     /**
-     * Builder of the class.
+     * Constructor of the class
      * Initiate the number of towers, the array of Students and the owner of the island(s)
      * @param id is the unique id (1 to 12) given to an island
      */
@@ -29,15 +29,15 @@ public class Island{
     }
 
     /**
-     * Method to add Students to the Island
-     * @param student the student to be added
+     * Method to add students to an island
+     * @param student represents the student to be added
      */
     public void addStudents(Student student){
         this.students.add(student);
     }
 
     /**
-     * Method to merge 2 different islands (or group of islands) whose owner is shared
+     * Method used to merge 2 different islands (or group of islands) whose owner is shared
      * @param island represent the island that is going to be merged
      */
     public void mergeIsland(Island island){
@@ -54,26 +54,26 @@ public class Island{
     }
 
     /**
-     * Method used to get the Students on the island
-     * @return the ArrayList of Students on the island
+     * Method used to get the students on an island
+     * @return the arrayList of students on an island
      */
     public ArrayList<Student> getStudents(){
         return this.students;
     }
 
     /**
-     * Method to set the owner of the island(s)
-     * @param gamer is the gamer that will own the island
+     * Method used to set the owner of an island(s)
+     * @param gamer represents the new owner of an island
      */
     public void setOwner(Gamer gamer){
         this.owner = Optional.of(gamer);
     }
 
     /**
-     * Method to calculate the influence of a player given the ArrayList of colors taken from the list of professors that the gamer itself owns.
+     * Method used to calculate the influence of a gamer given the arrayList of colors taken from the list of professors that the gamer itself owns
      * This method would not calculate additional influence points given from the presence of towers
      * @param colors represents the colors on which you want to calculate the influence
-     * @return an int that represent the influence of the gamer but without considering towers additional influence points
+     * @return an int that represent the influence of the gamer but without considering towers' additional influence points
      */
     public int getInfluenceByColor(ArrayList<PawnColor> colors){
         int result = 0;
@@ -83,21 +83,21 @@ public class Island{
 
     /**
      * Method used to return the current owner of the island
-     * @return the owner of the island as Optional
+     * @return the owner of the island (if present)
      */
     public Optional<Gamer> getOwner(){
         return this.owner;
     }
 
     /**
-     * Method for adding a tower to the island
+     * Method used to add a tower to an island
      */
     public void addTower(){
         this.numTowers += 1;
     }
 
     /**
-     * Method to get the id associated to the island
+     * Method used to get the id associated with an island
      * @return the associated id
      */
     public Integer getId(){

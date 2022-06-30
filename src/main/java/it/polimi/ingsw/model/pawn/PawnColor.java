@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.pawn;
 /**
  * @author Sara Mucci
  * @author Davide Grazzani
- * Class that represents the color that a pawn (student-professor) can have.
+ * Class that represents the possible colors of a pawn (student, professor)
  */
 public enum PawnColor {
     BLUE("blue"),
@@ -12,12 +12,15 @@ public enum PawnColor {
     RED("red"),
     GREEN("green");
 
-    private String nameColor;
-    private PawnColor(String nameColor){
+    private final String nameColor;
+    PawnColor(String nameColor){
         this.nameColor = nameColor;
     }
 
-
+    /**
+     * Method used to get the name of the color
+     * @return the name of the color
+     */
     @Override
     public String toString() {
         return nameColor;

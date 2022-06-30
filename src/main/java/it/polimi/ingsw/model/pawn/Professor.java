@@ -12,7 +12,7 @@ public class Professor extends Pawn {
 
     /**
      * Class constructor.
-     * @param color represents the professor's color.
+     * @param color represents the color of professor
      */
     public Professor (PawnColor color) {
         super(color);
@@ -20,16 +20,16 @@ public class Professor extends Pawn {
     }
 
     /**
-     * Setter method
-     * @param owner represents the professor's new owner.
+     * Method used to set the owner of a professor
+     * @param owner represents the new owner of the professor
      */
     public void setOwner(Gamer owner) {
         this.owner = Optional.of(owner);
     }
 
     /**
-     * Getter method
-     * @return the professor owner.
+     * Gmethod used to get the owner of a professor
+     * @return the owner of a professor
      */
     public Optional<Gamer> getOwner() {
         return this.owner;

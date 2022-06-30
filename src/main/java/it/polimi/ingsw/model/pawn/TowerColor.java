@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.pawn;
 
 /**
  * @author Davide Grazzani
- * Class that represents the color associated to a gamer
+ * Class that represents the possible colors of a tower associated with a gamer
  */
 public enum TowerColor {
     BLACK("black", 'B'),
@@ -16,20 +16,24 @@ public enum TowerColor {
      * Class constructor
      * @param color represents the color associated to a gamer
      */
-    private TowerColor(String color,char acronym){
+    TowerColor(String color,char acronym){
         this.color = color;
         this.acronym = acronym;
     }
 
     /**
-     * Method that returns the color as a string
-     * @return the color as a string
+     * Method that returns the name of the color
+     * @return the name of the color
      */
     @Override
     public String toString() {
         return this.color;
     }
 
+    /**
+     * Method used to get the acronym of a color
+     * @return the acronym of a color
+     */
     public char getAcronym(){
         return this.acronym;
     }

@@ -7,13 +7,11 @@ package it.polimi.ingsw.model.pawn;
  */
 
 public class Student extends Pawn {
-
     /**
-     * Class constructor.
-     * @param color represent student color.
+     * Class constructor
+     * @param color represents the color of the student
      */
     public Student(PawnColor color) {
         super(color);
     }
-
 }

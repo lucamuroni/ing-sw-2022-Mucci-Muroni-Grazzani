@@ -8,8 +8,8 @@ import it.polimi.ingsw.model.pawn.TowerColor;
 import java.util.ArrayList;
 
 /**
- * Class that represents a player in the expert game's version
  * @author Luca Muroni
+ * Class that represents a player in the expert game's version
  */
 public class ExpertGamer extends Gamer {
     private ExpertDashboard expertDashboard;
