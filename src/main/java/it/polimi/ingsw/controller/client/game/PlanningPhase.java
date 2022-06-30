@@ -11,6 +11,11 @@ import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
 
+/**
+ * @author Luca Muroni
+ * This class implements the first phase of the game, which is the planning phase, where all the players choose
+ *  * an AssistantCard to be played
+ */
 public class PlanningPhase implements GamePhase {
     private final Game game;
     private final ViewHandler view;
@@ -18,6 +23,10 @@ public class PlanningPhase implements GamePhase {
     private final ClientController controller;
     private boolean initView;
 
+    /**
+     * Constructor of the class
+     * @param controller is the controller of client side
+     */
     public PlanningPhase(ClientController controller) {
         this.controller = controller;
         this.game = controller.getGame();
@@ -26,6 +35,9 @@ public class PlanningPhase implements GamePhase {
         this.setInitView(false);
     }
 
+    /**
+     * This is the main method that handles the PlanningPhase
+     */
     @Override
     public void handle() {
         if(this.initView){
@@ -54,11 +66,19 @@ public class PlanningPhase implements GamePhase {
         }
     }
 
+    /**
+     * This method changes the phase to the next one
+     * @return the next GamePhase
+     */
     @Override
     public GamePhase next() {
         return new Idle(this.controller);
     }
 
+    /**
+     * Method used to set visible the view
+     * @param bool is false when called by PlanningPhase, true when called by idle after PlanningPhase has been concluded
+     */
     public void setInitView(boolean bool){
         this.initView = bool;
     }
