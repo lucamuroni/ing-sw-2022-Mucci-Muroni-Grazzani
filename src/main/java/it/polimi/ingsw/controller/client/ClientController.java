@@ -121,10 +121,17 @@ public class ClientController {
         return this.game;
     }
 
+    /**
+     * Setter method used to power off the client after ending a game
+     */
     public synchronized void setGameOff(){
         this.isGameOn = false;
     }
 
+    /**
+     * Getter method
+     * @return true if the game is still going on
+     */
     private synchronized boolean getGameStatus(){
         return this.isGameOn;
     }
