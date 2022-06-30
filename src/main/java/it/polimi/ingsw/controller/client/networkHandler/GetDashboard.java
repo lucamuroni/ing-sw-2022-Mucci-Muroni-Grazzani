@@ -9,14 +9,15 @@ import it.polimi.ingsw.model.pawn.Student;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Gamer;
+
 import java.util.ArrayList;
-import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
+
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
  * @author Luca Muroni
  * @author Sara Mucci
- * Class that updates the dashboards in the view
+ * This class is used to get infos about dashboards
  */
 public class GetDashboard {
     MessageHandler messageHandler;
@@ -27,9 +28,9 @@ public class GetDashboard {
     ArrayList<PawnColor> professors;
 
     /**
-     * Class constructor
-     * @param messageHandler represents the messageHandler used for the message
-     * @param game represents the current game
+     * Constructor of the class
+     * @param messageHandler is the handler of messages
+     * @param game is the current game
      */
     public GetDashboard(MessageHandler messageHandler, Game game) {
         this.messageHandler = messageHandler;
@@ -40,11 +41,12 @@ public class GetDashboard {
     }
 
     /**
-     * Method that handles the update of the dashboards in the view
-     * @throws ClientDisconnectedException launched if the client disconnects from the game
-     * @throws MalformedMessageException launched if the message isn't created in the correct way
+     * Method that handles the exchange of messages
+     * @throws AssetErrorException when an object of the game isn't found in the asset
+     * @throws MalformedMessageException when a received message isn't correct
+     * @throws ClientDisconnectedException when the player disconnects from the game
      */
-    public void handle() throws ClientDisconnectedException, MalformedMessageException, AssetErrorException {
+    public void handle() throws AssetErrorException, MalformedMessageException, ClientDisconnectedException {
         this.messageHandler.read();
         int result = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(OWNER.getFragment()));
         Gamer gamer = null;

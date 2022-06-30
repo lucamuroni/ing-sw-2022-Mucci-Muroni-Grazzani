@@ -9,14 +9,15 @@ import it.polimi.ingsw.model.pawn.Student;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Cloud;
 import it.polimi.ingsw.view.asset.game.Game;
+
 import java.util.ArrayList;
-import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
+
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
  * @author Luca Muroni
  * @author Sara Mucci
- * Class that updates the clouds' status in the view
+ * This class is used to get the infos about clouds
  */
 public class GetCloudStatus {
     MessageHandler messageHandler;
@@ -24,9 +25,9 @@ public class GetCloudStatus {
     Game game;
 
     /**
-     * Class constructor
-     * @param messageHandler represents the messageHandler used for the message
-     * @param game represents the current game
+     * Constructor of the class
+     * @param messageHandler is the handler of messages
+     * @param game is the current game
      */
     public GetCloudStatus(MessageHandler messageHandler, Game game) {
         this.messageHandler = messageHandler;
@@ -35,11 +36,12 @@ public class GetCloudStatus {
     }
 
     /**
-     * Method that handles the messages to update the clouds' status
-     * @throws ClientDisconnectedException launched if the client disconnects from the game
-     * @throws MalformedMessageException launched if the message isn't created in the correct way
+     * Method that handles the exchange of messages
+     * @throws AssetErrorException when an object of the game isn't found in the asset
+     * @throws MalformedMessageException when a received message isn't correct
+     * @throws ClientDisconnectedException when the player disconnects from the game
      */
-    public void handle() throws ClientDisconnectedException, MalformedMessageException, AssetErrorException {
+    public void handle() throws AssetErrorException, MalformedMessageException, ClientDisconnectedException {
         this.messageHandler.read();
         String id = this.messageHandler.getMessagePayloadFromStream(CLOUD_ID.getFragment());
         int result = Integer.parseInt(id);

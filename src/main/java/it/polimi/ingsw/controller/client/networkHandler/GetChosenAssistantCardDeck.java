@@ -8,17 +8,16 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.asset.game.Game;
 import it.polimi.ingsw.view.asset.game.Gamer;
-import static it.polimi.ingsw.controller.networking.messageParts.ConnectionTimings.PLAYER_MOVE;
+
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
  * @author Luca Muroni
- * @author Sara Mucci
  * Class that implements the messages to get the choosen card deck the current player chooses (to update the view)
  */
 public class GetChosenAssistantCardDeck {
-    private MessageHandler messageHandler;
-    private Game game;
+    private final MessageHandler messageHandler;
+    private final Game game;
     private AssistantCardDeckFigures deck;
 
     /**
@@ -33,10 +32,11 @@ public class GetChosenAssistantCardDeck {
 
     /**
      * Method that handles the messages to get the chosen deck
-     * @throws ClientDisconnectedException launched if the client disconnects from the game
-     * @throws MalformedMessageException launched if the message isn't created in the correct way
+     * @throws AssetErrorException when an object of the game isn't found in the asset
+     * @throws MalformedMessageException when a received message isn't correct
+     * @throws ClientDisconnectedException when the player disconnects from the game
      */
-    public void handle() throws ClientDisconnectedException, MalformedMessageException, AssetErrorException {
+    public void handle() throws AssetErrorException, MalformedMessageException, ClientDisconnectedException {
         this.messageHandler.read();
         int id = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(OWNER.getFragment()));
         Gamer owner = null;
