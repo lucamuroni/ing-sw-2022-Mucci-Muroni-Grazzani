@@ -63,7 +63,7 @@ public class ClientController {
      */
     private void run(){
         GamePhase phase = new ConnectionPhase(this);
-        while (phase.next()!=null){
+        while (phase.next()!= null){
             phase.handle();
             phase = phase.next();
         }

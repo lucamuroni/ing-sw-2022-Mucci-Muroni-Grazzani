@@ -37,6 +37,7 @@ public class Idle implements GamePhase{
         this.network = this.controller.getNetwork();
         this.view = this.controller.getViewHandler();
         this.isGameStarted = true;
+        nextPhase = new Idle(controller);
     }
 
     /**
