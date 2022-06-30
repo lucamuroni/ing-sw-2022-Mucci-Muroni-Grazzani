@@ -1,20 +1,15 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.controller.client.ClientController;
-import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.server.Server;
-import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.cli.AnsiColor;
 import it.polimi.ingsw.view.cli.Cli;
 
-import java.io.IOException;
-import java.net.Socket;
-
 public class Launcher {
     private final static int portNumber = 17946;
     private final static String ip = "localhost";
-    
+
     public static void main(String[] args){
         Launcher launcher = new Launcher();
         if(args.length <= 1){
