@@ -16,6 +16,8 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CONTEXT_PHASE;
 
 /**
+ * @author Luca Muroni
+ * @author Davide Grazzani
  * This class implements the first part of the third phase of the game, which is the MotherNaturePhase, and in particular this part
  * handles the movement of MotherNature
  */
@@ -78,7 +80,7 @@ public class MotherNaturePhase implements GamePhase{
     }
 
     /**
-     * This method handles the movement of MN, and it is called in handle()
+     * This method handles the movement of motherNature, and it is called in handle()
      * @param player represents the currentPlayer that is playing
      */
     private void moveMotherNature(Player player) {

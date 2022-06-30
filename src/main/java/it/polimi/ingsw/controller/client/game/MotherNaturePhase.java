@@ -12,12 +12,21 @@ import it.polimi.ingsw.view.asset.game.Island;
 
 import java.util.ArrayList;
 
+/**
+ * @author Luca Muroni
+ * This class implements the first part of the third phase of the game, which is the MotherNaturePhase, and in particular this part
+ * handles the movement of MotherNature
+ */
 public class MotherNaturePhase implements GamePhase{
     private final Game game;
     private final Network network;
     private final ViewHandler view;
     private final ClientController controller;
 
+    /**
+     * Constructor of the class
+     * @param controller is the controller of client side
+     */
     public MotherNaturePhase(ClientController controller) {
         this.game = controller.getGame();
         this.controller = controller;
@@ -25,6 +34,9 @@ public class MotherNaturePhase implements GamePhase{
         this.network = this.controller.getNetwork();
     }
 
+    /**
+     * This is the main method that handles the MotherNaturePhase
+     */
     @Override
     public void handle() {
         ArrayList<Island> islands = new ArrayList<>();
@@ -49,9 +61,12 @@ public class MotherNaturePhase implements GamePhase{
         } catch (MalformedMessageException | FlowErrorException e) {
             this.controller.handleError();
         }
-        //this.game.setMotherNaturePosition(island);
     }
 
+    /**
+     * This method changes the phase to the next one
+     * @return the next GamePhase
+     */
     @Override
     public GamePhase next() {
         return new Idle(this.controller);
