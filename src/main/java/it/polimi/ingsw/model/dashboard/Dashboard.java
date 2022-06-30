@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class Dashboard {
     protected ArrayList<Student> waitingRoom;
     protected int towers;
-    public ArrayList<Student> hall;
+    protected ArrayList<Student> hall;
 
     /**
      * Class builder

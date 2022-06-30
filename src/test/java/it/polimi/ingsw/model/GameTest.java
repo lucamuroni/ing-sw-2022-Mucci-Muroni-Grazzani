@@ -109,8 +109,8 @@ class GameTest{
         gamer1.initGamer(students, 7);
         Gamer gamer2 = new Gamer(456, "nome2",TowerColor.GREY);
         gamer2.initGamer(students, 7);
-        gamer1.getDashboard().hall.add(student);
-        gamer2.getDashboard().hall.add(student1);
+        gamer1.getDashboard().getHall().add(student);
+        gamer2.getDashboard().getHall().add(student1);
         gamers.add(gamer1);
         gamers.add(gamer2);
         assertEquals(2, gamers.size());
@@ -177,8 +177,8 @@ class GameTest{
         assertEquals(gamer2, game.checkIslandOwner().get());
         Student student3 = new Student(PawnColor.BLUE);
         Student student4 = new Student(PawnColor.BLUE);
-        gamer2.getDashboard().hall.add(student3);
-        gamer2.getDashboard().hall.add(student4);
+        gamer2.getDashboard().getHall().add(student3);
+        gamer2.getDashboard().getHall().add(student4);
         assertEquals(4, gamer2.getDashboard().checkInfluence(PawnColor.BLUE));
         assertEquals(gamer2, game.checkIslandOwner().get());
 
@@ -193,9 +193,9 @@ class GameTest{
         gamer1.initGamer(students, 6);
         Gamer gamer2 = new Gamer(456, "nome2",TowerColor.GREY);
         gamer2.initGamer(students, 6);
-        gamer1.getDashboard().hall.add(student);
+        gamer1.getDashboard().getHall().add(student);
         gamer1.getDeck().setCurrentSelection(AssistantCard.LEOPARD);
-        gamer2.getDashboard().hall.add(student1);
+        gamer2.getDashboard().getHall().add(student1);
         gamer2.getDeck().setCurrentSelection(AssistantCard.CAT);
         gamers.add(gamer1);
         gamers.add(gamer2);
