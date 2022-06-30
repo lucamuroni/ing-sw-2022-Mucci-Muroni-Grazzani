@@ -14,15 +14,15 @@ class BagTest {
         ArrayList<Student> students = new ArrayList<>(bag.pullStudents(3));
         assertEquals(3,students.size());
         System.out.println("generic pull completed");
-        students.addAll(bag.pullStudents(130));
-        assertEquals(130,students.size());
+        students.addAll(bag.pullStudents(120));
+        assertEquals(120, students.size());
         System.out.println("pull with overflow value completed");
         students.addAll(bag.pullStudents(15));
-        assertEquals(130,students.size());
+        assertEquals(120,students.size());
         System.out.println("dry pull completed");
         for(PawnColor color : PawnColor.values()){
             int numStudents = Math.toIntExact(students.stream().filter(x -> x.getColor().equals(color)).count());
-            assertEquals(26,numStudents);
+            assertEquals(24, numStudents);
         }
         System.out.println("test on students completed");
     }
@@ -52,6 +52,4 @@ class BagTest {
         bag.pullStudents(130);
         assertTrue(bag.isEmpty());
     }
-
-
 }
