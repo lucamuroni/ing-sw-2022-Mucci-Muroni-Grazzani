@@ -167,7 +167,6 @@ class GameTest{
         ArrayList<PawnColor> colors = new ArrayList<>();
         colors.add(PawnColor.BLUE);
         assertEquals(1, islandToCheck.getInfluenceByColor(colors));
-        //TODO: aggiustare metodo
         assertEquals(game.checkIslandOwner(), Optional.of(game.getCurrentPlayer()));
         game.getMotherNature().getPlace().setOwner(gamer2);
         game.getMotherNature().getPlace().addStudents(new Student(PawnColor.BLUE));
@@ -350,14 +349,14 @@ class GameTest{
         gamers3.add(gamer5);
         gamers3.add(gamer6);
         Game game3 = new Game(gamers3);
-        /*gamer5.initGamer(students, 6);
+        gamer5.initGamer(students, 6);
         gamer6.initGamer(students, 6);
         game.getProfessors().get(0).setOwner(gamer5);
         game.getProfessors().get(1).setOwner(gamer5);
         game.getProfessors().get(2).setOwner(gamer5);
         game.getProfessors().get(3).setOwner(gamer6);
         game.getProfessors().get(4).setOwner(gamer6);
-        assertEquals(gamer5, game3.checkWinner().get(0));*/
+        assertEquals(gamer5, game3.checkWinner().get(0));
     }
 
     @Test
