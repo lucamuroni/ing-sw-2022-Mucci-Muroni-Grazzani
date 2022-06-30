@@ -49,7 +49,6 @@ public class EndGamePage implements Page {
         }
         System.out.println("\n");
         System.out.println("Thank you for playing this game");
-        System.exit(0);
     }
 
     @Override

@@ -7,17 +7,29 @@ import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
 import it.polimi.ingsw.view.ViewHandler;
 
+/**
+ * Class used for handling initial connection between client and server, right before the start of a game
+ * @author Davide Grazzani
+ */
 public class ConnectionPhase implements GamePhase{
     private final ClientController controller;
     private final ViewHandler view;
     private final Network network;
 
+    /**
+     * Class constructor
+     * @param controller is the controller of the client (ClientController class)
+     */
     public ConnectionPhase(ClientController controller){
         this.controller = controller;
         this.view = this.controller.getViewHandler();
         this.network = this.controller.getNetwork();
     }
 
+    /**
+     * Main class method that handle initial connection with server, the broadcasting of player info (such as nickname or game type)
+     * and to await for a game to being started by server
+     */
     @Override
     public void handle() {
         synchronized (this){
@@ -59,6 +71,10 @@ public class ConnectionPhase implements GamePhase{
         this.view.lobbyFounded();
     }
 
+    /**
+     * Method used to link this GamePhase to the next one
+     * @return a new Start Phase
+     */
     @Override
     public GamePhase next() {
         return new Start(this.controller);
