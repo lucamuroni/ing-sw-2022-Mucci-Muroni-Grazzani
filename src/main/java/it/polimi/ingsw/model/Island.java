@@ -23,7 +23,7 @@ public class Island{
      */
     public Island(int id){
         this.numTowers = 0;
-        this.students = new ArrayList<Student>();
+        this.students = new ArrayList<>();
         this.owner = Optional.empty();
         this.id = id;
     }
@@ -76,7 +76,7 @@ public class Island{
      * @return an int that represent the influence of the gamer but without considering towers' additional influence points
      */
     public int getInfluenceByColor(ArrayList<PawnColor> colors){
-        int result = 0;
+        int result;
         result = Math.toIntExact(this.students.stream().filter(x -> colors.contains(x.getColor())).count());
         return result;
     }

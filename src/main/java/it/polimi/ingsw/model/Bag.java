@@ -18,7 +18,7 @@ public class Bag {
      */
     public Bag(){
         int numStudentsPerColor = 26;
-        this.students = new ArrayList<Student>();
+        this.students = new ArrayList<>();
         for(PawnColor color : PawnColor.values()){
             for(int i=0; i<numStudentsPerColor; i++){
                 Student student = new Student(color);
@@ -33,7 +33,7 @@ public class Bag {
      * @return pulled students
      */
     public ArrayList<Student> pullStudents(int number){
-        ArrayList<Student> results = new ArrayList<Student>(number);
+        ArrayList<Student> results = new ArrayList<>(number);
         Random randomIndexGen = new Random();
         int selectedIndex;
         for(int i = 0; i<number;i++){
