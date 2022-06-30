@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
+ * @author Luca Muroni
+ * @author Davide Grazzani
  * This class implements the first phase of the game, which is the planning phase, where all the players choose
  * an AssistantCard to be played
  */
@@ -142,7 +144,7 @@ public class PlanningPhase implements GamePhase{
             }
         }catch (MalformedMessageException | ClientDisconnectedException e){
             this.controller.handlePlayerError(player,"Error while getting the chose assistant card");
-        }//TODO controllare correttezza
+        }
         this.sendInfo(player, result);
         currentPlayer.getDeck().setPastSelection();
         currentPlayer.getDeck().setCurrentSelection(result);

@@ -12,12 +12,11 @@ import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
-
 /**
+ * @author Davide Grazzani
  * This class implements the second part of the third phase of the game, which is the MotherNaturePhase, and in particular this part
  * handles the conquest of an island
  */
@@ -30,7 +29,7 @@ public class ConquerIslandPhase implements GamePhase{
     /**
      * Constructor of the class
      * @param game represents the current game
-     * @param controller represents the controller link with this game
+     * @param controller represents the controller linked with this game
      */
     public ConquerIslandPhase(Game game, GameController controller){
         this.game = game;
@@ -44,13 +43,12 @@ public class ConquerIslandPhase implements GamePhase{
      */
     @Override
     public void handle() {
-        Optional<Gamer> owner;
         int index;
         if(target != null){
-            owner = this.game.checkIslandOwner(target);
+            this.game.checkIslandOwner(target);
             index = this.game.getIslands().indexOf(target);
         }else{
-            owner = this.game.checkIslandOwner();
+            this.game.checkIslandOwner();
             index = this.game.getIslands().indexOf(this.game.getMotherNature().getPlace());
         }
         if(!this.game.getIslands().get(index).getId().equals(this.game.getIslands().get(0).getId())){
@@ -137,10 +135,15 @@ public class ConquerIslandPhase implements GamePhase{
         return new ActionPhase3(this.game,this.controller);
     }
 
+    /**
+     * Method called by handle() to check if two islands must be merged
+     * @param id1 is the first island, the one where motherNature is on
+     * @param id2 is the second island
+     */
     private void mergeIsland(int id1, int id2){
         if(this.game.getIslands().get(id1).getOwner().isPresent() && this.game.getIslands().get(id1).getOwner().equals(this.game.getIslands().get(id2).getOwner())){
             this.game.getIslands().get(id1).mergeIsland(this.game.getIslands().get(id2));
-            ArrayList<Island> islands = new ArrayList<Island>();
+            ArrayList<Island> islands = new ArrayList<>();
             islands.add(this.game.getIslands().get(id1));
             islands.add(this.game.getIslands().get(id2));
             for(Player player : this.controller.getPlayers()){
@@ -161,6 +164,10 @@ public class ConquerIslandPhase implements GamePhase{
         }
     }
 
+    /**
+     * Method used when the characterCard ambassador is played
+     * @param island is the island chosen by the currentPlayer
+     */
     public void setTarget(Island island){
         this.target = island;
     }

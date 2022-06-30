@@ -50,6 +50,7 @@ public class GetPossibleClouds {
                 if (result == cloud.getId()) {
                     clouds.add(cloud);
                     check = true;
+                    break;
                 }
             }
             if (!check)

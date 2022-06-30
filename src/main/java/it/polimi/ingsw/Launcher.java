@@ -1,72 +1,50 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.controller.client.ClientController;
-import it.polimi.ingsw.controller.networking.MessageHandler;
 import it.polimi.ingsw.controller.server.Server;
-import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.cli.AnsiColor;
 import it.polimi.ingsw.view.cli.Cli;
 
-import java.io.IOException;
-import java.net.Socket;
-
+/**
+ * Class used to start the program
+ * @author Davide Grazzani
+ */
 public class Launcher {
     private final static int portNumber = 17946;
     private final static String ip = "localhost";
 
-    public void standardLaunch(String[] args){
-        String[] array;
-        {
-            if(args.length <2){
-                printError();
-            }
-            if(args[1].equals("--help")){
-                System.out.println("Usage :");
-                System.out.println("-s       start a server");
-                System.out.println("-p       specify port for server or client      [OPTIONAL]");
-                System.out.println("-c       for starting client in default mode");
-                System.out.println("--cli    for starting client in cli mode        [OPTIONAL]");
-                System.out.println("--gui    for starting client in gui mode        [OPTIONAL,DEFAULT]");
-                System.out.println("Examples :");
-                System.out.println("Start a cli : -c --cli");
-                System.out.println("Start a server : -s");
-                System.exit(0);
-            }else if(args[1].equals("-s")){
-                array = new String[args.length-1];
-                for(int i = 1;i<args.length;i++){
-                    array[i-1] = args[i];
-                }
-                startServer(array);
-            }else if(args[1].equals("-c")){
-                array = new String[args.length-1];
-                for(int i = 1;i<args.length;i++){
-                    array[i-1] = args[i];
-                }
-                startClient(array);
-            }else{
-                printError();
-            }
-        }
-    }
-
     public static void main(String[] args){
-        //todo after test rimuovere if sotto e variabile debug
-        boolean debug = true;
-        if(debug){
-            if(args[0].equals("-s")){
-                Server s = new Server(17894);
-            }else{
-                ViewHandler viewHandler = new Cli();
-                ClientController c = new ClientController("localhost",17894,viewHandler);
-
-            }
+        Launcher launcher = new Launcher();
+        if(args.length <= 1){
+            launcher.printError("To few arguments");
+        } else if (args[1].equals("-s")) {
+            String[] arguments = new String[args.length-1];
+            System.arraycopy(args, 1, arguments, 0, args.length - 1);
+            launcher.startServer(arguments);
+        }else if(args[1].equals("-c")){
+            String[] arguments = new String[args.length-1];
+            System.arraycopy(args, 1, arguments, 0, args.length - 1);
+            launcher.startClient(arguments);
+        }else if(args[1].equals("--help")){
+            System.out.println("Usage :");
+            System.out.println("-s       start a server");
+            System.out.println("-c       for starting client in default mode");
+            System.out.println("-p       specify port for server or client      [OPTIONAL]");
+            System.out.println("-ip      specify ip address of server           [OPTIONAL]");
+            System.out.println("Examples :");
+            System.out.println("Start a cli : -c --cli");
+            System.out.println("Start a server : -s");
+            System.exit(0);
         }else{
-            Launcher launcher = new Launcher();
-            launcher.standardLaunch(args);
+            launcher.printError();
         }
     }
 
+    /**
+     * Method that contains a subset of instruction for launching the server
+     * @param args are the arguments passed from the command line
+     */
     private void startServer(String[] args){
         if(args.length == 0){
             Server s = new Server(portNumber);
@@ -85,23 +63,18 @@ public class Launcher {
         }
     }
 
+    /**
+     * Method that contains a subset of instruction for launching the client
+     * @param args are the arguments passed from the command line
+     */
     private void startClient(String[] args){
         if(args.length == 0){
-            //TODO rimpiazzare cli con gui
             ViewHandler viewHandler = new Cli();
             ClientController c = new ClientController(ip,portNumber,viewHandler);
         }else{
             int port = portNumber;
             String ip = Launcher.ip;
-            ViewHandler viewHandler = null;
-            if(args[0].equals("--gui")){
-                //todo crea una nuova gui
-                viewHandler = new Cli();
-            } else if (args[0].equals("--cli")) {
-                viewHandler = new Cli();
-            }else{
-                printError("Unexpected user interface"+"\n"+"Specify it whit --gui or --cli");
-            }
+            ViewHandler viewHandler = new Cli();
             for(int i = 1;i <args.length;i = i+2){
                 if ("-p".equals(args[i])) {
                     try {
@@ -118,7 +91,7 @@ public class Launcher {
                         printError("Expected ip after -ip");
                     }
                 }else{
-                    printError("Bad parameters"+"\n"+"Try --help for usage");
+                    printError();
                 }
             }
 
@@ -126,6 +99,10 @@ public class Launcher {
         }
     }
 
+    /**
+     * Method used to display an error message if some parameters are not recognizable by the program
+     * @param s is a string with a more detailed error
+     */
     private void printError(String s){
         if(s!=null){
             System.out.println(AnsiColor.RED.toString()+s+AnsiColor.RED.toString());

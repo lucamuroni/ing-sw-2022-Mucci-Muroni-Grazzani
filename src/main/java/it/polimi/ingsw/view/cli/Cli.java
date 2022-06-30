@@ -22,8 +22,6 @@ import java.util.Scanner;
  * Class that represents the cli for the game
  */
 public class Cli implements ViewHandler {
-    //TODO : capita ogni tanto modelErrorException lato server action Phase 1 riga 100
-    private final String os;
     private ClientController controller;
     private boolean pageHasChanged;
     private Page currentPage;
@@ -38,7 +36,6 @@ public class Cli implements ViewHandler {
      * Class constructor
      */
     public Cli(){
-        this.os = System.getProperty("os.name");
         this.currentPage = new LoadingPage(this);
         this.pageHasChanged = true;
         this.scanner = new Scanner(System.in);
@@ -76,16 +73,8 @@ public class Cli implements ViewHandler {
      * Method that clears the cli
      */
     public void clearConsole(){
-        if(os.contains("Windows")){
-            try {
-                Runtime.getRuntime().exec("cls");
-            } catch (IOException e) {
-                System.out.println(AnsiColor.RED.toString()+"System Error : could not clear the console");
-            }
-        }else{
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
-        }
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 
     /**
@@ -326,7 +315,7 @@ public class Cli implements ViewHandler {
 
     @Override
     public void goToIdle() {
-        Page p = new IdlePage(this,this.archipelago,this.clouds,this.dashBoards);
+        Page p = new IdlePage(this,this.archipelago);
         this.changePage(p);
         while(!p.isReadyToProceed()){
             synchronized (this){

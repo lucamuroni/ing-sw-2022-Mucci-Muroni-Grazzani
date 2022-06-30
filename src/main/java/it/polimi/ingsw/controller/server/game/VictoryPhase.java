@@ -5,7 +5,6 @@ import it.polimi.ingsw.controller.networking.Player;
 import it.polimi.ingsw.controller.networking.exceptions.ClientDisconnectedException;
 import it.polimi.ingsw.controller.networking.exceptions.FlowErrorException;
 import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageException;
-import it.polimi.ingsw.controller.server.game.exceptions.ModelErrorException;
 import it.polimi.ingsw.controller.server.virtualView.View;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
@@ -15,13 +14,15 @@ import java.util.ArrayList;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CONTEXT_PHASE;
 
 /**
+ * @author Luca Muroni
+ * @author Davide Grazzani
  * This class represents the winning phase, and the GameController goes into this phase only if a winningCondition has been checked
  */
 public class VictoryPhase implements GamePhase{
     private final Game game;
     private final GameController controller;
     private final View view;
-    private ArrayList<String> names;
+    private final ArrayList<String> names;
 
     /**
      * Constructor of the class
@@ -73,13 +74,17 @@ public class VictoryPhase implements GamePhase{
     }
 
     /**
-     * This method changes the phase to the next one
-     * @return the next GamePhase
+     * This method changes the phase to the next one, but this is the last phase, so basically there isn't a call to this
+     * method from someone
+     * @return null
      */
     public GamePhase next() {
         return null;
     }
 
+    /**
+     * Method used when a client disconnect from the game
+     */
     public void setError(){
         this.names.add("Error");
     }

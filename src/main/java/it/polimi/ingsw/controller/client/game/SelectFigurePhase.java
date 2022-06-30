@@ -11,16 +11,29 @@ import it.polimi.ingsw.view.asset.game.Game;
 
 import java.util.ArrayList;
 
+/**
+ * @author Luca Muroni
+ * This class implements the phase before the start of the game, which is DeckPhase, where the currentPlayer chooses a
+ * deck of AssistantCards
+ */
 public class SelectFigurePhase implements GamePhase{
     private final ViewHandler view;
     private final Network network;
     private final ClientController controller;
 
+    /**
+     * Constructor of the class
+     * @param controller is the controller of client side
+     */
     public SelectFigurePhase(ClientController controller) {
         this.controller = controller;
         this.view = controller.getViewHandler();
         this.network = this.controller.getNetwork();
     }
+
+    /**
+     * This is the main method that handles the SelectFigurePhase
+     */
     @Override
     public void handle() {
         ArrayList<AssistantCardDeckFigures> figures = new ArrayList<>();
@@ -47,6 +60,10 @@ public class SelectFigurePhase implements GamePhase{
         }
     }
 
+    /**
+     * This method changes the phase to the next one
+     * @return the next GamePhase
+     */
     @Override
     public GamePhase next() {
         Idle phase = new Idle(this.controller);

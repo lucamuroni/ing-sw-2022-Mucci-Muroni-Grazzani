@@ -14,11 +14,12 @@ import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
 /**
+ * @author Luca Muroni
+ * @author Davide Grazzani
  * This class implements the fourth phase of the game, which is the ActionPhase3, where the currentPlayer chooses a cloud
  */
 public class ActionPhase3 implements GamePhase{
@@ -67,7 +68,6 @@ public class ActionPhase3 implements GamePhase{
             try {
                 this.choseCloud(this.controller.getPlayer(this.game.getCurrentPlayer()));
                 ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
-                //players.remove(this.controller.getPlayer(this.game.getCurrentPlayer()));
                 for (Player pl : players) {
                     this.view.setCurrentPlayer(pl);
                     try {
@@ -120,9 +120,12 @@ public class ActionPhase3 implements GamePhase{
             this.controller.handlePlayerError(player, "Error while getting the chosen cloud");
         }
         currentPlayer.selectCloud(chosenCloud);
-        //currentPlayer.getDashboard().addStudentsWaitingRoom(chosenCloud.pullStudent());
     }
 
+    /**
+     * Method called by handle() to get the arrayList of possible clouds where the player can choose from
+     * @return the arrayList of possible choices
+     */
     private ArrayList<Cloud> calculateChoices() {
         ArrayList<Cloud> clouds = new ArrayList<>();
         for (Cloud cloud : this.game.getClouds()) {
@@ -131,17 +134,6 @@ public class ActionPhase3 implements GamePhase{
             }
         }
         return clouds;
-    }
-
-    /**
-     * This method is called by chooseCloud() and it picks a random cloud when the player doesn't reply in time
-     * @param clouds is the ArrayList of possible choices
-     * @return a random cloud
-     */
-    private Cloud getRandomCloud(ArrayList<Cloud> clouds) {
-        Random random = new Random();
-        int rand = random.nextInt(0, clouds.size());
-        return clouds.get(rand);
     }
 
     /**

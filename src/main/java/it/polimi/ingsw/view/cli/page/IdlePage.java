@@ -17,17 +17,13 @@ public class IdlePage implements Page {
     private boolean killed = false;
     private final AsciiArchipelago archipelago;
     private final Cli cli;
-    private final ArrayList<AsciiCloud> clouds;
-    private final ArrayList<AsciiDashBoard> dashBoards;
     private String popUp;
     private boolean popUpSettled;
     private final Object popUpLock = new Object();
 
-    public IdlePage(Cli cli, AsciiArchipelago archipelago, ArrayList<AsciiCloud> clouds, ArrayList<AsciiDashBoard> dashBoards){
+    public IdlePage(Cli cli, AsciiArchipelago archipelago){
         this.cli = cli;
         this.archipelago = archipelago;
-        this.clouds = clouds;
-        this.dashBoards = dashBoards;
         this.killed = false;
         this.popUp = "";
         this.popUpSettled = false;
@@ -37,7 +33,6 @@ public class IdlePage implements Page {
     public void handle() throws UndoException {
         Thread t = new Thread(()->{
             int i = 0;
-            int popUpCounter = 0;
             while(!this.isKilled()){
                 if(i%5==0){
                     this.cli.clearConsole();
