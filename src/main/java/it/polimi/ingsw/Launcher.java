@@ -6,6 +6,10 @@ import it.polimi.ingsw.view.ViewHandler;
 import it.polimi.ingsw.view.cli.AnsiColor;
 import it.polimi.ingsw.view.cli.Cli;
 
+/**
+ * Class used to start the program
+ * @author Davide Grazzani
+ */
 public class Launcher {
     private final static int portNumber = 17946;
     private final static String ip = "localhost";
@@ -37,6 +41,10 @@ public class Launcher {
         }
     }
 
+    /**
+     * Method that contains a subset of instruction for launching the server
+     * @param args are the arguments passed from the command line
+     */
     private void startServer(String[] args){
         if(args.length == 0){
             Server s = new Server(portNumber);
@@ -55,6 +63,10 @@ public class Launcher {
         }
     }
 
+    /**
+     * Method that contains a subset of instruction for launching the client
+     * @param args are the arguments passed from the command line
+     */
     private void startClient(String[] args){
         if(args.length == 0){
             ViewHandler viewHandler = new Cli();
@@ -79,7 +91,7 @@ public class Launcher {
                         printError("Expected ip after -ip");
                     }
                 }else{
-                    printError("Bad parameters"+"\n"+"Try --help for usage");
+                    printError();
                 }
             }
 
@@ -87,6 +99,10 @@ public class Launcher {
         }
     }
 
+    /**
+     * Method used to display an error message if some parameters are not recognizable by the program
+     * @param s is a string with a more detailed error
+     */
     private void printError(String s){
         if(s!=null){
             System.out.println(AnsiColor.RED.toString()+s+AnsiColor.RED.toString());
