@@ -1,5 +1,7 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.pawn;
 
+import it.polimi.ingsw.model.Island;
+import it.polimi.ingsw.model.MotherNature;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

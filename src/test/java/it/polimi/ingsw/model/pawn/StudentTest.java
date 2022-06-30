@@ -1,10 +1,8 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.pawn;
 
-import it.polimi.ingsw.model.pawn.PawnColor;
-import it.polimi.ingsw.model.pawn.Student;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class StudentTest {
     @Test
