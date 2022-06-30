@@ -13,16 +13,16 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
 
 /**
  * @author Luca Muroni
- * Class that implements the message to send the color associated to the current player
+ * Class that implements the message to send the color of the tower associated with the current player
  */
 public class SendTowerColor {
     Gamer gamer;
     MessageHandler messageHandler;
 
     /**
-     * Class constructor
+     * Constructor of the class
      * @param gamer represents the current player
-     * @param messageHandler represents the messageHandler used for the message
+     * @param messageHandler is the handler of messages
      */
     public SendTowerColor(Gamer gamer, MessageHandler messageHandler){
         this.gamer = gamer;
@@ -30,12 +30,12 @@ public class SendTowerColor {
     }
 
     /**
-     * Method that handles the message exchange
-     * @throws MalformedMessageException launched if the message isn't created in the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects from the game
-     * @throws FlowErrorException launched when the client sends an unexpected response
+     * Method that handles the exchange of messages
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    public void handle() throws MalformedMessageException, ClientDisconnectedException, FlowErrorException {
+    public void handle() throws ClientDisconnectedException, FlowErrorException, MalformedMessageException {
         ArrayList<Message> messages = new ArrayList<>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
         messages.add(new Message(OWNER.getFragment(), String.valueOf(this.gamer.getToken()), topicId));

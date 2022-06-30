@@ -46,20 +46,6 @@ public class VirtualViewHandler implements View {
     }
 
     /**
-     * Method that handles the messages to update the status of more than one island (EG: when there is an archipelago)
-     * @param islands represents the islands to update
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     * @throws ClientDisconnectedException launched if the client disconnects
-     */
-    @Override
-    public void updateIslandStatus(ArrayList<Island> islands) throws MalformedMessageException, FlowErrorException, ClientDisconnectedException {
-        for(Island island : islands){
-            this.updateIslandStatus(island);
-        }
-    }
-
-    /**
      * Method that handles the messages to update the status of an island
      * @param island represents the island to update
      * @throws MalformedMessageException launched if the message isn't created the correct way
@@ -97,20 +83,6 @@ public class VirtualViewHandler implements View {
     public void updateCloudsStatus(Cloud cloud) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
         UpdateCloudsStatus func = new UpdateCloudsStatus(cloud, messageHandler);
         func.handle();
-    }
-
-    /**
-     * Method that handles the messages to update the status of the dashboards
-     * @param gamers represents the players
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     */
-    @Override
-    public void updateDashboards(ArrayList<Gamer> gamers, Game game) throws MalformedMessageException, ClientDisconnectedException, FlowErrorException {
-        for (Gamer gamer : gamers) {
-            this.updateDashboards(gamer, game);
-        }
     }
 
     /**
@@ -242,7 +214,7 @@ public class VirtualViewHandler implements View {
     }
 
     public void sendChosenCharacterCard(CharacterCard card, ExpertGamer currentGamer) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException {
-        SendChosenCharacterCard func = new SendChosenCharacterCard(card, currentGamer, messageHandler);
+        SendChosenCharacterCard func = new SendChosenCharacterCard(card, messageHandler);
         func.handle();
     }
 

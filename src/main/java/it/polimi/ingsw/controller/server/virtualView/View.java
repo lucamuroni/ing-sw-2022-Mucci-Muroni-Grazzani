@@ -26,201 +26,231 @@ import java.util.ArrayList;
  * Interface with all the messsages method executed by the server
  */
 public interface View{
-
     /**
      * Method that handles the messages to update the status of an island
      * @param island represents the island to update
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     * @throws ClientDisconnectedException launched if the client disconnects
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    public void updateIslandStatus(Island island) throws MalformedMessageException, FlowErrorException, ClientDisconnectedException;
+    void updateIslandStatus(Island island) throws MalformedMessageException, FlowErrorException, ClientDisconnectedException;
 
     /**
-     * Method that handles the messages to update the status of more than one island (EG: when there is an archipelago)
-     * @param islands represents the islands to update
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     * @throws ClientDisconnectedException launched if the client disconnects
-     */
-    public void updateIslandStatus(ArrayList<Island> islands) throws MalformedMessageException, FlowErrorException, ClientDisconnectedException;
-
-    /**
-     * Method that handles the messages to update the clouds' status (with only one cloud)
+     * Method that handles the messages to update the status of a cloud
      * @param cloud the cloud to update
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    public void updateCloudsStatus(Cloud cloud) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
+    void updateCloudsStatus(Cloud cloud) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
 
     /**
-     * Method that handles the messages to update the clouds' status (with more than one cloud)
-     * @param clouds the clouds to update
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
-     */
-    public void updateCloudsStatus(ArrayList<Cloud> clouds) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
-
-    /**
-     * Method that handles the messages to update the dashboards' status (with more than one dashboard)
-     * @param gamers represents the players
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     */
-    public void updateDashboards(ArrayList<Gamer> gamers, Game game) throws MalformedMessageException, ClientDisconnectedException, FlowErrorException;
-
-    /**
-     * Method that handles the messages to update the status of the dashboards (with one dashboard)
+     * Method that handles the messages to update the status of a dashboards
      * @param gamer represents the player
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
-     * @throws FlowErrorException launched when the client sends an unexpected response
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    public void updateDashboards(Gamer gamer, Game game) throws MalformedMessageException, ClientDisconnectedException, FlowErrorException;
+    void updateDashboards(Gamer gamer, Game game) throws MalformedMessageException, ClientDisconnectedException, FlowErrorException;
 
 
     /**
-     * Method that handles the messages to update the mother nature location
-     * @param island represents the new mother nature location
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
-     * @throws FlowErrorException launched when the client sends an unexpected response
+     * Method that handles the messages to update the location of motherNature
+     * @param island represents the location of motherNature
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    public void updateMotherNaturePlace(Island island) throws MalformedMessageException, ClientDisconnectedException, FlowErrorException;
-
-    public boolean getAnswer() throws MalformedMessageException, ClientDisconnectedException;
-
-    public CharacterCard getChosenCharacterCard(ExpertGame game, ArrayList<CharacterCard> cards) throws ModelErrorException, MalformedMessageException, ClientDisconnectedException;
+    void updateMotherNaturePlace(Island island) throws MalformedMessageException, ClientDisconnectedException, FlowErrorException;
 
     /**
-     * Method that handles the messages to get the assistant card deck the current player chooses
+     * Method that handles the messages to get the answer of the current player
+     * @return the answer of the player
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws MalformedMessageException when a received message isn't correct
+     */
+    boolean getAnswer() throws MalformedMessageException, ClientDisconnectedException;
+
+    /**
+     * Method that handles the messages to get the characterCard chosen by the current player
+     * @param game is the current game
+     * @param cards is the arrayList of possible cards to chose from
+     * @return the card chosen by the current player
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws ModelErrorException when there isn't an object with the same info received from the client
+     * @throws MalformedMessageException when a received message isn't correct
+     */
+    CharacterCard getChosenCharacterCard(ExpertGame game, ArrayList<CharacterCard> cards) throws ModelErrorException, MalformedMessageException, ClientDisconnectedException;
+
+    /**
+     * Method that handles the messages to get the assistantCardDeck the current player chooses
      * @param cardDeck represents the available decks
      * @return the chosen deck
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    public AssistantCardDeckFigures getChosenAssistantCardDeck(ArrayList<AssistantCardDeckFigures> cardDeck) throws MalformedMessageException, ClientDisconnectedException;
+    AssistantCardDeckFigures getChosenAssistantCardDeck(ArrayList<AssistantCardDeckFigures> cardDeck) throws MalformedMessageException, ClientDisconnectedException;
 
     /**
-     * Method that handles the messages to get the assistant card the current player chooses
+     * Method that handles the messages to get the assistantCard the current player chooses
      * @param cardsList represents the available cards
      * @return the chosen card
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    public AssistantCard getChosenAssistantCard(ArrayList<AssistantCard> cardsList) throws MalformedMessageException, ClientDisconnectedException;
+    AssistantCard getChosenAssistantCard(ArrayList<AssistantCard> cardsList) throws MalformedMessageException, ClientDisconnectedException;
 
     /**
-     *Method that handles the messages to get the color of the student the current player moves
+     * Method that handles the messages to get the color of the student the current player moves
      * @return the color of the moved student
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    public PawnColor getMovedStudentColor() throws MalformedMessageException, ClientDisconnectedException;
+    PawnColor getMovedStudentColor() throws MalformedMessageException, ClientDisconnectedException;
 
     /**
      * Method that handles the messages to get the location of the student the current player moves
      * @return the location of the moved student
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    public int getMovedStudentLocation() throws MalformedMessageException, ClientDisconnectedException;
+    int getMovedStudentLocation() throws MalformedMessageException, ClientDisconnectedException;
 
     /**
-     * Method that handles the messages to get the mother nature new location
+     * Method that handles the messages to get the new location of motherNature
      * @param islands represents the available islands
-     * @return the new mother nature location
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
+     * @return the new  location of motherNature
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    public Island getMNLocation(ArrayList<Island> islands) throws MalformedMessageException, ClientDisconnectedException;
+    Island getMNLocation(ArrayList<Island> islands) throws MalformedMessageException, ClientDisconnectedException;
 
     /**
      * Method that handles the messages to get the cloud chosen by the current player
      * @param clouds represents the available islands
      * @return the chosen island
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    public Cloud getChosenCloud(ArrayList<Cloud> clouds) throws MalformedMessageException, ClientDisconnectedException;
-
-    public void sendChosenCharacterCard(CharacterCard card, ExpertGamer currentGamer) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException ;
+    Cloud getChosenCloud(ArrayList<Cloud> clouds) throws MalformedMessageException, ClientDisconnectedException;
 
     /**
-     * Method that handles the messages to send the assistant card deck chosen by the current player
+     * Method that handles the messages to send the characterCard chosen by the current player
+     * @param card is the chosen characterCard
+     * @param currentGamer is the current player
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
+     */
+    void sendChosenCharacterCard(CharacterCard card, ExpertGamer currentGamer) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException ;
+
+    /**
+     * Method that handles the messages to send the assistantCardDeck chosen by the current player
      * @param deck represents the chosen deck
-     * @param token represents the token associated to the current player
+     * @param token represents the token associated with the current player
      * @param gamer represents the currentGamer
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    public void sendChosenAssistantCardDeck(AssistantCardDeckFigures deck, Integer token, Gamer gamer) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
+    void sendChosenAssistantCardDeck(AssistantCardDeckFigures deck, Integer token, Gamer gamer) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
 
     /**
-     * Method that handles the messages to send the assistant card chosen by the current player
+     * Method that handles the messages to send the assistantCard chosen by the current player
      * @param card represents the chosen card
-     * @param token represents the token associated to the current player
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
+     * @param token represents the token associated with the current player
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    public void sendChosenAssistantCard(AssistantCard card, Integer token) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
+    void sendChosenAssistantCard(AssistantCard card, Integer token) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
 
     /**
-     * Method that handles the messages to send the color of the current player
+     * Method that handles the messages to send the color of the tower associated with the current player
      * @param gamer represents the current player
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
-     * @throws FlowErrorException launched when the client sends an unexpected response
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    public void sendTowerColor(Gamer gamer) throws MalformedMessageException, ClientDisconnectedException, FlowErrorException;
+    void sendTowerColor(Gamer gamer) throws MalformedMessageException, ClientDisconnectedException, FlowErrorException;
 
     /**
      * Method that handles the messages to send the new phase to the current player
      * @param phase represents the new phase
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    public void sendNewPhase(Phase phase) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
+    void sendNewPhase(Phase phase) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
 
     /**
-     * Method that handles the message to send the username of the winner / the usernames of the winners (in case of a draw)
+     * Method that handles the messages to send the username of the winner / the usernames of the winners (in case of draw)
      * @param names represents the usernames to be sent
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    public void sendWinner(ArrayList<String> names) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
+    void sendWinner(ArrayList<String> names) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
 
     /**
-     * Method that handles the message to send the context to the players not currently playing
+     * Method that handles the messages to send the context to the players not currently playing
      * A context is sent to the players not currently playing to inform them of the phase in which the current player is
+     * or to update their view
      * @param context represents the context to send
-     * @throws FlowErrorException launched when the client sends an unexpected response
-     * @throws MalformedMessageException launched if the message isn't created the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    public void sendContext(String context) throws FlowErrorException, MalformedMessageException,  ClientDisconnectedException;
+    void sendContext(String context) throws FlowErrorException, MalformedMessageException,  ClientDisconnectedException;
 
     /**
-     * Method that handles the messages to set a new current player
+     * Method used to set a new current player
      * @param player represents the new current player
      */
-    public void setCurrentPlayer(Player player);
+    void setCurrentPlayer(Player player);
 
-    public void sendActiveUsername(Player player) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
+    /**
+     * Method that handles the messages to send the username of the current player
+     * @param player is the current player whose username will be sent
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
+     */
+    void sendActiveUsername(Player player) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
 
-    public void sendUsername(Player player) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
+    /**
+     * Method that handles the messages to send the username of a player to all others players
+     * @param player is the player whose username will be sent
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
+     */
+    void sendUsername(Player player) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
 
-    public void sendMergedIslands(ArrayList<Island> mergedislands) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
+    /**
+     * Method that handles the messages to send the islands that have been merged
+     * @param mergedIslands is the arrayList containing the merged islands
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
+     */
+    void sendMergedIslands(ArrayList<Island> mergedIslands) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
 
-    public void sendCoins(int coins) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
+    /**
+     * Method that handles the messages to send to a player his coins
+     * @param coins is the number of coins owned by the player
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
+     */
+    void sendCoins(int coins) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
 
-    public void sendCharacterCard(CharacterCard card) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
-
+    /**
+     * Method that handles the messages to send the all characterCards at the start of the game
+     * @param card is the characterCard to be sent
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
+     */
+    void sendCharacterCard(CharacterCard card) throws FlowErrorException, MalformedMessageException, ClientDisconnectedException;
 }

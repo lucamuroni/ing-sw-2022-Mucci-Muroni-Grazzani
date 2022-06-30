@@ -11,16 +11,31 @@ import java.util.ArrayList;
 
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
+/**
+ * @author Luca Muroni
+ * This class is used to send to a player two island that have merged
+ */
 public class SendMergedIslands {
-    private MessageHandler messageHandler;
-    private ArrayList<Island> mergedIslands;
+    private final MessageHandler messageHandler;
+    private final ArrayList<Island> mergedIslands;
 
+    /**
+     * Constructor of the class
+     * @param messageHandler is the handler of messages
+     * @param mergedIslands is the arrayList containing the island to send
+     */
     public SendMergedIslands(MessageHandler messageHandler, ArrayList<Island> mergedIslands) {
         this.messageHandler = messageHandler;
         this.mergedIslands = new ArrayList<>(mergedIslands);
     }
 
-    public void handle() throws MalformedMessageException, ClientDisconnectedException, FlowErrorException {
+    /**
+     * Method that handles the exchange of messages
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
+     */
+    public void handle() throws ClientDisconnectedException, FlowErrorException, MalformedMessageException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
         ArrayList<Message> messages = new ArrayList<>();
         messages.add(new Message(MERGED_ISLAND_1.getFragment(),String.valueOf(this.mergedIslands.get(0).getId()),topicId));

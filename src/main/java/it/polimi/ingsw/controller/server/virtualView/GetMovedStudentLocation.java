@@ -14,20 +14,20 @@ public class GetMovedStudentLocation {
     MessageHandler messageHandler;
 
     /**
-     * Class constructor
-     * @param messageHandler represents the messageHandler used for the message
+     * Constructor of the class
+     * @param messageHandler is the handler of messages
      */
     public GetMovedStudentLocation(MessageHandler messageHandler) {
         this.messageHandler = messageHandler;
     }
 
     /**
-     * Method that handles the message exchange
-     * @return an int. If it is 0, it represents the dashboard's hall; otherwise, it represents the island position in the arrayList
-     * @throws MalformedMessageException launched if the message isn't created in the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects from the game
+     * Method that handles the exchange of messages
+     * @return an int: o for dashboard's hall, 1-12 for an island
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     *      * @throws MalformedMessageException when a received message isn't correct
      */
-    public int handle() throws MalformedMessageException, ClientDisconnectedException {
+    public int handle() throws ClientDisconnectedException, MalformedMessageException {
         this.messageHandler.read();
         int result = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(STUDENT_LOCATION.getFragment()));
         int id = this.messageHandler.getMessagesUniqueTopic();

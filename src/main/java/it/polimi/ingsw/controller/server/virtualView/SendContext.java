@@ -12,7 +12,8 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
 /**
  * @author Luca Muroni
  * Class that implements the messages to send the context to a client
- * A context is sent to the players not currently playing to inform them of the phase in which the current player is
+ * A context is sent to the players not currently playing to inform them of the phase in which the current player is or
+ * to send them information obout some game's objects
  */
 public class SendContext {
     String context;
@@ -21,7 +22,7 @@ public class SendContext {
     /**
      * Class constructor
      * @param context represents the current phase in which the current player is
-     * @param messageHandler represents the message handler used for the message
+     * @param messageHandler is the handler of messages
      */
     public SendContext(String context, MessageHandler messageHandler) {
         this.context = context;
@@ -29,12 +30,12 @@ public class SendContext {
     }
 
     /**
-     * Method that handles the messages exchange
-     * @throws MalformedMessageException launched if the message isn't created in the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects from the game
-     * @throws FlowErrorException launched when the client sends an unexpected response
+     * Method that handles the exchange of messages
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    public void handle() throws MalformedMessageException, ClientDisconnectedException, FlowErrorException {
+    public void handle() throws ClientDisconnectedException, FlowErrorException, MalformedMessageException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
         Message message = new Message(CONTEXT.getFragment(), context, topicId);
         this.messageHandler.write(message);

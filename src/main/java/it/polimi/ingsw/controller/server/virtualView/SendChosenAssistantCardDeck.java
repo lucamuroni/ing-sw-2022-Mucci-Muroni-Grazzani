@@ -13,7 +13,8 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
 
 /**
  * @author Sara Mucci
- * Class that implements the message to send to a player the assistant card deck the current player choses
+ * @author Luca Muroni
+ * This class is used to send to a player the assistantCardDeck chosen by the current player
  */
 public class SendChosenAssistantCardDeck {
     AssistantCardDeckFigures deck;
@@ -22,10 +23,10 @@ public class SendChosenAssistantCardDeck {
     Gamer gamer;
 
     /**
-     * Class constructor
+     * Constructor of the class
      * @param deck represents the chosen deck
-     * @param token represents the token associated to the current player
-     * @param messageHandler represents the messageHandles used for the message
+     * @param token represents the token associated with the current player
+     * @param messageHandler is the handler of messages
      * @param gamer represents the currentGamer
      */
     public SendChosenAssistantCardDeck(AssistantCardDeckFigures deck, Integer token, MessageHandler messageHandler, Gamer gamer) {
@@ -36,12 +37,12 @@ public class SendChosenAssistantCardDeck {
     }
 
     /**
-     * Method that handles the message exchange
-     * @throws MalformedMessageException launched if the message isn't created in the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects from the game
-     * @throws FlowErrorException launched when the client sends an unexpected response
+     * Method that handles the exchange of messages
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    public void handle() throws MalformedMessageException, ClientDisconnectedException, FlowErrorException {
+    public void handle() throws ClientDisconnectedException, FlowErrorException, MalformedMessageException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
         ArrayList<Message> messages = new ArrayList<>();
         messages.add(new Message(OWNER.getFragment(), String.valueOf(this.gamer.getToken()), topicId));

@@ -21,9 +21,9 @@ class GetChosenAssistantCard {
     MessageHandler messageHandler;
 
     /**
-     * Class Constructor
-     * @param cards represents the arraylist of available cards
-     * @param messageHandler represents the messageHandler used for the message
+     * Constructor of the class
+     * @param cards represents the arrayList of available cards
+     * @param messageHandler is the handler of messages
      */
     public GetChosenAssistantCard(ArrayList<AssistantCard> cards, MessageHandler messageHandler){
         this.cards = cards;
@@ -31,10 +31,10 @@ class GetChosenAssistantCard {
     }
 
     /**
-     * Method that handles the message exchange
-     * @return the chosen assistant card
-     * @throws MalformedMessageException launched if the message isn't created in the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects from the game
+     * Method that handles the exchange of messages
+     * @return the assistantCard chosen by the player
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws MalformedMessageException when a received message isn't correct
      */
     public AssistantCard handle() throws MalformedMessageException, ClientDisconnectedException {
         int topicId = this.messageHandler.getNewUniqueTopicID();

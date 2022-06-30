@@ -10,15 +10,29 @@ import java.util.ArrayList;
 
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
+/**
+ * @author Luca Muroni
+ * This class is used to get the students chosen by the player when he plays the characterCard bard
+ */
 public class GetChosenColors {
     private final MessageHandler messageHandler;
     private final ArrayList<PawnColor> colors;
 
+    /**
+     * Constructor of the class
+     * @param messageHandler is the handler of messages
+     */
     public GetChosenColors(MessageHandler messageHandler) {
         this.messageHandler = messageHandler;
         this.colors = new ArrayList<>();
     }
 
+    /**
+     * Method that handles the exchange of messages
+     * @return the answer of the player
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws MalformedMessageException when a received message isn't correct
+     */
     public ArrayList<PawnColor> handle() throws ClientDisconnectedException, MalformedMessageException {
         this.messageHandler.read();
         int size = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAYLOAD_SIZE.getFragment()));

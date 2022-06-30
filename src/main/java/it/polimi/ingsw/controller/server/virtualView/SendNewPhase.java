@@ -18,9 +18,9 @@ public class SendNewPhase {
     Phase phase;
 
     /**
-     * Class constructor
+     * Constructor of the game
      * @param phase represents the phase to send
-     * @param messageHandler represents the messageHandler used for the message
+     * @param messageHandler is the handler of messages
      */
     public SendNewPhase(Phase phase, MessageHandler messageHandler) {
         this.phase = phase;
@@ -28,12 +28,12 @@ public class SendNewPhase {
     }
 
     /**
-     * Method that handles the message exchange
-     * @throws MalformedMessageException launched if the message isn't created in the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects from the game
-     * @throws FlowErrorException launched when the client sends an unexpected response
+     * Method that handles the exchange of messages
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    public void handle() throws MalformedMessageException, ClientDisconnectedException, FlowErrorException {
+    public void handle() throws ClientDisconnectedException, FlowErrorException, MalformedMessageException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
         Message message = new Message(PHASE.getFragment(), phase.toString(), topicId);
         this.messageHandler.write(message);

@@ -13,16 +13,16 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
 /**
  * @author Davide Grazzani
  * @author Luca Muroni
- * Class that implements the message to update the mother nature location
+ * This class is used to send infos about the location of motherNature
  */
 class UpdateMotherNaturePlace {
     Island island;
     MessageHandler messageHandler;
 
     /**
-     * Class constructor
-     * @param island represents the new mother nature location
-     * @param messageHandler represents the messageHandler used for the message
+     * Constructor of the class
+     * @param island represents the location of motherNature
+     * @param messageHandler is the handler of messages
      */
     public UpdateMotherNaturePlace(Island island, MessageHandler messageHandler){
         this.island = island;
@@ -30,12 +30,12 @@ class UpdateMotherNaturePlace {
     }
 
     /**
-     * Method that handles the message exchange
-     * @throws MalformedMessageException launched if the message isn't created in the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects from the game
-     * @throws FlowErrorException launched when the client sends an unexpected response
+     * Method that handles the exchange of messages
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
      */
-    public void handle() throws MalformedMessageException, ClientDisconnectedException, FlowErrorException {
+    public void handle() throws ClientDisconnectedException, FlowErrorException, MalformedMessageException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
         Integer id = island.getId();
         Message message = new Message(MN_LOCATION.getFragment(), id.toString(), topicId);

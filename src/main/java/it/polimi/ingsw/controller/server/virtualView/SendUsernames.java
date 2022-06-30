@@ -11,16 +11,31 @@ import java.util.ArrayList;
 
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
+/**
+ * @author Luca Muroni
+ * This class is used to send the usernames of all players to all others one
+ */
 public class SendUsernames {
-    private MessageHandler messageHandler;
-    private Player player;
+    private final MessageHandler messageHandler;
+    private final Player player;
 
+    /**
+     * Constructor of the class
+     * @param player is the players whose username will be sent
+     * @param messageHandler is the handler of messages
+     */
     public SendUsernames(Player player, MessageHandler messageHandler) {
         this.player = player;
         this.messageHandler = messageHandler;
     }
 
-    public void handle() throws MalformedMessageException, ClientDisconnectedException, FlowErrorException {
+    /**
+     * Method that handles the exchange of messages
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
+     */
+    public void handle() throws ClientDisconnectedException, FlowErrorException, MalformedMessageException {
         ArrayList<Message> messages = new ArrayList<>();
         int topicId = this.messageHandler.getNewUniqueTopicID();
         messages.add(new Message(PLAYER_ID.getFragment(), String.valueOf(player.getToken()), topicId));

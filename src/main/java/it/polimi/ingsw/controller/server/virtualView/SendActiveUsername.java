@@ -9,16 +9,31 @@ import it.polimi.ingsw.controller.networking.exceptions.MalformedMessageExceptio
 
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.*;
 
+/**
+ * @author Luca Muroni
+ * This class is used to send the username of the current player
+ */
 public class SendActiveUsername {
-    private MessageHandler messageHandler;
-    private Player player;
+    private final MessageHandler messageHandler;
+    private final Player player;
 
+    /**
+     * Constructor of the class
+     * @param messageHandler is the handler of messages
+     * @param player is the current player
+     */
     public SendActiveUsername(MessageHandler messageHandler, Player player) {
         this.messageHandler = messageHandler;
         this.player = player;
     }
 
-    public void handle() throws MalformedMessageException, ClientDisconnectedException, FlowErrorException {
+    /**
+     * Method that handles the exchange of messages
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws FlowErrorException when there is an error in the synchronization
+     * @throws MalformedMessageException when a received message isn't correct
+     */
+    public void handle() throws ClientDisconnectedException, FlowErrorException, MalformedMessageException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
         Message message = new Message(PLAYER_NAME.getFragment(), player.getUsername(), topicId);
         this.messageHandler.write(message);

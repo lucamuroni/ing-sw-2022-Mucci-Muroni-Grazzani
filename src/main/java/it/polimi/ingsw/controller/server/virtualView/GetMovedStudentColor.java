@@ -16,18 +16,18 @@ public class GetMovedStudentColor {
     MessageHandler messageHandler;
 
     /**
-     * Class constructor
-     * @param messageHandler represents the messageHandler used for the message
+     * Constructor of the class
+     * @param messageHandler is the handler of messages
      */
     public GetMovedStudentColor(MessageHandler messageHandler) {
         this.messageHandler = messageHandler;
     }
 
     /**
-     * Method that handles the message exchange
+     * Method that handles the exchange of messages
      * @return the color of the chosen student
-     * @throws MalformedMessageException launched if the message isn't created in the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects from the game
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws MalformedMessageException when a received message isn't correct
      */
     public PawnColor handle() throws MalformedMessageException, ClientDisconnectedException {
         this.messageHandler.read();

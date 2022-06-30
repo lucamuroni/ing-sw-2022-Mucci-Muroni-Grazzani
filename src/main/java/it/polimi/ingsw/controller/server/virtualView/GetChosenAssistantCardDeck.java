@@ -13,16 +13,17 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
 
 /**
  * @author Sara Mucci
- * Class that implements the message to get the assistant card deck chosen by the current player
+ * @author Luca Muroni
+ * Class that implements the message to get the assistantCardDeck chosen by the current player
  */
 public class GetChosenAssistantCardDeck {
     ArrayList<AssistantCardDeckFigures> decks;
     MessageHandler messageHandler;
 
     /**
-     * Class constructor
+     * Constructor of the class
      * @param cardDeck represents the available decks
-     * @param messageHandler represents the messageHandler used for the message
+     * @param messageHandler is the handler of messages
      */
     public GetChosenAssistantCardDeck(ArrayList<AssistantCardDeckFigures> cardDeck, MessageHandler messageHandler) {
         this.decks = cardDeck;
@@ -30,10 +31,10 @@ public class GetChosenAssistantCardDeck {
     }
 
     /**
-     * Method that handles the message exchange
-     * @return the chosen assistant card deck
-     * @throws MalformedMessageException launched if the message isn't created in the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects from the game
+     * Method that handles the exchange of messages
+     * @return the deck chosen by the player
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws MalformedMessageException when a received message isn't correct
      */
     public AssistantCardDeckFigures handle() throws MalformedMessageException, ClientDisconnectedException {
         int topicId = this.messageHandler.getNewUniqueTopicID();

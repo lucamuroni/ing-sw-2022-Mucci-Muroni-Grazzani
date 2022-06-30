@@ -19,9 +19,9 @@ public class GetChosenCloud {
     MessageHandler messageHandler;
 
     /**
-     * Class constructor
+     * Constructor of the class
      * @param clouds represents the available clouds
-     * @param messageHandler represents the messageHandler used for the message
+     * @param messageHandler is the handler of messages
      */
     public GetChosenCloud(ArrayList<Cloud> clouds, MessageHandler messageHandler) {
         this.clouds = clouds;
@@ -29,10 +29,10 @@ public class GetChosenCloud {
     }
 
     /**
-     * Method that handles the message exchange
-     * @return the chosen cloud
-     * @throws MalformedMessageException launched if the message isn't created in the correct way
-     * @throws ClientDisconnectedException launched if the client disconnects from the game
+     * Method that handles the exchange of messages
+     * @return the cloud chosen by the player
+     * @throws ClientDisconnectedException when the player disconnects from the game
+     * @throws MalformedMessageException when a received message isn't correct
      */
     public Cloud handle() throws MalformedMessageException, ClientDisconnectedException {
         int topicId = this.messageHandler.getNewUniqueTopicID();
