@@ -236,6 +236,7 @@ public class Game {
      */
     public void setLobbySize(int lobbySize) {
         this.lobbySize = lobbySize;
+        this.clouds.clear();
         this.createClouds();
     }
 
