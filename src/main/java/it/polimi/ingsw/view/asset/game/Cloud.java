@@ -5,7 +5,9 @@ import it.polimi.ingsw.model.pawn.Student;
 import java.util.ArrayList;
 
 /**
- * This class represents a Cloud
+ * @author Luca Muroni
+ * @author Davide Grazzani
+ * This class represents a cloud
  */
 public class Cloud {
     private final int id;
@@ -17,17 +19,7 @@ public class Cloud {
      */
     public Cloud(int id){
         this.id = id;
-        this.students = new ArrayList<Student>();
-    }
-
-    /**
-     * This method is used in client's view to show the remove of students from the cloud
-     * @return
-     */
-    public ArrayList<Student> removeStudents(){
-        ArrayList<Student> result = new ArrayList<Student>(this.students);
-        this.students.clear();
-        return result;
+        this.students = new ArrayList<>();
     }
 
     /**
@@ -39,7 +31,7 @@ public class Cloud {
 
     /**
      * This update method is used when the server notifies that the cloud has been filled again
-     * @param students is the array containing the new students that are on the cloud
+     * @param students is the arrayList containing the new students that are on the cloud
      */
     public void update(ArrayList<Student> students) {
         this.students.clear();
@@ -48,10 +40,18 @@ public class Cloud {
         }
     }
 
+    /**
+     * Getter method
+     * @return the id associated with the cloud
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * GetterMethod
+     * @return the arrayList of students that are on the cloud
+     */
     public ArrayList<Student> getStudents() {
         return students;
     }
