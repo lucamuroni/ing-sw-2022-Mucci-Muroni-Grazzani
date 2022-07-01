@@ -405,11 +405,13 @@ public class Cli implements ViewHandler {
     public void showEndGamePage(Results win) {
         Page p = new EndGamePage(this,win);
         this.changePage(p);
-        synchronized (this){
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+        while(!p.isReadyToProceed()){
+            synchronized (this){
+                try{
+                    this.wait(100);
+                }catch(InterruptedException e){
+                    this.controller.handleError("Could not wait for user to complete registration");
+                }
             }
         }
     }

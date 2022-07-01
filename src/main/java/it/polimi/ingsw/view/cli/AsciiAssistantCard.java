@@ -53,7 +53,11 @@ public class AsciiAssistantCard {
             case 3-> {
                 setCard();
                 if (card != null) {
-                    string = "|    (" + card.getTurnValue() + "," + card.getMovement() + ")    |";
+                    if(card.getTurnValue()>=10){
+                        string = "|    (" + card.getTurnValue() + "," + card.getMovement() + ")   |";
+                    }else{
+                        string = "|    (" + card.getTurnValue() + "," + card.getMovement() + ")    |";
+                    }
                 } else {
                     string = "|             |";
                 }

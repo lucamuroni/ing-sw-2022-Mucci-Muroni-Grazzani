@@ -13,6 +13,7 @@ public class EndGamePage implements Page {
     private final Cli cli;
     private boolean killed = false;
     private final Results results;
+    private boolean isReadyToProcede = false;
 
     /**
      * Constructor of the class
@@ -62,6 +63,7 @@ public class EndGamePage implements Page {
         }
         System.out.println("\n");
         System.out.println("Thank you for playing this game");
+        this.setReadyToProcede();
     }
 
     /**
@@ -69,8 +71,12 @@ public class EndGamePage implements Page {
      * @return true if the process is ready, false otherwise
      */
     @Override
-    public boolean isReadyToProceed() {
-        return true;
+    public synchronized boolean isReadyToProceed() {
+        return this.isReadyToProcede;
+    }
+
+    private synchronized void setReadyToProcede(){
+        this.isReadyToProcede = true;
     }
 
     /**
