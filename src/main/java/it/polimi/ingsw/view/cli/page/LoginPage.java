@@ -38,6 +38,10 @@ public class LoginPage implements Page {
     public void handle() throws UndoException{
         System.out.println(AnsiColor.GREEN +"Found a Server"+ AnsiColor.RESET);
         String nick = this.cli.readString("Please insert your nickName: ");
+        if(nick.length()>=13){
+            System.out.println(AnsiColor.RED+"Username is to long ; please retry"+AnsiColor.RESET);
+            throw new UndoException();
+        }
         this.game.getSelf().setUsername(nick, true);
         ArrayList<String> opt = new ArrayList<>();
         opt.add("Normal");
