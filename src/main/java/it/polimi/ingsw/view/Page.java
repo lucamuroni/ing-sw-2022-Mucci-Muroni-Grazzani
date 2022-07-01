@@ -7,17 +7,20 @@ import it.polimi.ingsw.view.cli.page.UndoException;
  * Interface with the methods for the cli and the gui
  */
 public interface Page {
-
     /**
-     *
-     * @throws UndoException
+     * This is the main method that manages the page
+     * @throws UndoException when the player wants to redo his choice
      */
-    public void handle() throws UndoException;
+    void handle() throws UndoException;
 
     /**
      * Method that checks if the process is ready
      * @return true if the process is ready, false otherwise
      */
-    public boolean isReadyToProceed();
-    public void kill();
+    boolean isReadyToProceed();
+
+    /**
+     * Method used to set that the page has completed its task
+     */
+    void kill();
 }

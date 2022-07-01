@@ -8,12 +8,22 @@ import it.polimi.ingsw.view.cli.Menù;
 
 import java.util.ArrayList;
 
+/**
+ * @author Davide Grazzani
+ * This class is used to ask a player which characterCard he wants to play
+ */
 public class CharacterCardPage implements Page {
     private final Cli cli;
     private final ArrayList<CharacterCard> cards;
     private final Game game;
     private boolean isReadyToProcede;
 
+    /**
+     * Constructor of the class
+     * @param cli is the handler used to interact with the player
+     * @param options is the arrayList of possible characterCards to choose from
+     * @param game is the current game
+     */
     public CharacterCardPage(Cli cli, ArrayList<CharacterCard> options, Game game){
         this.cli = cli;
         this.cards = new ArrayList<>(options);
@@ -21,6 +31,10 @@ public class CharacterCardPage implements Page {
         this.isReadyToProcede = false;
     }
 
+    /**
+     * This is the main method that manages the page
+     * @throws UndoException when the player wants to redo his choice
+     */
     @Override
     public void handle() throws UndoException {
         ArrayList<String> options = new ArrayList<>();
@@ -48,22 +62,33 @@ public class CharacterCardPage implements Page {
         this.setReadyToProcede();
     }
 
+    /**
+     * Method that checks if the process is ready
+     * @return true if the process is ready, false otherwise
+     */
     @Override
     public synchronized boolean isReadyToProceed() {
         return isReadyToProcede;
     }
 
+    /**
+     * Method used to set that the page has completed its task
+     */
     @Override
-    public void kill() {
+    public void kill() {}
 
-    }
-
+    /**
+     * Method used to print the effect of a card
+     */
     private void printEffects(){
         //TODO : printare gli effetti di ogni singola carta
         //PlaceHolder
         System.out.println("Qui printo gli effetti delle carte");
     }
 
+    /**
+     * Method used to set that the page has completed its task
+     */
     private synchronized void setReadyToProcede(){
         this.isReadyToProcede = true;
     }
