@@ -11,19 +11,18 @@ import java.util.ArrayList;
 
 /**
  * @author Davide Grazzani
- * @author Luca Muroni
  * Class that represents the login page
  */
 public class LoginPage implements Page {
     private final Cli cli;
-    private Game game;
+    private final Game game;
     private boolean readyToProceed = false;
     private boolean killed;
 
     /**
-     * Class constructor
-     * @param cli represents the cli associated to the game
-     * @param game represents the game
+     * Constructor of the class
+     * @param cli is the handler used to interact with the player
+     * @param game is the current game
      */
     public LoginPage(Cli cli, Game game){
         this.cli = cli;
@@ -32,8 +31,8 @@ public class LoginPage implements Page {
     }
 
     /**
-     * Method that handles the login page
-     * @throws UndoException to repeat the choice
+     * This is the main method that manages the page
+     * @throws UndoException when the player wants to redo his choice
      */
     @Override
     public void handle() throws UndoException{
@@ -95,15 +94,25 @@ public class LoginPage implements Page {
         }
     }
 
+    /**
+     * Method used to terminate the page in case of threading
+     */
     @Override
     public synchronized void kill() {
         this.killed = true;
     }
 
+    /**
+     * Method that checks if the page has been killed
+     * @return true if killed, false otherwise
+     */
     private synchronized boolean isKilled(){
         return this.killed;
     }
 
+    /**
+     * Method used to set that the page has completed its task
+     */
     private synchronized void setReadyToProcede(){
         this.readyToProceed = true;
     }

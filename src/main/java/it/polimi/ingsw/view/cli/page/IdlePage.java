@@ -6,8 +6,8 @@ import it.polimi.ingsw.view.cli.AsciiArchipelago;
 import it.polimi.ingsw.view.cli.Cli;
 
 /**
- * @author Luca Muroni
- * Class that represents the idlePage. an idlePage is
+ * @author Davide Grazzani
+ * This class is used to show all game's objetcs (islands, clouds, ...) while a player is waiting his turn to play
  */
 public class IdlePage implements Page {
     private boolean killed = false;
@@ -17,6 +17,11 @@ public class IdlePage implements Page {
     private boolean popUpSettled;
     private final Object popUpLock = new Object();
 
+    /**
+     * Constructor of the class
+     * @param cli is the handler used to interact with the player
+     * @param archipelago is the archipelago of merged islands
+     */
     public IdlePage(Cli cli, AsciiArchipelago archipelago){
         this.cli = cli;
         this.archipelago = archipelago;
@@ -25,6 +30,10 @@ public class IdlePage implements Page {
         this.popUpSettled = false;
     }
 
+    /**
+     * This is the main method that manages the page
+     * @throws UndoException when the player wants to redo his choice
+     */
     @Override
     public void handle() throws UndoException {
         Thread t = new Thread(()->{
@@ -69,11 +78,18 @@ public class IdlePage implements Page {
         return true;
     }
 
+    /**
+     * Method used to terminate the page in case of threading
+     */
     @Override
     public synchronized void kill() {
         this.killed = true;
     }
 
+    /**
+     * Method that checks if the page has been killed
+     * @return true if killed, false otherwise
+     */
     private synchronized boolean isKilled(){
         return this.killed;
     }
@@ -85,6 +101,10 @@ public class IdlePage implements Page {
         }
     }
 
+    /**
+     * Method used to check if a pop-up is currently present in the view
+     * @return true if present, false otherwise
+     */
     private boolean getPopUpPresence(){
         boolean result;
         synchronized (popUpLock){
@@ -93,10 +113,12 @@ public class IdlePage implements Page {
         return result;
     }
 
+    /**
+     * Method used to stop showing a pop-up
+     */
     private void setPopUpOff(){
         synchronized (popUpLock){
             this.popUpSettled = false;
         }
     }
-
 }

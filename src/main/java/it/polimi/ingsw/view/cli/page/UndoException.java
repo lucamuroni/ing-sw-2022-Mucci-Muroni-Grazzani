@@ -3,12 +3,12 @@ package it.polimi.ingsw.view.cli.page;
 
 /**
  * @author Davide Grazzani
- * Class with the exception launched in the menu page
+ * Class that represents the choice to redo an action
  */
 public class UndoException extends Exception {
 
     /**
-     * Class constructor
+     * Constructor of the class
      */
     public UndoException(){
         super();

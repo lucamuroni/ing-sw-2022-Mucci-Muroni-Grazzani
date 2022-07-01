@@ -72,6 +72,13 @@ public class CharacterCardPage implements Page {
     }
 
     /**
+     * Method used to set that the page has completed its task
+     */
+    private synchronized void setReadyToProcede(){
+        this.isReadyToProcede = true;
+    }
+
+    /**
      * Method used to terminate the page in case of threading
      */
     @Override
@@ -84,12 +91,5 @@ public class CharacterCardPage implements Page {
         //TODO : printare gli effetti di ogni singola carta
         //PlaceHolder
         System.out.println("Qui printo gli effetti delle carte");
-    }
-
-    /**
-     * Method used to set that the page has completed its task
-     */
-    private synchronized void setReadyToProcede(){
-        this.isReadyToProcede = true;
     }
 }

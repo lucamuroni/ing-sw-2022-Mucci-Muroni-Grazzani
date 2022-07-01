@@ -10,7 +10,8 @@ import java.util.ArrayList;
 
 /**
  * @author Davide Grazzani
- * Class that represents the page to decide where to move a student (?)
+ * @author Luca Muroni
+ * This class is used to ask a player which students he wants to move and where
  */
 public class MoveStudentPage implements Page {
     private boolean killed;
@@ -19,7 +20,9 @@ public class MoveStudentPage implements Page {
     private final Game assetGame;
 
     /**
-     * Class constructor
+     * Constructor of the class
+     * @param cli is the handler used to interact with the player
+     * @param assetGame is the current game
      */
     public MoveStudentPage(Cli cli, Game assetGame){
         this.cli = cli;
@@ -28,8 +31,8 @@ public class MoveStudentPage implements Page {
     }
 
     /**
-     * Method that handles the page
-     * @throws UndoException to repeat the choice
+     * This is the main method that manages the page
+     * @throws UndoException when the player wants to redo his choice
      */
     @Override
     public void handle() throws UndoException {
@@ -104,15 +107,25 @@ public class MoveStudentPage implements Page {
         }
     }
 
+    /**
+     * Method used to set that the page has completed its task
+     */
     private synchronized void setReadyToProcede(){
         this.readyToProceed = true;
     }
 
+    /**
+     * Method used to terminate the page in case of threading
+     */
     @Override
     public synchronized void kill() {
         this.killed = true;
     }
 
+    /**
+     * Method that checks if the page has been killed
+     * @return true if killed, false otherwise
+     */
     private synchronized boolean isKilled(){
         return this.killed;
     }

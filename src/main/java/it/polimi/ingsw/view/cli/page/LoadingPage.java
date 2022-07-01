@@ -7,17 +7,16 @@ import it.polimi.ingsw.view.cli.LoadingBar;
 
 /**
  * @author Davide Grazzani
- * Class that represents the loading page
+ * this class is used to welcome the player when the application starts
  */
 public class LoadingPage implements Page {
     private final LoadingBar loadingBar;
     private final Cli cli;
     private boolean killed;
 
-
     /**
-     * Class constructor
-     * @param cli represents the cli associated to the current game
+     * Constructor of the class
+     * @param cli is the handler used to interact with the player
      */
     public LoadingPage(Cli cli){
         this.cli = cli;
@@ -51,7 +50,7 @@ public class LoadingPage implements Page {
     }
 
     /**
-     * Method that handles the loading page
+     * This is the main method that manages the page
      */
     @Override
     public void handle() {
@@ -72,13 +71,19 @@ public class LoadingPage implements Page {
         return true;
     }
 
+    /**
+     * Method used to terminate the page in case of threading
+     */
     @Override
     public synchronized void kill() {
         this.killed = true;
     }
 
+    /**
+     * Method that checks if the page has been killed
+     * @return true if killed, false otherwise
+     */
     private synchronized boolean isKilled(){
         return this.killed;
     }
-
 }

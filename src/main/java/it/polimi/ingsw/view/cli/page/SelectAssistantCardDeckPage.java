@@ -3,20 +3,28 @@ package it.polimi.ingsw.view.cli.page;
 import it.polimi.ingsw.controller.networking.AssistantCardDeckFigures;
 import it.polimi.ingsw.view.Page;
 import it.polimi.ingsw.view.asset.game.Gamer;
-import it.polimi.ingsw.view.cli.AnsiColor;
 import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.Menù;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
+/**
+ * @author Luca Muroni
+ * This class is used to ask a player which deck of assistantCards he wants to take
+ */
 public class SelectAssistantCardDeckPage implements Page {
     private final ArrayList<AssistantCardDeckFigures> figures;
     private final Gamer self;
     private final Cli cli;
     private boolean killed;
     private boolean readyToProceed = false;
-    
+
+    /**
+     * Constructor of the class
+     * @param cli is the handler used to interact with the player
+     * @param self is the player playing on this terminal
+     * @param figures is the arrayList of possible decks the player can choose from
+     */
     public SelectAssistantCardDeckPage(Cli cli, Gamer self, ArrayList<AssistantCardDeckFigures> figures) {
         this.cli = cli;
         this.self = self;
@@ -25,8 +33,8 @@ public class SelectAssistantCardDeckPage implements Page {
     }
 
     /**
-     * Method that handles the page
-     * @throws UndoException to repeat the choice
+     * This is the main method that manages the page
+     * @throws UndoException when the player wants to redo his choice
      */
     @Override
     public void handle() throws UndoException {
@@ -44,7 +52,6 @@ public class SelectAssistantCardDeckPage implements Page {
         if(input.equals("n")){
             throw new UndoException();
         }
-        //cli.clearConsole();
         self.updateFigure(this.figures.get(choice-1));
         this.setReadyToProcede();
     }
@@ -63,15 +70,25 @@ public class SelectAssistantCardDeckPage implements Page {
         }
     }
 
+    /**
+     * Method used to set that the page has completed its task
+     */
     private synchronized void setReadyToProcede(){
         this.readyToProceed = true;
     }
 
+    /**
+     * Method used to terminate the page in case of threading
+     */
     @Override
     public synchronized void kill() {
         this.killed = true;
     }
 
+    /**
+     * Method that checks if the page has been killed
+     * @return true if killed, false otherwise
+     */
     private synchronized boolean isKilled(){
         return this.killed;
     }

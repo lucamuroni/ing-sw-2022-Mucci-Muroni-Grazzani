@@ -9,18 +9,31 @@ import it.polimi.ingsw.view.cli.Menù;
 
 import java.util.ArrayList;
 
+/**
+ * @author Luca Muroni
+ * This class is used to ask a player which srudents he wants to move due to the effect of a charactercard (bard)
+ */
 public class SelectColorsPage implements Page {
     private boolean killed;
     private boolean readyToProceed = false;
     private final Cli cli;
     private final Game game;
 
+    /**
+     * Constructor of the class
+     * @param cli is the handler used to interact with the player
+     * @param game is the current game
+     */
     public SelectColorsPage(Cli cli, Game game) {
         this.cli = cli;
         this.game = game;
         this.killed = false;
     }
 
+    /**
+     * This is the main method that manages the page
+     * @throws UndoException when the player wants to redo his choice
+     */
     @Override
     public void handle() throws UndoException {
         ArrayList<PawnColor> colors = new ArrayList<>();
@@ -80,6 +93,10 @@ public class SelectColorsPage implements Page {
         this.setReadyToProcede();
     }
 
+    /**
+     * Method that checks if the process is ready
+     * @return true if the process is ready, false otherwise
+     */
     @Override
     public boolean isReadyToProceed() {
         if(readyToProceed){
@@ -90,15 +107,25 @@ public class SelectColorsPage implements Page {
         }
     }
 
+    /**
+     * Method used to set that the page has completed its task
+     */
     private synchronized void setReadyToProcede(){
         this.readyToProceed = true;
     }
 
+    /**
+     * Method used to terminate the page in case of threading
+     */
     @Override
     public synchronized void kill() {
         this.killed = true;
     }
 
+    /**
+     * Method that checks if the page has been killed
+     * @return true if killed, false otherwise
+     */
     private synchronized boolean isKilled(){
         return this.killed;
     }
