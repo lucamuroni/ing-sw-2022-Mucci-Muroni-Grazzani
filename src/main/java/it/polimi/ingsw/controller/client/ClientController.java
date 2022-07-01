@@ -30,7 +30,13 @@ public class ClientController {
      * @param viewHandler is the interface throughout is possible to control the view package
      */
     public ClientController(String ip,int port,ViewHandler viewHandler) {
-        while(!getConnection(ip,port));
+        int i = 0;
+        while(!getConnection(ip,port)){
+            if(i>=5){
+                this.handleError("Could not open socket on port "+port+", ip : "+ip);
+            }
+            i++;
+        }
         this.viewHandler = viewHandler;
         this.viewHandler.setController(this);
         this.isGameOn = true;

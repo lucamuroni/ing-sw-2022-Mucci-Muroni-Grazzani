@@ -88,8 +88,9 @@ public class CharacterCardPage implements Page {
      * Method used to print the effect of a card
      */
     private void printEffects(){
-        //TODO : printare gli effetti di ogni singola carta
-        //PlaceHolder
-        System.out.println("Qui printo gli effetti delle carte");
+        for(CharacterCard card : this.cards){
+            System.out.println(card.name()+" :");
+            System.out.println(card.getEffect());
+        }
     }
 }
