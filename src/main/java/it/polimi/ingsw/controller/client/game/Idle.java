@@ -221,6 +221,9 @@ public class Idle implements GamePhase{
                     this.view.popUp(s);
                     break;
             }
+            if(isGameStarted && context != MessageFragment.CONTEXT_PHASE){
+                this.view.idleShow();
+            }
         }
     }
 

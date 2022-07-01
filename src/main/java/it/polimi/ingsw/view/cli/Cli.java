@@ -616,4 +616,13 @@ public class Cli implements ViewHandler {
         IdlePage page = (IdlePage) currentPage;
         page.setPopUp(s);
     }
+
+    /**
+     * Method used to refresh Idle page when necessary
+     */
+    @Override
+    public void idleShow() {
+        IdlePage page = (IdlePage) this.currentPage;
+        page.setShow(true);
+    }
 }

@@ -5,6 +5,8 @@ import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 import it.polimi.ingsw.view.cli.AsciiArchipelago;
 import it.polimi.ingsw.view.cli.Cli;
 
+import java.util.Date;
+
 /**
  * @author Davide Grazzani
  * This class is used to show all game's objetcs (islands, clouds, ...) while a player is waiting his turn to play
@@ -16,6 +18,8 @@ public class IdlePage implements Page {
     private String popUp;
     private boolean popUpSettled;
     private final Object popUpLock = new Object();
+    private long popUpTime;
+    private boolean show;
 
     /**
      * Constructor of the class
@@ -28,6 +32,7 @@ public class IdlePage implements Page {
         this.killed = false;
         this.popUp = "";
         this.popUpSettled = false;
+        this.show = true;
     }
 
     /**
@@ -39,7 +44,8 @@ public class IdlePage implements Page {
         Thread t = new Thread(()->{
             int i = 0;
             while(!this.isKilled()){
-                if(i%5==0){
+                if(getShowStatus()){
+                    setShow(false);
                     this.cli.clearConsole();
                     try {
                         this.archipelago.draw();
@@ -53,14 +59,15 @@ public class IdlePage implements Page {
                     System.out.print("\n");
                     if(getPopUpPresence()){
                         System.out.println("Event : "+this.popUp);
-                        if(i%60 == 0){
+                        long currentTime = System.currentTimeMillis();
+                        if(currentTime-this.popUpTime > 30000){
                             setPopUpOff();
                         }
                     }
                 }
                 synchronized (this){
                     try {
-                        this.wait(500);
+                        this.wait(1000);
                     } catch (InterruptedException e) {}
                 }
                 i++;
@@ -96,6 +103,7 @@ public class IdlePage implements Page {
 
     public void setPopUp(String event){
         synchronized (popUpLock){
+            this.popUpTime = System.currentTimeMillis();
             this.popUp = event;
             this.popUpSettled = true;
         }
@@ -120,5 +128,13 @@ public class IdlePage implements Page {
         synchronized (popUpLock){
             this.popUpSettled = false;
         }
+    }
+
+    public synchronized void setShow(boolean show) {
+        this.show = show;
+    }
+
+    private synchronized boolean getShowStatus(){
+        return this.show;
     }
 }

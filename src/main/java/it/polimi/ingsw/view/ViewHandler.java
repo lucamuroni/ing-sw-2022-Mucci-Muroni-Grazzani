@@ -71,4 +71,6 @@ public interface ViewHandler {
 
     PawnColor chooseColor(String name);
     void popUp(String s);
+
+    void idleShow();
 }
