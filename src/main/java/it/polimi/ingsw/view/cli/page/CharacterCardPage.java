@@ -72,7 +72,7 @@ public class CharacterCardPage implements Page {
     }
 
     /**
-     * Method used to set that the page has completed its task
+     * Method used to terminate the page in case of threading
      */
     @Override
     public void kill() {}
