@@ -3,7 +3,7 @@
 ## View
 
 - nel package view (d'ora in poi omesso) in asset/game ci sono da implementare metodi e classi per una gestione minimale del Client
-Questo significa :
+Questo significa:
 	- nessuna classe ha metodi per svolgere funzioni complesse come calcoli(a meno di strette esigenze)
 	- ogni classe in generale implenta metodi per aggiornare in maniera totale la classe stessa e per disegnare la classe stessa\
 In generale quindi c'è un metodo update che aggiorna tutti i valori della classe stessa(pulendo quelli vecchi) e più metodi draw che ritornano gli attributi della classe
@@ -16,7 +16,7 @@ In generale quindi c'è un metodo update che aggiorna tutti i valori della class
 
 ## ClientController
 
-nel package controller/client (d'ora in poi omesso) si trova il controller del client\
+Nel package controller/client (d'ora in poi omesso) si trova il controller del client\
 - nel package client/game sono presenti in maniera analoga al controller le fasi di gioco (sono ancora da implementare)
 - nel package client/networkHandler e presente un'interfaccia network e dovranno essere sviluppati i messaggi in maniera pseudo-speculare al servercontroller
 

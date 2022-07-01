@@ -172,7 +172,7 @@ public class MessageHandler {
     }
 
     /**
-     * Method used to return the last topic key that the other host has used to sign it's last message
+     * Method used to return the last topic key that the other host has used to sign its last message
      * @return the int key of the last received message
      */
     public int getMessagesUniqueTopic(){

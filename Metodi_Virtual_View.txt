@@ -7,7 +7,7 @@
 
 ## Movimenti di funzionamento
 - updateAssistant()
-- updateStudentPlace() : lo si chiama ogni volta che uno studente viene mosso. Gestisce anche il controllo dei professori.
+- updateStudentPlace(): lo si chiama ogni volta che uno studente viene mosso. Gestisce anche il controllo dei professori.
 - updateMotherNaturePlace()
 - updateClouds()
 

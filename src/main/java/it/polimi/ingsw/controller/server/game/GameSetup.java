@@ -213,7 +213,7 @@ public class GameSetup implements GamePhase{
     }
 
     /**
-     * Method called by handle() to send the usernames of all players to all other players
+     * Method called by handle() to send the usernames of all players to all others players
      */
     private void updateUsernames(){
         ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
