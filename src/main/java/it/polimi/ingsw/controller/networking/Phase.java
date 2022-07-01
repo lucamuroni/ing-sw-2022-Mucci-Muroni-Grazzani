@@ -19,7 +19,7 @@ public enum Phase {
      * Class constructor
      * @param name represents the name of the phase
      */
-    private Phase(String name){
+    Phase(String name){
         this.name = name;
     }
 

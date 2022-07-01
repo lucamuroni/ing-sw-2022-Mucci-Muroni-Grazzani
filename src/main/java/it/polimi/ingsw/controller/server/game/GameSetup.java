@@ -85,7 +85,6 @@ public class GameSetup implements GamePhase{
      */
     private void sendCharacterCards(Player player) {
         for (CharacterCard card : ((ExpertGame) this.game).getGameCards()) {
-            System.out.println(card.getName());
             try {
                 try {
                     this.view.sendCharacterCard(card);

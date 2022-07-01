@@ -12,7 +12,6 @@ import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.gamer.Gamer;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CONTEXT_FIGURE;
 import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment.CONTEXT_PHASE;

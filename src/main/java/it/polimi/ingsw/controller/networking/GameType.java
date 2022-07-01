@@ -14,7 +14,7 @@ public enum GameType {
      * Enum builder
      * @param name is the name of a game mode
      */
-    private GameType(String name){
+    GameType(String name){
         this.name = name;
     }
 

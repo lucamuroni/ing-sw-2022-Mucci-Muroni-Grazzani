@@ -52,7 +52,6 @@ public class GetCloudStatus {
             }
         }
         if(cloud == null) {
-            System.out.println("Qui");
             throw new AssetErrorException();
         }
         int colorRed = Integer.parseInt(this.messageHandler.getMessagePayloadFromStream(PAWN_RED.getFragment()));

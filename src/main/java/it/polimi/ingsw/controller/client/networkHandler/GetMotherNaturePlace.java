@@ -18,7 +18,6 @@ import static it.polimi.ingsw.controller.networking.messageParts.MessageFragment
  */
 public class GetMotherNaturePlace {
     MessageHandler messageHandler;
-    Island MNIsland;
     Game game;
 
     /**
