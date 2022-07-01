@@ -53,32 +53,14 @@ public class ActionPhase1 implements GamePhase{
      */
     @Override
     public void handle() {
+        Player currentPlayer = null;
         try {
-            this.view.setCurrentPlayer(this.controller.getPlayer(this.game.getCurrentPlayer()));
+            currentPlayer = this.controller.getPlayer(this.game.getCurrentPlayer());
         } catch (ModelErrorException e) {
             this.controller.shutdown("Error founded in model : shutting down this game");
-        }
-        try {
-            try{
-                this.view.sendContext(CONTEXT_PHASE.getFragment());
-                this.view.sendNewPhase(Phase.ACTION_PHASE_1);
-            }catch (MalformedMessageException | FlowErrorException e){
-                this.view.sendContext(CONTEXT_PHASE.getFragment());
-                this.view.sendNewPhase(Phase.ACTION_PHASE_1);
-            }
-        }catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
-            try {
-                this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()),"Error while sending ACTION PHASE 1");
-            } catch (ModelErrorException i) {
-                this.controller.shutdown("Error founded in model : shutting down this game");
-            }
         }
         ArrayList<Player> players = new ArrayList<>(this.controller.getPlayers());
-        try {
-            players.remove(this.controller.getPlayer(this.game.getCurrentPlayer()));
-        } catch (ModelErrorException e) {
-            this.controller.shutdown("Error founded in model : shutting down this game");
-        }
+        players.remove(currentPlayer);
         for (Player player : players) {
             this.view.setCurrentPlayer(player);
             try {
@@ -95,59 +77,36 @@ public class ActionPhase1 implements GamePhase{
                 this.controller.shutdown("Error founded in model : shutting down this game");
             }
         }
-        try {
-            for (int cont = 0; cont < this.numOfMovements; cont++) {
-                int place = this.moveStudentToLocation(this.controller.getPlayer(this.game.getCurrentPlayer()));
-                this.view.setCurrentPlayer(this.controller.getPlayer(this.game.getCurrentPlayer()));
-                try {
-                    try {
-                        for (Gamer gamer : this.game.getGamers()) {
-                            this.view.updateDashboards(gamer, this.game);
-                        }
-                        Island isl = null;
-                        if (place>0) {
-                            for (Island island : this.game.getIslands()) {
-                                if (island.getId() == place) {
-                                    isl = island;
-                                    break;
-                                }
-                            }
-                            this.view.updateIslandStatus(isl);
-                        }
-                    } catch (MalformedMessageException | FlowErrorException e) {
-                        for (Gamer gamer : this.game.getGamers()) {
-                            this.view.updateDashboards(gamer, this.game);
-                        }
-                        Island isl = null;
-                        if (place>0){
-                            for (Island island : this.game.getIslands()) {
-                                if (island.getId() == place) {
-                                    isl = island;
-                                    break;
-                                }
-                            }
-                            this.view.updateIslandStatus(isl);
-                        }
-                    }
-                } catch (MalformedMessageException | ClientDisconnectedException  | FlowErrorException e){
-                    this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()),"Error while uploading dashboards");
+        for (int cont = 0; cont < this.numOfMovements; cont++) {
+            this.view.setCurrentPlayer(currentPlayer);
+            try {
+                try{
+                    this.view.sendContext(CONTEXT_PHASE.getFragment());
+                    this.view.sendNewPhase(Phase.ACTION_PHASE_1);
+                }catch (MalformedMessageException | FlowErrorException e){
+                    this.view.sendContext(CONTEXT_PHASE.getFragment());
+                    this.view.sendNewPhase(Phase.ACTION_PHASE_1);
                 }
-                for (Player pl : players) {
-                    this.view.setCurrentPlayer(pl);
-                    try {
-                        try {
-                            this.sendInfo(place);
-                        } catch (MalformedMessageException | FlowErrorException e) {
-                            this.sendInfo(place);
-                        }
-                    } catch (MalformedMessageException | ClientDisconnectedException | FlowErrorException e){
-                        this.controller.handlePlayerError(pl,"Error while updating islands and dashboards");
-                    }
+            }catch (MalformedMessageException | FlowErrorException | ClientDisconnectedException e) {
+                try {
+                    this.controller.handlePlayerError(this.controller.getPlayer(this.game.getCurrentPlayer()),"Error while sending ACTION PHASE 1");
+                } catch (ModelErrorException i) {
+                    this.controller.shutdown("Error founded in model : shutting down this game");
                 }
             }
-        } catch (ModelErrorException e) {
-            this.controller.shutdown("Error founded in model : shutting down this game");
-            e.printStackTrace();
+            int place = this.moveStudentToLocation(currentPlayer);
+            for (Player pl : this.controller.getPlayers()) {
+                this.view.setCurrentPlayer(pl);
+                try {
+                    try {
+                        this.sendInfo(place);
+                    } catch (MalformedMessageException | FlowErrorException e) {
+                        this.sendInfo(place);
+                    }
+                } catch (MalformedMessageException | ClientDisconnectedException | FlowErrorException e){
+                    this.controller.handlePlayerError(pl,"Error while updating islands and dashboards");
+                }
+            }
         }
     }
 

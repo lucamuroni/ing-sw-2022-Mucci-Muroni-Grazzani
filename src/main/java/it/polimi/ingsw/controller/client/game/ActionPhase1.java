@@ -45,50 +45,29 @@ public class ActionPhase1 implements GamePhase{
      */
     @Override
     public void handle() {
-        for (int i = 0; i<numOfMoves; i++) {
-            Student stud = this.view.chooseStudentToMove();
-            int location = this.view.choosePlace();
+        Student stud = this.view.chooseStudentToMove();
+        int location = this.view.choosePlace();
+        try {
+            try {
+                this.network.sendColor(stud.getColor());
+                this.network.sendLocation(location);
+            } catch (MalformedMessageException e) {
+                this.network.sendColor(stud.getColor());
+                this.network.sendLocation(location);
+            }
+        } catch (MalformedMessageException | FlowErrorException  |
+                 ClientDisconnectedException e) {
+            this.controller.handleError("Could not sent move to server");
+        }
+        if (this.game.getGameType().equals(GameType.EXPERT.getName()) && location == 0) {
             try {
                 try {
-                    this.network.sendColor(stud.getColor());
-                    this.network.sendLocation(location);
+                    this.network.getCoins(game);
                 } catch (MalformedMessageException e) {
-                    this.network.sendColor(stud.getColor());
-                    this.network.sendLocation(location);
-                }
-            } catch (MalformedMessageException | FlowErrorException  |
-                     ClientDisconnectedException e) {
-                this.controller.handleError("Could not sent move to server");
-            }
-            if (this.game.getGameType().equals(GameType.EXPERT.getName()) && location == 0) {
-                try {
-                    try {
-                        this.network.getCoins(game);
-                    } catch (MalformedMessageException e) {
-                        this.network.getCoins(game);
-                    }
-                } catch (MalformedMessageException | ClientDisconnectedException e) {
-                    this.controller.handleError();
-                }
-            }
-            try {
-                try {
-                    for (Gamer ignored : this.game.getGamers()) {
-                        this.network.getDashboard(this.game);
-                    }
-                    if (location>0)
-                        this.network.getIslandStatus(this.game);
-                } catch (MalformedMessageException e) {
-                    for (Gamer ignored : this.game.getGamers()) {
-                        this.network.getDashboard(this.game);
-                    }
-                    if (location>0)
-                        this.network.getIslandStatus(this.game);
+                    this.network.getCoins(game);
                 }
             } catch (MalformedMessageException | ClientDisconnectedException e) {
                 this.controller.handleError();
-            } catch (AssetErrorException e) {
-                this.controller.handleError("Doesn't found dashboard");
             }
         }
     }
