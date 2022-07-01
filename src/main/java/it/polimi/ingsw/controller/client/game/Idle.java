@@ -183,7 +183,7 @@ public class Idle implements GamePhase{
                     } catch (AssetErrorException e) {
                         this.controller.handleError("Doesn't found player name");
                     }
-                    s = "The player "+this.game.getCurrentPlayer()+" has started is turn";
+                    s = "The player "+this.game.getCurrentPlayer()+" has started his turn";
                     this.view.popUp(s);
                     break;
                 case CONTEXT_MERGE:
