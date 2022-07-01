@@ -73,6 +73,7 @@ public class EndGame implements GamePhase{
             }
         }
         this.controller.setGameOff();
+        System.out.println(this.controller.getGame());
     }
 
     /**
