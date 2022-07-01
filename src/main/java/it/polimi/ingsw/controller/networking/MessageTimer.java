@@ -32,11 +32,11 @@ class MessageTimer extends Thread{
         if(this.timeToWait==0){
             cycles = 0;
         }else{
-            cycles = this.timeToWait/this.minimumSleepTime;
+            cycles = this.timeToWait/minimumSleepTime;
         }
         for(int i = 0; i < cycles ; i++ ){
             try {
-                sleep(this.minimumSleepTime);
+                sleep(minimumSleepTime);
             } catch (InterruptedException e) {
                 fails++;
                 if(fails>=3){

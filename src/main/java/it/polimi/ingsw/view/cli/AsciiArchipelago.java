@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.cli;
 
-import com.sun.security.auth.UnixNumericGroupPrincipal;
 import it.polimi.ingsw.view.asset.exception.AssetErrorException;
 
 import java.util.ArrayList;
@@ -179,8 +178,8 @@ public class AsciiArchipelago {
     /**
      * Method used to find which island is the closest to a given target
      * @param attachedIsland is the ArrayList of island that needs to be probed in order to find which is the closest
-     * @param islandId it the target to reach
-     * @return
+     * @param islandId it's the target to reach
+     * @return the island ID of the closest island to the target
      */
     private int closestIsland(ArrayList<Integer> attachedIsland,Integer islandId){
         int dist = 0;
@@ -196,7 +195,6 @@ public class AsciiArchipelago {
             if(distance<0){
                 distance = -distance;
             }
-            //distance = distance*2;
             difference = distance;
             distance = y -coordinates.get(1);
             if(distance<0){

@@ -114,7 +114,8 @@ class ConnectionHandler {
                 }
                 try {
                     this.inputMessages.wait(100);
-                } catch (InterruptedException e) {}
+                } catch (InterruptedException e) {
+                }
             }
             if(getDisconnection() || timer.isTimeEnded()){
                 throw new ClientDisconnectedException("Found disconnection");

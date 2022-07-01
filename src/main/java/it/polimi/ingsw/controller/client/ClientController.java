@@ -60,6 +60,7 @@ public class ClientController {
                 try {
                     this.wait(1000);
                 } catch (InterruptedException ex) {
+                    return false;
                 }
             }
             return false;

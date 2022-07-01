@@ -7,7 +7,7 @@ package it.polimi.ingsw.view.cli;
 public class LoadingBar {
     private final int length;
     private final static int loadingSize = 3;
-    private int oldSpacePosition[];
+    private int[] oldSpacePosition;
 
     /**
      * Class constructor
