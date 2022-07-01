@@ -7,14 +7,25 @@ import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-//TODO: javadoc
+/**
+ * Top Class of the server, used to launch the connection with clients and starting games
+ */
 public class Server {
     private ServerSocket serverSocket;
     private final ClientReception clientReception;
-    private boolean isEveryThingOK = true;
 
+    /**
+     * Class builder
+     * @param portNumber is the number of the port upon which the socket will be opened
+     */
     public Server(int portNumber){
+        int i = 0;
         while(launchServerSocket(portNumber)){
+            if(i>=5){
+                System.out.print(AnsiColor.RED+"Error while opening socket on port "+portNumber+AnsiColor.RESET+"\n"+"Shutting down");
+                System.exit(1);
+            }
+            i++;
             synchronized (this){
                 try{
                     this.wait(2000);
@@ -26,6 +37,11 @@ public class Server {
         this.run();
     }
 
+    /**
+     * Method used to open up the socket
+     * @param portNumber is the number of the port on which the socket will be opened
+     * @return false if a connection has been established
+     */
     private boolean launchServerSocket(int portNumber){
         try{
             this.serverSocket = new ServerSocket(portNumber);
@@ -36,12 +52,15 @@ public class Server {
         }
     }
 
+    /**
+     * Method used to offer an input to close the server
+     */
     private void run(){
         this.clientReception.start();
         this.gameStarter();
         System.out.println("Input q for quit");
         Scanner scanner = new Scanner(System.in);
-        while (isEveryThingOK){
+        while (true){
             if(scanner.nextLine().equals("q")){
                 System.exit(0);
             }
@@ -54,9 +73,12 @@ public class Server {
     }
 
 
+    /**
+     * Method used to start a lobby if the lobby is ready
+     */
     private void gameStarter(){
         Thread t = new Thread(()->{
-            while(isEveryThingOK){
+            while(true){
                 Lobby lobbyToStart = null;
                 boolean lobbyAlreadyChosen = false;
                 ArrayList<Lobby> lobbies;
@@ -81,6 +103,12 @@ public class Server {
                 if(lobbyToStart != null){
                     lobbyToStart.startGame();
                     System.out.println(AnsiColor.GREEN.toString()+"A new Game Has started"+AnsiColor.RESET.toString());
+                }
+                synchronized (this){
+                    try {
+                        this.wait(5000);
+                    } catch (InterruptedException e) {
+                    }
                 }
             }
         });

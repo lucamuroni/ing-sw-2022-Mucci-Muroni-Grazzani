@@ -12,16 +12,26 @@ import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.Random;
 
-//TODO: javadoc
+/**
+ * Class used to welcome players when first connecting to the server
+ * @author Davide Grazzani
+ */
 class ClientReception extends Thread{
     private final ServerSocket serverSocket;
     private final ArrayList<Lobby> lobbies;
 
+    /**
+     * Class builder
+     * @param socket is the socket of a new client
+     */
     public ClientReception(ServerSocket socket){
         this.serverSocket = socket;
         this.lobbies = new ArrayList<Lobby>();
     }
 
+    /**
+     * Main method used to start and run all threads responsible for connecting players to server
+     */
     @Override
     public void run() {
         MessageHandler messageHandler;
@@ -37,7 +47,11 @@ class ClientReception extends Thread{
             }
         }
     }
-    //TODO :sistemare la funzione per renderla catch safe
+
+    /**
+     * Method used to first connect to a new client
+     * @param player is the player you want to handle
+     */
     private void playerHandShake(Player player){
         Thread t = new Thread(() -> {
             int uniqueMsgID = player.getMessageHandler().getNewUniqueTopicID();
@@ -77,12 +91,23 @@ class ClientReception extends Thread{
         t.start();
     }
 
+    /**
+     * Method used to generate a unique player ID, which allows for duplicated nicknames on same lobbies
+     * @return an integer which represent the ID
+     */
     private Integer generateUniquePlayerID(){
         Random random = new Random();
         int number = random.nextInt((int) Math.pow(2,29),(int) Math.pow(2,30));
         return number;
     }
 
+    /**
+     * Method used to insert a player in a lobby given its own preference
+     * @param gameType is the type of the game the player want to play
+     * @param lobbySize is the number of the player the match will be
+     * @param player is the player that is going to be inserted into a lobby
+     * @throws MalformedMessageException in case of error communicating with client
+     */
     private void insertPlayerIntoLobby(String gameType,String lobbySize, Player player) throws MalformedMessageException {
         GameType type;
         int numOfPlayers;
@@ -138,6 +163,10 @@ class ClientReception extends Thread{
         }
     }
 
+    /**
+     * Getter method
+     * @return an ArrayList of lobbies that are still in queue
+     */
     public ArrayList<Lobby> getLobbies(){
         synchronized (this.lobbies){
             return this.lobbies;
