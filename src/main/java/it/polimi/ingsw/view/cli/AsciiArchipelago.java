@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class AsciiArchipelago {
     private final ArrayList<AsciiIsland> asciiIslands;
-    private int[][] positionalMatrix;
+    private final int[][] positionalMatrix;
     private final static int row = 3;
     private final static int column =12;
 

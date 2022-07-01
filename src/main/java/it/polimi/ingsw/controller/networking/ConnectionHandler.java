@@ -90,7 +90,6 @@ class ConnectionHandler {
                     try {
                         this.wait(100);
                     } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
                     }
                 }
             }
@@ -152,9 +151,6 @@ class ConnectionHandler {
                             this.outputMessages.wait(100);
                         }
                     } catch (InterruptedException e) {
-                        System.out.println("Could not wait for new output message");
-                        System.out.println("Restarting Thread ...");
-                        this.writeOutputMessage();
                     }
                 }
                 synchronized (this.outputMessages){
