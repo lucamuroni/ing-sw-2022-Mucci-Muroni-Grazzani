@@ -18,7 +18,7 @@ import java.util.Scanner;
 
 /**
  * @author Davide Grazzani
- * Class that represents the cli for the game
+ * Class that represents the cli for the game used to interact with the player
  */
 public class Cli implements ViewHandler {
     private ClientController controller;
@@ -33,7 +33,7 @@ public class Cli implements ViewHandler {
     private ArrayList<AsciiAssistantCard> cards;
 
     /**
-     * Class constructor
+     * Constructor of the class
      */
     public Cli(){
         this.currentPage = new LoadingPage(this);
@@ -42,6 +42,10 @@ public class Cli implements ViewHandler {
         this.start();
     }
 
+    /**
+     * Method used to set the controller of client side
+     * @param controller is the controller of the client
+     */
     public void setController(ClientController controller){
         this.controller = controller;
         this.game = controller.getGame();
@@ -78,7 +82,7 @@ public class Cli implements ViewHandler {
     }
 
     /**
-     * Method to change the shown page
+     * Method used to change the shown page
      * @param page represents the new current page
      */
     public void changePage(Page page){
@@ -95,14 +99,41 @@ public class Cli implements ViewHandler {
         }
     }
 
+    /**
+     * Method used to read an int input from keyboard
+     * @param range is the max value that can be accepted
+     * @param menù contains the list of possible options
+     * @param goBack is true if the player can redo the choice, false otherwise
+     * @return the choice of the player
+     * @throws UndoException when the player wants to redo a choice
+     */
     public int readInt(int range,Menù menù, boolean goBack) throws UndoException{
         return this.readInt(1,range,true,goBack,menù,null);
     }
 
+    /**
+     * Method used to read an int input from keyboard
+     * @param min is the min value that can be accepted
+     * @param max is the max value that can be accepted
+     * @param string is the question asked the player
+     * @return the choice of the player
+     * @throws UndoException when the player wants to redo a choice
+     */
     public int readInt(int min,int max,String string) throws UndoException{
         return this.readInt(min,max,false,false,null,string);
     }
 
+    /**
+     * Method used to read an int input from keyboard
+     * @param min is the min value that can be accepted
+     * @param max is the max value that can be accepted
+     * @param isMenù is true if there are options to choose from, false if the player has to wright by his own the answer
+     * @param goBack is true if is possible to redo a choice, false otherwise
+     * @param menù contains the list of possible options
+     * @param string is the question asked the player
+     * @return the choice of the player
+     * @throws UndoException when the player wants to redo a choice
+     */
     private int readInt(int min,int max,boolean isMenù,boolean goBack, Menù menù,String string) throws UndoException{
         int result = 0;
         if(isMenù){
@@ -131,11 +162,25 @@ public class Cli implements ViewHandler {
         return result;
     }
 
+    /**
+     * Method used to read a string input from keyboard
+     * @param string is the question asked the player
+     * @return the answer of the player
+     * @throws UndoException when the player wants to redo a choice
+     */
     public String readString(String string) throws UndoException{
         ArrayList<String> empty = new ArrayList<>();
         return this.readString(string,empty,true);
     }
 
+    /**
+     * Method used to read a string input from keyboard
+     * @param string is the question asked the player
+     * @param options are the possible options to chose from/that can't be chosen
+     * @param inclusivity is true if options must be the possible choices, false otherwise
+     * @return the answer of the player
+     * @throws UndoException when the player wants to redo a choice
+     */
     public String readString(String string,ArrayList<String> options, boolean inclusivity) throws UndoException{
         String result = "";
         System.out.print(string);
@@ -168,6 +213,10 @@ public class Cli implements ViewHandler {
         return result;
     }
 
+    /**
+     * Method used to advertise the player of a non-acceptable input
+     * @param s is the message printed
+     */
     private void printChoiceError(String s){
         System.out.print("\n");
         System.out.println(AnsiColor.RED+s);
@@ -175,13 +224,18 @@ public class Cli implements ViewHandler {
         System.out.print("\n");
     }
 
+    /**
+     * Getter method
+     * @return the controller of the client
+     */
     public ClientController getController(){
         return this.controller;
     }
+
     /**
-     * Method that returns the assistant card the player chooses (?)
+     * Method that returns the assistantCard chosen by the player
      * @param cards represents the arrayList of possible cards
-     * @return the chosen assistant card
+     * @return the chosen assistantCard
      */
     @Override
     public AssistantCard selectCard(ArrayList<AssistantCard> cards) {
@@ -210,25 +264,22 @@ public class Cli implements ViewHandler {
     }
 
     /**
-     * Method that returns the place the player wants to move a student
-     * @return the chosen place on the dashboard
+     * Method that returns the place where the player wants to move a student
+     * @return the chosen place (dashboard: 0, island: 1-12)
      */
     @Override
     public int choosePlace() {
         int place = 0;
         if(this.game.getChosenIsland() != null) {
-            /*for (Island island : game.getIslands()) {
-                if (island.getId() == this.game.getChosenIsland().getId())
-                    place = game.getIslands().indexOf(island) + 1;
-            }
-            */
             place = this.game.getChosenIsland().getId();
             this.game.setChosenIsland(null);
         }
         return place;
-
     }
 
+    /**
+     * Private method that handles both the choice of which student to move and where to move it
+     */
     private void moveStudent() {
         Page p = new MoveStudentPage(this, game);
         this.changePage(p);
@@ -246,6 +297,7 @@ public class Cli implements ViewHandler {
     /**
      * Method that returns the island on which the player wants to move a student
      * @param islands represents the arrayList of possible islands
+     * @param expert is true if this method is called by a characterCard, false if called by MotherNaturePhase
      * @return the chosen island
      */
     @Override
@@ -266,6 +318,11 @@ public class Cli implements ViewHandler {
         return this.game.getMotherNaturePosition();
     }
 
+    /**
+     * Method that returns the cloud chosen by the player
+     * @param clouds is the arrayList of possible clouds
+     * @return the chosen cloud
+     */
     @Override
     public Cloud chooseCloud(ArrayList<Cloud> clouds) {
         Page p = new SelectCloudPage(this, game, clouds);
@@ -282,6 +339,11 @@ public class Cli implements ViewHandler {
         return this.game.getChosenCloud();
     }
 
+    /**
+     * Method that returns the deck figure chosen by the player
+     * @param figures is the arrayList of possible decks
+     * @return the chosen deck
+     */
     @Override
     public AssistantCardDeckFigures chooseFigure(ArrayList<AssistantCardDeckFigures> figures) {
         Page p = new SelectAssistantCardDeckPage(this, this.game.getSelf(), figures);
@@ -298,6 +360,10 @@ public class Cli implements ViewHandler {
         return this.game.getSelf().getFigure();
     }
 
+    /**
+     * Method used at the start of the application to ask the player nickname, which type of game he wants to play and
+     * with how many players does he want to play with
+     */
     @Override
     public void getPlayerInfo() {
         Page p = new LoginPage(this,this.controller.getGame());
@@ -313,6 +379,9 @@ public class Cli implements ViewHandler {
         }
     }
 
+    /**
+     * Method used by Idle to show the game's objects while the player is not playing
+     */
     @Override
     public void goToIdle() {
         Page p = new IdlePage(this,this.archipelago);
@@ -328,6 +397,10 @@ public class Cli implements ViewHandler {
         }
     }
 
+    /**
+     * Method that shows the result of the game
+     * @param win contains the result for the player
+     */
     @Override
     public void showEndGamePage(Results win) {
         Page p = new EndGamePage(this,win);
@@ -341,23 +414,29 @@ public class Cli implements ViewHandler {
         }
     }
 
+    /**
+     * Method that inform the player a lobby has been founded
+     */
     @Override
     public void lobbyFounded() {
         this.changePage(new LobbyFounded(this));
     }
 
+    /**
+     * Method used to init all the ascii objects (dashboards, islands, clouds and assistantCards)
+     */
     public void init(){
-        ArrayList<AsciiIsland> islands = new ArrayList<AsciiIsland>();
+        ArrayList<AsciiIsland> islands = new ArrayList<>();
         for(Island island : this.game.getIslands()){
             AsciiIsland asciiIsland = new AsciiIsland(island);
             islands.add(asciiIsland);
         }
         this.archipelago = new AsciiArchipelago(islands);
-        this.clouds = new ArrayList<AsciiCloud>();
+        this.clouds = new ArrayList<>();
         for(Cloud cloud : this.game.getClouds()){
             this.clouds.add(new AsciiCloud(cloud));
         }
-        this.dashBoards = new ArrayList<AsciiDashBoard>();
+        this.dashBoards = new ArrayList<>();
         this.dashBoards.add(new AsciiDashBoard(this,this.game.getSelf().getDashBoard()));
         for(Gamer gamer : this.game.getGamers()){
             if(!gamer.equals(this.game.getSelf())){
@@ -370,11 +449,19 @@ public class Cli implements ViewHandler {
         }
     }
 
+    /**
+     * Method used to merge two islands in client's view
+     * @param islandId1 is the first island that will merge
+     * @param islandId2 is the second island that will merge
+     */
     @Override
     public void setMergedIsland(int islandId1, int islandId2) {
         this.archipelago.mergeIsland(islandId1,islandId2);
     }
 
+    /**
+     * Method used to draw the clouds
+     */
     public void drawClouds(){
         for(int i = 0; i < AsciiCloud.getHeight(); i++){
             for(AsciiCloud cloud : this.clouds){
@@ -386,6 +473,9 @@ public class Cli implements ViewHandler {
         }
     }
 
+    /**
+     * Method used to draw both clouds and cards
+     */
     public void drawCloudsAndCards(){
         for(int i = 0; i < AsciiCloud.getHeight(); i++){
             for(AsciiCloud cloud : this.clouds){
@@ -401,6 +491,9 @@ public class Cli implements ViewHandler {
         }
     }
 
+    /**
+     * Method used to draw the dashboards
+     */
     public void drawDashboard(){
         for(int i = 0; i < AsciiDashBoard.getHeight(); i++){
             for(AsciiDashBoard dashBoard : this.dashBoards){
@@ -411,12 +504,19 @@ public class Cli implements ViewHandler {
         }
     }
 
+    /**
+     * Method used to print space between objects
+     * @param number is the number of spaces that must be printed
+     */
     public void printSpace(int number){
         for(int i = 0;i < number ; i++){
             System.out.print(" ");
         }
     }
 
+    /**
+     * Method used to draw the islands
+     */
     public void drawArchipelago(){
         try {
             this.archipelago.draw();
@@ -425,6 +525,10 @@ public class Cli implements ViewHandler {
         }
     }
 
+    /**
+     * Method that returns if the player wants to play a characterCard or not
+     * @return true if he wants to play a card, false otherwise
+     */
     public boolean askToPlayExpertCard(){
         ExpertGameSelectionPage p = new ExpertGameSelectionPage(this);
         this.changePage(p);
@@ -440,6 +544,11 @@ public class Cli implements ViewHandler {
         return p.getAnswer();
     }
 
+    /**
+     * Method that returns the characterCard chosen by the player
+     * @param cards is the arrayList of possible cards
+     * @return the chosen card
+     */
     @Override
     public CharacterCard choseCharacterCard(ArrayList<CharacterCard> cards) {
         Page p = new CharacterCardPage(this,cards,this.game);
@@ -456,6 +565,10 @@ public class Cli implements ViewHandler {
         return this.game.getSelf().getCurrentExpertCardSelection();
     }
 
+    /**
+     * Method used to ask the player which students to move due to the effect of a characterCard
+     * @return the chosen students
+     */
     @Override
     public ArrayList<PawnColor> choseStudentsToMove() {
         Page p = new SelectColorsPage(this, this.game);
@@ -472,6 +585,11 @@ public class Cli implements ViewHandler {
         return this.game.getSelf().getSelectedColors();
     }
 
+    /**
+     * Method used to ask the player which color he wants to choose due to the effect of a characterCard
+     * @param name is the name of the characterCard that has been played
+     * @return the chosen color
+     */
     public PawnColor chooseColor(String name) {
         Page p = new SelectColorPage(this, this.game, name);
         this.changePage(p);
@@ -487,6 +605,10 @@ public class Cli implements ViewHandler {
         return this.game.getSelf().getSelectedColor();
     }
 
+    /**
+     * Method used to print a pop-up to inform the player of something
+     * @param s is the message that will be printed
+     */
     @Override
     public void popUp(String s) {
         IdlePage page = (IdlePage) currentPage;
