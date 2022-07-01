@@ -1,6 +1,7 @@
 **/.DS_Store
 **/*.lock
 **/*.xopp
+target
 >>>>>>> dev-main
 # imported gitignore from webeep
 # TEMPLATE GITIGNORE
