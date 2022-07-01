@@ -22,7 +22,7 @@ public enum AnsiColor {
      * @param ansiText represents the ansiText to set. An ansiText is
      * @param associatedColor represents the color associated to the pawn
      */
-    private AnsiColor(String ansiText, PawnColor associatedColor){
+    AnsiColor(String ansiText, PawnColor associatedColor){
         this.ansiText = ansiText;
         this.color = associatedColor;
     }

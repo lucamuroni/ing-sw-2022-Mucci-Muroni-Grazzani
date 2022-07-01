@@ -2,8 +2,8 @@ package it.polimi.ingsw.view.cli;
 
 
 /**
- * Class that represents the possible pawns to show in the cli
  * @author Davide Grazzani
+ * Class that represents the possible pawns to show in the cli
  */
 public enum AnsiChar {
     TOWER("♖"),
@@ -20,7 +20,7 @@ public enum AnsiChar {
      * Class constructor
      * @param ansiText represents the ansiText to set. An ansiText is
      */
-    private AnsiChar(String ansiText){
+    AnsiChar(String ansiText){
         this.ansiText = ansiText;
     }
 
