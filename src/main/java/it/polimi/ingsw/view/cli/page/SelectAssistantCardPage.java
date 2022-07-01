@@ -44,7 +44,7 @@ public class SelectAssistantCardPage implements Page {
             options.add(card.getName()+" ("+card.getTurnValue()+", "+card.getMovement()+")");
         }
         Menù menù = new Menù(options);
-        menù.setContext("Please select a card ");
+        menù.setContext("Please select a card  (weight,movement)");
         int choice;
         choice = this.cli.readInt(options.size(), menù, false);
         options.clear();
