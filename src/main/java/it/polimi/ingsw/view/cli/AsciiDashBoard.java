@@ -17,6 +17,7 @@ public class AsciiDashBoard {
     /**
      * Class constructor
      * @param dashBoard represents the dashboard to show
+     * @param c is the view handler
      */
     public AsciiDashBoard(Cli c,DashBoard dashBoard){
         this.dashBoard = dashBoard;
@@ -203,10 +204,10 @@ public class AsciiDashBoard {
         }
     }
 
-    public static int getWidth(){
-        return width;
-    }
-
+    /**
+     * Getter method
+     * @return the height of the card
+     */
     public static int getHeight(){
         return height;
     }

@@ -150,17 +150,33 @@ public class AsciiIsland {
         }
     }
 
+    /**
+     * Getter method
+     * @return the associated island
+     */
     public Island getIsland() {
         return island;
     }
+
+    /**
+     * Getter method
+     * @return the height of the island
+     */
     public static int getHeight(){
         return height;
     }
 
+    /**
+     * Getter method
+     * @return the width of the island
+     */
     public static int getWidth(){
         return width;
     }
 
+    /**
+     * Setter method used to signal that this island is merged and therefore does not need to display its own pawns
+     */
     public void setMerged(){
         this.isMerged = true;
         this.island.setMerged();

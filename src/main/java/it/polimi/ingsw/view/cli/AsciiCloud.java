@@ -25,7 +25,6 @@ public class AsciiCloud {
      * @param line represents a line in the cli
      * @return the length of the string
      */
-    //TODO: completare javadoc con informazioni esatte. Anche di AnsiChar e AnsiColor
     public int draw(int line){
         String string = "";
         switch (line){
@@ -100,10 +99,18 @@ public class AsciiCloud {
         return null;
     }
 
+    /**
+     * Getter method
+     * @return the height of the cloud
+     */
     public static int getHeight(){
         return height;
     }
 
+    /**
+     * Getter method
+     * @return the width of the cloud
+     */
     public static int getWidth(){
         return width;
     }
