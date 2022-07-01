@@ -129,7 +129,6 @@ public class AsciiArchipelago {
                 }
             }
             makeAMove(closestToMnIslandId,closestToOtherIslandId,islands);
-            System.out.println("Move made");
         }
     }
 
