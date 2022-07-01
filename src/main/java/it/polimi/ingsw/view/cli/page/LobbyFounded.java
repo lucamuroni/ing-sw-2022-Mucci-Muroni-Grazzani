@@ -31,7 +31,7 @@ public class LobbyFounded implements Page {
     public void handle() {
         Thread t = new Thread(() ->{
             while(!this.isKilled()){
-                System.out.print("\n"+ AnsiColor.GREEN.toString()+"A LOOBY WAS FOUND"+AnsiColor.RESET.toString()+"\n");
+                System.out.print("\n"+ AnsiColor.GREEN +"A LOOBY WAS FOUND"+ AnsiColor.RESET +"\n");
                 System.out.print("Please be patient while we initialize the game"+"\n"+"   ");
                 loadingBar.print();
                 synchronized (this){

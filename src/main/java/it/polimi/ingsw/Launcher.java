@@ -104,9 +104,9 @@ public class Launcher {
      */
     private void printError(String s){
         if(s!=null){
-            System.out.println(AnsiColor.RED.toString()+s+AnsiColor.RED.toString());
+            System.out.println(AnsiColor.RED +s+ AnsiColor.RED);
         }
-        System.out.println(AnsiColor.YELLOW.toString()+"Bad formatting : try --help"+AnsiColor.RESET.toString());
+        System.out.println(AnsiColor.YELLOW +"Bad formatting : try --help"+ AnsiColor.RESET);
         System.exit(1);
     }
 

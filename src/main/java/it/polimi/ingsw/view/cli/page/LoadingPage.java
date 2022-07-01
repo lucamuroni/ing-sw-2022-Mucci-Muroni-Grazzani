@@ -29,7 +29,7 @@ public class LoadingPage implements Page {
      */
     public void draw() {
         String padding = "                        ";
-        System.out.println("Welcome to " +AnsiColor.GREEN.toString()+
+        System.out.println("Welcome to " + AnsiColor.GREEN +
                 "\n" +
                 "███████╗██████╗ ██╗   ██╗ █████╗ ███╗   ██╗████████╗██╗███████╗\n" +
                 "██╔════╝██╔══██╗╚██╗ ██╔╝██╔══██╗████╗  ██║╚══██╔══╝██║██╔════╝\n" +
@@ -38,7 +38,7 @@ public class LoadingPage implements Page {
                 "███████╗██║  ██║   ██║   ██║  ██║██║ ╚████║   ██║   ██║███████║\n" +
                 "╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚═╝╚══════╝\n" +
                 "                                                               \n" +
-                "\n"+AnsiColor.RESET.toString());
+                "\n"+ AnsiColor.RESET);
         System.out.print("Please wait until a connection with the server is established\n"+padding);
         this.loadingBar.print();
         synchronized (this){

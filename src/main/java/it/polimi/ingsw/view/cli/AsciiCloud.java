@@ -41,7 +41,7 @@ public class AsciiCloud {
                     string = "|           |";
                     System.out.print(string);
                 }else{
-                    string = "|   "+this.fromPawnToAnsi(this.cloud.getStudents().get(0).getColor())+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString()+"    "+this.fromPawnToAnsi(this.cloud.getStudents().get(1).getColor())+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString()+"  |";
+                    string = "|   "+this.fromPawnToAnsi(this.cloud.getStudents().get(0).getColor())+ AnsiChar.PAWN + AnsiColor.RESET +"    "+this.fromPawnToAnsi(this.cloud.getStudents().get(1).getColor())+ AnsiChar.PAWN + AnsiColor.RESET +"  |";
                     System.out.print(string);
                 }
                 break;
@@ -51,10 +51,10 @@ public class AsciiCloud {
                     System.out.print(string);
                 }else{
                     if(this.cloud.getStudents().size()==3){
-                        string = "|     "+this.fromPawnToAnsi(this.cloud.getStudents().get(2).getColor())+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString()+"     |";
+                        string = "|     "+this.fromPawnToAnsi(this.cloud.getStudents().get(2).getColor())+ AnsiChar.PAWN + AnsiColor.RESET +"     |";
                         System.out.print(string);
                     }else{
-                        string = "|   "+this.fromPawnToAnsi(this.cloud.getStudents().get(2).getColor())+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString()+"    "+this.fromPawnToAnsi(this.cloud.getStudents().get(3).getColor())+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString()+"  |";
+                        string = "|   "+this.fromPawnToAnsi(this.cloud.getStudents().get(2).getColor())+ AnsiChar.PAWN + AnsiColor.RESET +"    "+this.fromPawnToAnsi(this.cloud.getStudents().get(3).getColor())+ AnsiChar.PAWN + AnsiColor.RESET +"  |";
                         System.out.print(string);
                     }
                 }

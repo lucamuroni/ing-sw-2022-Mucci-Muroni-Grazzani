@@ -11,10 +11,10 @@ import java.util.ArrayList;
  */
 public class DashBoard {
 
-    private ArrayList<Student> waitingRoom;
-    private ArrayList<Student> hall;
+    private final ArrayList<Student> waitingRoom;
+    private final ArrayList<Student> hall;
     private int numTower;
-    private ArrayList<PawnColor> professors;
+    private final ArrayList<PawnColor> professors;
     private String username;
     private char towerColor;
 

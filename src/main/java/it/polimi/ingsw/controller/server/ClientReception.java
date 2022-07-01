@@ -149,9 +149,9 @@ class ClientReception extends Thread{
             player.getMessageHandler().writeOutAndWait();
             player.getMessageHandler().assertOnEquals(MessageFragment.OK.getFragment(), MessageFragment.GREETINGS.getFragment());
         }catch (ClientDisconnectedException | MalformedMessageException | FlowErrorException e){
-            System.out.println(AnsiColor.RED.toString());
+            System.out.println(AnsiColor.RED);
             e.printStackTrace();
-            System.out.println(AnsiColor.RESET.toString());
+            System.out.println(AnsiColor.RESET);
             synchronized (this.lobbies){
                 for(Lobby lobby : this.lobbies){
                     if(lobby.contains(player)){

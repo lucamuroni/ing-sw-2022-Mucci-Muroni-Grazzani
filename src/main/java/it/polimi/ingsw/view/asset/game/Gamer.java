@@ -20,7 +20,7 @@ public class Gamer {
     private final DashBoard dashBoard;
     private TowerColor color;
     private CharacterCard currentExpertCardSelection;
-    private ArrayList<PawnColor> selectedColors;
+    private final ArrayList<PawnColor> selectedColors;
     private PawnColor selectedColor;
     private Island selectedisland;
 

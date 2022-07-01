@@ -77,7 +77,7 @@ public enum MessageFragment {
      * Enum Builder
      * @param fragment represent the standard header or payload
      */
-    private MessageFragment(String fragment){
+    MessageFragment(String fragment){
         this.fragment = fragment;
     }
 

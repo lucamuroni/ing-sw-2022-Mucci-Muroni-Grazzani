@@ -41,140 +41,140 @@ public class AsciiDashBoard {
                 System.out.print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                 break;
             case 3:
-                System.out.print("|     "+AnsiColor.RED.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x");
+                System.out.print("|     "+ AnsiColor.RED +AnsiChar.PAWN+ AnsiColor.RESET +"x");
                 num = (int) this.dashBoard.getWaitingRoom().stream().filter(x->x.getColor()== PawnColor.RED).count();
                 System.out.print(num+"      |  ");
                 num = (int) this.dashBoard.getHall().stream().filter(x->x.getColor()== PawnColor.RED).count();
                 for(int i = 0; i<num; i++){
-                    System.out.print(AnsiColor.RED.toString()+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString());
+                    System.out.print(AnsiColor.RED.toString()+ AnsiChar.PAWN + AnsiColor.RESET);
                     if(i != 9){
                         System.out.print("   ");
                     }
                 }
                 num = 10 - num ;
                 for(int i = 0; i<num; i++){
-                    System.out.print(AnsiChar.MISSING_PAWN.toString());
+                    System.out.print(AnsiChar.MISSING_PAWN);
                     if(i != num-1){
                         System.out.print("   ");
                     }
                 }
                 System.out.print("|      ");
                 if(this.dashBoard.getProfessors().stream().anyMatch(x -> x == PawnColor.RED)){
-                    System.out.print(AnsiColor.RED.toString()+AnsiChar.WIZARD.toString()+AnsiColor.RESET.toString());
+                    System.out.print(AnsiColor.RED.toString()+ AnsiChar.WIZARD + AnsiColor.RESET);
                 }else{
-                    System.out.print(AnsiChar.MISSING_WIZARD.toString());
+                    System.out.print(AnsiChar.MISSING_WIZARD);
                 }
                 System.out.print("     ");
                 System.out.print("|        |");
                 break;
             case 4:
-                System.out.print("|     "+AnsiColor.YELLOW.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x");
+                System.out.print("|     "+ AnsiColor.YELLOW +AnsiChar.PAWN+ AnsiColor.RESET +"x");
                 num = (int) this.dashBoard.getWaitingRoom().stream().filter(x->x.getColor()== PawnColor.YELLOW).count();
                 System.out.print(num+"      |  ");
                 num = (int) this.dashBoard.getHall().stream().filter(x->x.getColor()== PawnColor.YELLOW).count();
                 for(int i = 0; i<num; i++){
-                    System.out.print(AnsiColor.YELLOW.toString()+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString());
+                    System.out.print(AnsiColor.YELLOW.toString()+ AnsiChar.PAWN + AnsiColor.RESET);
                     if(i != 9){
                         System.out.print("   ");
                     }
                 }
                 num = 10 - num ;
                 for(int i = 0; i<num; i++){
-                    System.out.print(AnsiChar.MISSING_PAWN.toString());
+                    System.out.print(AnsiChar.MISSING_PAWN);
                     if(i != num-1){
                         System.out.print("   ");
                     }
                 }
                 System.out.print("|      ");
                 if(this.dashBoard.getProfessors().stream().anyMatch(x -> x == PawnColor.YELLOW)){
-                    System.out.print(AnsiColor.YELLOW.toString()+AnsiChar.WIZARD.toString()+AnsiColor.RESET.toString());
+                    System.out.print(AnsiColor.YELLOW.toString()+ AnsiChar.WIZARD + AnsiColor.RESET);
                 }else{
-                    System.out.print(AnsiChar.MISSING_WIZARD.toString());
+                    System.out.print(AnsiChar.MISSING_WIZARD);
                 }
                 System.out.print("     ");
                 System.out.print("|   "+AnsiChar.TOWER+"x"+this.dashBoard.getNumTower()+"  |");
                 break;
             case 5:
-                System.out.print("|     "+AnsiColor.BLUE.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x");
+                System.out.print("|     "+ AnsiColor.BLUE +AnsiChar.PAWN+ AnsiColor.RESET +"x");
                 num = (int) this.dashBoard.getWaitingRoom().stream().filter(x->x.getColor()== PawnColor.BLUE).count();
                 System.out.print(num+"      |  ");
                 num = (int) this.dashBoard.getHall().stream().filter(x->x.getColor()== PawnColor.BLUE).count();
                 for(int i = 0; i<num; i++){
-                    System.out.print(AnsiColor.BLUE.toString()+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString());
+                    System.out.print(AnsiColor.BLUE.toString()+ AnsiChar.PAWN + AnsiColor.RESET);
                     if(i != 9){
                         System.out.print("   ");
                     }
                 }
                 num = 10 - num ;
                 for(int i = 0; i<num; i++){
-                    System.out.print(AnsiChar.MISSING_PAWN.toString());
+                    System.out.print(AnsiChar.MISSING_PAWN);
                     if(i != num-1){
                         System.out.print("   ");
                     }
                 }
                 System.out.print("|      ");
                 if(this.dashBoard.getProfessors().stream().anyMatch(x -> x == PawnColor.BLUE)){
-                    System.out.print(AnsiColor.BLUE.toString()+AnsiChar.WIZARD.toString()+AnsiColor.RESET.toString());
+                    System.out.print(AnsiColor.BLUE.toString()+ AnsiChar.WIZARD + AnsiColor.RESET);
                 }else{
-                    System.out.print(AnsiChar.MISSING_WIZARD.toString());
+                    System.out.print(AnsiChar.MISSING_WIZARD);
                 }
                 System.out.print("     ");
                 System.out.print("|  ("+dashBoard.getTowerColor()+")   |");
                 break;
             case 6:
-                System.out.print("|     "+AnsiColor.PURPLE.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x");
+                System.out.print("|     "+ AnsiColor.PURPLE +AnsiChar.PAWN+ AnsiColor.RESET +"x");
                 num = (int) this.dashBoard.getWaitingRoom().stream().filter(x->x.getColor()== PawnColor.PINK).count();
                 System.out.print(num+"      |  ");
                 num = (int) this.dashBoard.getHall().stream().filter(x->x.getColor()== PawnColor.PINK).count();
                 for(int i = 0; i<num; i++){
-                    System.out.print(AnsiColor.PURPLE.toString()+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString());
+                    System.out.print(AnsiColor.PURPLE.toString()+ AnsiChar.PAWN + AnsiColor.RESET);
                     if(i != 9){
                         System.out.print("   ");
                     }
                 }
                 num = 10 - num ;
                 for(int i = 0; i<num; i++){
-                    System.out.print(AnsiChar.MISSING_PAWN.toString());
+                    System.out.print(AnsiChar.MISSING_PAWN);
                     if(i != num-1){
                         System.out.print("   ");
                     }
                 }
                 System.out.print("|      ");
                 if(this.dashBoard.getProfessors().stream().anyMatch(x -> x == PawnColor.PINK)){
-                    System.out.print(AnsiColor.PURPLE.toString()+AnsiChar.WIZARD.toString()+AnsiColor.RESET.toString());
+                    System.out.print(AnsiColor.PURPLE.toString()+ AnsiChar.WIZARD + AnsiColor.RESET);
                 }else{
-                    System.out.print(AnsiChar.MISSING_WIZARD.toString());
+                    System.out.print(AnsiChar.MISSING_WIZARD);
                 }
                 System.out.print("     ");
                 if(cli.getController().getGame().getGameType().equals(GameType.EXPERT.getName()) && this.dashBoard.getUsername().equals("yours")){
-                    System.out.print("|  "+AnsiChar.MONEY.toString()+"x"+cli.getController().getGame().getCoins()+"  |");
+                    System.out.print("|  "+ AnsiChar.MONEY +"x"+cli.getController().getGame().getCoins()+"  |");
                 }else{
                     System.out.print("|        |");
                 }
                 break;
             case 7:
-                System.out.print("|     "+AnsiColor.GREEN.toString()+AnsiChar.PAWN+AnsiColor.RESET.toString()+"x");
+                System.out.print("|     "+ AnsiColor.GREEN +AnsiChar.PAWN+ AnsiColor.RESET +"x");
                 num = (int) this.dashBoard.getWaitingRoom().stream().filter(x->x.getColor()== PawnColor.GREEN).count();
                 System.out.print(num+"      |  ");
                 num = (int) this.dashBoard.getHall().stream().filter(x->x.getColor()== PawnColor.GREEN).count();
                 for(int i = 0; i<num; i++){
-                    System.out.print(AnsiColor.GREEN.toString()+AnsiChar.PAWN.toString()+AnsiColor.RESET.toString());
+                    System.out.print(AnsiColor.GREEN.toString()+ AnsiChar.PAWN + AnsiColor.RESET);
                     if(i != 9){
                         System.out.print("   ");
                     }
                 }
                 num = 10 - num ;
                 for(int i = 0; i<num; i++){
-                    System.out.print(AnsiChar.MISSING_PAWN.toString());
+                    System.out.print(AnsiChar.MISSING_PAWN);
                     if(i != num-1){
                         System.out.print("   ");
                     }
                 }
                 System.out.print("|      ");
                 if(this.dashBoard.getProfessors().stream().anyMatch(x -> x == PawnColor.GREEN)){
-                    System.out.print(AnsiColor.GREEN.toString()+AnsiChar.WIZARD.toString()+AnsiColor.RESET.toString());
+                    System.out.print(AnsiColor.GREEN.toString()+ AnsiChar.WIZARD + AnsiColor.RESET);
                 }else{
-                    System.out.print(AnsiChar.MISSING_WIZARD.toString());
+                    System.out.print(AnsiChar.MISSING_WIZARD);
                 }
                 System.out.print("     ");
                 System.out.print("|        |");

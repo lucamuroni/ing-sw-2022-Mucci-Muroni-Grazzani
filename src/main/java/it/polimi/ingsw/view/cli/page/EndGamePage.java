@@ -32,33 +32,33 @@ public class EndGamePage implements Page {
     public void handle() throws UndoException {
         this.cli.clearConsole();
         if(results == Results.WIN){
-            System.out.println(AnsiColor.GREEN.toString() +"\n" +
+            System.out.println(AnsiColor.GREEN +"\n" +
                     "██╗    ██╗██╗███╗   ██╗███╗   ██╗███████╗██████╗ \n" +
                     "██║    ██║██║████╗  ██║████╗  ██║██╔════╝██╔══██╗\n" +
                     "██║ █╗ ██║██║██╔██╗ ██║██╔██╗ ██║█████╗  ██████╔╝\n" +
                     "██║███╗██║██║██║╚██╗██║██║╚██╗██║██╔══╝  ██╔══██╗\n" +
                     "╚███╔███╔╝██║██║ ╚████║██║ ╚████║███████╗██║  ██║\n" +
-                    " ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝"+"\n"+AnsiColor.RESET.toString());
+                    " ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝"+"\n"+ AnsiColor.RESET);
         }else if(results == Results.TIE || results == Results.ERROR){
-            System.out.println(AnsiColor.YELLOW.toString()+"\n" +
+            System.out.println(AnsiColor.YELLOW +"\n" +
                     "██████╗ ██████╗  █████╗ ██╗    ██╗\n" +
                     "██╔══██╗██╔══██╗██╔══██╗██║    ██║\n" +
                     "██║  ██║██████╔╝███████║██║ █╗ ██║\n" +
                     "██║  ██║██╔══██╗██╔══██║██║███╗██║\n" +
                     "██████╔╝██║  ██║██║  ██║╚███╔███╔╝\n" +
-                    "╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ "+"\n"+AnsiColor.RESET.toString());
+                    "╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ "+"\n"+ AnsiColor.RESET);
         }else{
-            System.out.println(AnsiColor.RED.toString()+"\n" +
+            System.out.println(AnsiColor.RED +"\n" +
                     "██╗      ██████╗ ███████╗███████╗██████╗ \n" +
                     "██║     ██╔═══██╗██╔════╝██╔════╝██╔══██╗\n" +
                     "██║     ██║   ██║███████╗█████╗  ██████╔╝\n" +
                     "██║     ██║   ██║╚════██║██╔══╝  ██╔══██╗\n" +
                     "███████╗╚██████╔╝███████║███████╗██║  ██║\n" +
-                    "╚══════╝ ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝"+AnsiColor.RESET.toString());
+                    "╚══════╝ ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝"+ AnsiColor.RESET);
         }
         System.out.println("\n");
         if(results == Results.ERROR){
-            System.out.println(AnsiColor.YELLOW.toString()+"The game has ended due to a gamer error "+AnsiColor.RESET.toString());
+            System.out.println(AnsiColor.YELLOW +"The game has ended due to a gamer error "+ AnsiColor.RESET);
         }
         System.out.println("\n");
         System.out.println("Thank you for playing this game");

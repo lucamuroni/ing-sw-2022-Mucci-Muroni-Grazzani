@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Lobby {
     private final GameType type;
     private final int numPlayers;
-    private ArrayList<Player> players;
+    private final ArrayList<Player> players;
 
     /**
      * Class builder
@@ -56,11 +56,7 @@ public class Lobby {
      * @return true if the lobby size and the number of player are the same
      */
     public boolean isLobbyReady(){
-        if(this.getLobbySize()==this.numPlayers){
-            return true;
-        }else{
-            return false;
-        }
+        return this.getLobbySize() == this.numPlayers;
     }
 
     /**

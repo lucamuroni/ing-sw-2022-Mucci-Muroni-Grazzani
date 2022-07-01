@@ -12,7 +12,7 @@ import java.util.ArrayList;
 // TODO : modifica comportamento torri
 public class Island {
     private final int id;
-    private ArrayList<Student> students;
+    private final ArrayList<Student> students;
     private int numTowers;
     private TowerColor towersColor;
     private boolean isMotherNaturePresent;

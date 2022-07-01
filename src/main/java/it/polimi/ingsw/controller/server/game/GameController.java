@@ -83,7 +83,7 @@ public class GameController extends Thread{
             this.gamePhase = this.gamePhase.next();
             this.gamePhase.handle();
         }
-        System.out.print("\n"+AnsiColor.GREEN.toString()+"A game has been concluded"+AnsiColor.RESET.toString());
+        System.out.print("\n"+ AnsiColor.GREEN +"A game has been concluded"+ AnsiColor.RESET);
     }
 
     /**
@@ -107,7 +107,7 @@ public class GameController extends Thread{
      * @param s is a string used to get more verbose
      */
     public void shutdown(String s){
-        System.out.println("\n\n"+AnsiColor.RED.toString()+s+AnsiColor.RESET.toString());
+        System.out.println("\n\n"+ AnsiColor.RED +s+ AnsiColor.RESET);
         System.out.println("Finalizing game");
         if(gameHasStarted){
             VictoryPhase phase = new VictoryPhase(this.game,this);
@@ -118,7 +118,7 @@ public class GameController extends Thread{
         for(Player player : this.players){
             player.getMessageHandler().shutDown();
         }
-        System.out.print("\n"+AnsiColor.GREEN.toString()+"A game has been concluded"+AnsiColor.RESET.toString());
+        System.out.print("\n"+ AnsiColor.GREEN +"A game has been concluded"+ AnsiColor.RESET);
         this.stop();
     }
 
@@ -136,8 +136,8 @@ public class GameController extends Thread{
      * @param s is a string to increase verbose
      */
     public void handlePlayerError(Player player,String s){
-        System.out.println(AnsiColor.RED.toString()+s+AnsiColor.RESET.toString());
-        System.out.println("Involved gamer info : "+AnsiColor.RED.toString()+player.getUsername()+AnsiColor.RESET.toString()+", token : "+AnsiColor.RED.toString()+player.getToken()+AnsiColor.RESET.toString());
+        System.out.println(AnsiColor.RED +s+ AnsiColor.RESET);
+        System.out.println("Involved gamer info : "+ AnsiColor.RED +player.getUsername()+ AnsiColor.RESET +", token : "+ AnsiColor.RED +player.getToken()+ AnsiColor.RESET);
         player.getMessageHandler().shutDown();
         this.players.remove(player);
         try {

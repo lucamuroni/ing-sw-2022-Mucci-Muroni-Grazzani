@@ -102,7 +102,7 @@ public class Server {
                 }
                 if(lobbyToStart != null){
                     lobbyToStart.startGame();
-                    System.out.println(AnsiColor.GREEN.toString()+"A new Game Has started"+AnsiColor.RESET.toString());
+                    System.out.println(AnsiColor.GREEN +"A new Game Has started"+ AnsiColor.RESET);
                 }
                 synchronized (this){
                     try {

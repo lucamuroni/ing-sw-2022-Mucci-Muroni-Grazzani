@@ -108,7 +108,7 @@ public class ClientController {
      */
     public void handleError(String s) {
         System.out.print("\n\n\n");
-        System.out.println(AnsiColor.RED.toString()+s+AnsiColor.RESET.toString());
+        System.out.println(AnsiColor.RED +s+ AnsiColor.RESET);
         System.exit(1);
     }
 

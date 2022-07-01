@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * Class that represents the menu for the game
  */
 public class Menù {
-    private ArrayList<String> options;
+    private final ArrayList<String> options;
     private final int menùLength;
     private final String padding = "  ";
     private String context = "";

@@ -35,11 +35,7 @@ public class ExpertGameSelectionPage implements Page {
         options.add("y");
         options.add("n");
         String input = this.cli.readString("Do you want to play a Character card (y/n) : ",options,true);
-        if(input.equals("y")){
-            this.response = true;
-        }else{
-            this.response = false;
-        }
+        this.response = input.equals("y");
         setReadyToProcede();
     }
 
