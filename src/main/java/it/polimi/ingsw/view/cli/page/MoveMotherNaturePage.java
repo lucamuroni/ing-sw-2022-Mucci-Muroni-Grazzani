@@ -41,6 +41,7 @@ public class MoveMotherNaturePage implements Page {
     @Override
     public void handle() throws UndoException {
         this.cli.drawArchipelago();
+        this.cli.drawDashboard();
         ArrayList<String> options = new ArrayList<>();
         ArrayList<Integer> possibleIslands = new ArrayList<>();
         for(Island island : this.islands){
@@ -49,7 +50,6 @@ public class MoveMotherNaturePage implements Page {
                 possibleIslands.add(island.getId());
             }
         }
-        //options.add("Back");
         Menù menù = new Menù(options);
         menù.setContext("Which island do you want to choose?");
         int choice = this.cli.readInt(options.size(), menù, false);
@@ -66,7 +66,6 @@ public class MoveMotherNaturePage implements Page {
         if(input.equals("n")){
             throw new UndoException();
         }
-        //cli.clearConsole();
         if (expert)
             game.getSelf().setSelectedIsland(selectedIsland);
         else
