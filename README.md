@@ -21,3 +21,6 @@ Unico jar per lanciare client o server
 |-------------------|------------|-------|----|
 | `-p`|specifica della porta su cui aprire la socket|`17946`| client e server|
 |`-ip`|specifica l'ip del server|`localhost`|client|
+
+## Compatibilità
+È possibile eseguire questo progetto su tutti i terminali compatibili con lo standard ANSI (es : linux)
